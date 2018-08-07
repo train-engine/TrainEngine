@@ -1,0 +1,16 @@
+# Syntax:
+# resourceName "filename"
+
+# Textures
+cursor "res/images/cursor.png"
+menuBackground "res/images/backgrounds/menu_background.jpg"
+muteNormal "res/images/gui/mute_normal.png"
+muteHovered "res/images/gui/mute_hovered.png"
+muteClicked "res/images/gui/mute_clicked.png"
+
+# Fonts
+mainFont "res/fonts/quicksand/static/Quicksand-Regular.ttf"
+altFont "res/fonts/roboto/Roboto-Regular.ttf"
+
+# SoundBuffers
+click "res/sounds/ui/click4.ogg"

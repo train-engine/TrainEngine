@@ -1,0 +1,8 @@
+# Syntax:
+# resourceName parallaxValue positionMode:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y
+
+parallaxMountains5 0.5 repeatTexture:X positionMode:BM
+parallaxMountains4 0.4 repeatTexture:X positionMode:BM
+parallaxMountains3 0.3 repeatTexture:X positionMode:BM
+parallaxMountains2 0.2 repeatTexture:X positionMode:BM
+parallaxMountains1 0.1 repeatTexture:X positionMode:BM

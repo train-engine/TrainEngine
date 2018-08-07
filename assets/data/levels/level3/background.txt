@@ -1,0 +1,6 @@
+# Syntax:
+# resourceName parallaxValue positionMode:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y
+
+parallaxUnderwater3 0.6 repeatTexture:X positionMode:MM scale:map
+parallaxUnderwater2 0.4 repeatTexture:X positionMode:MM scale:map
+parallaxUnderwater1 0.2 repeatTexture:X positionMode:MM scale:map

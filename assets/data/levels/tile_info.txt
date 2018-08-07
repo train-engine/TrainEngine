@@ -1,0 +1,63 @@
+TILE NUMBERING CATEGORIES:
+000 - 009 : Special non-rendered blocks (i.e. nullptr for air block)
+010 - 099 : Collision-less background blocks (i.e. clouds and background birds)
+100 - 199 : Static, regular-sized blocks (i.e. bricks and grass)
+200 - 299 : Special, regular-sized blocks (i.e. blocks with animations)
+300 - 399 : Bigger than one tile blocks
+400 - 499 : Smaller than one tile blocks
+500 - 599 : Collision-less blocks (i.e. torches and vines)
+600 - 699 : UNDEFINED
+700 - 799 : UNDEFINED
+800 - 899 : UNDEFINED
+900 - 999 : Any blocks not thought of initially (i.e. for mods)
+
+
+TILE NUMBERING:
+ID  : Tile Enum                     ResourceManager Name        Position on Texture
+
+000 : nullptr
+
+100 : GrassTopLeftSides             grassTopLeftSides           (0, 0)
+101 : GrassTopSide                  grassTopSide                (64, 0)
+102 : GrassTopRightSides            grassTopRightSides          (128, 0)
+103 : GrassLeftSide                 grassLeftSide               (0, 64)
+104 : GrassNoSides                  grassNoSides                (64, 64)
+105 : GrassRightSide                grassRightSide              (128, 64)
+106 : GrassBotLeftSides             grassBotLeftSides           (0, 128)
+107 : GrassBotSide                  grassBotSide                (64, 128)
+108 : GrassBotRightSides            grassBotRightSides          (128, 128)
+109 : GrassTopLeftRightSides        grassTopLeftRightSides      (192, 0)
+110 : GrassLeftRightSides           grassLeftRightSides         (192, 64)
+111 : GrassBotLeftRightSides        grassBotLeftRightSides      (192, 128)
+112 : GrassTopBotLeftSides          grassTopBotLeftSides        (0, 192)
+113 : GrassTopBotSides              grassTopBotSides            (64, 192)
+114 : GrassTopBotRightSides         grassTopBotRightSides       (128, 192)
+115 : Grass4Sides                   grass4Sides                 (192, 192)
+116 : GrassTopLeftSidesCorner3      grassTopLeftSidesCorner3    (256, 0)
+117 : GrassTopSideCorner3           grassTopSideCorner3         (320, 0)
+118 : GrassTopSideCorner4           grassTopSideCorner4         (384, 0)
+119 : GrassTopRightSidesCorner4     grassTopRightSidesCorner4   (448, 0)
+120 : GrassLeftSideCorner3          grassLeftSideCorner3        (256, 64)
+121 : GrassNoSidesCorner3           grassNoSidesCorner3         (320, 64)
+122 : GrassNoSidesCorner4           grassNoSidesCorner4         (384, 64)
+123 : GrassRightSideCorner4         grassRightSideCorner4       (448, 64)
+124 : GrassLeftSideCorner2          grassLeftSideCorner2        (256, 128)
+125 : GrassNoSidesCorner2           grassNoSidesCorner2         (320, 128)
+126 : GrassNoSidesCorner1           grassNoSidesCorner1         (384, 128)
+127 : GrassRightSideCorner1         grassRightSideCorner1       (448, 128)
+128 : GrassBotLeftSidesCorner2      grassBotLeftSidesCorner2    (256, 192)
+129 : GrassBotSideCorner2           grassBotSideCorner2         (320, 192)
+130 : GrassBotSideCorner1           grassBotSideCorner1         (384, 192)
+131 : GrassBotRightSidesCorner1     grassBotRightSidesCorner1   (448, 192)
+132 : GrassNoSides4Corners          grassNoSides4Corners        (192, 256)
+133 : GrassNoSidesCorners12         grassNoSidesCorners12       (256, 256)
+134 : GrassNoSidesCorners34         grassNoSidesCorners34       (320, 256)
+135 : GrassNoSidesCorners14         grassNoSidesCorners14       (384, 256)
+136 : GrassNoSidesCorners23         grassNoSidesCorners23       (448, 256)
+150 : Wood                          wood
+
+200 : Ladder                        ladder
+201 : LadderTop                     ladder
+
+500 : Vine                          vine
+501 : Post                          post
