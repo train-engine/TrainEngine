@@ -121,10 +121,9 @@ void TextBox::SetDisplayText(const sf::String& text)
     }
 }
 
-// Update the cursor
 void TextBox::UpdateCursor()
 {
-    // If there left or right arrows are pressed
+    // If the left or right arrows are pressed
     if (m_rInputManager.KeyDown(sf::Keyboard::Left, true) || m_rInputManager.KeyDown(sf::Keyboard::Right, true))
     {
         ControlCursorArrow();
@@ -154,7 +153,7 @@ void TextBox::UpdateCursor()
         SetTextPosition();
         DrawTexture();
         SetCursorPosition();
-        // If left mouse is key got pressed
+        // Reset selection on mouse click
         if (m_rInputManager.MouseButtonDown(sf::Mouse::Left))
         {
             ResetSelection();
@@ -166,7 +165,7 @@ void TextBox::UpdateCursor()
     }
 }
 
-// Sets the position of the cursor at its character position
+// Set the position of the cursor at its character position
 void TextBox::SetCursorPosition()
 {
     if (m_displayText.getString().isEmpty())
@@ -194,7 +193,7 @@ void TextBox::MoveCursorLeft()
 }
 
 // Control left and right arrows
-//Supports the selection with shift
+// Supports shift selection
 void TextBox::ControlCursorArrow()
 {
     // If left arrow key is pressed
@@ -555,10 +554,10 @@ void TextBox::SetTextPosition()
 
 void TextBox::AddText(sf::String enteredText)
 {
-    // Checking if text is too big
+    // Check if text is too big
     if (m_displayText.getString().getSize() < m_maxTextLength || m_maxTextLength == 0)
     {
-        // Adding the character where the cursor is
+        // Add the character where the cursor is
         sf::String text = m_text;
         if (m_cursorIndex != m_selectionStartIndex)
         {
@@ -602,7 +601,7 @@ void TextBox::ResetSelection()
     }
 }
 
-// Sets the position and size of the selection box
+// Set the position and size of the selection box
 void TextBox::SetSelectionBounds()
 {
     sf::Vector2f position = sf::Vector2f(m_displayText.findCharacterPos(m_selectionStartIndex).x, m_selection.getPosition().y);
