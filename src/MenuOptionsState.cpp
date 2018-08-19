@@ -1,7 +1,7 @@
 #include "MenuOptionsState.h"
 #include <fstream>
 #include <iostream>
-#include "ResourcePath.h"
+#include "FileManager.h"
 #include "Utility.h"
 
 MenuOptionsState::MenuOptionsState(GameEngine& rGame)
@@ -26,7 +26,7 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
 
     // Music settings
     std::ifstream inf;
-    inf.open(ResourcePath() + "data/settings/sound_settings.txt");
+    inf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inf.is_open())
     {
         bool isMuted = 0;
@@ -77,7 +77,7 @@ void MenuOptionsState::Update()
     if (m_updateSoundSettings == true)
     {
         std::ofstream outf;
-        outf.open(ResourcePath() + "data/settings/sound_settings.txt");
+        outf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
         if (outf.is_open())
         {
             if (m_soundSlider.GetValue() == 0)

@@ -1,8 +1,8 @@
 #include "LoadPlayState.h"
 #include <fstream>
 #include <iostream>
+#include "FileManager.h"
 #include "PlayState.h"
-#include "ResourcePath.h"
 #include "Utility.h"
 
 LoadPlayState::LoadPlayState(GameEngine& rGame, const std::string& levelDirectory)
@@ -57,7 +57,7 @@ void LoadPlayState::PlayStart()
 void LoadPlayState::LoadResources()
 {
     std::ifstream inf;
-    inf.open(ResourcePath() + m_levelDirectory + "/resources.txt");
+    inf.open(FileManager::ResourcePath() + m_levelDirectory + "/resources.txt");
     if (inf.is_open())
     {
         std::cout << "\nLoading resources...\n";

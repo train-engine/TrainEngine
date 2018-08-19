@@ -5,7 +5,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-class InputManager
+class InputManager final
 {
 private:
     sf::RenderWindow& m_rWindow;

@@ -4,7 +4,7 @@
 #include "CharacterEntity.h"
 #include "InputManager.h"
 
-class Player : public CharacterEntity
+class Player final : public CharacterEntity
 {
 private:
     const InputManager& m_inputManager;
@@ -15,7 +15,7 @@ public:
            const sf::Vector2f& position);
 
     // Functions
-    void HandleInput() override final;
+    virtual void HandleInput() override;
 };
 
 #endif // PLAYER_H_INCLUDED

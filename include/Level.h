@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "ResourceManager.h"
 
-class Level
+class Level final
 {
 private:
     const ResourceManager& m_resourceManager;
@@ -51,16 +51,20 @@ public:
     sf::Vector2u CoordsToTileIndex(const sf::Vector2f& position) const {return m_map.CoordsToTileIndex(position);}
     sf::Vector2f TileIndexToCoords(const sf::Vector2u& position) const {return m_map.TileIndexToCoords(position);}
 
+    void AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false)
+        {m_map.AddTile(tileType, tileIndex, layer, updateTextures);}
+    void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false)
+        {m_map.AddTileRange(tileType, tileIndex, range, layer, updateTextures);}
+    void RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false)
+        {m_map.RemoveTile(tileIndex, layer, updateTextures);}
+    void RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false)
+        {m_map.RemoveTileRange(tileIndex, range, layer, updateTextures);}
+    void Resize(const sf::Vector2u& indexDimensions) {m_map.Resize(indexDimensions);}
+    void ClearLayer(MapLayer layer) {m_map.ClearLayer(layer);}
+
     // Setters
     void SetHasFocus(bool hasFocus) {m_hasFocus = hasFocus;}
     void SetCreatorMode(bool creatorMode);
-
-    void AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false) {m_map.AddTile(tileType, tileIndex, layer, updateTextures);}
-    void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false) {m_map.AddTileRange(tileType, tileIndex, range, layer, updateTextures);}
-    void RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false) {m_map.RemoveTile(tileIndex, layer, updateTextures);}
-    void RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false) {m_map.RemoveTileRange(tileIndex, range, layer, updateTextures);}
-    void Resize(const sf::Vector2u& indexDimensions) {m_map.Resize(indexDimensions);}
-    void ClearLayer(MapLayer layer) {m_map.ClearLayer(layer);}
 
     // Getters
     const sf::Vector2u& GetMapIndexDimensions() const {return m_map.GetIndexDimensions();}

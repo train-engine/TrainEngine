@@ -22,6 +22,4 @@ int main()
     #if defined(SFML_SYSTEM_ANDROID)
         delete std::cout.rdbuf(0);
     #endif
-
-    return 0;
 }

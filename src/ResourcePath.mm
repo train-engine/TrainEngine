@@ -1,26 +1,29 @@
-#include "ResourcePath.h"
+#include "FileManager.h"
 #import <Foundation/Foundation.h>
 
-std::string ResourcePath(void)
+namespace FileManager
 {
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
-    std::string rpath;
-    NSBundle* bundle = [NSBundle mainBundle];
-
-    if (bundle == nil)
+    std::string ResourcePath(void)
     {
-        #if defined(DEBUG)
-            NSLog(@"bundle is nil... thus no resources path can be found.");
-        #endif
-    }
-    else
-    {
-        NSString* path = [bundle resourcePath];
-        rpath = [path UTF8String] + std::string("/");
-    }
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
-    [pool drain];
+        std::string rpath;
+        NSBundle* bundle = [NSBundle mainBundle];
 
-    return rpath;
+        if (bundle == nil)
+        {
+            #if defined(DEBUG)
+                NSLog(@"bundle is nil... thus no resources path can be found.");
+            #endif
+        }
+        else
+        {
+            NSString* path = [bundle resourcePath];
+            rpath = [path UTF8String] + std::string("/");
+        }
+
+        [pool drain];
+
+        return rpath;
+    }
 }

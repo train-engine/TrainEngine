@@ -6,7 +6,7 @@
 #include "State.h"
 #include "TextBox.h"
 
-class CreatorState : public State
+class CreatorState final : public State
 {
 private:
     sf::RectangleShape m_panel;
@@ -47,11 +47,11 @@ protected:
     ~CreatorState() override;
 
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructors

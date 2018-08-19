@@ -15,7 +15,7 @@ enum class MapLayer
     Count
 };
 
-class Map : public sf::Drawable
+class Map final : public sf::Drawable
 {
 private:
     const ResourceManager& m_resourceManager;

@@ -7,7 +7,7 @@
 #include "Level.h"
 #include "State.h"
 
-class PlayState : public State
+class PlayState final : public State
 {
 private:
     sf::RectangleShape m_darkness;
@@ -28,14 +28,14 @@ protected:
     ~PlayState() override;
 
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    void Pause() override;
-    void Resume() override;
+    virtual void Pause() override;
+    virtual void Resume() override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructor

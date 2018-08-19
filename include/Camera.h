@@ -13,7 +13,7 @@ enum class CameraMode
     SmoothTranslate
 };
 
-class Camera
+class Camera final
 {
 private:
     sf::View m_view;

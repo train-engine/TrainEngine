@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
 
-class EntityTracker : public sf::Drawable
+class EntityTracker final : public sf::Drawable
 {
 private:
     const Entity* m_pTrackedEntity;
@@ -30,7 +30,7 @@ private:
 
 public:
     // Constructor
-    EntityTracker(const sf::Font& font, sf::Color color = sf::Color::Green);
+    EntityTracker(const sf::Font& font);
 
     // Functions
     void Update();

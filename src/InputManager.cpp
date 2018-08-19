@@ -1,7 +1,7 @@
 #include "InputManager.h"
 #include <algorithm>
 #include <string>
-#include "ResourcePath.h"
+#include "FileManager.h"
 
 #if defined(SFML_SYSTEM_WINDOWS)
     #include <winbase.h>

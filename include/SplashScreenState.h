@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "State.h"
 
-class SplashScreenState : public State
+class SplashScreenState final : public State
 {
 private:   
     sf::Sprite m_splash;
@@ -23,11 +23,11 @@ protected:
     ~SplashScreenState() override;
 
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructor

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <SFML/System.hpp>
-#include "ResourcePath.h"
+#include "FileManager.h"
 #if defined(SFML_SYSTEM_ANDROID)
     #include <android/asset_manager.h>
     #include <android/native_activity.h>

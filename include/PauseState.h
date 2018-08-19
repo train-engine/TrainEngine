@@ -6,7 +6,7 @@
 #include "Gui.h"
 #include "State.h"
 
-class PauseState : public State
+class PauseState final : public State
 {
 private:
     sf::Text m_pausedText;
@@ -20,11 +20,11 @@ protected:
     ~PauseState() override;
 
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructor

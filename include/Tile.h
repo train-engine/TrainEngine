@@ -3,17 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 
-// How and when to implement derived Tile classes:
-//
-// The only time when you should create a derived Tile class is when this class needs to perform functions that the default Tile class does not,
-// such as animations.
-// The default Tile class will suffice for any static block with no animations or interactions with other Tiles, regardless of its Texture.
-//
-// When defining a derived Tile class, add all of the derived class's specific functions in the Update() function.
-// You may also rewrite the draw() function if you wish.
-// Of course, the constructor and destructor of the derived class can be changed, and most likely will be.
-// Do not forget to add an entry to the TileType enum for your new Tile, and update the Map::AddTile() function switch statement accordingly.
-
 enum class TileType
 {
     GrassTopLeftSides = 100,
@@ -79,23 +68,24 @@ protected:
 
 public:
     // Constructor and destructor
-    Tile(const sf::Texture& texture, TileType tileType, bool isSolid = false);
+    Tile(const sf::Texture& texture, TileType tileType);
     virtual ~Tile() {}
 
+    // Setters
+    void SetTileType(TileType tileType) {m_tileType = tileType;}
+    void SetTexture(const sf::Texture& texture);
+    void SetPosition(const sf::Vector2f& position);
+    void SetDimensions(const sf::Vector2f& dimensions);
+    void SetSolid(bool isSolid) {m_isSolid = isSolid;}
+    void SetColor(sf::Color color) {m_sprite.setColor(color);}
+
     // Getters
+    TileType GetTileType() const {return m_tileType;}
     static std::string GetTileTypeString(TileType tileType);
     static std::string GetTextureName(TileType tileType);
-    TileType GetTileType() const {return m_tileType;}
     const sf::Vector2f& GetPosition() const {return m_position;}
     const sf::Vector2f& GetDimensions() const {return m_dimensions;}
     bool IsSolid() const {return m_isSolid;}
-
-    // Setters
-    void SetPosition(const sf::Vector2f& position);
-    void SetDimensions(const sf::Vector2f& dimensions);
-    void SetTexture(const sf::Texture& texture);
-    void SetTileType(TileType tileType) {m_tileType = tileType;}
-    void SetColor(sf::Color color) {m_sprite.setColor(color);}
 };
 
 #endif // TILE_H_INCLUDED

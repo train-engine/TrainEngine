@@ -10,7 +10,7 @@
 
 class State;
 
-class GameEngine
+class GameEngine final
 {
 public:
     ResourceManager m_resourceManager; // Placed here for constructor initializer list order

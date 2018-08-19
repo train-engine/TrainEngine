@@ -4,7 +4,6 @@
 #include <random>
 #include "FileManager.h"
 #include "PauseState.h"
-#include "ResourcePath.h"
 
 CreatorState::CreatorState(GameEngine& rGame)
     : State(rGame),

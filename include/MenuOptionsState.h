@@ -5,7 +5,7 @@
 #include "Gui.h"
 #include "State.h"
 
-class MenuOptionsState : public State
+class MenuOptionsState final : public State
 {
 private:
     sf::Sprite m_backgroundSprite;
@@ -21,11 +21,11 @@ protected:
     ~MenuOptionsState();
 
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructor

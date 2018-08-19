@@ -3,9 +3,9 @@
 #include <iostream>
 #include <math.h>
 #include "CreatorState.h"
+#include "FileManager.h"
 #include "LoadPlayState.h"
 #include "MenuOptionsState.h"
-#include "ResourcePath.h"
 #include "Utility.h"
 
 MainMenuState::MainMenuState(GameEngine& rGame)
@@ -56,7 +56,7 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     OnWindowResize();
 
     // Music
-    m_music.openFromFile(ResourcePath() + "res/music/stargazer.ogg");
+    m_music.openFromFile(FileManager::ResourcePath() + "res/music/stargazer.ogg");
     ReadMusicSettings();
     m_music.setLoop(true);
     m_music.play();
@@ -82,7 +82,7 @@ void MainMenuState::CreatorStart()
 void MainMenuState::ReadMusicSettings()
 {
     std::ifstream inf;
-    inf.open(ResourcePath() + "data/settings/sound_settings.txt");
+    inf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inf.is_open())
     {
         bool isMuted = 0;

@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include "ResourcePath.h"
+#include "FileManager.h"
 
 // Constructor creates defaults to use when an unloaded resource is referenced,
 // and loads resources loaded for the entire duration of the program
@@ -31,7 +31,7 @@ bool ResourceManager::LoadInitialResources()
     #if defined(SFML_SYSTEM_ANDROID)
         std::istringstream inf(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
     #else
-        std::ifstream inf(ResourcePath() + "data/initial_resources.txt");
+        std::ifstream inf(FileManager::ResourcePath() + "data/initial_resources.txt");
         if (!inf.is_open())
         {
             std::cout << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
@@ -96,7 +96,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
     }
     // Otherwise, load the Texture
     sf::Texture texture;
-    if (!texture.loadFromFile(ResourcePath() + filename, textureRect))
+    if (!texture.loadFromFile(FileManager::ResourcePath() + filename, textureRect))
     {
         std::cout << "ResourceManager error: Failed to load texture \"" << name << "\" from file \"" << filename << "\".\n";
         return m_textures.at("missingTexture");
@@ -173,7 +173,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
     }
     // Otherwise, load the Font
     sf::Font font;
-    if (!font.loadFromFile(ResourcePath() + filename))
+    if (!font.loadFromFile(FileManager::ResourcePath() + filename))
     {
         std::cout << "ResourceManager error: Failed to load font \"" << name << "\" from file \"" << filename << "\".\n";
         return m_fonts.at("fallbackFont");
@@ -222,7 +222,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
     }
     // Otherwise, load the SoundBuffer
     sf::SoundBuffer soundBuffer;
-    if (!soundBuffer.loadFromFile(ResourcePath() + filename))
+    if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
     {
         std::cout << "ResourceManager error: Failed to load soundbuffer \"" << name << "\" from file \"" << filename << "\".\n";
         return m_soundBuffers.at("error");
@@ -271,7 +271,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
     }
     // Otherwise, load the Shader
     m_shaders[name];
-    if (!m_shaders.at(name).loadFromFile(ResourcePath() + filename, type))
+    if (!m_shaders.at(name).loadFromFile(FileManager::ResourcePath() + filename, type))
     {
         std::cout << "ResourceManager error: Failed to load shader \"" << name << "\" from file \"" << filename << "\".\n";
         m_shaders.erase(name);

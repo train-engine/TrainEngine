@@ -4,9 +4,9 @@
 #include <math.h>
 #include <sstream>
 #include <time.h>
-#include "ResourcePath.h"
+#include "FileManager.h"
 
-EntityTracker::EntityTracker(const sf::Font& font, sf::Color color)
+EntityTracker::EntityTracker(const sf::Font& font)
     : m_pTrackedEntity(nullptr),
       m_dot(3),
       m_lastPositionText("", font, 16),
@@ -18,7 +18,7 @@ EntityTracker::EntityTracker(const sf::Font& font, sf::Color color)
       m_displayDots(false),
       m_displayInfoBox(false)
 {
-    m_dot.setFillColor(color);
+    m_dot.setFillColor(sf::Color::Green);
 
     m_textContainer.setFillColor(sf::Color(255, 255, 255, 225));
     m_textContainer.setOutlineThickness(1);
@@ -156,7 +156,7 @@ void EntityTracker::OutputToExcel() const
     std::stringstream stream;
     stream << 1900 + time->tm_year << 1 + time->tm_mon << time->tm_mday << 1 + time->tm_hour - time->tm_isdst << 1 + time->tm_min << 1 + time->tm_sec;
 
-    std::ofstream outf(ResourcePath() + "logs/tracker_" + stream.str() + ".csv");
+    std::ofstream outf(FileManager::ResourcePath() + "logs/tracker_" + stream.str() + ".csv");
     if (outf.is_open())
     {
         for (const auto& position : m_positions)

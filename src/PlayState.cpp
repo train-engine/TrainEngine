@@ -1,8 +1,8 @@
 #include "PlayState.h"
 #include <fstream>
 #include <iostream>
+#include "FileManager.h"
 #include "PauseState.h"
-#include "ResourcePath.h"
 
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame),
@@ -18,7 +18,7 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     m_darkness.setFillColor(sf::Color(0, 0, 0, 20));
 
     // Music
-    m_music.openFromFile(ResourcePath() + "res/music/theme_song_8_bit.wav");
+    m_music.openFromFile(FileManager::ResourcePath() + "res/music/theme_song_8_bit.wav");
     ReadMusicSettings();
     m_music.setLoop(true);
     m_music.play();
@@ -34,7 +34,7 @@ PlayState::~PlayState()
 void PlayState::ReadMusicSettings()
 {
     std::ifstream inf;
-    inf.open(ResourcePath() + "data/settings/sound_settings.txt");
+    inf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inf.is_open())
     {
         bool isMuted = 0;

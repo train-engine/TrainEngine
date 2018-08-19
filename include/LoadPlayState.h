@@ -6,7 +6,7 @@
 #include "Gui.h"
 #include "State.h"
 
-class LoadPlayState : public State
+class LoadPlayState final : public State
 {
 private:
     sf::Thread m_thread;
@@ -31,9 +31,9 @@ protected:
     ~LoadPlayState() override;
     
     // Functions
-    void HandleInput() override;
-    void Update() override;
-    void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void HandleInput() override;
+    virtual void Update() override;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
 public:
     // Constructor

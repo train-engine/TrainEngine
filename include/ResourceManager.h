@@ -6,7 +6,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-class ResourceManager
+class ResourceManager final
 {
 private:   
     std::unordered_map<std::string, sf::Texture> m_textures;

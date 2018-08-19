@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include <string>
 
-class TextBox : public sf::Drawable
+class TextBox final : public sf::Drawable
 {
 private:
     sf::RenderTexture m_renderTexture;

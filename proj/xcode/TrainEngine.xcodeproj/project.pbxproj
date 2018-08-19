@@ -23,8 +23,6 @@
 		C647586A1F3954840097C7DE /* FileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758441F3954840097C7DE /* FileManager.cpp */; };
 		C647586B1F3954840097C7DE /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758451F3954840097C7DE /* GameEngine.cpp */; };
 		C647586C1F3954840097C7DE /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758451F3954840097C7DE /* GameEngine.cpp */; };
-		C647586D1F3954840097C7DE /* GrassBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758461F3954840097C7DE /* GrassBlock.cpp */; };
-		C647586E1F3954840097C7DE /* GrassBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758461F3954840097C7DE /* GrassBlock.cpp */; };
 		C647586F1F3954840097C7DE /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758471F3954840097C7DE /* Gui.cpp */; };
 		C64758701F3954840097C7DE /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758471F3954840097C7DE /* Gui.cpp */; };
 		C64758711F3954840097C7DE /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758481F3954840097C7DE /* InputManager.cpp */; };
@@ -105,7 +103,6 @@
 		C64758251F3954740097C7DE /* EntityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityTracker.h; path = ../../include/EntityTracker.h; sourceTree = "<group>"; };
 		C64758261F3954740097C7DE /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileManager.h; path = ../../include/FileManager.h; sourceTree = "<group>"; };
 		C64758271F3954740097C7DE /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameEngine.h; path = ../../include/GameEngine.h; sourceTree = "<group>"; };
-		C64758281F3954740097C7DE /* GrassBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrassBlock.h; path = ../../include/GrassBlock.h; sourceTree = "<group>"; };
 		C64758291F3954740097C7DE /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gui.h; path = ../../include/Gui.h; sourceTree = "<group>"; };
 		C647582A1F3954740097C7DE /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../../include/InputManager.h; sourceTree = "<group>"; };
 		C647582B1F3954740097C7DE /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Level.h; path = ../../include/Level.h; sourceTree = "<group>"; };
@@ -120,7 +117,6 @@
 		C64758361F3954740097C7DE /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = ../../include/Player.h; sourceTree = "<group>"; };
 		C64758371F3954740097C7DE /* PlayState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayState.h; path = ../../include/PlayState.h; sourceTree = "<group>"; };
 		C64758381F3954740097C7DE /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../../include/ResourceManager.h; sourceTree = "<group>"; };
-		C64758391F3954740097C7DE /* ResourcePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourcePath.h; path = ../../include/ResourcePath.h; sourceTree = "<group>"; };
 		C647583A1F3954740097C7DE /* SplashScreenState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashScreenState.h; path = ../../include/SplashScreenState.h; sourceTree = "<group>"; };
 		C647583B1F3954740097C7DE /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = State.h; path = ../../include/State.h; sourceTree = "<group>"; };
 		C647583C1F3954740097C7DE /* TextBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextBox.h; path = ../../include/TextBox.h; sourceTree = "<group>"; };
@@ -133,7 +129,6 @@
 		C64758431F3954840097C7DE /* EntityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityTracker.cpp; path = ../../src/EntityTracker.cpp; sourceTree = "<group>"; };
 		C64758441F3954840097C7DE /* FileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileManager.cpp; path = ../../src/FileManager.cpp; sourceTree = "<group>"; };
 		C64758451F3954840097C7DE /* GameEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameEngine.cpp; path = ../../src/GameEngine.cpp; sourceTree = "<group>"; };
-		C64758461F3954840097C7DE /* GrassBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GrassBlock.cpp; path = ../../src/GrassBlock.cpp; sourceTree = "<group>"; };
 		C64758471F3954840097C7DE /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Gui.cpp; path = ../../src/Gui.cpp; sourceTree = "<group>"; };
 		C64758481F3954840097C7DE /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputManager.cpp; path = ../../src/InputManager.cpp; sourceTree = "<group>"; };
 		C64758491F3954840097C7DE /* Level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Level.cpp; path = ../../src/Level.cpp; sourceTree = "<group>"; };
@@ -240,7 +235,6 @@
 				C64758441F3954840097C7DE /* FileManager.cpp */,
 				C64758261F3954740097C7DE /* FileManager.h */,
 				C64758581F3954840097C7DE /* ResourcePath.mm */,
-				C64758391F3954740097C7DE /* ResourcePath.h */,
 			);
 			name = GameEngine;
 			sourceTree = "<group>";
@@ -290,8 +284,6 @@
 				C64758321F3954740097C7DE /* Map.h */,
 				C647585C1F3954840097C7DE /* Tile.cpp */,
 				C647583D1F3954740097C7DE /* Tile.h */,
-				C64758461F3954840097C7DE /* GrassBlock.cpp */,
-				C64758281F3954740097C7DE /* GrassBlock.h */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -566,7 +558,6 @@
 				C64758681F3954840097C7DE /* EntityTracker.cpp in Sources */,
 				C64758981F3954840097C7DE /* TextBox.cpp in Sources */,
 				C64758701F3954840097C7DE /* Gui.cpp in Sources */,
-				C647586E1F3954840097C7DE /* GrassBlock.cpp in Sources */,
 				C647586C1F3954840097C7DE /* GameEngine.cpp in Sources */,
 				C647587A1F3954840097C7DE /* LoadPlayState.cpp in Sources */,
 				C64758861F3954840097C7DE /* MenuOptionsState.cpp in Sources */,
@@ -602,7 +593,6 @@
 				C64758671F3954840097C7DE /* EntityTracker.cpp in Sources */,
 				C64758971F3954840097C7DE /* TextBox.cpp in Sources */,
 				C647586F1F3954840097C7DE /* Gui.cpp in Sources */,
-				C647586D1F3954840097C7DE /* GrassBlock.cpp in Sources */,
 				C647586B1F3954840097C7DE /* GameEngine.cpp in Sources */,
 				C64758791F3954840097C7DE /* LoadPlayState.cpp in Sources */,
 				C647587D1F3954840097C7DE /* MacClipboard.mm in Sources */,

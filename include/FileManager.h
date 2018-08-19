@@ -7,6 +7,15 @@
 
 namespace FileManager
 {
+    #if defined(SFML_SYSTEM_MACOS)
+        std::string ResourcePath();
+    #else
+        inline std::string ResourcePath()
+        {
+            return "";
+        }
+    #endif
+
     int GetFileCount(const std::string& directory);
     std::vector<std::string> GetFilenamesInDirectory(const std::string& directory);
 

@@ -108,9 +108,9 @@ public:
     void SetOnGround(bool isOnGround) {m_isOnGround = isOnGround;}
 
     // Getters
+    EntityType GetEntityType() const {return m_entityType;}
     static std::string GetEntityTypeString(EntityType entityType);
     static std::vector<std::string> GetTextureNames(EntityType entityType);
-    EntityType GetEntityType() const {return m_entityType;}
     const sf::Vector2f& GetPosition() const {return m_position;}
     const sf::Vector2f& GetDimensions() const {return m_dimensions;}
     const sf::Vector2f& GetVelocity() const {return m_velocity;}

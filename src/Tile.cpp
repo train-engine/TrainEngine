@@ -1,10 +1,9 @@
 #include "Tile.h"
 #include <unordered_map>
 
-Tile::Tile(const sf::Texture& texture, TileType tileType, bool isSolid)
+Tile::Tile(const sf::Texture& texture, TileType tileType)
     : m_tileType(tileType),
-      m_sprite(texture),
-      m_isSolid(isSolid)
+      m_sprite(texture)
 {
 
 }

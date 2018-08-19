@@ -5,7 +5,7 @@
 #include <math.h>
 #include <sstream>
 #include <unordered_map>
-#include "ResourcePath.h"
+#include "FileManager.h"
 #include "Utility.h"
 
 Level::Level(const ResourceManager& resourceManager, const InputManager& inputManager)
@@ -32,7 +32,7 @@ Level::~Level()
 bool Level::LoadBackground(const std::string& filename)
 {
     std::ifstream inf;
-    inf.open(ResourcePath() + filename);
+    inf.open(FileManager::ResourcePath() + filename);
     if (inf.is_open())
     {
         std::cout << "Loading background...\n";
@@ -209,7 +209,7 @@ bool Level::LoadBackground(const std::string& filename)
 bool Level::SaveBackground(const std::string& filename)
 {
     std::ofstream outf;
-    outf.open(ResourcePath() + filename);
+    outf.open(FileManager::ResourcePath() + filename);
     if (outf.is_open())
     {
         std::cout << "Saving background...\n";
@@ -261,7 +261,7 @@ bool Level::LoadEntities(const std::string& filename)
     }
 
     std::ifstream inf;
-    inf.open(ResourcePath() + filename);
+    inf.open(FileManager::ResourcePath() + filename);
     if (inf.is_open())
     {
         std::cout << "Loading Entities...\n";
@@ -310,7 +310,7 @@ bool Level::LoadEntities(const std::string& filename)
 bool Level::SaveEntities(const std::string& filename)
 {
     std::ofstream outf;
-    outf.open(ResourcePath() + filename);
+    outf.open(FileManager::ResourcePath() + filename);
     if (outf.is_open())
     {
         std::cout << "Saving Entities...\n";
@@ -346,7 +346,7 @@ bool Level::LoadResources(const std::string& filename)
 bool Level::SaveResources(const std::string& filename)
 {
     std::ofstream outf;
-    outf.open(ResourcePath() + filename);
+    outf.open(FileManager::ResourcePath() + filename);
     if (outf.is_open())
     {
         std::cout << "Saving resources...\n";
@@ -362,7 +362,7 @@ bool Level::SaveResources(const std::string& filename)
                     const Tile* pTile = m_map.GetKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
                     if (pTile != nullptr)
                     {
-                        Utility::AddUniqueValue(resources, Tile::GetTextureName(pTile->GetTileType()));
+                        Utility::AddIfUnique(resources, Tile::GetTextureName(pTile->GetTileType()));
                     }
                 }
             }
@@ -376,7 +376,7 @@ bool Level::SaveResources(const std::string& filename)
                 std::vector<std::string> entityTextureNames = Entity::GetTextureNames(pEntity->GetEntityType());
                 for (const auto& textureName : entityTextureNames)
                 {
-                    Utility::AddUniqueValue(resources, textureName);
+                    Utility::AddIfUnique(resources, textureName);
                 }
             }
         }

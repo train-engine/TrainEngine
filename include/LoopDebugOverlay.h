@@ -7,7 +7,7 @@
 
 class GameEngine;
 
-class LoopDebugOverlay : public sf::Drawable
+class LoopDebugOverlay final : public sf::Drawable
 {
 private:
     sf::Text m_upsText;

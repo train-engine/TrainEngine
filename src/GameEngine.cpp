@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include "ResourcePath.h"
+#include "FileManager.h"
 #include "State.h"
 
 /// Initialize the window and main systems
@@ -25,7 +25,7 @@ GameEngine::GameEngine()
                  "Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.\n\n";
 
     // Graphics settings
-    std::ifstream inf(ResourcePath() + "data/settings/graphics_settings.txt");
+    std::ifstream inf(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
     if (inf.is_open())
     {
         unsigned int fullscreenModeIndex = 0;
@@ -78,7 +78,7 @@ GameEngine::GameEngine()
     m_window.setActive();
 
     // Icon
-    if (m_icon.loadFromFile(ResourcePath() + "res/icon.png"))
+    if (m_icon.loadFromFile(FileManager::ResourcePath() + "res/icon.png"))
     {
         m_window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
     }
