@@ -14,7 +14,8 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
       m_map(m_resourceManager),
       m_camera(m_map, static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions())),
       m_hasFocus(true),
-      m_creatorMode(false)
+      m_creatorMode(false),
+      m_displayCollisionBoxes(false)
 {
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
     m_camera.SetFollowLerp(0.2);
@@ -412,12 +413,13 @@ void Level::HandleInput()
         return;
     }
 
-    // Show collision boxes
+    // Display collision boxes
     if (m_inputManager.KeyDown(sf::Keyboard::BackSlash))
     {
-        for (const auto& pEntity : m_entities)
+        m_displayCollisionBoxes = !m_displayCollisionBoxes;
+        for (const auto pEntity : m_entities)
         {
-            pEntity->ToggleCollisionBoxDisplay();
+            pEntity->DisplayCollisionBox(m_displayCollisionBoxes);
         }
     }
 

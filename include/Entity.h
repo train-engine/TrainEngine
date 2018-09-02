@@ -94,7 +94,7 @@ public:
     void AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite);
 
     // Setters
-    void ToggleCollisionBoxDisplay() {m_displayCollisionBox = !m_displayCollisionBox;}
+    void DisplayCollisionBox(bool displayCollisionBox) {m_displayCollisionBox = displayCollisionBox;}
     void SetPosition(const sf::Vector2f& position);
     void SetHorizPosition(float horizPosition) {m_position.x = horizPosition;}
     void SetVertPosition(float vertPosition) {m_position.y = vertPosition;}

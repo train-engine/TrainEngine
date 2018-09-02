@@ -24,6 +24,7 @@ private:
 
     bool m_hasFocus;
     bool m_creatorMode;
+    bool m_displayCollisionBoxes;
 
     // Functions
     bool LoadBackground(const std::string& filename);
