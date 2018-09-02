@@ -20,16 +20,15 @@ private:
     
     unsigned long m_elapsedTicks;
 
+    // Destructor
+    virtual ~MainMenuState() override;
+
     // Functions
     void LoadPlayStart(const std::string& levelName);
     void CreatorStart();
     void ReadMusicSettings();
 
-protected:
-    // Destructor
-    ~MainMenuState() override;
-
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
@@ -37,7 +36,7 @@ protected:
     virtual void Pause() override;
     virtual void Resume() override;
 
-    void OnWindowResize() override;
+    virtual void OnWindowResize() override;
 
 public:
     // Constructor

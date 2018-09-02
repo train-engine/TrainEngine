@@ -419,7 +419,7 @@ void Level::HandleInput()
         m_displayCollisionBoxes = !m_displayCollisionBoxes;
         for (const auto pEntity : m_entities)
         {
-            pEntity->DisplayCollisionBox(m_displayCollisionBoxes);
+            pEntity->SetDisplayCollisionBox(m_displayCollisionBoxes);
         }
     }
 

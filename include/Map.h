@@ -50,10 +50,10 @@ public:
 
     sf::Vector2u CoordsToTileIndex(const sf::Vector2f& position) const;
     sf::Vector2f TileIndexToCoords(const sf::Vector2u& position) const;
-
-    void UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer);
     
-    // Setters
+    // Tile functions
+    void UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer);
+
     void AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
     void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false);
     void RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
@@ -63,6 +63,7 @@ public:
     void Clear();
     void ClearLayer(MapLayer layer);
 
+    // Setters
     void SetLayerColor(sf::Color color, MapLayer layer);
     void SetDisplayGrid(bool displayGrid) {m_displayGrid = displayGrid;}
     

@@ -35,6 +35,9 @@ private:
 
     unsigned int m_brushSize;
 
+    // Destructor
+    virtual ~CreatorState() override;
+
     // Functions
     void SetMusic();
     void PauseStart();
@@ -42,11 +45,7 @@ private:
     void ClearPreviewMap();
     bool CheckMouseChangedTile();
 
-protected:
-    // Destructor
-    ~CreatorState() override;
-
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

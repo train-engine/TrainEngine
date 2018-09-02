@@ -18,16 +18,15 @@ private:
 
     Level m_level;
 
+    // Destructor
+    virtual ~PlayState() override;
+
     // Functions
     void PauseStart();
     void ReadMusicSettings();
     void UnloadResources() const;
 
-protected:
-    // Destructor
-    ~PlayState() override;
-
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

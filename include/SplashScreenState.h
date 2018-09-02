@@ -14,15 +14,14 @@ private:
 
     int m_alpha;
 
+    // Destructor
+    virtual ~SplashScreenState() override;
+
     // Functions
     void MainMenuStart();
     void LoadResources();
 
-protected:
-    // Destructor
-    ~SplashScreenState() override;
-
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

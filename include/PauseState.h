@@ -15,11 +15,10 @@ private:
 
     int m_alpha;
 
-protected:
     // Destructor
-    ~PauseState() override;
+    virtual ~PauseState() override;
 
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

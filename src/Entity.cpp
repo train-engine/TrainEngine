@@ -16,7 +16,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
       m_position(position),
       m_previousPosition(position),
       m_dimensions(dimensions),
-      m_velocity(0, 0),
+      m_velocity(sf::Vector2f(0, 0)),
       m_maxVelocity(maxVelocity),
       m_acceleration(acceleration),
       m_deceleration(deceleration),

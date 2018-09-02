@@ -16,11 +16,10 @@ private:
 
     bool m_updateSoundSettings;
 
-protected:
     // Destructor
-    ~MenuOptionsState();
+    virtual ~MenuOptionsState() override;
 
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

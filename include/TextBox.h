@@ -96,7 +96,7 @@ public:
 
     // Setters
 
-    void SetMaxTextLenght(unsigned int maxTextLength) {m_maxTextLength = maxTextLength;}
+    void SetMaxTextLength(unsigned int maxTextLength) {m_maxTextLength = maxTextLength;}
     // Position & dimensions
     void SetPosition(const sf::Vector2f& position);
     void SetDimensions(const sf::Vector2f& dimensions);

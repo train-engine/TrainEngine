@@ -21,16 +21,15 @@ private:
     
     std::string m_levelDirectory;
     bool m_isLoaded;
-    
+
+    // Destructor
+    virtual ~LoadPlayState() override;
+
     // Functions
     void PlayStart();
     void LoadResources();
     
-protected:
-    // Destructor
-    ~LoadPlayState() override;
-    
-    // Functions
+    // State functions
     virtual void HandleInput() override;
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;

@@ -12,6 +12,8 @@ struct StateSettings
 class State
 {
 private:
+    friend class GameEngine;
+
     static unsigned int s_orderCounter;
     unsigned int m_orderCreated;
 
@@ -21,13 +23,20 @@ private:
 
     sf::RectangleShape m_backgroundColor;
 
-    // Friends
-    friend class GameEngine;
-
-    // Functions
+    // Base functions
     void BaseHandleInput();
     void BaseResume();
     void BaseOnWindowResize();
+
+    // State functions
+    virtual void HandleInput() = 0;
+    virtual void Update() = 0;
+    virtual void Draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
+
+    virtual void Pause() {}
+    virtual void Resume() {}
+
+    virtual void OnWindowResize() {}
 
 protected:
     GameEngine& m_rGame;
@@ -39,15 +48,6 @@ protected:
     virtual ~State() {}
 
     // Functions
-    virtual void HandleInput() = 0;
-    virtual void Update() = 0;
-    virtual void Draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
-
-    virtual void Pause() {}
-    virtual void Resume() {}
-
-    virtual void OnWindowResize() {}
-
     void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states);
 
     // Setters
