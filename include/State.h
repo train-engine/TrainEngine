@@ -17,16 +17,17 @@ private:
     static unsigned int s_orderCounter;
     unsigned int m_orderCreated;
 
-    sf::Vector2f m_windowDimensions;
-    sf::View m_defaultView;
-    sf::Vector2f m_windowMousePosition;
+    static sf::Vector2f s_windowDimensions;
+    static sf::View s_defaultView;
+    static sf::Vector2f s_windowMousePosition;
+    static sf::RectangleShape s_backgroundColorShape;
 
-    sf::RectangleShape m_backgroundColor;
+    sf::Color m_backgroundColor;
 
     // Base functions
     void BaseHandleInput();
     void BaseResume();
-    void BaseOnWindowResize();
+    static void BaseOnWindowResize(const sf::Vector2f &windowDimensions);
 
     // State functions
     virtual void HandleInput() = 0;
@@ -51,12 +52,12 @@ protected:
     void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states);
 
     // Setters
-    void SetBackgroundColor(sf::Color color) {m_backgroundColor.setFillColor(color);}
+    void SetBackgroundColor(sf::Color color) {m_backgroundColor = color;}
 
     // Getters
-    const sf::Vector2f& GetWindowDimensions() const {return m_windowDimensions;}
-    const sf::View& GetDefaultView() const {return m_defaultView;}
-    const sf::Vector2f& GetWindowMousePosition() const {return m_windowMousePosition;}
+    static const sf::Vector2f& GetWindowDimensions() {return s_windowDimensions;}
+    static const sf::View& GetDefaultView() {return s_defaultView;}
+    static const sf::Vector2f& GetWindowMousePosition() {return s_windowMousePosition;}
 
     // Utility functions
     sf::Vector2f GetAbsolutePosition(float xRatio, float yRatio) const;

@@ -4,11 +4,14 @@
 
 unsigned int State::s_orderCounter = 0;
 
+sf::Vector2f State::s_windowDimensions(0, 0);
+sf::View State::s_defaultView(sf::FloatRect(0, 0, 0, 0));
+sf::Vector2f State::s_windowMousePosition(0, 0);
+sf::RectangleShape State::s_backgroundColorShape(sf::Vector2f(0, 0));
+
 State::State(GameEngine& rGame)
-    : m_windowDimensions(static_cast<sf::Vector2f>(rGame.m_inputManager.GetWindowDimensions())),
-      m_rGame(rGame),
-      m_defaultView(sf::FloatRect(0, 0, m_windowDimensions.x, m_windowDimensions.y)),
-      m_backgroundColor(m_windowDimensions),
+    : m_rGame(rGame),
+      m_backgroundColor(sf::Color::White),
       m_stateSettings({true, false})
 {
     m_orderCreated = s_orderCounter++;
@@ -25,7 +28,7 @@ void State::BaseHandleInput()
         m_rGame.m_inputManager.DetectTouchBeganEvent() || m_rGame.m_inputManager.DetectTouchMovedEvent() ||
         m_rGame.m_inputManager.DetectResizedEvent())
     {
-        m_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.m_inputManager.GetWindowMousePosition());
+        s_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.m_inputManager.GetWindowMousePosition());
     }
 
     // Debug
@@ -53,22 +56,23 @@ void State::BaseHandleInput()
 // Called only by the GameEngine before derived States' Resume()
 void State::BaseResume()
 {
-    m_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.m_inputManager.GetWindowMousePosition());
+
 }
 
 // Called only by the GameEngine when the window is resized
-void State::BaseOnWindowResize()
+void State::BaseOnWindowResize(const sf::Vector2f &windowDimensions)
 {
-    m_windowDimensions = static_cast<sf::Vector2f>(m_rGame.m_inputManager.GetWindowDimensions());
-    m_defaultView.reset(sf::FloatRect(0, 0, GetWindowDimensions().x, GetWindowDimensions().y));
-    m_backgroundColor.setPosition(0, 0);
-    m_backgroundColor.setSize(GetWindowDimensions());
+    s_windowDimensions = static_cast<sf::Vector2f>(windowDimensions);
+    s_defaultView.reset(sf::FloatRect(0, 0, windowDimensions.x, windowDimensions.y));
+    s_backgroundColorShape.setPosition(0, 0);
+    s_backgroundColorShape.setSize(windowDimensions);
 }
 
 // Draw the background color
 void State::DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states)
 {
-    rTarget.draw(m_backgroundColor, states);
+    s_backgroundColorShape.setFillColor(m_backgroundColor);
+    rTarget.draw(s_backgroundColorShape, states);
 }
 
 // Calculates position from ratios relative to the window's dimensions

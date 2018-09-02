@@ -92,6 +92,9 @@ GameEngine::GameEngine()
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(m_resourceManager.GetTexture("cursor"));
 
+    // Base state
+    State::BaseOnWindowResize(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+
     SetTargetUps(60);
 }
 
@@ -263,9 +266,9 @@ void GameEngine::GameLoop()
                 if (m_inputManager.DetectResizedEvent())
                 {
                     OnWindowResize();
+                    State::BaseOnWindowResize(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
                     for (const auto& pState : m_states)
                     {
-                        pState->BaseOnWindowResize();
                         pState->OnWindowResize();
                     }
                     m_loopDebugOverlay.OnWindowResize();
