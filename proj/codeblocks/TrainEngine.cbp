@@ -257,9 +257,6 @@
 		<Unit filename="../../include/GameEngine.h">
 			<Option virtualFolder="GameEngine/" />
 		</Unit>
-		<Unit filename="../../include/GrassBlock.h">
-			<Option virtualFolder="Level/Map/" />
-		</Unit>
 		<Unit filename="../../include/Gui.h">
 			<Option virtualFolder="Gui/" />
 		</Unit>
@@ -299,9 +296,6 @@
 		<Unit filename="../../include/ResourceManager.h">
 			<Option virtualFolder="GameEngine/" />
 		</Unit>
-		<Unit filename="../../include/ResourcePath.hpp">
-			<Option virtualFolder="GameEngine/" />
-		</Unit>
 		<Unit filename="../../include/SplashScreenState.h">
 			<Option virtualFolder="States/" />
 		</Unit>
@@ -314,6 +308,7 @@
 		<Unit filename="../../include/Tile.h">
 			<Option virtualFolder="Level/Map/" />
 		</Unit>
+		<Unit filename="../../include/Utility.h" />
 		<Unit filename="../../src/AnimatedSprite.cpp">
 			<Option virtualFolder="Misc/" />
 		</Unit>
@@ -337,9 +332,6 @@
 		</Unit>
 		<Unit filename="../../src/GameEngine.cpp">
 			<Option virtualFolder="GameEngine/" />
-		</Unit>
-		<Unit filename="../../src/GrassBlock.cpp">
-			<Option virtualFolder="Level/Map/" />
 		</Unit>
 		<Unit filename="../../src/Gui.cpp">
 			<Option virtualFolder="Gui/" />
@@ -392,6 +384,7 @@
 		<Unit filename="../../src/Tile.cpp">
 			<Option virtualFolder="Level/Map/" />
 		</Unit>
+		<Unit filename="../../src/Utility.cpp" />
 		<Unit filename="../../src/main.cpp">
 			<Option virtualFolder="GameEngine/" />
 		</Unit>

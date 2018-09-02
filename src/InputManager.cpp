@@ -4,8 +4,8 @@
 #include "FileManager.h"
 
 #if defined(SFML_SYSTEM_WINDOWS)
-    #include <winbase.h>
     #include <windef.h>
+    #include <winbase.h>
     #include <winuser.h>
 #elif defined(SFML_SYSTEM_MACOS)
     #include "MacClipboard.h"
