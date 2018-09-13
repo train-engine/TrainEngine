@@ -26,16 +26,12 @@ LoadPlayState::LoadPlayState(GameEngine& rGame, const std::string& levelDirector
     
     // Content settings
     m_backgroundSprite.setOrigin(static_cast<sf::Vector2f>(m_backgroundSprite.getTexture()->getSize()) / 2.0f);
-    m_backgroundSprite.setPosition(GetWindowDimensions() / 2.0f);
-    Utility::SetSpriteScaleToFill(m_backgroundSprite, GetWindowDimensions());
     m_backgroundSprite.setColor(sf::Color(230, 230, 230));
     
     m_loadingText.setOrigin(m_loadingText.getLocalBounds().left + m_loadingText.getLocalBounds().width / 2, m_loadingText.getLocalBounds().top + m_loadingText.getLocalBounds().height / 2);
-    m_loadingText.setPosition(GetAbsolutePosition(0.5, 1) + sf::Vector2f(0, - m_loadingText.getGlobalBounds().height / 2 - 15));
     m_loadingText.setFillColor(sf::Color::White);
 
-    m_loadingBar.SetPosition(GetAbsolutePosition(0.5, 0) + sf::Vector2f(0, m_loadingText.getGlobalBounds().top - m_loadingBar.GetDimensions().y / 2 - 15));
-    
+    // Music settings
     m_startSound.setVolume(25);
     m_startSound.play();
 }
@@ -186,4 +182,14 @@ void LoadPlayState::Draw(sf::RenderTarget& rTarget, float lag)
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_loadingText);
     rTarget.draw(m_loadingBar);
+}
+
+void LoadPlayState::OnWindowResize()
+{
+    m_backgroundSprite.setPosition(GetWindowDimensions() / 2.0f);
+    Utility::SetSpriteScaleToFill(m_backgroundSprite, GetWindowDimensions());
+
+    m_loadingText.setPosition(GetAbsolutePosition(0.5, 1) + sf::Vector2f(0, - m_loadingText.getGlobalBounds().height / 2 - 15));
+
+    m_loadingBar.SetPosition(GetAbsolutePosition(0.5, 0) + sf::Vector2f(0, m_loadingText.getGlobalBounds().top - m_loadingBar.GetDimensions().y / 2 - 15));
 }

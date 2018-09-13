@@ -53,9 +53,8 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     m_gameNameText.setOrigin(m_gameNameText.getLocalBounds().left + m_gameNameText.getLocalBounds().width / 2,
                              m_gameNameText.getLocalBounds().top + m_gameNameText.getLocalBounds().height / 2);
     m_gameNameText.setFillColor(sf::Color(5, 25, 100));
-    OnWindowResize();
 
-    // Music
+    // Music settings
     m_music.openFromFile(FileManager::ResourcePath() + "res/music/stargazer.ogg");
     ReadMusicSettings();
     m_music.setLoop(true);

@@ -20,7 +20,6 @@ PauseState::PauseState(GameEngine& rGame)
 
     // Content settings
     m_pausedText.setOrigin(m_pausedText.getLocalBounds().left + m_pausedText.getLocalBounds().width / 2, m_pausedText.getLocalBounds().top + m_pausedText.getLocalBounds().height / 2);
-    OnWindowResize();
 }
 
 PauseState::~PauseState()

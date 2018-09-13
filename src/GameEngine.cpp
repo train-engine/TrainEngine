@@ -88,12 +88,12 @@ GameEngine::GameEngine()
                      "Program icon loading failed.\n\n";
     }
 
+    // Base State layout
+    State::ResizeLayout(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+
     // Cursor
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(m_resourceManager.GetTexture("cursor"));
-
-    // Base state
-    State::BaseOnWindowResize(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
 
     SetTargetUps(60);
 }
@@ -124,6 +124,8 @@ void GameEngine::Push()
     m_states.emplace_back(m_pendingStates.back());
     m_states.back()->m_orderCreated = 0;
     m_pendingStates.pop_back();
+
+    m_states.back()->OnWindowResize();
 }
 
 /// Remove one State from the top of the stack, and call Resume on the State below if desired
@@ -138,7 +140,6 @@ void GameEngine::Pop(bool callResume)
     m_states.pop_back();
     if (!m_states.empty() && callResume == true)
     {
-        Peek()->BaseResume();
         Peek()->Resume();
     }
 }
@@ -266,7 +267,7 @@ void GameEngine::GameLoop()
                 if (m_inputManager.DetectResizedEvent())
                 {
                     OnWindowResize();
-                    State::BaseOnWindowResize(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+                    State::ResizeLayout(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
                     for (const auto& pState : m_states)
                     {
                         pState->OnWindowResize();

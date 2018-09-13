@@ -34,6 +34,8 @@ private:
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
+    virtual void OnWindowResize() override;
+
 public:
     // Constructor
     LoadPlayState(GameEngine& rGame, const std::string& levelDirectory);

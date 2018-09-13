@@ -12,9 +12,8 @@ SplashScreenState::SplashScreenState(GameEngine& rGame)
     // Content settings
     m_splash.setOrigin(static_cast<sf::Vector2f>(m_splash.getTexture()->getSize()) / 2.0f);
     m_mask.setOrigin(static_cast<sf::Vector2f>(m_mask.getTexture()->getSize()) / 2.0f);
-    Utility::SetSpriteScaleToFill(m_splash, GetWindowDimensions());
-    Utility::SetSpriteScaleToFill(m_mask, GetWindowDimensions());
 
+    // Music settings
     m_sound.setVolume(10);
     m_sound.play();
 }

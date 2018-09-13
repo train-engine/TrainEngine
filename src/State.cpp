@@ -53,14 +53,8 @@ void State::BaseHandleInput()
     }
 }
 
-// Called only by the GameEngine before derived States' Resume()
-void State::BaseResume()
-{
-
-}
-
 // Called only by the GameEngine when the window is resized
-void State::BaseOnWindowResize(const sf::Vector2f &windowDimensions)
+void State::ResizeLayout(const sf::Vector2f& windowDimensions)
 {
     s_windowDimensions = static_cast<sf::Vector2f>(windowDimensions);
     s_defaultView.reset(sf::FloatRect(0, 0, windowDimensions.x, windowDimensions.y));

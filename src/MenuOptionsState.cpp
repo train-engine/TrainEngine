@@ -22,7 +22,6 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     m_titleText.setOrigin(m_titleText.getLocalBounds().left + m_titleText.getLocalBounds().width / 2, m_titleText.getLocalBounds().top + m_titleText.getLocalBounds().height / 2);
     // Note: Origin is on the right, centered vertically
     m_soundSliderText.setOrigin(m_soundSliderText.getLocalBounds().left + m_soundSliderText.getLocalBounds().width, m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
-    OnWindowResize();
 
     // Music settings
     std::ifstream inf;

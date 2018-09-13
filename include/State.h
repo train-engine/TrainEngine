@@ -24,10 +24,11 @@ private:
 
     sf::Color m_backgroundColor;
 
+    // Static functions
+    static void ResizeLayout(const sf::Vector2f& windowDimensions);
+
     // Base functions
     void BaseHandleInput();
-    void BaseResume();
-    static void BaseOnWindowResize(const sf::Vector2f &windowDimensions);
 
     // State functions
     virtual void HandleInput() = 0;
@@ -35,9 +36,9 @@ private:
     virtual void Draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
 
     virtual void Pause() {}
-    virtual void Resume() {}
+    virtual void Resume() {} ///< Called automatically after the State above is removed
 
-    virtual void OnWindowResize() {}
+    virtual void OnWindowResize() {} ///< Called automatically on State creation and on window resizing
 
 protected:
     GameEngine& m_rGame;

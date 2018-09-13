@@ -59,8 +59,6 @@ CreatorState::CreatorState(GameEngine& rGame)
 
     m_createLevelButton.SetVolume(0.75);
 
-    OnWindowResize();
-
     // Music settings
     std::random_device rd;
     std::default_random_engine generator(rd());
