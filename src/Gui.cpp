@@ -1,6 +1,8 @@
 #include "Gui.h"
 #include <math.h>
 
+// DEPRECATED
+
 // Base InteractiveGui
 
 InteractiveGui::InteractiveGui()

@@ -5,6 +5,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+// DEPRECATED
+
 enum class GuiStyle
 {
     White,
