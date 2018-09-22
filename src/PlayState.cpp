@@ -33,16 +33,16 @@ PlayState::~PlayState()
 
 void PlayState::ReadMusicSettings()
 {
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    if (inputFile.is_open())
     {
         bool isMuted = 0;
-        inf >> isMuted;
+        inputFile >> isMuted;
         unsigned int volume = 50;
-        inf >> volume;
+        inputFile >> volume;
         m_music.setVolume(volume);
-        inf.close();
+        inputFile.close();
         std::cout << "Successfully read sound settings.\n";
         return;
     }

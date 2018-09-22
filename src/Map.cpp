@@ -144,12 +144,12 @@ bool Map::Load(const std::string& filename)
     // First delete all elements of the vector (necessary when changing level)
     Clear();
 
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + filename);
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + filename);
+    if (inputFile.is_open())
     {
         std::cout << "Loading Map...\n";
-        inf >> m_indexDimensions.x >> m_indexDimensions.y >> m_tileSize;
+        inputFile >> m_indexDimensions.x >> m_indexDimensions.y >> m_tileSize;
         std::cout << "Dimensions:\t" << m_indexDimensions.x << 'x' << m_indexDimensions.y << '\n';
         std::cout << "TileSize:\t" << m_tileSize << '\n';
 
@@ -168,8 +168,8 @@ bool Map::Load(const std::string& filename)
         for (unsigned int z = 0; z < m_layerCount; z++)
         {
             std::cout << '#' << z << ": \n";
-            inf.ignore(); // Ignore the \n
-            if (inf.get() == '-') // Empty layer
+            inputFile.ignore(); // Ignore the \n
+            if (inputFile.get() == '-') // Empty layer
             {
                 for (unsigned int y = 0; y < m_indexDimensions.y; y++)
                 {
@@ -183,7 +183,7 @@ bool Map::Load(const std::string& filename)
             }
             else
             {
-                inf.unget();
+                inputFile.unget();
             }
 
             for (unsigned int y = 0; y < m_indexDimensions.y; y++)
@@ -195,7 +195,7 @@ bool Map::Load(const std::string& filename)
                     if (reachedSemiColon == false)
                     {
                         std::string input;
-                        inf >> input;
+                        inputFile >> input;
                         if (input == ";")
                         {
                             reachedSemiColon = true;
@@ -237,7 +237,7 @@ bool Map::Load(const std::string& filename)
             }
         }
 
-        inf.close();
+        inputFile.close();
         std::cout << "Map successfully loaded.\n\n";
         return true;
     }
@@ -252,11 +252,11 @@ bool Map::Load(const std::string& filename)
 // Saves the Map to a save file
 bool Map::Save(const std::string& filename)
 {
-    std::ofstream outf(FileManager::ResourcePath() + filename);
-    if (outf.is_open())
+    std::ofstream outputFile(FileManager::ResourcePath() + filename);
+    if (outputFile.is_open())
     {
         std::cout << "Saving Map...\n";
-        outf << m_indexDimensions.x << '\n' << m_indexDimensions.y << '\n' << m_tileSize << '\n';
+        outputFile << m_indexDimensions.x << '\n' << m_indexDimensions.y << '\n' << m_tileSize << '\n';
         std::cout << "Dimensions:\t" << m_indexDimensions.x << 'x' << m_indexDimensions.y << '\n';
         std::cout << "TileSize:\t" << m_tileSize << '\n';
 
@@ -289,15 +289,15 @@ bool Map::Save(const std::string& filename)
 
             if (emptyLayer == false)
             {
-                outf << layerOutput;
+                outputFile << layerOutput;
             }
             else
             {
-                outf << "-\n";
+                outputFile << "-\n";
             }
         }
 
-        outf.close();
+        outputFile.close();
         std::cout << "Map successfully saved.\n\n";
         return true;
     }

@@ -52,21 +52,21 @@ void LoadPlayState::PlayStart()
 // Load resources
 void LoadPlayState::LoadResources()
 {
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + m_levelDirectory + "/resources.txt");
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + m_levelDirectory + "/resources.txt");
+    if (inputFile.is_open())
     {
         std::cout << "\nLoading resources...\n";
         
         std::string line;
-        while (std::getline(inf, line))
+        while (std::getline(inputFile, line))
         {
             m_total++;
         }
-        inf.clear();
-        inf.seekg(0, std::ios::beg);
+        inputFile.clear();
+        inputFile.seekg(0, std::ios::beg);
         
-        while (std::getline(inf, line))
+        while (std::getline(inputFile, line))
         {
             if (line == "parallaxMountains")
             {
@@ -148,7 +148,8 @@ void LoadPlayState::LoadResources()
 
             m_progress++;
         }
-        inf.close();
+
+        inputFile.close();
         std::cout << "Resources successfully loaded.\n\n";
     }
     else

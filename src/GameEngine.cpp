@@ -25,27 +25,27 @@ GameEngine::GameEngine()
                  "Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.\n\n";
 
     // Graphics settings
-    std::ifstream inf(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
-    if (inf.is_open())
+    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
+    if (inputFile.is_open())
     {
         unsigned int fullscreenModeIndex = 0;
-        inf >> fullscreenModeIndex;
+        inputFile >> fullscreenModeIndex;
 
         bool isFullscreen = false;
-        inf >> isFullscreen;
+        inputFile >> isFullscreen;
 
         bool vSyncEnabled = false;
-        inf >> vSyncEnabled;
+        inputFile >> vSyncEnabled;
 
-        inf >> m_powerSaver;
+        inputFile >> m_powerSaver;
 
         unsigned int targetFps = 60;
-        inf >> targetFps;
+        inputFile >> targetFps;
 
         unsigned int antiAliasingLevel = 0;
-        inf >> antiAliasingLevel;
+        inputFile >> antiAliasingLevel;
 
-        inf.close();
+        inputFile.close();
 
         fullscreenModeIndex = (fullscreenModeIndex < sf::VideoMode::getFullscreenModes().size() && fullscreenModeIndex > 0 ? fullscreenModeIndex : static_cast<unsigned int>(sf::VideoMode::getFullscreenModes().size()) - 1);
 

@@ -24,16 +24,16 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     m_soundSliderText.setOrigin(m_soundSliderText.getLocalBounds().left + m_soundSliderText.getLocalBounds().width, m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
 
     // Music settings
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    if (inputFile.is_open())
     {
         bool isMuted = 0;
-        inf >> isMuted;
+        inputFile >> isMuted;
         unsigned int volume = 50;
-        inf >> volume;
+        inputFile >> volume;
         m_soundSlider.SetValue(volume);
-        inf.close();
+        inputFile.close();
         std::cout << "Successfully read sound settings.\n";
     }
     else
@@ -75,22 +75,22 @@ void MenuOptionsState::Update()
 {
     if (m_updateSoundSettings == true)
     {
-        std::ofstream outf;
-        outf.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-        if (outf.is_open())
+        std::ofstream outputFile;
+        outputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+        if (outputFile.is_open())
         {
             if (m_soundSlider.GetValue() == 0)
             {
-                outf << "1 ";
+                outputFile << "1 ";
             }
             else
             {
-                outf << "0 ";
+                outputFile << "0 ";
             }
             unsigned int volume = m_soundSlider.GetValue();
-            outf << volume;
+            outputFile << volume;
             m_updateSoundSettings = false;
-            outf.close();
+            outputFile.close();
             std::cout << "Successfully wrote sound settings.\n";
         }
         else

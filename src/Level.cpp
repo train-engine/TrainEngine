@@ -32,14 +32,14 @@ Level::~Level()
 // Loads the background from a save file
 bool Level::LoadBackground(const std::string& filename)
 {
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + filename);
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + filename);
+    if (inputFile.is_open())
     {
         std::cout << "Loading background...\n";
 
         std::string line;
-        while (std::getline(inf, line))
+        while (std::getline(inputFile, line))
         {
             // Ignore empty lines or those starting with '#'
             if (line.empty() || line[0] == '#')
@@ -209,38 +209,38 @@ bool Level::LoadBackground(const std::string& filename)
 // Saves the background to a save file
 bool Level::SaveBackground(const std::string& filename)
 {
-    std::ofstream outf;
-    outf.open(FileManager::ResourcePath() + filename);
-    if (outf.is_open())
+    std::ofstream outputFile;
+    outputFile.open(FileManager::ResourcePath() + filename);
+    if (outputFile.is_open())
     {
         std::cout << "Saving background...\n";
-        outf << "# Syntax:\n"
-        "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
+        outputFile << "# Syntax:\n"
+                "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
         std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {return a.GetParallax() > b.GetParallax();});
         std::cout << "Number of parallax sprites: " << m_parallaxSprites.size() << '\n';
 
         std::cout << "Parallax sprites:\n";
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
-            outf << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
+            outputFile << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
             if (parallaxSprite.GetRepeatTextureString() != "")
             {
-                outf << " repeatTexture:" << parallaxSprite.GetRepeatTextureString();
+                outputFile << " repeatTexture:" << parallaxSprite.GetRepeatTextureString();
             }
             if (parallaxSprite.GetScaleString() != "")
             {
-                outf << " scale:" << parallaxSprite.GetScaleString();
+                outputFile << " scale:" << parallaxSprite.GetScaleString();
             }
             if (parallaxSprite.GetOffsetString() != "")
             {
-                outf << " offset:" << parallaxSprite.GetOffsetString();
+                outputFile << " offset:" << parallaxSprite.GetOffsetString();
             }
-            outf << '\n';
+            outputFile << '\n';
 
             std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
         }
 
-        outf.close();
+        outputFile.close();
         std::cout << "Background successfully saved.\n\n";
         return true;
     }
@@ -261,13 +261,13 @@ bool Level::LoadEntities(const std::string& filename)
         delete pEntity;
     }
 
-    std::ifstream inf;
-    inf.open(FileManager::ResourcePath() + filename);
-    if (inf.is_open())
+    std::ifstream inputFile;
+    inputFile.open(FileManager::ResourcePath() + filename);
+    if (inputFile.is_open())
     {
         std::cout << "Loading Entities...\n";
         unsigned int entityCount = 0;
-        inf >> entityCount;
+        inputFile >> entityCount;
         std::cout << "Number of Entities: " << entityCount << '\n';
 
         m_entities.resize(entityCount);
@@ -277,7 +277,7 @@ bool Level::LoadEntities(const std::string& filename)
             unsigned int type = 0;
             float xPosition = 0;
             float yPosition = 0;
-            inf >> type >> xPosition >> yPosition;
+            inputFile >> type >> xPosition >> yPosition;
             switch (static_cast<EntityType>(type))
             {
                 case EntityType::Player:
@@ -295,7 +295,7 @@ bool Level::LoadEntities(const std::string& filename)
             std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", " << rpEntity->GetPosition().y << ")\n";
         }
         
-        inf.close();
+        inputFile.close();
         std::cout << "Entities successfully loaded.\n\n";
         return true;
     }
@@ -310,22 +310,22 @@ bool Level::LoadEntities(const std::string& filename)
 // Saves the Entities to a save file
 bool Level::SaveEntities(const std::string& filename)
 {
-    std::ofstream outf;
-    outf.open(FileManager::ResourcePath() + filename);
-    if (outf.is_open())
+    std::ofstream outputFile;
+    outputFile.open(FileManager::ResourcePath() + filename);
+    if (outputFile.is_open())
     {
         std::cout << "Saving Entities...\n";
-        outf << m_entities.size() << '\n';
+        outputFile << m_entities.size() << '\n';
         std::cout << "Number of Entities: " << m_entities.size() << '\n';
 
         std::cout << "Entities:\n";
         for (const auto& pEntity : m_entities)
         {
-            outf << static_cast<int>(pEntity->GetEntityType()) << ' ' << pEntity->GetPosition().x << ' ' << pEntity->GetPosition().y << "\n";
+            outputFile << static_cast<int>(pEntity->GetEntityType()) << ' ' << pEntity->GetPosition().x << ' ' << pEntity->GetPosition().y << "\n";
             std::cout << Entity::GetEntityTypeString(pEntity->GetEntityType()) << " at (" << pEntity->GetPosition().x << ", " << pEntity->GetPosition().y << ")\n";
         }
 
-        outf.close();
+        outputFile.close();
         std::cout << "Entities successfully saved.\n\n";
         return true;
     }
@@ -346,9 +346,9 @@ bool Level::LoadResources(const std::string& filename)
 // Saves the list of necessary resources for the Level to a save file
 bool Level::SaveResources(const std::string& filename)
 {
-    std::ofstream outf;
-    outf.open(FileManager::ResourcePath() + filename);
-    if (outf.is_open())
+    std::ofstream outputFile;
+    outputFile.open(FileManager::ResourcePath() + filename);
+    if (outputFile.is_open())
     {
         std::cout << "Saving resources...\n";
         std::vector<std::string> resources;
@@ -390,10 +390,10 @@ bool Level::SaveResources(const std::string& filename)
 
         for (const auto& resource : resources)
         {
-            outf << resource << '\n';
+            outputFile << resource << '\n';
         }
 
-        outf.close();
+        outputFile.close();
         std::cout << "Resources successfully saved.\n\n";
         return true;
     }

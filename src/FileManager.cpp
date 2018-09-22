@@ -1,6 +1,5 @@
 #include "FileManager.h"
 #include <dirent.h>
-#include <fstream>
 #include <iostream>
 #include <SFML/System.hpp>
 #include "FileManager.h"

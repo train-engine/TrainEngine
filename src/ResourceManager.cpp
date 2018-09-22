@@ -31,8 +31,8 @@ bool ResourceManager::LoadInitialResources()
     #if defined(SFML_SYSTEM_ANDROID)
         std::istringstream inf(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
     #else
-        std::ifstream inf(FileManager::ResourcePath() + "data/initial_resources.txt");
-        if (!inf.is_open())
+        std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
+        if (!inputFile.is_open())
         {
             std::cout << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
                          "Initial resources loading failed.\n\n";
@@ -41,7 +41,7 @@ bool ResourceManager::LoadInitialResources()
     #endif
 
     std::string line;
-    while (std::getline(inf, line))
+    while (std::getline(inputFile, line))
     {
         // Ignore empty lines or those starting with '#'
         if (line == "" || line[0] == '#')
@@ -77,7 +77,7 @@ bool ResourceManager::LoadInitialResources()
         }
     }
     #if !defined(SFML_SYSTEM_ANDROID)
-        inf.close();
+        inputFile.close();
     #endif
     std::cout << "Initial resources successfully loaded.\n\n";
     return true;
