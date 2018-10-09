@@ -32,7 +32,7 @@ private:
 
     std::array<sf::Color, static_cast<size_t>(MapLayer::Count)> m_layerColors;
 
-    bool m_showGrid;
+    bool m_isGridVisible;
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
@@ -65,7 +65,7 @@ public:
 
     // Setters
     void SetLayerColor(sf::Color color, MapLayer layer);
-    void SetShowGrid(bool showGrid) {m_showGrid = showGrid;}
+    void SetGridVisible(bool isGridVisible) {m_isGridVisible = isGridVisible;}
     
     // Getters
     const sf::Vector2u& GetIndexDimensions() const {return m_indexDimensions;}

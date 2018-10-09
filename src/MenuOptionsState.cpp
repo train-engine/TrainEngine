@@ -12,7 +12,7 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
       m_soundSlider(m_rGame.m_resourceManager.GetFont("mainFont"),
                     GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
                     sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100),
-      m_updateSoundSettings(false)
+      m_mustUpdateSoundSettings(false)
 {
     // State settings
     m_stateSettings.canSkipUpdates = true;
@@ -49,31 +49,31 @@ MenuOptionsState::~MenuOptionsState()
 
 void MenuOptionsState::HandleInput()
 {
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
     {
         m_soundSlider.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
     {
         m_soundSlider.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
     {
         if (m_soundSlider.OnMouseUnclick(GetWindowMousePosition()))
         {
-            m_updateSoundSettings = true;
+            m_mustUpdateSoundSettings = true;
         }
     }
 }
 
 void MenuOptionsState::Update()
 {
-    if (m_updateSoundSettings == true)
+    if (m_mustUpdateSoundSettings == true)
     {
         std::ofstream outputFile;
         outputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
@@ -89,7 +89,7 @@ void MenuOptionsState::Update()
             }
             unsigned int volume = m_soundSlider.GetValue();
             outputFile << volume;
-            m_updateSoundSettings = false;
+            m_mustUpdateSoundSettings = false;
             outputFile.close();
             std::cout << "Successfully wrote sound settings.\n";
         }

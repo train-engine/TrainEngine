@@ -18,8 +18,6 @@ Camera::Camera(const Map& map, const sf::Vector2f& viewDimensions)
       m_zoomLerp(0.25),
       m_pFollowedEntity(nullptr),
       m_followLerp(0.3),
-      m_snapHorizontally(false),
-      m_snapVertically(false),
       m_ticksRemaining(0),
       m_ticksTotal(0)
 {
@@ -132,22 +130,24 @@ void Camera::Update()
         }
         else
         {
-
             // Disable lerp and interpolation to snap to the followed Entity if colliding with Map edge when zooming
+            bool mustSnapHorizontally;
+            bool mustSnapVertically;
+
             if (m_dimensions != m_targetDimensions)
             {
-                m_snapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
+                mustSnapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
                                       (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
-                m_snapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
+                mustSnapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
                                     (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
             }
             else
             {
-                m_snapHorizontally = false;
-                m_snapVertically = false;
+                mustSnapHorizontally = false;
+                mustSnapVertically = false;
             }
 
-            if (m_snapHorizontally == true) // Zooming with horizontal lerp and interpolation disabled
+            if (mustSnapHorizontally == true) // Zooming with horizontal lerp and interpolation disabled
             {
                 m_position.x = m_pFollowedEntity->GetPosition().x;
                 m_previousPosition.x = m_position.x;
@@ -157,7 +157,7 @@ void Camera::Update()
                 m_position.x += (m_pFollowedEntity->GetPosition().x - m_position.x) * m_followLerp;
             }
 
-            if (m_snapVertically == true) // Zooming with vertical lerp and interpolation disabled
+            if (mustSnapVertically == true) // Zooming with vertical lerp and interpolation disabled
             {
                 m_position.y = m_pFollowedEntity->GetPosition().y;
                 m_previousPosition.y = m_position.y;
@@ -276,17 +276,15 @@ void Camera::SetFollow(const Entity& followedEntity, bool snapOnSet)
 }
 
 // Set to translate from a start position to an end position
-void Camera::SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool smooth)
+void Camera::SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool isSlowDownSmooth)
 {
     if (m_mode != CameraMode::Translate && m_mode != CameraMode::SmoothTranslate)
     {
         // Reset unused variables
         m_pFollowedEntity = nullptr;
-        m_snapHorizontally = false;
-        m_snapVertically = false;
     }
 
-    if (smooth == false)
+    if (isSlowDownSmooth == false)
     {
         m_mode = CameraMode::Translate;
         m_ticksTotal = 0;

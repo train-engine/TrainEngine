@@ -39,8 +39,6 @@ private:
     // For CameraMode::Follow
     const Entity* m_pFollowedEntity;
     float m_followLerp;
-    bool m_snapHorizontally;
-    bool m_snapVertically;
 
     // For CameraMode::Translate
     sf::Vector2f m_startTranslationPosition;
@@ -63,7 +61,7 @@ public:
     void SetPosition(const sf::Vector2f& position);
     void Move(const sf::Vector2f& offset);
     void SetFollow(const Entity& followedEntity, bool snapOnSet = false);
-    void SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool smooth = false);
+    void SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool isSlowDownSmooth = false);
 
     // Setters
     void SetBoundless(bool isBoundless) {m_isBoundless = isBoundless;}

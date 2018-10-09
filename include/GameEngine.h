@@ -47,8 +47,7 @@ private:
     sf::Time m_drawLag; // Amount of time since last draw
     sf::Time m_lastUpdateTime; // For recording UPS
     sf::Time m_lastDrawTime; // For recording FPS
-    bool m_powerSaver; // Sleep when there is enough time before the next update/draw
-    const sf::Time m_sleepImprecision; // Uncertainty given to the sleep time
+    bool m_isPowerSaverEnabled; // Sleep when there is enough time before the next update/draw
     const float m_maxUpdatesBehind; // Max number of updates lagging behind before discarding update cycles if the State's m_canSkipUpdates is true
     LoopDebugOverlay m_loopDebugOverlay;
 

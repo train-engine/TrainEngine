@@ -66,25 +66,27 @@ void PlayState::PauseStart()
 
 void PlayState::HandleInput()
 {
-    if (m_rGame.m_inputManager.DetectLostFocusEvent() || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Escape))
+    m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
+
+    if (m_rGame.m_inputManager.DetectedLostFocusEvent() || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
     {
         PauseStart();
         return;
     }
 
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
     {
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
     {
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
     {
         if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)
         {
-            m_level.SetHasFocus(false);
+            m_level.SetFocus(false);
             if (m_music.getStatus() == sf::SoundSource::Status::Playing)
             {
                 m_music.pause();
@@ -93,10 +95,6 @@ void PlayState::HandleInput()
             {
                 m_music.play();
             }
-        }
-        else
-        {
-            m_level.SetHasFocus(true);
         }
     }
     

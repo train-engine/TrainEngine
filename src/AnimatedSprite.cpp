@@ -1,6 +1,6 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration, bool looping, bool isFlippable)
+AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration, bool isLoopingEnabled, bool isFlippable)
     : m_sprite(texture),
       m_frameDimensions(frameDimensions),
       m_spriteSheetDimensions(texture.getSize()),
@@ -8,7 +8,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& f
       m_frameDuration(frameDuration),
       m_currentFrameIndex(0),
       m_totalFrames(frameCount),
-      m_looping(looping),
+      m_isLoopingEnabled(isLoopingEnabled),
       m_isFlippable(isFlippable),
       m_isPlaying(false)
 {
@@ -62,7 +62,7 @@ void AnimatedSprite::Update(bool flipSprite)
         }
         else if (m_currentFrameIndex == m_totalFrames - 1)
         {
-            if (m_looping == true)
+            if (m_isLoopingEnabled == true)
             {
                 m_currentFrameIndex = 0;
                 SetTextureRect();

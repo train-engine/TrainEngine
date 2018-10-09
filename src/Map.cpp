@@ -11,7 +11,7 @@ Map::Map(const ResourceManager& resourceManager)
       m_maxDimensions(4096, 4096),
       m_layerCount(static_cast<unsigned int>(MapLayer::Count)),
       m_tileSize(64),
-      m_showGrid(false)
+      m_isGridVisible(false)
 {
     m_tiles.resize(m_layerCount);
 
@@ -72,7 +72,7 @@ void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
         }
     }
 
-    if (m_showGrid == true)
+    if (m_isGridVisible == true)
     {
         DrawGrid(rTarget, states);
     }
@@ -188,17 +188,17 @@ bool Map::Load(const std::string& filename)
 
             for (unsigned int y = 0; y < m_indexDimensions.y; y++)
             {
-                bool reachedSemiColon = false;
+                bool hasReachedSemiColon = false;
                 for (unsigned int x = 0; x < m_indexDimensions.x; x++)
                 {
                     // If a semicolon has not been reached, read the next group of characters
-                    if (reachedSemiColon == false)
+                    if (hasReachedSemiColon == false)
                     {
                         std::string input;
                         inputFile >> input;
                         if (input == ";")
                         {
-                            reachedSemiColon = true;
+                            hasReachedSemiColon = true;
                         }
                         else
                         {
@@ -219,7 +219,7 @@ bool Map::Load(const std::string& filename)
                         }
                     }
                     // If a semicolon has been reached (possibly in this exact loop), set this index to a null pointer
-                    if (reachedSemiColon == true)
+                    if (hasReachedSemiColon == true)
                     {
                         m_tiles[z][y][x] = nullptr;
                     }
@@ -265,7 +265,7 @@ bool Map::Save(const std::string& filename)
         for (unsigned int z = 0; z < m_layerCount; z++)
         {
             std::string layerOutput;
-            bool emptyLayer = true;
+            bool isEmptyLayer = true;
             for (unsigned int y = 0; y < m_indexDimensions.y; y++)
             {
                 for (unsigned int x = 0; x < m_indexDimensions.x; x++)
@@ -277,7 +277,7 @@ bool Map::Save(const std::string& filename)
                     else
                     {
                         layerOutput += std::to_string(static_cast<int>(m_tiles[z][y][x]->GetTileType()));
-                        emptyLayer = false;
+                        isEmptyLayer = false;
                     }
                     if (x + 1 < m_indexDimensions.x)
                     {
@@ -287,7 +287,7 @@ bool Map::Save(const std::string& filename)
                 layerOutput += '\n';
             }
 
-            if (emptyLayer == false)
+            if (isEmptyLayer == false)
             {
                 outputFile << layerOutput;
             }
@@ -339,288 +339,288 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
         return;
     }
 
-    bool topLeftEmpty = true;
-    bool topEmpty = true;
-    bool topRightEmpty = true;
-    bool rightEmpty = true;
-    bool bottomRightEmpty = true;
-    bool bottomEmpty = true;
-    bool bottomLeftEmpty = true;
-    bool leftEmpty = true;
+    bool isTopLeftEmpty = true;
+    bool isTopEmpty = true;
+    bool isTopRightEmpty = true;
+    bool isRightEmpty = true;
+    bool isBottomRightEmpty = true;
+    bool isBottomEmpty = true;
+    bool isBottomLeftEmpty = true;
+    bool isLeftEmpty = true;
 
     if (m_tiles[z][y][x] != nullptr && static_cast<int>(m_tiles[z][y][x]->GetTileType()) >= 100 && static_cast<int>(m_tiles[z][y][x]->GetTileType()) <= 136)
     {
         if (x > 0)
         {
-            if (y > 0) topLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->IsSolid() == false);
-            else topLeftEmpty = false;
+            if (y > 0) isTopLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->IsSolid() == false);
+            else isTopLeftEmpty = false;
 
-            if (y < m_indexDimensions.y - 1) bottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->IsSolid() == false);
-            else bottomLeftEmpty = false;
+            if (y < m_indexDimensions.y - 1) isBottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->IsSolid() == false);
+            else isBottomLeftEmpty = false;
 
-            leftEmpty = (m_tiles[z][y][x - 1] == nullptr || m_tiles[z][y][x - 1]->IsSolid() == false);
+            isLeftEmpty = (m_tiles[z][y][x - 1] == nullptr || m_tiles[z][y][x - 1]->IsSolid() == false);
         }
         else
         {
-            topLeftEmpty = false;
-            bottomLeftEmpty = false;
-            leftEmpty = false;
+            isTopLeftEmpty = false;
+            isBottomLeftEmpty = false;
+            isLeftEmpty = false;
         }
 
         if (x < m_indexDimensions.x - 1)
         {
-            if (y > 0) topRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->IsSolid() == false);
-            else topRightEmpty = false;
+            if (y > 0) isTopRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->IsSolid() == false);
+            else isTopRightEmpty = false;
 
-            if (y < m_indexDimensions.y - 1) bottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->IsSolid() == false);
-            else bottomRightEmpty = false;
+            if (y < m_indexDimensions.y - 1) isBottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->IsSolid() == false);
+            else isBottomRightEmpty = false;
 
-            rightEmpty = (m_tiles[z][y][x + 1] == nullptr || m_tiles[z][y][x + 1]->IsSolid() == false);
+            isRightEmpty = (m_tiles[z][y][x + 1] == nullptr || m_tiles[z][y][x + 1]->IsSolid() == false);
         }
         else
         {
-            topRightEmpty = false;
-            bottomRightEmpty = false;
-            rightEmpty = false;
+            isTopRightEmpty = false;
+            isBottomRightEmpty = false;
+            isRightEmpty = false;
         }
 
         if (y > 0)
         {
-            topEmpty = (m_tiles[z][y - 1][x] == nullptr || m_tiles[z][y - 1][x]->IsSolid() == false);
+            isTopEmpty = (m_tiles[z][y - 1][x] == nullptr || m_tiles[z][y - 1][x]->IsSolid() == false);
         }
         else
         {
-            topEmpty = false;
+            isTopEmpty = false;
         }
 
         if (y < m_indexDimensions.y - 1)
         {
-            bottomEmpty = (m_tiles[z][y + 1][x] == nullptr || m_tiles[z][y + 1][x]->IsSolid() == false);
+            isBottomEmpty = (m_tiles[z][y + 1][x] == nullptr || m_tiles[z][y + 1][x]->IsSolid() == false);
         }
         else
         {
-            bottomEmpty = false;
+            isBottomEmpty = false;
         }
         
-        if (topEmpty == true &&
-            leftEmpty == true && rightEmpty == false &&
-            bottomEmpty == false && bottomRightEmpty == false)
+        if (isTopEmpty == true &&
+            isLeftEmpty == true && isRightEmpty == false &&
+            isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassTopLeftSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomEmpty == false && ((bottomRightEmpty == false && bottomLeftEmpty == false) || (bottomLeftEmpty == true && bottomRightEmpty == true)))
+        else if (isTopEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomEmpty == false && ((isBottomRightEmpty == false && isBottomLeftEmpty == false) || (isBottomLeftEmpty == true && isBottomRightEmpty == true)))
         {
             AddTile(TileType::GrassTopSide, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomLeftEmpty == false && bottomEmpty == false)
+        else if (isTopEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false)
         {
             AddTile(TileType::GrassTopRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false && ((topRightEmpty == false && bottomRightEmpty == false) || (topRightEmpty == true && bottomRightEmpty == true)) &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == false)
+        else if (isTopEmpty == false && ((isTopRightEmpty == false && isBottomRightEmpty == false) || (isTopRightEmpty == true && isBottomRightEmpty == true)) &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == false)
         {
             AddTile(TileType::GrassLeftSide, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false && topRightEmpty == false &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSides, sf::Vector2u(x, y), layer);
         }
-        else if (((topLeftEmpty == false && bottomLeftEmpty == false) || (topLeftEmpty == true && bottomLeftEmpty == true)) && topEmpty == false  &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomEmpty == false)
+        else if (((isTopLeftEmpty == false && isBottomLeftEmpty == false) || (isTopLeftEmpty == true && isBottomLeftEmpty == true)) && isTopEmpty == false  &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomEmpty == false)
         {
             AddTile(TileType::GrassRightSide, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false && topRightEmpty == false&&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == false && isTopRightEmpty == false&&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotLeftSide, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false && ((topRightEmpty == false && topLeftEmpty == false) || (topRightEmpty == true && topLeftEmpty == true)) &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == false && ((isTopRightEmpty == false && isTopLeftEmpty == false) || (isTopRightEmpty == true && isTopLeftEmpty == true)) &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotSide, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomEmpty == true)
+        else if (isTopLeftEmpty == false && isTopEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == true && rightEmpty == true &&
-                 bottomEmpty == false)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == true && isRightEmpty == true &&
+                 isBottomEmpty == false)
         {
             AddTile(TileType::GrassTopLeftRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false  &&
-                 leftEmpty == true && rightEmpty == true &&
-                 bottomEmpty == false)
+        else if (isTopEmpty == false  &&
+                 isLeftEmpty == true && isRightEmpty == true &&
+                 isBottomEmpty == false)
         {
             AddTile(TileType::GrassLeftRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false  &&
-                 leftEmpty == true && rightEmpty == true &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == false  &&
+                 isLeftEmpty == true && isRightEmpty == true &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotLeftRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassTopBotLeftSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassTopBotSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassTopBotRightSides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == true && rightEmpty == true &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == true && isRightEmpty == true &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::Grass4Sides, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassTopLeftSidesCorner3, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassTopSideCorner3, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == true && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassTopSideCorner4, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == true  &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomLeftEmpty == true && bottomEmpty == false)
+        else if (isTopEmpty == true  &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false)
         {
             AddTile(TileType::GrassTopRightSidesCorner4, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false  && topRightEmpty == false &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopEmpty == false  && isTopRightEmpty == false &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassLeftSideCorner3, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false  && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopLeftEmpty == false && isTopEmpty == false  && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassNoSidesCorner3, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false  && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == true && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == false && isTopEmpty == false  && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSidesCorner4, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false  &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomLeftEmpty == true && bottomEmpty == false)
+        else if (isTopLeftEmpty == false && isTopEmpty == false  &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false)
         {
             AddTile(TileType::GrassRightSideCorner4, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false  && topRightEmpty == true &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopEmpty == false  && isTopRightEmpty == true &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassLeftSideCorner2, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomRightEmpty == false && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomRightEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSidesCorner2, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSidesCorner1, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomLeftEmpty == false && bottomEmpty == false)
+        else if (isTopLeftEmpty == true && isTopEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false)
         {
             AddTile(TileType::GrassRightSideCorner1, sf::Vector2u(x, y), layer);
         }
-        else if (topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == true && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == true && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotLeftSidesCorner2, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotSideCorner2, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomEmpty == true)
+        else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotSideCorner1, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false &&
-                 leftEmpty == false && rightEmpty == true &&
-                 bottomEmpty == true)
+        else if (isTopLeftEmpty == true && isTopEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == true &&
+                 isBottomEmpty == true)
         {
             AddTile(TileType::GrassBotRightSidesCorner1, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == true && bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassNoSides4Corners, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSidesCorners12, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == true && bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassNoSidesCorners34, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == true && topEmpty == false && topRightEmpty == false &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == true && bottomEmpty == false && bottomRightEmpty == false)
+        else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == false)
         {
             AddTile(TileType::GrassNoSidesCorners14, sf::Vector2u(x, y), layer);
         }
-        else if (topLeftEmpty == false && topEmpty == false && topRightEmpty == true &&
-                 leftEmpty == false && rightEmpty == false &&
-                 bottomLeftEmpty == false && bottomEmpty == false && bottomRightEmpty == true)
+        else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true &&
+                 isLeftEmpty == false && isRightEmpty == false &&
+                 isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
             AddTile(TileType::GrassNoSidesCorners23, sf::Vector2u(x, y), layer);
         }

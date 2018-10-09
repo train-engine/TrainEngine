@@ -15,8 +15,8 @@ EntityTracker::EntityTracker(const sf::Font& font)
       m_displacementText("", font, 16),
       m_positionsCountText("", font, 16),
       m_totalDistanceTraveled(0),
-      m_showDots(false),
-      m_showInfoBox(false)
+      m_isDotPathVisible(false),
+      m_isInfoBoxVisible(false)
 {
     m_dot.setFillColor(sf::Color::Green);
 
@@ -103,7 +103,7 @@ void EntityTracker::Update()
             }
         }
 
-        if (m_showInfoBox == true)
+        if (m_isInfoBoxVisible == true)
         {
             UpdateInfoBox();
         }
@@ -112,7 +112,7 @@ void EntityTracker::Update()
 
 void EntityTracker::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 {
-    if (m_showDots == true)
+    if (m_isDotPathVisible == true)
     {
         for (const auto& position : m_positions)
         {
@@ -126,7 +126,7 @@ void EntityTracker::draw(sf::RenderTarget& rTarget, sf::RenderStates states) con
             }
         }
     }
-    if (m_showInfoBox == true)
+    if (m_isInfoBoxVisible == true)
     {
         rTarget.draw(m_textContainer);
         rTarget.draw(m_lastPositionText);

@@ -11,8 +11,8 @@ Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& i
 void Player::HandleInput()
 {
     // Left/Right
-    if ((m_inputManager.KeyHeld(sf::Keyboard::A) && !m_inputManager.KeyHeld(sf::Keyboard::D)) ||
-        (m_inputManager.TouchHeld() && m_inputManager.GetWindowMousePosition().x < static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
+    if ((m_inputManager.IsKeyHeld(sf::Keyboard::A) && !m_inputManager.IsKeyHeld(sf::Keyboard::D)) ||
+        (m_inputManager.IsTouchHeld() && m_inputManager.GetWindowMousePosition().x < static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::X) < -50)
     {
         SetPressingLeft(true);
@@ -21,8 +21,8 @@ void Player::HandleInput()
     {
         SetPressingLeft(false);
     }
-    if ((m_inputManager.KeyHeld(sf::Keyboard::D) && !m_inputManager.KeyHeld(sf::Keyboard::A)) ||
-        (m_inputManager.TouchHeld() && m_inputManager.GetWindowMousePosition().x > static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
+    if ((m_inputManager.IsKeyHeld(sf::Keyboard::D) && !m_inputManager.IsKeyHeld(sf::Keyboard::A)) ||
+        (m_inputManager.IsTouchHeld() && m_inputManager.GetWindowMousePosition().x > static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::X) > 50)
     {
         SetPressingRight(true);
@@ -33,8 +33,8 @@ void Player::HandleInput()
     }
 
     // Up/Down
-    if (m_inputManager.KeyHeld(sf::Keyboard::W) ||
-        m_inputManager.JoystickButtonDown(0, 0) || m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) < -50)
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::W) ||
+        m_inputManager.IsJoystickButtonDown(0, 0) || m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) < -50)
     {
         SetPressingUp(true);
     }
@@ -42,7 +42,7 @@ void Player::HandleInput()
     {
         SetPressingUp(false);
     }
-    if (m_inputManager.KeyHeld(sf::Keyboard::S) ||
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::S) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) > 50)
     {
         SetPressingDown(true);
@@ -53,7 +53,7 @@ void Player::HandleInput()
     }
 
     // Shift
-    if (m_inputManager.KeyHeld(sf::Keyboard::LShift) ||
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::LShift) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Axis::Z) > 0)
     {
         SetPressingShift(true);

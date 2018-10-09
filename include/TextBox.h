@@ -21,13 +21,13 @@ private:
     bool m_hasFocus;
     bool m_isReadOnly;
     bool m_isDigitsOnly;
-    bool m_isPasswordMode;
+    bool m_isPasswordModeEnabled;
 
     const sf::Uint32 m_passwordChar;
 
     unsigned int m_cursorIndex;
     unsigned int m_selectionStartIndex;
-    bool m_drawCursor;
+    bool m_isCursorVisible;
     unsigned int m_cursorTickCount;
     unsigned int m_cursorBlinkSpeed;
     float m_dragCursorProgress;
@@ -117,10 +117,10 @@ public:
 
     void SetText(const sf::String& text);
     void SetBackgroundText(const std::string& backgroundText){m_backgroundText.setString(backgroundText);}
-    void SetFocus(bool focus);
-    void SetReadOnly(bool readOnly) {m_isReadOnly = readOnly;}
-    void SetDigitsOnly(bool digitsOnly) {m_isDigitsOnly = digitsOnly;}
-    void SetPasswordMode(bool passwordMode);
+    void SetFocus(bool hasFocus);
+    void SetReadOnly(bool isReadOnly) {m_isReadOnly = isReadOnly;}
+    void SetDigitsOnly(bool isDigitsOnly) {m_isDigitsOnly = isDigitsOnly;}
+    void SetPasswordModeEnabled(bool isPasswordModeEnabled);
 
     // Getters
     const sf::Vector2f& GetPosition() const {return m_box.getPosition();}

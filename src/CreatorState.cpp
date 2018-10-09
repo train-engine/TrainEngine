@@ -67,7 +67,7 @@ CreatorState::CreatorState(GameEngine& rGame)
 
     SetMusic();
 
-    m_level.SetCreatorMode(true);
+    m_level.SetCreatorModeEnabled(true);
 }
 
 CreatorState::CreatorState(GameEngine& rGame, const std::string& levelDirectory)
@@ -123,7 +123,7 @@ bool CreatorState::CheckMouseChangedTile()
 
 void CreatorState::HandleInput()
 {
-    if (m_rGame.m_inputManager.DetectLostFocusEvent() || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.DetectedLostFocusEvent() || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
     {
         PauseStart();
         return;
@@ -133,11 +133,11 @@ void CreatorState::HandleInput()
     m_currentMousePosition = m_level.GetLevelMousePosition();
 
     // Tile selection
-    if ((m_rGame.m_inputManager.KeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::E) ||
-         m_rGame.m_inputManager.KeyDown(sf::Keyboard::Up) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Down)) &&
+    if ((m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::E) ||
+         m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Up) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Down)) &&
          !m_loadLevelTextBox.HasFocus() && !m_saveLevelTextBox.HasFocus() && !m_widthTextBox.HasFocus() && !m_heightTextBox.HasFocus())
     {
-        if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::E) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Up))
+        if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::E) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Up))
         {
             if (m_selectedTileTypeIndex >= m_selectableTileTypes.size() - 1)
             {
@@ -148,7 +148,7 @@ void CreatorState::HandleInput()
                 m_selectedTileTypeIndex++;
             }
         }
-        else if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Down))
+        else if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Down))
         {
             if (m_selectedTileTypeIndex == 0 && !m_selectableTileTypes.empty())
             {
@@ -163,12 +163,12 @@ void CreatorState::HandleInput()
     }
 
     // Brush size
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Add))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Add))
     {
         ClearPreviewMap();
         m_brushSize++;
     }
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Subtract) && m_brushSize > 1)
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Subtract) && m_brushSize > 1)
     {
         ClearPreviewMap();
         m_brushSize--;
@@ -176,8 +176,8 @@ void CreatorState::HandleInput()
 
     // Preview Map
     if (CheckMouseChangedTile() ||
-        m_rGame.m_inputManager.KeyDown(sf::Keyboard::Add) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::Subtract) ||
-        m_rGame.m_inputManager.KeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.KeyDown(sf::Keyboard::E))
+        m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Add) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Subtract) ||
+        m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Q) || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::E))
     {
         ClearPreviewMap();
         m_level.AddTileRange(m_selectableTileTypes[m_selectedTileTypeIndex],
@@ -189,11 +189,11 @@ void CreatorState::HandleInput()
 
     // Tile placement or removal
     if (GetWindowMousePosition().x <= m_panel.getPosition().x &&
-        (CheckMouseChangedTile() || m_rGame.m_inputManager.DetectMouseButtonDownEvent()) &&
-        (m_rGame.m_inputManager.MouseButtonHeld(sf::Mouse::Left) || m_rGame.m_inputManager.MouseButtonHeld(sf::Mouse::Right)))
+        (CheckMouseChangedTile() || m_rGame.m_inputManager.DetectedMouseButtonDownEvent()) &&
+        (m_rGame.m_inputManager.IsMouseButtonHeld(sf::Mouse::Left) || m_rGame.m_inputManager.IsMouseButtonHeld(sf::Mouse::Right)))
     {
         // Add Tile
-        if (m_rGame.m_inputManager.MouseButtonHeld(sf::Mouse::Left))
+        if (m_rGame.m_inputManager.IsMouseButtonHeld(sf::Mouse::Left))
         {
             m_level.AddTileRange(m_selectableTileTypes[m_selectedTileTypeIndex],
                                  GetBrushTopLeftIndex(m_currentMousePosition),
@@ -217,7 +217,7 @@ void CreatorState::HandleInput()
     m_widthTextBox.HandleInput();
     m_heightTextBox.HandleInput();
 
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Return))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Return))
     {
         // Loading
         if (m_loadLevelTextBox.HasFocus())
@@ -252,15 +252,15 @@ void CreatorState::HandleInput()
         }
     }
 
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
     {
         m_createLevelButton.OnMouseHover(m_rGame.m_inputManager.GetMousePosition(GetDefaultView()));
     }
-    if (m_rGame.m_inputManager.MouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
     {
         m_createLevelButton.OnMouseClick(m_rGame.m_inputManager.GetMousePosition(GetDefaultView()));
     }
-    if (m_rGame.m_inputManager.MouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
     {
         if (m_createLevelButton.OnMouseUnclick(m_rGame.m_inputManager.GetMousePosition(GetDefaultView())) == true)
         {
@@ -272,11 +272,11 @@ void CreatorState::HandleInput()
     if (m_loadLevelTextBox.HasFocus() || m_saveLevelTextBox.HasFocus() || m_widthTextBox.HasFocus() || m_heightTextBox.HasFocus() ||
         GetWindowMousePosition().x >= m_panel.getPosition().x)
     {
-        m_level.SetHasFocus(false);
+        m_level.SetFocus(false);
     }
     else
     {
-        m_level.SetHasFocus(true);
+        m_level.SetFocus(true);
     }
 
     m_level.HandleInput();

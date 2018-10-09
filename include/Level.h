@@ -23,8 +23,8 @@ private:
     Camera m_camera;
 
     bool m_hasFocus;
-    bool m_isCreatorMode;
-    bool m_showDebugBoxes;
+    bool m_isCreatorModeEnabled;
+    bool m_isEntityDebugBoxVisible;
 
     // Functions
     bool LoadBackground(const std::string& filename);
@@ -64,8 +64,8 @@ public:
     void ClearLayer(MapLayer layer) {m_map.ClearLayer(layer);}
 
     // Setters
-    void SetHasFocus(bool hasFocus) {m_hasFocus = hasFocus;}
-    void SetCreatorMode(bool creatorMode);
+    void SetFocus(bool hasFocus) {m_hasFocus = hasFocus;}
+    void SetCreatorModeEnabled(bool isCreatorModeEnabled);
 
     // Getters
     const sf::Vector2u& GetMapIndexDimensions() const {return m_map.GetIndexDimensions();}

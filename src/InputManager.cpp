@@ -13,7 +13,7 @@
 
 InputManager::InputManager(sf::RenderWindow& rWindow)
     : m_rWindow(rWindow),
-      m_windowHasFocus(m_rWindow.hasFocus()),
+      m_isWindowFocused(m_rWindow.hasFocus()),
       m_closedEvent(false),
       m_resizedEvent(false),
       m_lostFocusEvent(false),
@@ -78,11 +78,11 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::LostFocus:
             m_lostFocusEvent = true;
-            m_windowHasFocus = false;
+            m_isWindowFocused = false;
             break;
         case sf::Event::GainedFocus:
             m_gainedFocusEvent = true;
-            m_windowHasFocus = true;
+            m_isWindowFocused = true;
             break;
         case sf::Event::TextEntered:
             m_enteredText += event.text.unicode;
@@ -227,21 +227,21 @@ void InputManager::ResetEvents()
 // Support Mac commands as Unicode characters included in the entered text
 void InputManager::MacOsCommandsToUnicode()
 {
-    if (ModifierKeyHeld())
+    if (IsModifierKeyHeld())
     {
-        if (KeyDown(sf::Keyboard::A))
+        if (IsKeyDown(sf::Keyboard::A))
         {
             m_enteredText += static_cast<char>(1);
         }
-        else if (KeyDown(sf::Keyboard::C))
+        else if (IsKeyDown(sf::Keyboard::C))
         {
             m_enteredText += static_cast<char>(3);
         }
-        else if (KeyDown(sf::Keyboard::V))
+        else if (IsKeyDown(sf::Keyboard::V))
         {
             m_enteredText += static_cast<char>(22);
         }
-        else if (KeyDown(sf::Keyboard::X))
+        else if (IsKeyDown(sf::Keyboard::X))
         {
             m_enteredText += static_cast<char>(24);
         }
@@ -281,23 +281,23 @@ void InputManager::Update()
 
 // Keyboard getters
 
-bool InputManager::KeyHeld(sf::Keyboard::Key key) const
+bool InputManager::IsKeyHeld(sf::Keyboard::Key key) const
 {
-    if (m_windowHasFocus == false)
+    if (m_isWindowFocused == false)
     {
         return false;
     }
-    return m_keyStates[static_cast<int>(key)] || KeyDown(key);
+    return m_keyStates[static_cast<int>(key)] || IsKeyDown(key);
 }
 
-bool InputManager::KeyDown(sf::Keyboard::Key key, bool enableRepeat) const
+bool InputManager::IsKeyDown(sf::Keyboard::Key key, bool isRepeatEnabled) const
 {
-    if (m_windowHasFocus == false)
+    if (m_isWindowFocused == false)
     {
         return false;
     }
     // If repeating KeyPressed events should be ignored
-    if (enableRepeat == false && m_previousKeyStates[static_cast<int>(key)] == true)
+    if (isRepeatEnabled == false && m_previousKeyStates[static_cast<int>(key)] == true)
     {
         return false;
     }
@@ -305,59 +305,59 @@ bool InputManager::KeyDown(sf::Keyboard::Key key, bool enableRepeat) const
     return (it != m_eventPressedKeys.cend());
 }
 
-bool InputManager::KeyUp(sf::Keyboard::Key key) const
+bool InputManager::IsKeyUp(sf::Keyboard::Key key) const
 {
     std::vector<sf::Keyboard::Key>::const_iterator it = std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key);
     return (it != m_eventReleasedKeys.cend());
 }
 
-bool InputManager::ModifierKeyHeld() const
+bool InputManager::IsModifierKeyHeld() const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
         return ControlKeyHeld();
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return SystemKeyHeld();
+        return IsSystemKeyHeld();
     #endif
 }
 
-bool InputManager::ModifierKeyDown(bool enableRepeat) const
+bool InputManager::IsModifierKeyDown(bool isRepeatEnabled) const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return ControlKeyDown(enableRepeat);
+        return ControlKeyDown(isRepeatEnabled);
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return SystemKeyDown(enableRepeat);
+        return IsSystemKeyDown(isRepeatEnabled);
     #endif
 }
 
-bool InputManager::ModifierKeyUp() const
+bool InputManager::IsModifierKeyUp() const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
         return ControlKeyUp();
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return SystemKeyUp();
+        return IsSystemKeyUp();
     #endif
 }
 
 
 // Mouse getters
 
-bool InputManager::MouseButtonHeld(sf::Mouse::Button button) const
+bool InputManager::IsMouseButtonHeld(sf::Mouse::Button button) const
 {
-    if (m_windowHasFocus == false)
+    if (m_isWindowFocused == false)
     {
         return false;
     }
-    return m_mouseButtonStates[static_cast<int>(button)] || MouseButtonDown(button);
+    return m_mouseButtonStates[static_cast<int>(button)] || IsMouseButtonDown(button);
 }
 
-bool InputManager::MouseButtonDown(sf::Mouse::Button button, bool enableRepeat) const
+bool InputManager::IsMouseButtonDown(sf::Mouse::Button button, bool isRepeatEnabled) const
 {
-    if (m_windowHasFocus == false)
+    if (m_isWindowFocused == false)
     {
         return false;
     }
     // If repeating MouseButtonPressed events should be ignored
-    if (enableRepeat == false && m_previousMouseButtonStates[static_cast<int>(button)] == true)
+    if (isRepeatEnabled == false && m_previousMouseButtonStates[static_cast<int>(button)] == true)
     {
         return false;
     }
@@ -365,7 +365,7 @@ bool InputManager::MouseButtonDown(sf::Mouse::Button button, bool enableRepeat) 
     return (it != m_eventPressedMouseButtons.cend());
 }
 
-bool InputManager::MouseButtonUp(sf::Mouse::Button button) const
+bool InputManager::IsMouseButtonUp(sf::Mouse::Button button) const
 {
     std::vector<sf::Mouse::Button>::const_iterator it = std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button);
     return (it != m_eventReleasedMouseButtons.cend());
@@ -379,30 +379,30 @@ sf::Vector2f InputManager::GetMousePosition(const sf::View& view) const
 
 // Joystick getters
 
-bool InputManager::JoystickButtonHeld(unsigned int joystick, unsigned int button) const
+bool InputManager::IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const
 {
     #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
         return false;
     #else
-        if (m_windowHasFocus == false)
+        if (m_isWindowFocused == false)
         {
             return false;
         }
-        return m_joystickButtonStates[joystick][button] || JoystickButtonDown(joystick, button);
+        return m_joystickButtonStates[joystick][button] || IsJoystickButtonDown(joystick, button);
     #endif
 }
 
-bool InputManager::JoystickButtonDown(unsigned int joystick, unsigned int button, bool enableRepeat) const
+bool InputManager::IsJoystickButtonDown(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
 {
     #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
         return false;
     #else
-        if (m_windowHasFocus == false)
+        if (m_isWindowFocused == false)
         {
             return false;
         }
         // If repeating JoystickButtonPressed events should be ignored
-        if (enableRepeat == false && m_previousJoystickButtonStates[joystick][button] == true)
+        if (isRepeatEnabled == false && m_previousJoystickButtonStates[joystick][button] == true)
         {
             return false;
         }
@@ -411,7 +411,7 @@ bool InputManager::JoystickButtonDown(unsigned int joystick, unsigned int button
     #endif
 }
 
-bool InputManager::JoystickButtonUp(unsigned int joystick, unsigned int button) const
+bool InputManager::IsJoystickButtonUp(unsigned int joystick, unsigned int button) const
 {
     #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
         return false;

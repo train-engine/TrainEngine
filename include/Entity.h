@@ -33,7 +33,7 @@ private:
 
     sf::RectangleShape m_collisionBox;
     sf::RectangleShape m_tileReactionDot;
-    bool m_showDebugBox;
+    bool m_isDebugBoxVisible;
 
     sf::Vector2f m_position;
     sf::Vector2f m_previousPosition;
@@ -49,7 +49,7 @@ private:
     bool m_isEntityCollideable;
 
     bool m_isFacingRight;
-    bool m_canGravitate;
+    bool m_isGravityApplied;
     bool m_isOnGround;
 
     bool m_isPressingUp;
@@ -96,7 +96,7 @@ protected:
     void ApplyDeceleration();
     void ApplyGravity();
     void MaxVelocityCap();
-    void MapEdgeCollision(bool applyHorizCollision = true, bool applyVertCollision = true);
+    void MapEdgeCollision(bool isHorizCollisionEnabled = true, bool isVertCollisionEnabled = true);
     void PerformCollisions();
 
     // Setters
@@ -123,7 +123,7 @@ public:
     // Constructor and destructor
     Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType,
            const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity = {10, 64},
-           float acceleration = 1, float deceleration = 3, float jumpForce = 18, bool applyGravity = true,
+           float acceleration = 1, float deceleration = 3, float jumpForce = 18, bool isGravityApplied = true,
            bool isTileCollideable = false, bool isEntityCollideable = false);
     virtual ~Entity() {}
 
@@ -136,7 +136,7 @@ public:
     void AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite);
 
     // Setters
-    void SetShowDebugBox(bool showDebugBox) {m_showDebugBox = showDebugBox;}
+    void SetDebugBoxVisible(bool isDebugBoxVisible) {m_isDebugBoxVisible = isDebugBoxVisible;}
 
     void SetPosition(const sf::Vector2f& position) {m_position = position;}
     void SetHorizPosition(float horizPosition) {m_position.x = horizPosition;}

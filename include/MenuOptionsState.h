@@ -14,7 +14,7 @@ private:
 
     GuiTextSlider m_soundSlider;
 
-    bool m_updateSoundSettings;
+    bool m_mustUpdateSoundSettings;
 
     // Destructor
     virtual ~MenuOptionsState() override;

@@ -6,13 +6,17 @@
 #include "FileManager.h"
 #include "State.h"
 
+namespace
+{
+    const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
+}
+
 /// Initialize the window and main systems
 GameEngine::GameEngine()
     : m_window(),
       m_minWindowDimensions(800, 600),
       m_stateChanged(false),
-      m_powerSaver(true),
-      m_sleepImprecision(sf::microseconds(1500)),
+      m_isPowerSaverEnabled(true),
       m_maxUpdatesBehind(10),
       m_loopDebugOverlay(m_resourceManager.GetFont("altFont")),
       m_inputManager(m_window)
@@ -34,10 +38,10 @@ GameEngine::GameEngine()
         bool isFullscreen = false;
         inputFile >> isFullscreen;
 
-        bool vSyncEnabled = false;
-        inputFile >> vSyncEnabled;
+        bool isVSyncEnabled = false;
+        inputFile >> isVSyncEnabled;
 
-        inputFile >> m_powerSaver;
+        inputFile >> m_isPowerSaverEnabled;
 
         unsigned int targetFps = 60;
         inputFile >> targetFps;
@@ -54,7 +58,7 @@ GameEngine::GameEngine()
         sf::ContextSettings contextSettings = sf::ContextSettings(0, 0, antiAliasingLevel);
 
         m_window.create(sf::VideoMode::getFullscreenModes()[fullscreenModeIndex], "TrainEngine", style, contextSettings);
-        m_window.setVerticalSyncEnabled(vSyncEnabled);
+        m_window.setVerticalSyncEnabled(isVSyncEnabled);
         SetTargetFps(targetFps);
 
         std::cout << "Successfully read graphics settings.\n";
@@ -228,18 +232,18 @@ void GameEngine::GameLoop()
         if (Peek() != nullptr)
         {
             // CPU sleep
-            if (m_powerSaver == true)
+            if (m_isPowerSaverEnabled == true)
             {
                 // Sleep if the next update is sooner than the next draw and the time before the next update is greater than the sleep imprecision
-                if (m_timePerUpdate - m_updateLag <= m_timePerDraw - m_drawLag && m_timePerUpdate - m_updateLag > m_sleepImprecision)
+                if (m_timePerUpdate - m_updateLag <= m_timePerDraw - m_drawLag && m_timePerUpdate - m_updateLag > sleepImprecision)
                 {
-                    sf::Time timeToSleepFor = m_timePerUpdate - m_updateLag - m_sleepImprecision;
+                    sf::Time timeToSleepFor = m_timePerUpdate - m_updateLag - sleepImprecision;
                     std::this_thread::sleep_for(std::chrono::microseconds(timeToSleepFor.asMicroseconds()));
                 }
                 // Sleep if the next draw is sooner than the next update and the time before the next draw is greater than the sleep imprecision
-                else if (m_timePerUpdate - m_updateLag > m_timePerDraw - m_drawLag && m_timePerDraw - m_drawLag > m_sleepImprecision)
+                else if (m_timePerUpdate - m_updateLag > m_timePerDraw - m_drawLag && m_timePerDraw - m_drawLag > sleepImprecision)
                 {
-                    sf::Time timeToSleepFor = m_timePerDraw - m_drawLag - m_sleepImprecision;
+                    sf::Time timeToSleepFor = m_timePerDraw - m_drawLag - sleepImprecision;
                     std::this_thread::sleep_for(std::chrono::microseconds(timeToSleepFor.asMicroseconds()));
                 }
             }
@@ -264,7 +268,7 @@ void GameEngine::GameLoop()
                 m_inputManager.Update();
 
                 // Window resizing
-                if (m_inputManager.DetectResizedEvent())
+                if (m_inputManager.DetectedResizedEvent())
                 {
                     OnWindowResize();
                     State::ResizeLayout(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));

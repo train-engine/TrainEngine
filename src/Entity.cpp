@@ -8,7 +8,7 @@ namespace
 
 Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType,
                const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity,
-               float acceleration, float deceleration, float jumpForce, bool applyGravity,
+               float acceleration, float deceleration, float jumpForce, bool isGravityApplied,
                bool isTileCollideable, bool isEntityCollideable)
     : m_rMap(rMap),
       m_rEntities(rEntities),
@@ -16,7 +16,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
       m_state(EntityState::Still),
       m_collisionBox(dimensions),
       m_tileReactionDot(sf::Vector2f(1, 1)),
-      m_showDebugBox(false),
+      m_isDebugBoxVisible(false),
       m_position(position),
       m_previousPosition(position),
       m_dimensions(dimensions),
@@ -27,7 +27,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
       m_isTileCollideable(isTileCollideable),
       m_isEntityCollideable(isEntityCollideable),
       m_isFacingRight(true),
-      m_canGravitate(applyGravity),
+      m_isGravityApplied(isGravityApplied),
       m_isOnGround(false),
       m_isPressingUp(false),
       m_isPressingDown(false),
@@ -272,14 +272,14 @@ void Entity::MoveRight()
 
 void Entity::Jump()
 {
-    SetVertVelocity(GetVelocity().y - m_jumpForce);
+    SetVertVelocity(-m_jumpForce);
 }
 
 void Entity::Climb(float factor)
 {
     if (m_isPressingUp == true)
     {
-        SetVertVelocity(GetVelocity().y - (m_defaultClimbSpeed * factor));
+        SetVertVelocity(-m_defaultClimbSpeed * factor);
         m_state = EntityState::Climbing;
     }
     else
@@ -325,7 +325,7 @@ void Entity::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     {
         rTarget.draw(m_defaultSprite, states);
     }
-    if (m_showDebugBox == true)
+    if (m_isDebugBoxVisible == true)
     {
         rTarget.draw(m_collisionBox, states);
         rTarget.draw(m_tileReactionDot, states);
@@ -343,7 +343,7 @@ void Entity::ApplyDeceleration()
 // Apply gravity to the Entity
 void Entity::ApplyGravity()
 {
-    if (m_canGravitate == true) m_velocity.y += gravity;
+    if (m_isGravityApplied == true) m_velocity.y += gravity;
 }
 
 // Cap the Entity's velocity
@@ -356,7 +356,7 @@ void Entity::MaxVelocityCap()
 }
 
 // Apply collision with the edges of the Map
-void Entity::MapEdgeCollision(bool applyHorizCollision, bool applyVertCollision)
+void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollisionEnabled)
 {
     // If Map is null
     if (m_rMap.IsNull())
@@ -364,7 +364,7 @@ void Entity::MapEdgeCollision(bool applyHorizCollision, bool applyVertCollision)
         return;
     }
     
-    if (applyHorizCollision == true)
+    if (isHorizCollisionEnabled == true)
     {
         if (m_position.x - m_dimensions.x / 2 + m_velocity.x <= 0)
         {
@@ -377,7 +377,7 @@ void Entity::MapEdgeCollision(bool applyHorizCollision, bool applyVertCollision)
             m_velocity.x = 0;
         }
     }
-    if (applyVertCollision == true)
+    if (isVertCollisionEnabled == true)
     {
         if (m_position.y - m_dimensions.y / 2 + m_velocity.y <= 0)
         {

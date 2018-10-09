@@ -98,25 +98,25 @@ void MainMenuState::ReadMusicSettings()
 
 void MainMenuState::HandleInput()
 {
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::P))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::P))
     {
         // Start game
         LoadPlayStart("data/levels/level2");
         return;
     }
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::C))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::C))
     {
         // Start Level creator
         CreatorStart();
         return;
     }
 
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent() || m_rGame.m_inputManager.DetectTouchMovedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
@@ -124,7 +124,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonDown(sf::Mouse::Left) || m_rGame.m_inputManager.DetectTouchBeganEvent() || m_rGame.m_inputManager.DetectTouchMovedEvent())
+    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchBeganEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
@@ -132,7 +132,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.MouseButtonUp(sf::Mouse::Left) || m_rGame.m_inputManager.DetectTouchEndedEvent())
+    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchEndedEvent())
     {
         for (unsigned int i = 0; i < m_buttons.size(); i++)
         {

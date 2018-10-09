@@ -20,23 +20,23 @@ State::State(GameEngine& rGame)
 // Called only by the GameEngine before derived States' HandleInput()
 void State::BaseHandleInput()
 {
-    if (m_rGame.m_inputManager.DetectClosedEvent() && m_stateSettings.isCloseable == true)
+    if (m_rGame.m_inputManager.DetectedClosedEvent() && m_stateSettings.isCloseable == true)
     {
         m_rGame.Quit();
     }
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent() ||
-        m_rGame.m_inputManager.DetectTouchBeganEvent() || m_rGame.m_inputManager.DetectTouchMovedEvent() ||
-        m_rGame.m_inputManager.DetectResizedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent() ||
+        m_rGame.m_inputManager.DetectedTouchBeganEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent() ||
+        m_rGame.m_inputManager.DetectedResizedEvent())
     {
         s_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.m_inputManager.GetWindowMousePosition());
     }
 
     // Debug
-    if (m_rGame.m_inputManager.ControlKeyHeld() && m_rGame.m_inputManager.KeyDown(sf::Keyboard::Num1))
+    if (m_rGame.m_inputManager.IsControlKeyHeld() && m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Num1))
     {
         m_rGame.ToggleDebugOverlay();
     }
-    if (m_rGame.m_inputManager.ControlKeyHeld() && m_rGame.m_inputManager.KeyDown(sf::Keyboard::Num2))
+    if (m_rGame.m_inputManager.IsControlKeyHeld() && m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Num2))
     {
         // Debug mode (slow tick velocity)
         if (static_cast<unsigned int>(m_rGame.GetTargetUps()) == 60)

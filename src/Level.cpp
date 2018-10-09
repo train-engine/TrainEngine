@@ -14,8 +14,8 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
       m_map(m_resourceManager),
       m_camera(m_map, static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions())),
       m_hasFocus(true),
-      m_isCreatorMode(false),
-      m_showDebugBoxes(false)
+      m_isCreatorModeEnabled(false),
+      m_isEntityDebugBoxVisible(false)
 {
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
     m_camera.SetFollowLerp(0.2);
@@ -414,17 +414,17 @@ void Level::HandleInput()
     }
 
     // Show debug boxes
-    if (m_inputManager.KeyDown(sf::Keyboard::BackSlash))
+    if (m_inputManager.IsKeyDown(sf::Keyboard::BackSlash))
     {
-        m_showDebugBoxes = !m_showDebugBoxes;
+        m_isEntityDebugBoxVisible = !m_isEntityDebugBoxVisible;
         for (const auto pEntity : m_entities)
         {
-            pEntity->SetShowDebugBox(m_showDebugBoxes);
+            pEntity->SetDebugBoxVisible(m_isEntityDebugBoxVisible);
         }
     }
 
     // Entities
-    if (m_isCreatorMode == false)
+    if (m_isCreatorModeEnabled == false)
     {
         for (const auto& pEntity : m_entities)
         {
@@ -434,28 +434,28 @@ void Level::HandleInput()
 
     // Camera manual control
     float cameraSpeed = 5 * m_camera.GetZoom();
-    if (m_inputManager.KeyHeld(sf::Keyboard::I))
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::I))
     {
         m_camera.Move({0, -cameraSpeed});
     }
-    if (m_inputManager.KeyHeld(sf::Keyboard::J))
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::J))
     {
         m_camera.Move({-cameraSpeed, 0});
     }
-    if (m_inputManager.KeyHeld(sf::Keyboard::K))
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::K))
     {
         m_camera.Move({0, cameraSpeed});
     }
-    if (m_inputManager.KeyHeld(sf::Keyboard::L))
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::L))
     {
         m_camera.Move({cameraSpeed, 0});
     }
 
-    if (m_inputManager.MouseButtonDown(sf::Mouse::Middle))
+    if (m_inputManager.IsMouseButtonDown(sf::Mouse::Middle))
     {
         m_camera.SetTranslate(m_camera.GetPosition(), GetLevelMousePosition(), 60, true);
     }
-    if (m_camera.GetMode() == CameraMode::Static && m_inputManager.KeyDown(sf::Keyboard::Q))
+    if (m_camera.GetMode() == CameraMode::Static && m_inputManager.IsKeyDown(sf::Keyboard::Q))
     {
         if (!m_entities.empty() && m_entities[0] != nullptr)
         {
@@ -464,13 +464,13 @@ void Level::HandleInput()
     }
 
     // Camera zoom
-    if (m_inputManager.DetectMouseWheelScrolledEvent())
+    if (m_inputManager.DetectedMouseWheelScrolledEvent())
     {
         m_camera.Zoom(1 - m_inputManager.GetMouseWheelDelta() * 0.05);
     }
 
     // Print the mouse cursor's position when space is held (for testing)
-    if (m_inputManager.KeyHeld(sf::Keyboard::Space))
+    if (m_inputManager.IsKeyHeld(sf::Keyboard::Space))
     {
         std::cout << "Mouse position: " << GetLevelMousePosition().x << ", " << GetLevelMousePosition().y << '\n';
     }
@@ -480,7 +480,7 @@ void Level::Update()
 {
     m_map.Update();
 
-    if (m_isCreatorMode == false)
+    if (m_isCreatorModeEnabled == false)
     {
         for (const auto& pEntity : m_entities)
         {
@@ -523,7 +523,7 @@ bool Level::Load(const std::string& levelDirectory)
     {
         m_camera.SetBounds(static_cast<sf::Vector2f>(m_map.GetBounds()));
 
-        if (m_isCreatorMode == false)
+        if (m_isCreatorModeEnabled == false)
         {
             if (!m_entities.empty())
             {
@@ -564,12 +564,12 @@ void Level::OnWindowResize()
     m_camera.SetDimensions(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
 }
 
-void Level::SetCreatorMode(bool creatorMode)
+void Level::SetCreatorModeEnabled(bool isCreatorModeEnabled)
 {
-    m_map.SetShowGrid(creatorMode);
-    m_camera.SetBoundless(true);
-    m_isCreatorMode = creatorMode;
-    if (m_isCreatorMode == true)
+    m_isCreatorModeEnabled = isCreatorModeEnabled;
+    m_map.SetGridVisible(m_isCreatorModeEnabled);
+    m_camera.SetBoundless(m_isCreatorModeEnabled);
+    if (m_isCreatorModeEnabled == true)
     {
         m_camera.SetMaxDimensions({7680, 4320});
     }

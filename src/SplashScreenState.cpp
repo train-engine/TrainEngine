@@ -33,7 +33,7 @@ void SplashScreenState::MainMenuStart()
 
 void SplashScreenState::HandleInput()
 { 
-    if (m_rGame.m_inputManager.DetectKeyDownEvent() || m_rGame.m_inputManager.DetectMouseButtonUpEvent())
+    if (m_rGame.m_inputManager.DetectedKeyDownEvent() || m_rGame.m_inputManager.DetectedMouseButtonUpEvent())
     {
         // Go to main menu
         MainMenuStart();

@@ -15,7 +15,7 @@ private:
     float m_frameDuration;
     unsigned int m_currentFrameIndex;
     unsigned int m_totalFrames;
-    bool m_looping;
+    bool m_isLoopingEnabled;
     bool m_isFlippable;
     bool m_isPlaying;
 
@@ -25,7 +25,7 @@ private:
 
 public:
     // Constructor
-    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration = 5, bool looping = true, bool isFlippable = true);
+    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration = 5, bool isLoopingEnabled = true, bool isFlippable = true);
     
     // Functions
     void Update(bool flipSprite);

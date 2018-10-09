@@ -11,11 +11,11 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
         m_hasFocus(false),
         m_isReadOnly(false),
         m_isDigitsOnly(false),
-        m_isPasswordMode(false),
+        m_isPasswordModeEnabled(false),
         m_passwordChar(8226),
         m_cursorIndex(0),
         m_selectionStartIndex(0),
-        m_drawCursor(true),
+        m_isCursorVisible(true),
         m_cursorTickCount(0),
         m_cursorBlinkSpeed(30),
         m_dragCursorProgress(0),
@@ -71,7 +71,7 @@ void TextBox::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     rTarget.draw(m_renderSprite, states);
     rTarget.draw(m_hideBoxLeft);
     rTarget.draw(m_hideBoxRight);
-    if (m_hasFocus == true && m_drawCursor == true)
+    if (m_hasFocus == true && m_isCursorVisible == true)
     {
         rTarget.draw(m_cursor);
     }
@@ -106,7 +106,7 @@ void TextBox::CenterText()
 void TextBox::SetDisplayText(const sf::String& text)
 {
     m_text = text;
-    if (m_isPasswordMode == true)
+    if (m_isPasswordModeEnabled == true)
     {
         sf::String passwordDisplayText = m_text;
         for (auto& rChar : passwordDisplayText)
@@ -124,7 +124,7 @@ void TextBox::SetDisplayText(const sf::String& text)
 void TextBox::UpdateCursor()
 {
     // If the left or right arrows are pressed
-    if (m_rInputManager.KeyDown(sf::Keyboard::Left, true) || m_rInputManager.KeyDown(sf::Keyboard::Right, true))
+    if (m_rInputManager.IsKeyDown(sf::Keyboard::Left, true) || m_rInputManager.IsKeyDown(sf::Keyboard::Right, true))
     {
         ControlCursorArrow();
         SetTextPosition();
@@ -135,13 +135,13 @@ void TextBox::UpdateCursor()
             SetSelectionBounds();
         }
     }
-    if (m_rInputManager.MouseButtonHeld(sf::Mouse::Left) || m_rInputManager.MouseButtonDown(sf::Mouse::Left))
+    if (m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) || m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
     {
         if (m_rInputManager.GetWindowMousePosition().x > m_box.getPosition().x &&
             m_rInputManager.GetWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
         {
-            if ((m_rInputManager.MouseButtonHeld(sf::Mouse::Left) && m_rInputManager.DetectMouseMovedEvent()) ||
-                 m_rInputManager.MouseButtonDown(sf::Mouse::Left))
+            if ((m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) && m_rInputManager.DetectedMouseMovedEvent()) ||
+                 m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
             {
                 ControlCursorMouse();
             }
@@ -154,7 +154,7 @@ void TextBox::UpdateCursor()
         DrawTexture();
         SetCursorPosition();
         // Reset selection on mouse click
-        if (m_rInputManager.MouseButtonDown(sf::Mouse::Left))
+        if (m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
         {
             ResetSelection();
         }
@@ -181,14 +181,14 @@ void TextBox::SetCursorPosition()
 void TextBox::MoveCursorRight()
 {
     m_cursorIndex++;
-    m_drawCursor = true;
+    m_isCursorVisible = true;
     m_cursorTickCount = 0;
 }
 
 void TextBox::MoveCursorLeft()
 {
     m_cursorIndex--;
-    m_drawCursor = true;
+    m_isCursorVisible = true;
     m_cursorTickCount = 0;
 }
 
@@ -197,10 +197,10 @@ void TextBox::MoveCursorLeft()
 void TextBox::ControlCursorArrow()
 {
     // If left arrow key is pressed
-    if (m_rInputManager.KeyDown(sf::Keyboard::Left, true))
+    if (m_rInputManager.IsKeyDown(sf::Keyboard::Left, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.ShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -210,14 +210,14 @@ void TextBox::ControlCursorArrow()
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
-            m_drawCursor = true;
+            m_isCursorVisible = true;
             m_cursorTickCount = 0;
         }
         // If there is no selection and the cursor has space to go left
         else if (m_cursorIndex > 0)
         {
             // Modifier key
-            if (m_rInputManager.ModifierKeyHeld())
+            if (m_rInputManager.IsModifierKeyHeld())
             {
                 // Loop through text
                 MoveCursorToPreviousSpace();
@@ -226,17 +226,17 @@ void TextBox::ControlCursorArrow()
             {
                 MoveCursorLeft();
             }
-            if (!m_rInputManager.ShiftKeyHeld())
+            if (!m_rInputManager.IsShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
         }
     }
     // If the right arrow key is pressed
-    else if (m_rInputManager.KeyDown(sf::Keyboard::Right, true))
+    else if (m_rInputManager.IsKeyDown(sf::Keyboard::Right, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.ShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -246,14 +246,14 @@ void TextBox::ControlCursorArrow()
             {
                 m_cursorIndex = m_selectionStartIndex;
             }
-            m_drawCursor = true;
+            m_isCursorVisible = true;
             m_cursorTickCount = 0;
         }
         // If there is no selection and the cursor has space to go right
         else if (m_cursorIndex < m_displayText.getString().getSize())
         {
             // Modifier key
-            if (m_rInputManager.ModifierKeyHeld())
+            if (m_rInputManager.IsModifierKeyHeld())
             {
                 MoveCursorToNextSpace();
             }
@@ -261,7 +261,7 @@ void TextBox::ControlCursorArrow()
             {
                 MoveCursorRight();
             }
-            if (!m_rInputManager.ShiftKeyHeld())
+            if (!m_rInputManager.IsShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
@@ -273,7 +273,7 @@ void TextBox::ControlCursorArrow()
 void TextBox::ControlCursorMouse()
 {
     m_cursorTickCount = 0;
-    m_drawCursor = true;
+    m_isCursorVisible = true;
 
     sf::Vector2f mousePosition = static_cast<sf::Vector2f>(m_rInputManager.GetWindowMousePosition());
     sf::Vector2f cursorPosition = m_cursor.getPosition();
@@ -351,11 +351,11 @@ void TextBox::DragCursor()
 
 void TextBox::UpdateText()
 {
-    if (m_rInputManager.DetectTextEnteredEvent() || m_rInputManager.KeyDown(sf::Keyboard::Delete, true))
+    if (m_rInputManager.DetectedTextEnteredEvent() || m_rInputManager.IsKeyDown(sf::Keyboard::Delete, true))
     {
-        m_drawCursor = true;
+        m_isCursorVisible = true;
         m_cursorTickCount = 0;
-        for (const auto& enteredChar : m_rInputManager.GetTextEntered())
+        for (const auto& enteredChar : m_rInputManager.GetEnteredText())
         {
             // If the text entered is not an undesirable character
             if ((m_isDigitsOnly == false && (IsCharacterAccepted(enteredChar) ||
@@ -457,7 +457,7 @@ void TextBox::UpdateText()
                         {
                             if (m_cursorIndex > 0)
                             {
-                                if (m_rInputManager.ShiftKeyHeld())
+                                if (m_rInputManager.IsShiftKeyHeld())
                                 {
                                     m_cursorIndex = 0;
                                     DeleteSelection();
@@ -492,12 +492,12 @@ void TextBox::UpdateText()
                 SetCursorPosition();
             }
         }
-        if (m_rInputManager.KeyDown(sf::Keyboard::Delete, true))
+        if (m_rInputManager.IsKeyDown(sf::Keyboard::Delete, true))
         {
             if (m_cursorIndex < m_displayText.getString().getSize())
             {
                 sf::String text = m_displayText.getString();
-                if (m_rInputManager.ModifierKeyHeld())
+                if (m_rInputManager.IsModifierKeyHeld())
                 {
                     MoveCursorToNextSpace();
                     DeleteSelection();
@@ -662,7 +662,7 @@ void TextBox::Update()
         m_cursorTickCount++;
         if (m_cursorTickCount >= m_cursorBlinkSpeed)
         {
-            m_drawCursor = (!m_drawCursor);
+            m_isCursorVisible = (!m_isCursorVisible);
             m_cursorTickCount = 0;
         }
     }
@@ -679,10 +679,10 @@ void TextBox::HandleInput()
         }
 
         // Check if there is a mouse press
-        if (m_rInputManager.MouseButtonDown(sf::Mouse::Left))
+        if (m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
         {
-            bool mouseIsInsideBox = CheckMousePosition();
-            if (mouseIsInsideBox == true && m_hasFocus == false)
+            bool isMouseInsideBox = CheckMousePosition();
+            if (isMouseInsideBox == true && m_hasFocus == false)
             {
                 m_hasFocus = true;
                 ControlCursorMouse();
@@ -690,7 +690,7 @@ void TextBox::HandleInput()
                 m_box.setOutlineColor(m_outlineColorFocused);
                 ResetSelection();
             }
-            else if (mouseIsInsideBox == false && m_hasFocus == true)
+            else if (isMouseInsideBox == false && m_hasFocus == true)
             {
                 m_hasFocus = false;
                 m_box.setOutlineColor(m_outlineColor);
@@ -699,7 +699,7 @@ void TextBox::HandleInput()
         }
 
         // Check if the window lost focus
-        if (m_rInputManager.DetectLostFocusEvent())
+        if (m_rInputManager.DetectedLostFocusEvent())
         {
             m_hasFocus = false;
             m_box.setOutlineColor(m_outlineColor);
@@ -795,11 +795,11 @@ void TextBox::SetText(const sf::String& text)
     DrawTexture();
 }
 
-void TextBox::SetFocus(bool focus)
+void TextBox::SetFocus(bool hasFocus)
 {
-    if (m_hasFocus != focus)
+    if (m_hasFocus != hasFocus)
     {
-        m_hasFocus = focus;
+        m_hasFocus = hasFocus;
         if (m_hasFocus == true)
         {
             m_box.setOutlineColor(m_outlineColorFocused);
@@ -811,8 +811,8 @@ void TextBox::SetFocus(bool focus)
     }
 }
 
-void TextBox::SetPasswordMode(bool passwordMode)
+void TextBox::SetPasswordModeEnabled(bool isPasswordModeEnabled)
 {
-    m_isPasswordMode = passwordMode;
+    m_isPasswordModeEnabled = isPasswordModeEnabled;
     SetDisplayText(m_text);
 }

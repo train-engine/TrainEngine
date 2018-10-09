@@ -29,26 +29,26 @@ PauseState::~PauseState()
 
 void PauseState::HandleInput()
 {
-    if (m_rGame.m_inputManager.KeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.DetectMouseMovedEvent())
+    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
             rButton.OnMouseHover(GetWindowMousePosition());
         }
     }
-    if (m_rGame.m_inputManager.MouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
     {
         for (auto& rButton : m_buttons)
         {
             rButton.OnMouseClick(GetWindowMousePosition());
         }
     }
-    if (m_rGame.m_inputManager.MouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
     {
         for (unsigned int i = 0; i < m_buttons.size(); i++)
         {
