@@ -63,14 +63,14 @@ private:
     float m_defaultDescentSpeed;
 
     // Collisions and interactions
-    void TileCollision(const Tile* const pTile);
-    void EntityCollision(const Entity* const pEntity);
-    void TileReaction(Tile* const pTile);
-    void EntityReaction(Entity* const pEntity);
+    void TileCollision(const Tile* pTile);
+    void EntityCollision(const Entity* pEntity);
+    void TileReaction(Tile* pTile);
+    void EntityReaction(Entity* pEntity);
 
     // TileCollision functions (overrideable)
-    virtual void StandardCollision(const Tile* const pTile);
-    virtual void LadderTopCollision(const Tile* const pTile);
+    virtual void StandardCollision(const Tile* pTile);
+    virtual void LadderTopCollision(const Tile* pTile);
 
     // EntityCollision functions (overrideable)
     // ---
@@ -79,7 +79,7 @@ private:
     // ---
 
     // EntityReaction functions (overrideable)
-    virtual void PlayerReaction(Entity* const pEntity) {}
+    virtual void PlayerReaction(Entity* pEntity) {}
 
     // Movement
     void MoveLeft();

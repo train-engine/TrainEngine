@@ -47,8 +47,8 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
     m_tileReactionDot.setFillColor(sf::Color::Cyan);
 }
 
-// Apply collision with a const pointer to a const Tile
-void Entity::TileCollision(const Tile* const pTile)
+// Apply collision with a pointer to a const Tile
+void Entity::TileCollision(const Tile* pTile)
 {
     // If the Tile is null
     if (pTile == nullptr)
@@ -69,14 +69,14 @@ void Entity::TileCollision(const Tile* const pTile)
     }
 }
 
-// Apply collision with a const pointer to a const Entity
-void Entity::EntityCollision(const Entity* const pEntity)
+// Apply collision with a pointer to a const Entity
+void Entity::EntityCollision(const Entity* pEntity)
 {
     // TO DO
 }
 
-// Perform reactions with a const pointer to a Tile
-void Entity::TileReaction(Tile* const pTile)
+// Perform reactions with a pointer to a Tile
+void Entity::TileReaction(Tile* pTile)
 {
     if (pTile == nullptr)
     {
@@ -98,8 +98,8 @@ void Entity::TileReaction(Tile* const pTile)
     }
 }
 
-// Perform reactions with a const pointer to an Entity
-void Entity::EntityReaction(Entity* const pEntity)
+// Perform reactions with a pointer to an Entity
+void Entity::EntityReaction(Entity* pEntity)
 {
     switch (pEntity->GetEntityType())
     {
@@ -112,7 +112,7 @@ void Entity::EntityReaction(Entity* const pEntity)
 }
 
 // Collision used for Tiles that have collision for all four sides
-void Entity::StandardCollision(const Tile* const pTile)
+void Entity::StandardCollision(const Tile* pTile)
 {
     sf::Vector2f tilePosition = pTile->GetPosition();
     sf::Vector2f tileDimensions = pTile->GetDimensions();
@@ -227,7 +227,7 @@ void Entity::StandardCollision(const Tile* const pTile)
 }
 
 // Collision used for LadderTop Tiles that have collision for all four sides
-void Entity::LadderTopCollision(const Tile* const pTile)
+void Entity::LadderTopCollision(const Tile* pTile)
 {
     sf::Vector2f tilePosition = pTile->GetPosition();
     sf::Vector2f tileDimensions = pTile->GetDimensions();
@@ -507,7 +507,7 @@ void Entity::Update()
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (unsigned int i = 0; i < tileReactionPoints.size(); i++)
     {
-        Tile* const pTile = m_rMap.GetTilePtr(m_rMap.CoordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
+        Tile* pTile = m_rMap.GetTilePtr(m_rMap.CoordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
         if (pTile != nullptr)
         {
             TileReaction(pTile);
