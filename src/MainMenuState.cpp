@@ -82,7 +82,7 @@ void MainMenuState::ReadMusicSettings()
 {
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-    if (inputFile.is_open())
+    if (inputFile)
     {
         bool isMuted = 0;
         inputFile >> isMuted;

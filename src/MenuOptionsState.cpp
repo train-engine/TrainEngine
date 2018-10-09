@@ -26,7 +26,7 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     // Music settings
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-    if (inputFile.is_open())
+    if (inputFile)
     {
         bool isMuted = 0;
         inputFile >> isMuted;
@@ -77,7 +77,7 @@ void MenuOptionsState::Update()
     {
         std::ofstream outputFile;
         outputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
-        if (outputFile.is_open())
+        if (outputFile)
         {
             if (m_soundSlider.GetValue() == 0)
             {

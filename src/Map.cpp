@@ -146,7 +146,7 @@ bool Map::Load(const std::string& filename)
 
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + filename);
-    if (inputFile.is_open())
+    if (inputFile)
     {
         std::cout << "Loading Map...\n";
         inputFile >> m_indexDimensions.x >> m_indexDimensions.y >> m_tileSize;
@@ -253,7 +253,7 @@ bool Map::Load(const std::string& filename)
 bool Map::Save(const std::string& filename)
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
-    if (outputFile.is_open())
+    if (outputFile)
     {
         std::cout << "Saving Map...\n";
         outputFile << m_indexDimensions.x << '\n' << m_indexDimensions.y << '\n' << m_tileSize << '\n';

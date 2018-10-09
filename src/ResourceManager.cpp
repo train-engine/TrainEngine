@@ -32,7 +32,7 @@ bool ResourceManager::LoadInitialResources()
         std::istringstream inf(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
     #else
         std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
-        if (!inputFile.is_open())
+        if (!inputFile)
         {
             std::cout << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
                          "Initial resources loading failed.\n\n";

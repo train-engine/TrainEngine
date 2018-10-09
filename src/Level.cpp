@@ -34,7 +34,7 @@ bool Level::LoadBackground(const std::string& filename)
 {
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + filename);
-    if (inputFile.is_open())
+    if (inputFile)
     {
         std::cout << "Loading background...\n";
 
@@ -211,7 +211,7 @@ bool Level::SaveBackground(const std::string& filename)
 {
     std::ofstream outputFile;
     outputFile.open(FileManager::ResourcePath() + filename);
-    if (outputFile.is_open())
+    if (outputFile)
     {
         std::cout << "Saving background...\n";
         outputFile << "# Syntax:\n"
@@ -263,7 +263,7 @@ bool Level::LoadEntities(const std::string& filename)
 
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + filename);
-    if (inputFile.is_open())
+    if (inputFile)
     {
         std::cout << "Loading Entities...\n";
         unsigned int entityCount = 0;
@@ -312,7 +312,7 @@ bool Level::SaveEntities(const std::string& filename)
 {
     std::ofstream outputFile;
     outputFile.open(FileManager::ResourcePath() + filename);
-    if (outputFile.is_open())
+    if (outputFile)
     {
         std::cout << "Saving Entities...\n";
         outputFile << m_entities.size() << '\n';
@@ -348,7 +348,7 @@ bool Level::SaveResources(const std::string& filename)
 {
     std::ofstream outputFile;
     outputFile.open(FileManager::ResourcePath() + filename);
-    if (outputFile.is_open())
+    if (outputFile)
     {
         std::cout << "Saving resources...\n";
         std::vector<std::string> resources;

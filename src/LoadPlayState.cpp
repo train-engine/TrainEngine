@@ -54,7 +54,7 @@ void LoadPlayState::LoadResources()
 {
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + m_levelDirectory + "/resources.txt");
-    if (inputFile.is_open())
+    if (inputFile)
     {
         std::cout << "\nLoading resources...\n";
         

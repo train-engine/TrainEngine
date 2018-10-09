@@ -26,7 +26,7 @@ GameEngine::GameEngine()
 
     // Graphics settings
     std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
-    if (inputFile.is_open())
+    if (inputFile)
     {
         unsigned int fullscreenModeIndex = 0;
         inputFile >> fullscreenModeIndex;
