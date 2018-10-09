@@ -239,9 +239,6 @@
 		<Unit filename="../../include/Camera.h">
 			<Option virtualFolder="Level/" />
 		</Unit>
-		<Unit filename="../../include/CharacterEntity.h">
-			<Option virtualFolder="Level/Entities/" />
-		</Unit>
 		<Unit filename="../../include/CreatorState.h">
 			<Option virtualFolder="States/" />
 		</Unit>
@@ -308,15 +305,14 @@
 		<Unit filename="../../include/Tile.h">
 			<Option virtualFolder="Level/Map/" />
 		</Unit>
-		<Unit filename="../../include/Utility.h" />
+		<Unit filename="../../include/Utility.h">
+			<Option virtualFolder="Misc/" />
+		</Unit>
 		<Unit filename="../../src/AnimatedSprite.cpp">
 			<Option virtualFolder="Misc/" />
 		</Unit>
 		<Unit filename="../../src/Camera.cpp">
 			<Option virtualFolder="Level/" />
-		</Unit>
-		<Unit filename="../../src/CharacterEntity.cpp">
-			<Option virtualFolder="Level/Entities/" />
 		</Unit>
 		<Unit filename="../../src/CreatorState.cpp">
 			<Option virtualFolder="States/" />
@@ -384,7 +380,9 @@
 		<Unit filename="../../src/Tile.cpp">
 			<Option virtualFolder="Level/Map/" />
 		</Unit>
-		<Unit filename="../../src/Utility.cpp" />
+		<Unit filename="../../src/Utility.cpp">
+			<Option virtualFolder="Misc/" />
+		</Unit>
 		<Unit filename="../../src/main.cpp">
 			<Option virtualFolder="GameEngine/" />
 		</Unit>
