@@ -26,7 +26,6 @@ private:
     mutable sf::RectangleShape m_vertGridLine;
 
     sf::Vector2u m_indexDimensions;
-    const sf::Vector2u m_maxDimensions;
     const unsigned int m_layerCount; // Set to MapLayer::Count in constructor, to avoid repetitive casts
     unsigned int m_tileSize;
 

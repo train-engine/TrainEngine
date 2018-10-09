@@ -12,7 +12,7 @@ sf::RectangleShape State::s_backgroundColorShape(sf::Vector2f(0, 0));
 State::State(GameEngine& rGame)
     : m_rGame(rGame),
       m_backgroundColor(sf::Color::White),
-      m_stateSettings({true, false})
+      m_stateSettings{true, false}
 {
     m_orderCreated = s_orderCounter++;
 }

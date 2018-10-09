@@ -5,10 +5,14 @@
 #include "FileManager.h"
 #include "Tile.h"
 
+namespace
+{
+    const sf::Vector2f maxDimensions(4096, 4096);
+}
+
 Map::Map(const ResourceManager& resourceManager)
     : m_resourceManager(resourceManager),
       m_indexDimensions(0, 0),
-      m_maxDimensions(4096, 4096),
       m_layerCount(static_cast<unsigned int>(MapLayer::Count)),
       m_tileSize(64),
       m_isGridVisible(false)
@@ -952,7 +956,7 @@ void Map::Resize(const sf::Vector2u& indexDimensions)
     }
 
     // Max dimensions
-    sf::Vector2u newIndexDimensions = sf::Vector2u(fmin(indexDimensions.x, m_maxDimensions.x), fmin(indexDimensions.y, m_maxDimensions.y));
+    sf::Vector2u newIndexDimensions = sf::Vector2u(fmin(indexDimensions.x, maxDimensions.x), fmin(indexDimensions.y, maxDimensions.y));
 
     for (unsigned int z = 0; z < m_layerCount; z++)
     {

@@ -19,7 +19,6 @@ private:
     sf::Clock m_fpsClock;
     sf::Time m_sampledUpdateTime;
     sf::Time m_sampledDrawTime;
-    const sf::Time m_samplingTime;
     
     double m_recordedUps;
     double m_recordedFps;

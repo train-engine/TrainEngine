@@ -1,6 +1,11 @@
 #include "TextBox.h"
 #include <math.h>
 
+namespace
+{
+    const sf::Uint32 passwordChar = 8226;
+}
+
 TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions, int characterSize)
     :   m_rInputManager(rInputManager),
         m_position(position),
@@ -12,7 +17,6 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
         m_isReadOnly(false),
         m_isDigitsOnly(false),
         m_isPasswordModeEnabled(false),
-        m_passwordChar(8226),
         m_cursorIndex(0),
         m_selectionStartIndex(0),
         m_isCursorVisible(true),
@@ -111,7 +115,7 @@ void TextBox::SetDisplayText(const sf::String& text)
         sf::String passwordDisplayText = m_text;
         for (auto& rChar : passwordDisplayText)
         {
-            rChar = m_passwordChar;
+            rChar = passwordChar;
         }
         m_displayText.setString(passwordDisplayText);
     }

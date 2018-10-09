@@ -18,7 +18,6 @@ public:
 private:
     // Window
     sf::RenderWindow m_window;
-    const sf::Vector2u m_minWindowDimensions;
 
     // States
     std::vector<State*> m_states;
@@ -48,7 +47,6 @@ private:
     sf::Time m_lastUpdateTime; // For recording UPS
     sf::Time m_lastDrawTime; // For recording FPS
     bool m_isPowerSaverEnabled; // Sleep when there is enough time before the next update/draw
-    const float m_maxUpdatesBehind; // Max number of updates lagging behind before discarding update cycles if the State's m_canSkipUpdates is true
     LoopDebugOverlay m_loopDebugOverlay;
 
     // Functions

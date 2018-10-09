@@ -8,16 +8,16 @@
 
 namespace
 {
+    const sf::Vector2u minWindowDimensions(800, 600);
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
+    const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding update cycles if the State's m_canSkipUpdates is true
 }
 
 /// Initialize the window and main systems
 GameEngine::GameEngine()
     : m_window(),
-      m_minWindowDimensions(800, 600),
       m_stateChanged(false),
       m_isPowerSaverEnabled(true),
-      m_maxUpdatesBehind(10),
       m_loopDebugOverlay(m_resourceManager.GetFont("altFont")),
       m_inputManager(m_window)
 {
@@ -202,13 +202,13 @@ void GameEngine::OnWindowResize()
 {
     #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
         // Window minimum dimensions
-        if (m_window.getSize().x < m_minWindowDimensions.x)
+    if (m_window.getSize().x < minWindowDimensions.x)
         {
-            m_window.setSize(sf::Vector2u(m_minWindowDimensions.x, m_window.getSize().y));
+            m_window.setSize(sf::Vector2u(minWindowDimensions.x, m_window.getSize().y));
         }
-        if (m_window.getSize().y < m_minWindowDimensions.y)
+        if (m_window.getSize().y < minWindowDimensions.y)
         {
-            m_window.setSize(sf::Vector2u(m_window.getSize().x, m_minWindowDimensions.y));
+            m_window.setSize(sf::Vector2u(m_window.getSize().x, minWindowDimensions.y));
         }
     #endif
 
@@ -254,7 +254,7 @@ void GameEngine::GameLoop()
             m_drawLag += elapsedTime;
 
             // Output warning to console if m_canSkipUpdates is false and the CPU can't keep up with the cycles
-            if (m_updateLag >= m_timePerUpdate * m_maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
+            if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
             {
                 std::cout << "GameEngine warning: Unable to keep up, catching up with " << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks\n";
             }
@@ -294,7 +294,7 @@ void GameEngine::GameLoop()
                 m_updateLag -= m_timePerUpdate;
 
                 // Skip updates if current State does not rely on fixed updates
-                if (m_updateLag >= m_timePerUpdate * m_maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == true)
+                if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == true)
                 {
                     m_updateLag %= m_timePerUpdate;
                 }
