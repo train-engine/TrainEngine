@@ -11,7 +11,7 @@ Map::Map(const ResourceManager& resourceManager)
       m_maxDimensions(4096, 4096),
       m_layerCount(static_cast<unsigned int>(MapLayer::Count)),
       m_tileSize(64),
-      m_displayGrid(false)
+      m_showGrid(false)
 {
     m_tiles.resize(m_layerCount);
 
@@ -72,7 +72,7 @@ void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
         }
     }
 
-    if (m_displayGrid == true)
+    if (m_showGrid == true)
     {
         DrawGrid(rTarget, states);
     }

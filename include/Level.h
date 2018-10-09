@@ -23,8 +23,8 @@ private:
     Camera m_camera;
 
     bool m_hasFocus;
-    bool m_creatorMode;
-    bool m_displayCollisionBoxes;
+    bool m_isCreatorMode;
+    bool m_showDebugBoxes;
 
     // Functions
     bool LoadBackground(const std::string& filename);

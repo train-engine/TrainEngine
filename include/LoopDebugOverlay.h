@@ -27,7 +27,7 @@ private:
     unsigned int m_updateCounter;
     unsigned int m_drawCounter;
     
-    bool m_display;
+    bool m_isVisible;
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
@@ -42,7 +42,7 @@ public:
     void OnWindowResize();
 
     // Setters
-    void ToggleDisplay() {m_display = (!m_display);}
+    void ToggleVisible() {m_isVisible = (!m_isVisible);}
 
     // Getters
     double GetRecordedUps() const {return m_recordedUps;}

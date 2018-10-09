@@ -2,7 +2,7 @@
 
 Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& inputManager,
                const sf::Vector2f& position)
-    : CharacterEntity(rMap, rEntities, EntityType::Player, position, sf::Vector2f(40, 80), sf::Vector2f(10, 64), 1, 3, 18, true, true, true, 1),
+    : Entity(rMap, rEntities, EntityType::Player, position, sf::Vector2f(40, 80), sf::Vector2f(10, 64), 1, 3, 18, true, true, true),
       m_inputManager(inputManager)
 {
 
@@ -15,51 +15,51 @@ void Player::HandleInput()
         (m_inputManager.TouchHeld() && m_inputManager.GetWindowMousePosition().x < static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::X) < -50)
     {
-        m_isPressingLeft = true;
+        SetPressingLeft(true);
     }
     else
     {
-        m_isPressingLeft = false;
+        SetPressingLeft(false);
     }
     if ((m_inputManager.KeyHeld(sf::Keyboard::D) && !m_inputManager.KeyHeld(sf::Keyboard::A)) ||
         (m_inputManager.TouchHeld() && m_inputManager.GetWindowMousePosition().x > static_cast<int>(m_inputManager.GetWindowDimensions().x) / 2) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::X) > 50)
     {
-        m_isPressingRight = true;
+        SetPressingRight(true);
     }
     else
     {
-        m_isPressingRight = false;
+        SetPressingRight(false);
     }
 
     // Up/Down
     if (m_inputManager.KeyHeld(sf::Keyboard::W) ||
         m_inputManager.JoystickButtonDown(0, 0) || m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) < -50)
     {
-        m_isPressingUp = true;
+        SetPressingUp(true);
     }
     else
     {
-        m_isPressingUp = false;
+        SetPressingUp(false);
     }
     if (m_inputManager.KeyHeld(sf::Keyboard::S) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) > 50)
     {
-        m_isPressingDown = true;
+        SetPressingDown(true);
     }
     else
     {
-        m_isPressingDown = false;
+        SetPressingDown(false);
     }
 
     // Shift
     if (m_inputManager.KeyHeld(sf::Keyboard::LShift) ||
         m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Axis::Z) > 0)
     {
-        m_isPressingShift = true;
+        SetPressingShift(true);
     }
     else
     {
-        m_isPressingShift = false;
+        SetPressingShift(false);
     }
 }

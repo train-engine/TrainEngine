@@ -19,9 +19,9 @@ private:
     float m_endingOpacity;
 
     bool m_hasFocus;
-    bool m_readOnly;
-    bool m_digitsOnly;
-    bool m_passwordMode;
+    bool m_isReadOnly;
+    bool m_isDigitsOnly;
+    bool m_isPasswordMode;
 
     const sf::Uint32 m_passwordChar;
 
@@ -118,8 +118,8 @@ public:
     void SetText(const sf::String& text);
     void SetBackgroundText(const std::string& backgroundText){m_backgroundText.setString(backgroundText);}
     void SetFocus(bool focus);
-    void SetReadOnly(bool readOnly) {m_readOnly = readOnly;}
-    void SetDigitsOnly(bool digitsOnly) {m_digitsOnly = digitsOnly;}
+    void SetReadOnly(bool readOnly) {m_isReadOnly = readOnly;}
+    void SetDigitsOnly(bool digitsOnly) {m_isDigitsOnly = digitsOnly;}
     void SetPasswordMode(bool passwordMode);
 
     // Getters

@@ -24,20 +24,17 @@ enum class EntityState
 
 class Entity : public sf::Drawable
 {
-protected:
-    static float s_gravity;
-    
-    Map& m_rMap;
-    std::vector<Entity*>& m_rEntities;
-
+private:
     EntityType m_entityType;
     EntityState m_state;
 
     sf::Sprite m_defaultSprite;
     std::unordered_map<EntityState, AnimatedSprite> m_animatedSprites;
+
     sf::RectangleShape m_collisionBox;
-    bool m_displayCollisionBox;
-    
+    sf::RectangleShape m_tileReactionDot;
+    bool m_showDebugBox;
+
     sf::Vector2f m_position;
     sf::Vector2f m_previousPosition;
     sf::Vector2f m_dimensions;
@@ -50,11 +47,49 @@ protected:
 
     bool m_isTileCollideable;
     bool m_isEntityCollideable;
-    const unsigned int m_collisionPriority;
 
-    bool m_isGoingRight;
-    bool m_applyGravity;
+    bool m_isFacingRight;
+    bool m_canGravitate;
     bool m_isOnGround;
+
+    bool m_isPressingUp;
+    bool m_isPressingDown;
+    bool m_isPressingLeft;
+    bool m_isPressingRight;
+    bool m_isPressingShift;
+
+    float m_jumpForce;
+    float m_defaultClimbSpeed;
+    float m_defaultDescentSpeed;
+
+    // Collisions and interactions
+    void TileCollision(const Tile* const pTile);
+    void EntityCollision(const Entity* const pEntity);
+    void TileReaction(Tile* const pTile);
+    void EntityReaction(Entity* const pEntity);
+
+    // TileCollision functions (overrideable)
+    virtual void StandardCollision(const Tile* const pTile);
+    virtual void LadderTopCollision(const Tile* const pTile);
+
+    // EntityCollision functions (overrideable)
+    // ---
+
+    // TileReaction functions (overrideable)
+    // ---
+
+    // EntityReaction functions (overrideable)
+    virtual void PlayerReaction(Entity* const pEntity) {}
+
+    // Movement
+    void MoveLeft();
+    void MoveRight();
+    void Jump();
+    void Climb(float factor = 1);
+
+protected:
+    Map& m_rMap;
+    std::vector<Entity*>& m_rEntities;
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
@@ -64,25 +99,32 @@ protected:
     void MapEdgeCollision(bool applyHorizCollision = true, bool applyVertCollision = true);
     void PerformCollisions();
 
-    // Collision with Tiles
-    void TileCollision(const Tile* const pTile);
+    // Setters
+    void SetPressingUp(bool isPressingUp) {m_isPressingUp = isPressingUp;}
+    void SetPressingDown(bool isPressingDown) {m_isPressingDown = isPressingDown;}
+    void SetPressingLeft(bool isPressingLeft) {m_isPressingLeft = isPressingLeft;}
+    void SetPressingRight(bool isPressingRight) {m_isPressingRight = isPressingRight;}
+    void SetPressingShift(bool isPressingShift) {m_isPressingShift = isPressingShift;}
 
-    // TileCollision functions
-    virtual void StandardCollision(const Tile* const pTile);
-    virtual void LadderTopCollision(const Tile* const pTile);
+    // Getters
+    bool IsOnGround() const {return m_isOnGround;}
 
-    // Collision with Entities
-    void EntityCollision(const Entity* const pEntity);
+    bool IsPressingUp() const {return m_isPressingUp;}
+    bool IsPressingDown() const {return m_isPressingDown;}
+    bool IsPressingLeft() const {return m_isPressingLeft;}
+    bool IsPressingRight() const {return m_isPressingRight;}
+    bool IsPressingShift() const {return m_isPressingShift;}
 
-    // EntityCollision functions
-    // ---
+    float GetJumpForce() const {return m_jumpForce;}
+    float GetDefaultClimbSpeed() const {return m_defaultClimbSpeed;}
+    float GetDefaultDescentSpeed() const {return m_defaultDescentSpeed;}
 
 public:
     // Constructor and destructor
     Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType,
            const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity = {10, 64},
-           float acceleration = 1, float deceleration = 3, bool applyGravity = false,
-           bool isTileCollideable = false, bool isEntityCollideable = false, unsigned int collisionPriority = 0);
+           float acceleration = 1, float deceleration = 3, float jumpForce = 18, bool applyGravity = true,
+           bool isTileCollideable = false, bool isEntityCollideable = false);
     virtual ~Entity() {}
 
     // Functions
@@ -94,29 +136,28 @@ public:
     void AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite);
 
     // Setters
-    void SetDisplayCollisionBox(bool displayCollisionBox) {m_displayCollisionBox = displayCollisionBox;}
-    void SetPosition(const sf::Vector2f& position);
+    void SetShowDebugBox(bool showDebugBox) {m_showDebugBox = showDebugBox;}
+
+    void SetPosition(const sf::Vector2f& position) {m_position = position;}
     void SetHorizPosition(float horizPosition) {m_position.x = horizPosition;}
     void SetVertPosition(float vertPosition) {m_position.y = vertPosition;}
-    void SetDimensions(const sf::Vector2f& dimensions);
 
-    void ResetVelocity();
-    void ResetHorizVelocity();
-    void ResetVertVelocity();
+    void SetDimensions(const sf::Vector2f& dimensions) {m_dimensions = dimensions;}
+
+    void SetVelocity(const sf::Vector2f& velocity) {m_velocity = velocity;}
+    void SetHorizVelocity(float horizVelocity) {m_velocity.x = horizVelocity;}
+    void SetVertVelocity(float vertVelocity) {m_velocity.y = vertVelocity;}
 
     void SetDefaultSpriteTexture(const sf::Texture& texture);
-    void SetOnGround(bool isOnGround) {m_isOnGround = isOnGround;}
 
     // Getters
     EntityType GetEntityType() const {return m_entityType;}
     static std::string GetEntityTypeString(EntityType entityType);
     static std::vector<std::string> GetTextureNames(EntityType entityType);
+
     const sf::Vector2f& GetPosition() const {return m_position;}
     const sf::Vector2f& GetDimensions() const {return m_dimensions;}
     const sf::Vector2f& GetVelocity() const {return m_velocity;}
-    bool IsTileCollideable() const {return m_isTileCollideable;}
-    bool IsEntityCollideable() const {return m_isEntityCollideable;}
-    const unsigned int GetCollisionPriority() const {return m_collisionPriority;}
     
     float GetLeftPixelPosition() const;
     float GetRightPixelPosition() const;

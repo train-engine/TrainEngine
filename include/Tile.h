@@ -53,7 +53,7 @@ enum class TileType
 
 class Tile : public sf::Drawable
 {
-protected:
+private:
     TileType m_tileType;
 
     sf::Sprite m_sprite;
@@ -63,6 +63,7 @@ protected:
 
     bool m_isSolid;
 
+protected:
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
 

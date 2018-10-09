@@ -22,8 +22,8 @@ private:
     std::vector<sf::Vector2f> m_positions;
     float m_totalDistanceTraveled;
 
-    bool m_displayDots;
-    bool m_displayInfoBox;
+    bool m_showDots;
+    bool m_showInfoBox;
 
     // Functions
     void UpdateInfoBox();
@@ -45,8 +45,8 @@ public:
     void SetDotRadius(float radius) {m_dot.setRadius(radius);}
     void SetDotColor(sf::Color color) {m_dot.setFillColor(color);}
     void Track(const Entity& trackedEntity) {m_pTrackedEntity = &trackedEntity;}
-    void ToggleDotsDisplay() {m_displayDots = !m_displayDots;}
-    void ToggleInfoBoxDisplay() {m_displayInfoBox = !m_displayInfoBox;}
+    void ToggleDotsVisible() {m_showDots = !m_showDots;}
+    void ToggleInfoBoxVisible() {m_showInfoBox = !m_showInfoBox;}
 
     // Getters
     const sf::Vector2f& GetLastPosition() const {return m_positions.back();}

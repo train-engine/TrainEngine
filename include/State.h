@@ -25,7 +25,7 @@ private:
     sf::Color m_backgroundColor;
 
     // Static functions
-    static void ResizeLayout(const sf::Vector2f& windowDimensions);
+    static void ResizeLayout(const sf::Vector2f& windowDimensions); // Private because State is friends with GameEngine
 
     // Base functions
     void BaseHandleInput();

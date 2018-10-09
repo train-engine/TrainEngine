@@ -14,8 +14,8 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
       m_map(m_resourceManager),
       m_camera(m_map, static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions())),
       m_hasFocus(true),
-      m_creatorMode(false),
-      m_displayCollisionBoxes(false)
+      m_isCreatorMode(false),
+      m_showDebugBoxes(false)
 {
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
     m_camera.SetFollowLerp(0.2);
@@ -413,18 +413,18 @@ void Level::HandleInput()
         return;
     }
 
-    // Display collision boxes
+    // Show debug boxes
     if (m_inputManager.KeyDown(sf::Keyboard::BackSlash))
     {
-        m_displayCollisionBoxes = !m_displayCollisionBoxes;
+        m_showDebugBoxes = !m_showDebugBoxes;
         for (const auto pEntity : m_entities)
         {
-            pEntity->SetDisplayCollisionBox(m_displayCollisionBoxes);
+            pEntity->SetShowDebugBox(m_showDebugBoxes);
         }
     }
 
     // Entities
-    if (m_creatorMode == false)
+    if (m_isCreatorMode == false)
     {
         for (const auto& pEntity : m_entities)
         {
@@ -480,7 +480,7 @@ void Level::Update()
 {
     m_map.Update();
 
-    if (m_creatorMode == false)
+    if (m_isCreatorMode == false)
     {
         for (const auto& pEntity : m_entities)
         {
@@ -523,7 +523,7 @@ bool Level::Load(const std::string& levelDirectory)
     {
         m_camera.SetBounds(static_cast<sf::Vector2f>(m_map.GetBounds()));
 
-        if (m_creatorMode == false)
+        if (m_isCreatorMode == false)
         {
             if (!m_entities.empty())
             {
@@ -566,10 +566,10 @@ void Level::OnWindowResize()
 
 void Level::SetCreatorMode(bool creatorMode)
 {
-    m_map.SetDisplayGrid(creatorMode);
+    m_map.SetShowGrid(creatorMode);
     m_camera.SetBoundless(true);
-    m_creatorMode = creatorMode;
-    if (m_creatorMode == true)
+    m_isCreatorMode = creatorMode;
+    if (m_isCreatorMode == true)
     {
         m_camera.SetMaxDimensions({7680, 4320});
     }

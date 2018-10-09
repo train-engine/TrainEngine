@@ -12,7 +12,7 @@ LoopDebugOverlay::LoopDebugOverlay(const sf::Font& font)
       m_recordedFps(0),
       m_updateCounter(0),
       m_drawCounter(0),
-      m_display(false)
+      m_isVisible(false)
 {
     m_upsText.setFillColor(sf::Color::White);
     m_upsText.setOutlineColor(sf::Color(50, 50, 50));
@@ -35,7 +35,7 @@ LoopDebugOverlay::LoopDebugOverlay(const sf::Font& font)
 
 void LoopDebugOverlay::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 {
-    if (m_display == true)
+    if (m_isVisible == true)
     {
         rTarget.draw(m_upsText);
         rTarget.draw(m_fpsText);

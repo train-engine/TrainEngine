@@ -20,6 +20,6 @@ int main()
     trainEngine.GameLoop();
 
     #if defined(SFML_SYSTEM_ANDROID)
-        delete std::cout.rdbuf(0);
+        delete std::cout.rdbuf(nullptr);
     #endif
 }

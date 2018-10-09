@@ -88,7 +88,7 @@ public:
     double GetRecordedFps() const {return m_loopDebugOverlay.GetRecordedFps();}
 
     // Loop debug overlay functions
-    void ToggleDebugOverlay() {m_loopDebugOverlay.ToggleDisplay();}
+    void ToggleDebugOverlay() {m_loopDebugOverlay.ToggleVisible();}
 
     // Quit game
     void Quit();

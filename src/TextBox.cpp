@@ -9,9 +9,9 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
         m_startingOpacity(64),
         m_endingOpacity(255),
         m_hasFocus(false),
-        m_readOnly(false),
-        m_digitsOnly(false),
-        m_passwordMode(false),
+        m_isReadOnly(false),
+        m_isDigitsOnly(false),
+        m_isPasswordMode(false),
         m_passwordChar(8226),
         m_cursorIndex(0),
         m_selectionStartIndex(0),
@@ -106,7 +106,7 @@ void TextBox::CenterText()
 void TextBox::SetDisplayText(const sf::String& text)
 {
     m_text = text;
-    if (m_passwordMode == true)
+    if (m_isPasswordMode == true)
     {
         sf::String passwordDisplayText = m_text;
         for (auto& rChar : passwordDisplayText)
@@ -358,11 +358,11 @@ void TextBox::UpdateText()
         for (const auto& enteredChar : m_rInputManager.GetTextEntered())
         {
             // If the text entered is not an undesirable character
-            if ((m_digitsOnly == false && (IsCharacterAccepted(enteredChar) ||
+            if ((m_isDigitsOnly == false && (IsCharacterAccepted(enteredChar) ||
                 enteredChar == 3 ||     // CTRL + C
                 enteredChar == 22 ||    // CTRL + V
                 enteredChar == 24)) ||  // CTRL + X
-                (m_digitsOnly == true && enteredChar >= 48 && enteredChar <= 57))
+                (m_isDigitsOnly == true && enteredChar >= 48 && enteredChar <= 57))
 
             {
                 if (enteredChar == 3 || enteredChar == 24) // CTRL + C or CTRL + X
@@ -656,7 +656,7 @@ void TextBox::MoveCursorToNextSpace()
 
 void TextBox::Update()
 {
-    if (m_readOnly == false)
+    if (m_isReadOnly == false)
     {
         // Update cursor blinking
         m_cursorTickCount++;
@@ -670,7 +670,7 @@ void TextBox::Update()
 
 void TextBox::HandleInput()
 {
-    if (m_readOnly == false)
+    if (m_isReadOnly == false)
     {
         if (m_hasFocus == true)
         {
@@ -813,6 +813,6 @@ void TextBox::SetFocus(bool focus)
 
 void TextBox::SetPasswordMode(bool passwordMode)
 {
-    m_passwordMode = passwordMode;
+    m_isPasswordMode = passwordMode;
     SetDisplayText(m_text);
 }

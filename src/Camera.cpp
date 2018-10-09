@@ -2,6 +2,11 @@
 #include <math.h>
 #include "Utility.h"
 
+namespace
+{
+    const double pi = 3.141592653589793238462643383279;
+}
+
 Camera::Camera(const Map& map, const sf::Vector2f& viewDimensions)
     : m_view(sf::FloatRect(0, 0, viewDimensions.x, viewDimensions.y)),
       m_mode(CameraMode::Static),
@@ -127,6 +132,7 @@ void Camera::Update()
         }
         else
         {
+
             // Disable lerp and interpolation to snap to the followed Entity if colliding with Map edge when zooming
             if (m_dimensions != m_targetDimensions)
             {
@@ -182,7 +188,7 @@ void Camera::Update()
         if (m_ticksRemaining > 0)
         {
             // Sinerp function
-            m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) * static_cast<float>(3.1415927f / 2.0f * cos(3.1415927f / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
+            m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) * static_cast<float>(pi / 2.0f * cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
             m_ticksRemaining--;
         }
         else

@@ -1,10 +1,10 @@
 #ifndef PLAYER_H_INCLUDED
 #define PLAYER_H_INCLUDED
 
-#include "CharacterEntity.h"
+#include "Entity.h"
 #include "InputManager.h"
 
-class Player final : public CharacterEntity
+class Player final : public Entity
 {
 private:
     const InputManager& m_inputManager;

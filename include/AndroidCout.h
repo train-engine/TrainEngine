@@ -13,7 +13,7 @@ private:
             *this->pptr() = traits_type::to_char_type(c);
             this->sbumpc();
         }
-        return this->sync()? traits_type::eof(): traits_type::not_eof(c);
+        return this->sync() ? traits_type::eof() : traits_type::not_eof(c);
     }
 
     int sync()

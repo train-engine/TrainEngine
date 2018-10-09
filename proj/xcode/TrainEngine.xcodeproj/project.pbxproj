@@ -11,8 +11,6 @@
 		C647585E1F3954840097C7DE /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C647583E1F3954840097C7DE /* AnimatedSprite.cpp */; };
 		C647585F1F3954840097C7DE /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C647583F1F3954840097C7DE /* Camera.cpp */; };
 		C64758601F3954840097C7DE /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C647583F1F3954840097C7DE /* Camera.cpp */; };
-		C64758611F3954840097C7DE /* CharacterEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758401F3954840097C7DE /* CharacterEntity.cpp */; };
-		C64758621F3954840097C7DE /* CharacterEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758401F3954840097C7DE /* CharacterEntity.cpp */; };
 		C64758631F3954840097C7DE /* CreatorState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758411F3954840097C7DE /* CreatorState.cpp */; };
 		C64758641F3954840097C7DE /* CreatorState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758411F3954840097C7DE /* CreatorState.cpp */; };
 		C64758651F3954840097C7DE /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C64758421F3954840097C7DE /* Entity.cpp */; };
@@ -97,7 +95,6 @@
 		C647581D1F3954480097C7DE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C64758201F3954740097C7DE /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatedSprite.h; path = ../../include/AnimatedSprite.h; sourceTree = "<group>"; };
 		C64758211F3954740097C7DE /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../../include/Camera.h; sourceTree = "<group>"; };
-		C64758221F3954740097C7DE /* CharacterEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterEntity.h; path = ../../include/CharacterEntity.h; sourceTree = "<group>"; };
 		C64758231F3954740097C7DE /* CreatorState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreatorState.h; path = ../../include/CreatorState.h; sourceTree = "<group>"; };
 		C64758241F3954740097C7DE /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entity.h; path = ../../include/Entity.h; sourceTree = "<group>"; };
 		C64758251F3954740097C7DE /* EntityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityTracker.h; path = ../../include/EntityTracker.h; sourceTree = "<group>"; };
@@ -123,7 +120,6 @@
 		C647583D1F3954740097C7DE /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tile.h; path = ../../include/Tile.h; sourceTree = "<group>"; };
 		C647583E1F3954840097C7DE /* AnimatedSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedSprite.cpp; path = ../../src/AnimatedSprite.cpp; sourceTree = "<group>"; };
 		C647583F1F3954840097C7DE /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../../src/Camera.cpp; sourceTree = "<group>"; };
-		C64758401F3954840097C7DE /* CharacterEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CharacterEntity.cpp; path = ../../src/CharacterEntity.cpp; sourceTree = "<group>"; };
 		C64758411F3954840097C7DE /* CreatorState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CreatorState.cpp; path = ../../src/CreatorState.cpp; sourceTree = "<group>"; };
 		C64758421F3954840097C7DE /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Entity.cpp; path = ../../src/Entity.cpp; sourceTree = "<group>"; };
 		C64758431F3954840097C7DE /* EntityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EntityTracker.cpp; path = ../../src/EntityTracker.cpp; sourceTree = "<group>"; };
@@ -293,8 +289,6 @@
 			children = (
 				C64758421F3954840097C7DE /* Entity.cpp */,
 				C64758241F3954740097C7DE /* Entity.h */,
-				C64758401F3954840097C7DE /* CharacterEntity.cpp */,
-				C64758221F3954740097C7DE /* CharacterEntity.h */,
 				C64758551F3954840097C7DE /* Player.cpp */,
 				C64758361F3954740097C7DE /* Player.h */,
 			);
@@ -554,7 +548,6 @@
 				C64758881F3954840097C7DE /* ParallaxSprite.cpp in Sources */,
 				C64758741F3954840097C7DE /* Level.cpp in Sources */,
 				C64758821F3954840097C7DE /* MainMenuState.cpp in Sources */,
-				C64758621F3954840097C7DE /* CharacterEntity.cpp in Sources */,
 				C64758681F3954840097C7DE /* EntityTracker.cpp in Sources */,
 				C64758981F3954840097C7DE /* TextBox.cpp in Sources */,
 				C64758701F3954840097C7DE /* Gui.cpp in Sources */,
@@ -589,7 +582,6 @@
 				C64758871F3954840097C7DE /* ParallaxSprite.cpp in Sources */,
 				C64758731F3954840097C7DE /* Level.cpp in Sources */,
 				C64758811F3954840097C7DE /* MainMenuState.cpp in Sources */,
-				C64758611F3954840097C7DE /* CharacterEntity.cpp in Sources */,
 				C64758671F3954840097C7DE /* EntityTracker.cpp in Sources */,
 				C64758971F3954840097C7DE /* TextBox.cpp in Sources */,
 				C647586F1F3954840097C7DE /* Gui.cpp in Sources */,
