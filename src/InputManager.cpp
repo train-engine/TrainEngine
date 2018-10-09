@@ -49,7 +49,7 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
 
     // Fixes Windows focus on start issue (Merci Bill Gates)
     #if defined(SFML_SYSTEM_WINDOWS)
-        m_windowHasFocus = true;
+        m_isWindowFocused = true;
     #endif
 
     // Startup mouse position hack
@@ -177,7 +177,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(j));
         }
     }
-    
+
     #if defined(SFML_SYSTEM_MACOS)
         MacOsCommandsToUnicode();
     #endif
@@ -314,7 +314,7 @@ bool InputManager::IsKeyUp(sf::Keyboard::Key key) const
 bool InputManager::IsModifierKeyHeld() const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return ControlKeyHeld();
+        return IsControlKeyHeld();
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
         return IsSystemKeyHeld();
     #endif
@@ -323,7 +323,7 @@ bool InputManager::IsModifierKeyHeld() const
 bool InputManager::IsModifierKeyDown(bool isRepeatEnabled) const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return ControlKeyDown(isRepeatEnabled);
+        return IsControlKeyDown(isRepeatEnabled);
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
         return IsSystemKeyDown(isRepeatEnabled);
     #endif
@@ -332,7 +332,7 @@ bool InputManager::IsModifierKeyDown(bool isRepeatEnabled) const
 bool InputManager::IsModifierKeyUp() const
 {
     #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return ControlKeyUp();
+        return IsControlKeyUp();
     #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
         return IsSystemKeyUp();
     #endif
