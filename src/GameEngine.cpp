@@ -26,7 +26,7 @@ GameEngine::GameEngine()
                  "Game development started on: March 15 2015, 7:53:27 PM\n"
                  "Lines of code: 9000\n"
                  "Library used: SFML 2.4.2\n"
-                 "Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.\n\n";
+                 "Made by Simon Gauvin, Misha Krieger-Raynauld, Guillaume Jones, and Ba Minh Nguyen.\n\n";
 
     // Graphics settings
     std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
