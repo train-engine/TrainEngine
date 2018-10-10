@@ -19,8 +19,8 @@ Map::Map(const ResourceManager& resourceManager)
 {
     m_tiles.resize(m_layerCount);
 
-    m_horizGridLine.setFillColor(sf::Color(0, 0, 0, 128));
-    m_vertGridLine.setFillColor(sf::Color(0, 0, 0, 128));
+    m_horizGridLine.setFillColor(sf::Color(255, 255, 255, 128));
+    m_vertGridLine.setFillColor(sf::Color(255, 255, 255, 128));
 
     for (auto& rLayerColor : m_layerColors)
     {

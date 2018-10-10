@@ -85,7 +85,8 @@ private:
 
 public:
     // Constructor and destructor
-    TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position = {0, 0}, const sf::Vector2f& dimensions = {150, 25}, int characterSize = 20);
+    TextBox(InputManager& rInputManager, const sf::Font& font);
+    TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions);
     ~TextBox();
 
     // Functions

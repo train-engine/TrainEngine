@@ -12,13 +12,14 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
     : m_resourceManager(resourceManager),
       m_inputManager(inputManager),
       m_map(m_resourceManager),
-      m_camera(m_map, static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions())),
       m_hasFocus(true),
       m_isCreatorModeEnabled(false),
       m_isEntityDebugBoxVisible(false)
 {
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
+
     m_camera.SetFollowLerp(0.2);
+    m_camera.SetBoundless(false);
 }
 
 Level::~Level()
@@ -561,7 +562,9 @@ bool Level::Save(const std::string& levelDirectory)
 void Level::OnWindowResize()
 {
     // Resize Camera to window dimensions
+    float oldZoom = m_camera.GetZoom();
     m_camera.SetDimensions(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+    m_camera.SetZoom(oldZoom);
 }
 
 void Level::SetCreatorModeEnabled(bool isCreatorModeEnabled)
@@ -571,10 +574,10 @@ void Level::SetCreatorModeEnabled(bool isCreatorModeEnabled)
     m_camera.SetBoundless(m_isCreatorModeEnabled);
     if (m_isCreatorModeEnabled == true)
     {
-        m_camera.SetMaxDimensions({7680, 4320});
+        m_camera.SetMaxDimensions(sf::Vector2f(7680, 4320));
     }
     else
     {
-        m_camera.SetMaxDimensions({1920, 1080});
+        m_camera.SetMaxDimensions(sf::Vector2f(2560, 1440));
     }
 }

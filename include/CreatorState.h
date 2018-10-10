@@ -11,9 +11,9 @@ class CreatorState final : public State
 private:
     sf::RectangleShape m_panel;
 
-    sf::Text m_loadText;
-    sf::Text m_saveText;
-    sf::Text m_tileText;
+    sf::Text m_loadLevelLabel;
+    sf::Text m_saveLevelLabel;
+    sf::Text m_tileNameLabel;
 
     TextBox m_loadLevelTextBox;
     TextBox m_saveLevelTextBox;

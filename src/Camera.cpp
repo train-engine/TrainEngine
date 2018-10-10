@@ -7,11 +7,9 @@ namespace
     const double pi = 3.141592653589793238462643383279;
 }
 
-Camera::Camera(const Map& map, const sf::Vector2f& viewDimensions)
-    : m_view(sf::FloatRect(0, 0, viewDimensions.x, viewDimensions.y)),
-      m_mode(CameraMode::Static),
-      m_isBoundless(false),
-      m_dimensions(viewDimensions),
+Camera::Camera()
+    : m_mode(CameraMode::Static),
+      m_isBoundless(true),
       m_minDimensions(128, 72),
       m_maxDimensions(2560, 1440),
       m_zoom(1),
@@ -21,12 +19,7 @@ Camera::Camera(const Map& map, const sf::Vector2f& viewDimensions)
       m_ticksRemaining(0),
       m_ticksTotal(0)
 {
-    ResizeToFitMaxDimensions(m_dimensions, m_maxDimensions);
-    m_previousDimensions = m_dimensions;
-    m_targetDimensions = m_dimensions;
-
-    m_position = m_dimensions / 2.0f;
-    m_previousPosition = m_position;
+    SetDimensions(m_minDimensions);
 }
 
 // Resize the given dimensions to be at least as big as the given minimum dimensions while preserving their aspect ratio
@@ -315,7 +308,7 @@ void Camera::SetBounds(const sf::Vector2f& bounds)
     {
         ResizeToFitMaxDimensions(newDimensions, m_bounds);
     }
-    m_zoom *= newDimensions.x / m_dimensions.x;
+    m_zoom *= newDimensions.x / m_dimensions.x; // Conserve zoom
     m_dimensions = newDimensions;
 
     BoundsCollision(m_position, m_dimensions);
@@ -328,15 +321,15 @@ void Camera::SetBounds(const sf::Vector2f& bounds)
 // Set the Camera's view's dimensions
 void Camera::SetDimensions(const sf::Vector2f& dimensions)
 {
-    sf::Vector2f newDimensions = dimensions;
-    ResizeToFitMinDimensions(newDimensions, m_minDimensions);
-    ResizeToFitMaxDimensions(newDimensions, m_maxDimensions);
+    m_dimensions = dimensions;
+    ResizeToFitMinDimensions(m_dimensions, m_minDimensions);
+    ResizeToFitMaxDimensions(m_dimensions, m_maxDimensions);
     if (m_isBoundless == false && m_bounds != sf::Vector2f(0, 0))
     {
-        ResizeToFitMaxDimensions(newDimensions, m_bounds);
+        ResizeToFitMaxDimensions(m_dimensions, m_bounds);
     }
-    m_zoom *= newDimensions.x / m_dimensions.x;
-    m_dimensions = newDimensions;
+
+    m_zoom = 1; // Reset zoom
 
     BoundsCollision(m_position, m_dimensions);
     BoundsCollision(m_previousPosition, m_dimensions);

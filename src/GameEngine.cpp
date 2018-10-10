@@ -129,7 +129,7 @@ void GameEngine::Push()
     m_states.back()->m_orderCreated = 0;
     m_pendingStates.pop_back();
 
-    m_states.back()->OnWindowResize();
+    m_states.back()->OnWindowResize(); // Call OnWindowResize on State creation
 }
 
 /// Remove one State from the top of the stack, and call Resume on the State below if desired

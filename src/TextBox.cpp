@@ -6,29 +6,35 @@ namespace
     const sf::Uint32 passwordChar = 8226;
 }
 
-TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions, int characterSize)
-    :   m_rInputManager(rInputManager),
-        m_position(position),
-        m_padding(sf::Vector2i(6, 4)),
-        m_opaquePaddingProportion(0.25),
-        m_startingOpacity(64),
-        m_endingOpacity(255),
-        m_hasFocus(false),
-        m_isReadOnly(false),
-        m_isDigitsOnly(false),
-        m_isPasswordModeEnabled(false),
-        m_cursorIndex(0),
-        m_selectionStartIndex(0),
-        m_isCursorVisible(true),
-        m_cursorTickCount(0),
-        m_cursorBlinkSpeed(30),
-        m_dragCursorProgress(0),
-        m_dragCursorSpeedDivider(20),
-        m_maxTextLength(256),
-        m_textCanExceedBox(true),
-        m_text(""),
-        m_hideBoxLeft(sf::TriangleStrip, 6),
-        m_hideBoxRight(sf::TriangleStrip, 6)
+TextBox::TextBox(InputManager& rInputManager, const sf::Font& font)
+    : TextBox(rInputManager, font, sf::Vector2f(0, 0), sf::Vector2f(0, 0))
+{
+
+}
+
+TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions)
+    :  m_rInputManager(rInputManager),
+       m_position(position),
+       m_padding(sf::Vector2i(6, 4)),
+       m_opaquePaddingProportion(0.25),
+       m_startingOpacity(64),
+       m_endingOpacity(255),
+       m_hasFocus(false),
+       m_isReadOnly(false),
+       m_isDigitsOnly(false),
+       m_isPasswordModeEnabled(false),
+       m_cursorIndex(0),
+       m_selectionStartIndex(0),
+       m_isCursorVisible(true),
+       m_cursorTickCount(0),
+       m_cursorBlinkSpeed(30),
+       m_dragCursorProgress(0),
+       m_dragCursorSpeedDivider(20),
+       m_maxTextLength(256),
+       m_textCanExceedBox(true),
+       m_text(""),
+       m_hideBoxLeft(sf::TriangleStrip, 6),
+       m_hideBoxRight(sf::TriangleStrip, 6)
 {
     // Background color
     SetBackgroundColor(sf::Color::White);
@@ -46,7 +52,7 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
     SetFont(font);
     SetTextColor(sf::Color::Black);
     SetBackgroundTextColor(sf::Color(90, 90, 90));
-    SetCharacterSize(characterSize);
+    SetCharacterSize(30);
 
     // Cursor settings
     SetCursorColor(sf::Color::Black);
@@ -761,6 +767,7 @@ void TextBox::SetCharacterSize(int characterSize)
     m_backgroundText.setCharacterSize(characterSize);
     m_cursor.setSize(sf::Vector2f(m_cursor.getSize().x , m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())));
     m_selection.setSize(sf::Vector2f(m_selection.getSize().x, m_cursor.getSize().y));
+    CenterText();
 }
 
 void TextBox::SetBackgroundColor(sf::Color backgroundColor)

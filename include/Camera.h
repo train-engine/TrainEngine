@@ -21,7 +21,7 @@ private:
     CameraMode m_mode;
     bool m_isBoundless; // If the Camera should be contained within the bounds
 
-    sf::Vector2f m_bounds; // Area the Camera is allowed to travel (generally Map bounds)
+    sf::Vector2f m_bounds; // Area the Camera is allowed to travel in (generally Map bounds)
 
     sf::Vector2f m_position;
     sf::Vector2f m_previousPosition; // Previous position for interpolation
@@ -53,7 +53,7 @@ private:
 
 public:
     // Constructor
-    Camera(const Map& map, const sf::Vector2f& viewDimensions);
+    Camera();
 
     // Functions
     void Update();

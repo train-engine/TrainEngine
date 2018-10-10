@@ -7,15 +7,15 @@
 
 CreatorState::CreatorState(GameEngine& rGame)
     : State(rGame),
-      m_loadText("Load Level", m_rGame.m_resourceManager.GetFont("altFont"), 20),
-      m_saveText("Save Level as: ", m_rGame.m_resourceManager.GetFont("altFont"), 20),
-      m_tileText("Selected tile", m_rGame.m_resourceManager.GetFont("altFont"), 20),
+      m_loadLevelLabel("Load Level", m_rGame.m_resourceManager.GetFont("altFont"), 20),
+      m_saveLevelLabel("Save Level as: ", m_rGame.m_resourceManager.GetFont("altFont"), 20),
+      m_tileNameLabel("Selected tile", m_rGame.m_resourceManager.GetFont("altFont"), 20),
       m_loadLevelTextBox(m_rGame.m_inputManager, m_rGame.m_resourceManager.GetFont("altFont")),
       m_saveLevelTextBox(m_rGame.m_inputManager, m_rGame.m_resourceManager.GetFont("altFont")),
       m_widthTextBox(m_rGame.m_inputManager, m_rGame.m_resourceManager.GetFont("altFont")),
       m_heightTextBox(m_rGame.m_inputManager, m_rGame.m_resourceManager.GetFont("altFont")),
       m_tileNameTextBox(m_rGame.m_inputManager, m_rGame.m_resourceManager.GetFont("altFont")),
-      m_createLevelButton(m_rGame.m_resourceManager.GetFont("altFont"), m_rGame.m_resourceManager.GetSoundBuffer("click"), sf::Vector2f(0, 0), sf::Vector2f(230, 30), 0, 3, "Create Level", GuiStyle::Green),
+      m_createLevelButton(m_rGame.m_resourceManager.GetFont("altFont"), m_rGame.m_resourceManager.GetSoundBuffer("click"), sf::Vector2f(0, 0), sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green),
       m_level(m_rGame.m_resourceManager, m_rGame.m_inputManager),
       m_selectableTileTypes({TileType::Grass4Sides,
                              TileType::Wood,
@@ -27,34 +27,38 @@ CreatorState::CreatorState(GameEngine& rGame)
       m_brushSize(1)
 {
     // State settings
-    SetBackgroundColor(sf::Color(233, 253, 255));
+    SetBackgroundColor(sf::Color(172, 172, 172));
 
     // Initialize GUI
-    m_panel.setFillColor(sf::Color(250, 250, 250, 235));
+    m_panel.setFillColor(sf::Color(235, 235, 235, 235));
     m_panel.setOutlineColor(sf::Color(0, 0, 0, 235));
     m_panel.setOutlineThickness(-1);
 
-    m_loadText.setFillColor(sf::Color::Black);
-    m_saveText.setFillColor(sf::Color::Black);
-    m_tileText.setFillColor(sf::Color::Black);
+    m_loadLevelLabel.setFillColor(sf::Color::Black);
+    m_saveLevelLabel.setFillColor(sf::Color::Black);
+    m_tileNameLabel.setFillColor(sf::Color::Black);
 
     m_loadLevelTextBox.SetBackgroundText("Level name");
     m_loadLevelTextBox.SetDimensions(sf::Vector2f(230, 30));
+    m_loadLevelTextBox.SetCharacterSize(20);
 
     m_saveLevelTextBox.SetBackgroundText("Level name");
     m_saveLevelTextBox.SetDimensions(sf::Vector2f(230, 30));
-
-    m_tileNameTextBox.SetDimensions(sf::Vector2f(230, 30));
-    m_tileNameTextBox.SetReadOnly(true);
+    m_saveLevelTextBox.SetCharacterSize(20);
 
     m_widthTextBox.SetBackgroundText("Width");
-    m_widthTextBox.SetDigitsOnly(true);
     m_widthTextBox.SetDimensions(sf::Vector2f(110, 30));
+    m_widthTextBox.SetCharacterSize(20);
+    m_widthTextBox.SetDigitsOnly(true);
 
     m_heightTextBox.SetBackgroundText("Height");
-    m_heightTextBox.SetDigitsOnly(true);
     m_heightTextBox.SetDimensions(sf::Vector2f(110, 30));
+    m_heightTextBox.SetCharacterSize(20);
+    m_heightTextBox.SetDigitsOnly(true);
 
+    m_tileNameTextBox.SetDimensions(sf::Vector2f(230, 30));
+    m_tileNameTextBox.SetCharacterSize(20);
+    m_tileNameTextBox.SetReadOnly(true);
     m_tileNameTextBox.SetText(Tile::GetTileTypeString(m_selectableTileTypes[m_selectedTileTypeIndex]));
 
     m_createLevelButton.SetVolume(0.75);
@@ -314,10 +318,10 @@ void CreatorState::Draw(sf::RenderTarget& rTarget, float lag)
 
     rTarget.draw(m_panel);
 
-    rTarget.draw(m_loadText);
+    rTarget.draw(m_loadLevelLabel);
     rTarget.draw(m_loadLevelTextBox);
 
-    rTarget.draw(m_saveText);
+    rTarget.draw(m_saveLevelLabel);
     rTarget.draw(m_saveLevelTextBox);
 
     rTarget.draw(m_widthTextBox);
@@ -325,7 +329,7 @@ void CreatorState::Draw(sf::RenderTarget& rTarget, float lag)
 
     rTarget.draw(m_createLevelButton);
 
-    rTarget.draw(m_tileText);
+    rTarget.draw(m_tileNameLabel);
     rTarget.draw(m_tileNameTextBox);
 }
 
@@ -334,19 +338,19 @@ void CreatorState::OnWindowResize()
     m_panel.setSize(sf::Vector2f(250, GetWindowDimensions().y));
     m_panel.setPosition(GetWindowDimensions().x - m_panel.getSize().x, 0);
 
-    m_loadText.setPosition(m_panel.getPosition() + sf::Vector2f(10, 10));
-    m_loadLevelTextBox.SetPosition(m_loadText.getPosition() + sf::Vector2f (0, 30));
+    m_loadLevelLabel.setPosition(m_panel.getPosition() + sf::Vector2f(10, 10));
+    m_loadLevelTextBox.SetPosition(m_loadLevelLabel.getPosition() + sf::Vector2f (0, 30));
 
-    m_saveText.setPosition(m_loadLevelTextBox.GetPosition() + sf::Vector2f(0, 40));
-    m_saveLevelTextBox.SetPosition(m_saveText.getPosition() + sf::Vector2f(0,30));
+    m_saveLevelLabel.setPosition(m_loadLevelTextBox.GetPosition() + sf::Vector2f(0, 40));
+    m_saveLevelTextBox.SetPosition(m_saveLevelLabel.getPosition() + sf::Vector2f(0,30));
 
     m_widthTextBox.SetPosition(m_saveLevelTextBox.GetPosition() + sf::Vector2f(0, 40));
     m_heightTextBox.SetPosition(m_widthTextBox.GetPosition() + sf::Vector2f(m_widthTextBox.GetDimensions().x + 10, 0));
 
     m_createLevelButton.SetPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0, 40) + m_saveLevelTextBox.GetDimensions() / 2.0f);
 
-    m_tileText.setPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0,80));
-    m_tileNameTextBox.SetPosition(m_tileText.getPosition() + sf::Vector2f(0,30));
+    m_tileNameLabel.setPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0,80));
+    m_tileNameTextBox.SetPosition(m_tileNameLabel.getPosition() + sf::Vector2f(0,30));
 
     m_level.OnWindowResize();
 }
