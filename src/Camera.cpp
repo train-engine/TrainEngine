@@ -12,6 +12,7 @@ Camera::Camera()
       m_isBoundless(true),
       m_minDimensions(128, 72),
       m_maxDimensions(2560, 1440),
+      m_offset(0, 0),
       m_zoom(1),
       m_zoomLerp(0.25),
       m_pFollowedEntity(nullptr),
@@ -77,6 +78,7 @@ void Camera::BoundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimens
 void Camera::Update()
 {
     m_previousDimensions = m_dimensions;
+    m_previousPosition = m_position;
 
     // Zoom lerp
     static const float epsilon = 1e-6;
@@ -91,28 +93,26 @@ void Camera::Update()
         m_dimensions = m_targetDimensions;
     }
 
+
     // Independent Camera movement
     if (m_mode == CameraMode::Static || m_mode == CameraMode::Moving)
     {
-        if (m_dimensions != m_targetDimensions)
-        {
-            BoundsCollision(m_position, m_dimensions);
-            BoundsCollision(m_previousPosition, m_previousDimensions);
-        }
-
         if (m_mode == CameraMode::Moving)
         {
             m_mode = CameraMode::Static;
+            m_position += m_offset;
+            m_offset = sf::Vector2f(0, 0);
+            BoundsCollision(m_position, m_dimensions);
         }
-        else
+
+        if (m_dimensions != m_targetDimensions)
         {
-            m_previousPosition = m_position;
+            BoundsCollision(m_previousPosition, m_previousDimensions);
+            BoundsCollision(m_position, m_dimensions);
         }
 
         return;
     }
-
-    m_previousPosition = m_position; // Placed after independent Camera movement for CameraMode::Moving interpolation
 
     if (m_mode == CameraMode::Follow)
     {
@@ -236,11 +236,10 @@ void Camera::Move(const sf::Vector2f& offset)
 
     if (m_mode != CameraMode::Moving)
     {
-        m_previousPosition = m_position;
+        //m_previousPosition = m_position;
     }
     m_mode = CameraMode::Moving;
-    m_position += offset;
-    BoundsCollision(m_position, m_dimensions);
+    m_offset += offset;
 }
 
 // Follow an Entity

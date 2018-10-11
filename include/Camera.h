@@ -33,6 +33,8 @@ private:
     sf::Vector2f m_minDimensions;
     sf::Vector2f m_maxDimensions;
 
+    sf::Vector2f m_offset;
+
     float m_zoom;
     float m_zoomLerp;
 
