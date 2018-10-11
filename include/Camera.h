@@ -25,6 +25,7 @@ private:
 
     sf::Vector2f m_position;
     sf::Vector2f m_previousPosition; // Previous position for interpolation
+    sf::Vector2f m_moveOffset; // Position offset for free movement
 
     sf::Vector2f m_dimensions;
     sf::Vector2f m_previousDimensions; // Previous dimensions for interpolation
@@ -32,8 +33,6 @@ private:
 
     sf::Vector2f m_minDimensions;
     sf::Vector2f m_maxDimensions;
-
-    sf::Vector2f m_offset;
 
     float m_zoom;
     float m_zoomLerp;

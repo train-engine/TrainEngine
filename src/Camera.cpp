@@ -12,7 +12,6 @@ Camera::Camera()
       m_isBoundless(true),
       m_minDimensions(128, 72),
       m_maxDimensions(2560, 1440),
-      m_offset(0, 0),
       m_zoom(1),
       m_zoomLerp(0.25),
       m_pFollowedEntity(nullptr),
@@ -100,8 +99,8 @@ void Camera::Update()
         if (m_mode == CameraMode::Moving)
         {
             m_mode = CameraMode::Static;
-            m_position += m_offset;
-            m_offset = sf::Vector2f(0, 0);
+            m_position += m_moveOffset;
+            m_moveOffset = sf::Vector2f(0, 0);
             BoundsCollision(m_position, m_dimensions);
         }
 
@@ -234,12 +233,8 @@ void Camera::Move(const sf::Vector2f& offset)
         m_ticksTotal = 0;
     }
 
-    if (m_mode != CameraMode::Moving)
-    {
-        //m_previousPosition = m_position;
-    }
     m_mode = CameraMode::Moving;
-    m_offset += offset;
+    m_moveOffset += offset;
 }
 
 // Follow an Entity
