@@ -9,6 +9,7 @@
 namespace
 {
     const sf::Vector2u minWindowDimensions(800, 600);
+    const int updatesPerSecond = 60;
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
     const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding update cycles if the State's m_canSkipUpdates is true
 }
@@ -22,7 +23,7 @@ GameEngine::GameEngine()
       m_inputManager(m_window)
 {
     // Output game info
-    std::cout << "Train Engine V0.5.0-dev - May 23 2017\n"
+    std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
                  "Game development started on: March 15 2015, 7:53:27 PM\n"
                  "Lines of code: 9000\n"
                  "Library used: SFML 2.4.2\n"
@@ -99,7 +100,7 @@ GameEngine::GameEngine()
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(m_resourceManager.GetTexture("cursor"));
 
-    SetTargetUps(60);
+    SetTargetUps(updatesPerSecond);
 }
 
 /// Call the destructor of each State by using Pop()
