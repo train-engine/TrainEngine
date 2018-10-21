@@ -1,6 +1,5 @@
 #include "State.h"
 #include <iostream>
-#include <math.h>
 
 unsigned int State::s_orderCounter = 0;
 

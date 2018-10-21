@@ -1,5 +1,5 @@
 #include "Gui.h"
-#include <math.h>
+#include <cmath>
 
 // DEPRECATED
 
@@ -614,7 +614,7 @@ void GuiSlider::MoveSlider(const sf::Vector2f& position)
     {
         // Position is equal to : (start) + (length of slider traversed by increase of 1 in m_value) * round((position - start) / (length of slider traversed by increase of 1 in m_value))
         m_sliderPosition.y = m_position.y  - m_dimensions.y/2 - m_borderThickness + m_sliderDimensions.y / 2 + ((m_dimensions.y + 2 * m_borderThickness - m_sliderDimensions.y) / m_maxValue) *
-        round((position.y - (m_position.y - m_dimensions.y / 2 - m_borderThickness + m_sliderDimensions.y / 2)) / ((m_dimensions.y + 2 * m_borderThickness - m_sliderDimensions.y) / m_maxValue));
+            std::round((position.y - (m_position.y - m_dimensions.y / 2 - m_borderThickness + m_sliderDimensions.y / 2)) / ((m_dimensions.y + 2 * m_borderThickness - m_sliderDimensions.y) / m_maxValue));
         
         CheckSliderCollision();
         
@@ -625,7 +625,7 @@ void GuiSlider::MoveSlider(const sf::Vector2f& position)
     {
         // Position is equal to : (start) + (length of slider traversed by increase of 1 in m_value) * round((position - start) / (length of slider traversed by increase of 1 in m_value))
         m_sliderPosition.x = m_position.x - m_dimensions.x/2 - m_borderThickness + m_sliderDimensions.x / 2 + ((m_dimensions.x + 2 * m_borderThickness - m_sliderDimensions.x) / m_maxValue) *
-        round((position.x - (m_position.x - m_dimensions.x / 2 - m_borderThickness + m_sliderDimensions.x / 2)) / ((m_dimensions.x + 2 * m_borderThickness - m_sliderDimensions.x) / m_maxValue));
+            std::round((position.x - (m_position.x - m_dimensions.x / 2 - m_borderThickness + m_sliderDimensions.x / 2)) / ((m_dimensions.x + 2 * m_borderThickness - m_sliderDimensions.x) / m_maxValue));
         
         CheckSliderCollision();
         

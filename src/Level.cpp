@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <math.h>
 #include <sstream>
 #include <unordered_map>
 #include "FileManager.h"

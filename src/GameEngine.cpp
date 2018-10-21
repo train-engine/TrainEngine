@@ -52,9 +52,9 @@ GameEngine::GameEngine()
 
         inputFile.close();
 
-        fullscreenModeIndex =  (fullscreenModeIndex < sf::VideoMode::getFullscreenModes().size() && fullscreenModeIndex > 0) ?
-                               fullscreenModeIndex :
-                               static_cast<unsigned int>(sf::VideoMode::getFullscreenModes().size()) - 1;
+        fullscreenModeIndex = (fullscreenModeIndex < sf::VideoMode::getFullscreenModes().size() && fullscreenModeIndex > 0) ?
+                              fullscreenModeIndex :
+                              static_cast<unsigned int>(sf::VideoMode::getFullscreenModes().size()) - 1;
 
         unsigned int style = (isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
 
@@ -98,7 +98,7 @@ GameEngine::GameEngine()
     }
 
     // Base State layout
-    State::ResizeLayout(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
 
     // Cursor
     m_window.setMouseCursorVisible(false);

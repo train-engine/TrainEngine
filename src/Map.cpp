@@ -1,8 +1,8 @@
 #include "Map.h"
 #include <cctype>
+#include <cmath>
 #include <fstream>
 #include <iostream>
-#include <math.h>
 #include "FileManager.h"
 #include "Tile.h"
 
@@ -957,7 +957,7 @@ void Map::Resize(const sf::Vector2u& indexDimensions)
     }
 
     // Max dimensions
-    sf::Vector2u newIndexDimensions = sf::Vector2u(fmin(indexDimensions.x, maxDimensions.x), fmin(indexDimensions.y, maxDimensions.y));
+    sf::Vector2u newIndexDimensions = sf::Vector2u(std::fmin(indexDimensions.x, maxDimensions.x), std::fmin(indexDimensions.y, maxDimensions.y));
 
     for (unsigned int z = 0; z < m_layerCount; z++)
     {

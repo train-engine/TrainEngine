@@ -1,5 +1,5 @@
 #include "TextBox.h"
-#include <math.h>
+#include <cmath>
 
 namespace
 {
@@ -108,7 +108,7 @@ bool TextBox::CheckMousePosition() const
 
 void TextBox::CenterText()
 {
-    m_displayText.setPosition(m_displayText.getPosition().x, round(m_position.y + (m_box.getSize().y - m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())) / 2));
+    m_displayText.setPosition(m_displayText.getPosition().x, std::round(m_position.y + (m_box.getSize().y - m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())) / 2));
     m_backgroundText.setPosition(m_box.getPosition().x + m_padding.x, m_displayText.getPosition().y);
 }
 

@@ -1,5 +1,5 @@
 #include "Entity.h"
-#include <math.h>
+#include <cmath>
 
 namespace
 {
@@ -398,8 +398,8 @@ void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
 void Entity::PerformCollisions()
 {
     // Determine the range of positions where the Entity could be in the next tick
-    float biggestAxis = fmax(m_dimensions.x, m_dimensions.y);
-    float highestVelocity = fmax(m_velocity.x, m_velocity.y);
+    float biggestAxis = std::fmax(m_dimensions.x, m_dimensions.y);
+    float highestVelocity = std::fmax(m_velocity.x, m_velocity.y);
     float range = (biggestAxis + highestVelocity) / m_rMap.GetTileSize();
     
     // Collision with Tiles

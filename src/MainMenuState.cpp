@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
+#include <cmath>
 #include <fstream>
 #include <iostream>
-#include <math.h>
 #include "CreatorState.h"
 #include "FileManager.h"
 #include "LoadPlayState.h"
@@ -184,7 +184,7 @@ void MainMenuState::HandleInput()
 
 void MainMenuState::Update()
 {
-    m_gameNameText.setRotation(360 * sin(m_elapsedTicks++ / 125.0));
+    m_gameNameText.setRotation(360 * std::sin(m_elapsedTicks++ / 125.0));
 }
 
 void MainMenuState::Draw(sf::RenderTarget& rTarget, float lag)

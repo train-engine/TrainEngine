@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include <math.h>
+#include <cmath>
 #include "Utility.h"
 
 namespace
@@ -81,7 +81,7 @@ void Camera::Update()
 
     // Zoom lerp
     static const float epsilon = 1e-6;
-    if (fabs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon || fabs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
+    if (std::fabs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon || std::fabs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
     {
         sf::Vector2f newDimensions = m_dimensions + (m_targetDimensions - m_dimensions) * m_zoomLerp;
         m_zoom *= newDimensions.x / m_dimensions.x;
@@ -180,7 +180,8 @@ void Camera::Update()
         if (m_ticksRemaining > 0)
         {
             // Sinerp function
-            m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) * static_cast<float>(pi / 2.0f * cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
+            m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) *
+                static_cast<float>(pi / 2.0f * std::cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
             m_ticksRemaining--;
         }
         else

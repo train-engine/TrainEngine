@@ -1,9 +1,9 @@
 #include "EntityTracker.h"
+#include <cmath>
+#include <ctime>
 #include <fstream>
 #include <iostream>
-#include <math.h>
 #include <sstream>
-#include <time.h>
 #include "FileManager.h"
 
 EntityTracker::EntityTracker(const sf::Font& font)
@@ -81,8 +81,8 @@ void EntityTracker::UpdateInfoBox()
     m_displacementText.setPosition(m_distanceTraveledText.getPosition().x, m_distanceTraveledText.getGlobalBounds().top + m_distanceTraveledText.getFont()->getLineSpacing(m_distanceTraveledText.getCharacterSize()));
     m_positionsCountText.setPosition(m_displacementText.getPosition().x, m_displacementText.getGlobalBounds().top + m_displacementText.getFont()->getLineSpacing(m_displacementText.getCharacterSize()));
 
-    float biggestTextWidth = fmax(fmax(m_lastPositionText.getGlobalBounds().width, m_distanceTraveledText.getGlobalBounds().width),
-                                  fmax(m_displacementText.getGlobalBounds().width, m_positionsCountText.getGlobalBounds().width));
+    float biggestTextWidth = std::fmax(std::fmax(m_lastPositionText.getGlobalBounds().width, m_distanceTraveledText.getGlobalBounds().width),
+                                       std::fmax(m_displacementText.getGlobalBounds().width, m_positionsCountText.getGlobalBounds().width));
     float padding = 2;
 
     m_textContainer.setSize(sf::Vector2f(biggestTextWidth + padding * 2, m_positionsCountText.getGlobalBounds().top + m_positionsCountText.getCharacterSize() - m_lastPositionText.getGlobalBounds().top + padding * 2));
@@ -151,10 +151,10 @@ void EntityTracker::StopTracking()
 
 void EntityTracker::OutputToExcel() const
 {
-    time_t t = time(nullptr);
-    tm* time = localtime(&t);
+    std::time_t t = std::time(nullptr);
+    std::tm* pTime = std::localtime(&t);
     std::stringstream stream;
-    stream << 1900 + time->tm_year << 1 + time->tm_mon << time->tm_mday << 1 + time->tm_hour - time->tm_isdst << 1 + time->tm_min << 1 + time->tm_sec;
+    stream << 1900 + pTime->tm_year << 1 + pTime->tm_mon << pTime->tm_mday << 1 + pTime->tm_hour - pTime->tm_isdst << 1 + pTime->tm_min << 1 + pTime->tm_sec;
 
     std::ofstream outputFile(FileManager::ResourcePath() + "logs/tracker_" + stream.str() + ".csv");
     if (outputFile)
@@ -177,7 +177,7 @@ float EntityTracker::GetDisplacement() const
 {
     if (m_positions.size() > 1)
     {
-        return hypot(m_positions.back().x - m_positions.front().x, m_positions.back().y - m_positions.front().y);
+        return std::hypot(m_positions.back().x - m_positions.front().x, m_positions.back().y - m_positions.front().y);
     }
 
     return 0;
