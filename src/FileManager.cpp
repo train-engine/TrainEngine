@@ -1,8 +1,10 @@
 #include "FileManager.h"
-#include <dirent.h>
 #include <iostream>
 #include <SFML/System.hpp>
 #include "FileManager.h"
+#if !defined(SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
+    #include <dirent.h>
+#endif
 #if defined(SFML_SYSTEM_ANDROID)
     #include <android/asset_manager.h>
     #include <android/native_activity.h>
@@ -11,44 +13,52 @@
 
 int FileManager::GetFileCount(const std::string& directory)
 {
-    DIR* pDirectoryStream = opendir(directory.c_str());
-    dirent* pCurrentFile;
-    int fileCount = -2;
+    #if !defined (SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
+        DIR* pDirectoryStream = opendir(directory.c_str());
+        dirent* pCurrentFile;
+        int fileCount = -2;
 
-    if (pDirectoryStream == nullptr)
-    {
-        std::cout << "Failed to open directory: " << directory << '\n';
+        if (pDirectoryStream == nullptr)
+        {
+            std::cout << "Failed to open directory: " << directory << '\n';
+            return 0;
+        }
+    
+        while ((pCurrentFile = readdir(pDirectoryStream)))
+        {
+            ++fileCount;
+        }
+    
+        closedir(pDirectoryStream);
+        return fileCount;
+    #else
         return 0;
-    }
-    
-    while ((pCurrentFile = readdir(pDirectoryStream)))
-    {
-        ++fileCount;
-    }
-    
-    closedir(pDirectoryStream);
-    return fileCount;
+    #endif
 }
 
 std::vector<std::string> FileManager::GetFilenamesInDirectory(const std::string& directory)
 {
-    std::vector<std::string> filenames;
-    DIR* pDirectoryStream = opendir(directory.c_str());
-    dirent* pCurrentFile;
+    #if !defined (SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
+        std::vector<std::string> filenames;
+        DIR* pDirectoryStream = opendir(directory.c_str());
+        dirent* pCurrentFile;
     
-    if (pDirectoryStream == nullptr)
-    {
-        std::cout << "Failed to open directory: " << directory << '\n';
+        if (pDirectoryStream == nullptr)
+        {
+            std::cout << "Failed to open directory: " << directory << '\n';
+            return filenames;
+        }
+    
+        while ((pCurrentFile = readdir(pDirectoryStream)))
+        {
+            filenames.emplace_back(pCurrentFile->d_name);
+        }
+    
+        closedir(pDirectoryStream);
         return filenames;
-    }
-    
-    while ((pCurrentFile = readdir(pDirectoryStream)))
-    {
-        filenames.emplace_back(pCurrentFile->d_name);
-    }
-    
-    closedir(pDirectoryStream);
-    return filenames;
+    #else
+        return std::vector<std::string>();
+    #endif
 }
 
 #if defined(SFML_SYSTEM_ANDROID)

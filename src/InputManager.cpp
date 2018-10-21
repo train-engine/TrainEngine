@@ -3,9 +3,7 @@
 #include <string>
 #include "FileManager.h"
 #if defined(SFML_SYSTEM_WINDOWS)
-    #include <windef.h>
-    #include <winbase.h>
-    #include <winuser.h>
+    #include <windows.h>
 #elif defined(SFML_SYSTEM_MACOS)
     #include "MacClipboard.h"
 #endif
