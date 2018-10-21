@@ -5,8 +5,8 @@
 #include <sstream>
 #include "FileManager.h"
 
-// Constructor creates defaults to use when an unloaded resource is referenced,
-// and loads resources loaded for the entire duration of the program
+// Create defaults to use when an unloaded resource is referenced,
+// and load resources loaded for the entire duration of the program
 ResourceManager::ResourceManager()
 {
     LoadTexture("missingTexture", "res/images/missing_texture.png");
@@ -16,13 +16,9 @@ ResourceManager::ResourceManager()
     LoadInitialResources();
 }
 
-// Destructor clears all the maps
 ResourceManager::~ResourceManager()
 {
-    m_textures.clear();
-    m_fonts.clear();
-    m_soundBuffers.clear();
-    m_shaders.clear();
+
 }
 
 // Load resources loaded on startup
@@ -85,7 +81,7 @@ bool ResourceManager::LoadInitialResources()
 
 // Texture functions
 
-// Loads a Texture and binds it to the map if the key is available, and returns a reference to the const loaded Texture
+// Load a Texture and bind it to the map if the key is available, and return a reference to the const loaded Texture
 const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect)
 {
     // If a Texture is already loaded at the specified key, return the existing Texture
@@ -105,7 +101,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
     return m_textures.at(name);
 }
 
-// Removes a Texture from the Texture map
+// Remove a Texture from the Texture map
 void ResourceManager::UnloadTexture(const std::string& name)
 {
     std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
@@ -119,7 +115,7 @@ void ResourceManager::UnloadTexture(const std::string& name)
     }
 }
 
-// Returns a reference to a const loaded Texture
+// Return a reference to a const loaded Texture
 const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
@@ -132,7 +128,7 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
     return m_textures.at("missingTexture");
 }
 
-// Sets a Texture's isRepeated value
+// Set a Texture's isRepeated value
 void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeated)
 {
     std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
@@ -146,7 +142,7 @@ void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeate
     }
 }
 
-// Sets a Texture's isSmooth value
+// Set a Texture's isSmooth value
 void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 {
     std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
@@ -162,7 +158,7 @@ void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 
 // Font functions
 
-// Loads a Font and binds it to the map if the key is available, and returns a reference to the const loaded Font
+// Load a Font and bind it to the map if the key is available, and return a reference to the const loaded Font
 const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::string& filename)
 {
     // If a Font is already loaded at the specified key, return the existing Font
@@ -182,7 +178,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
     return m_fonts.at(name);
 }
 
-// Removes a Font from the Font map
+// Remove a Font from the Font map
 void ResourceManager::UnloadFont(const std::string& name)
 {
     std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
@@ -196,7 +192,7 @@ void ResourceManager::UnloadFont(const std::string& name)
     }
 }
 
-// Returns a reference to a const loaded Font
+// Return a reference to a const loaded Font
 const sf::Font& ResourceManager::GetFont(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
@@ -211,7 +207,7 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
 
 // SoundBuffer functions
 
-// Loads a SoundBuffer and binds it to the map, and returns a reference to the const loaded SoundBuffer
+// Load a SoundBuffer and bind it to the map if the key is available, and return a reference to the const loaded SoundBuffer
 const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name, const std::string& filename)
 {
     // If a SoundBuffer is already loaded at the specified key, return the existing SoundBuffer
@@ -231,7 +227,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
     return m_soundBuffers.at(name);
 }
 
-// Removes a SoundBuffer from the SoundBuffer map
+// Remove a SoundBuffer from the SoundBuffer map
 void ResourceManager::UnloadSoundBuffer(const std::string& name)
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -245,7 +241,7 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
     }
 }
 
-// Returns a reference to a const loaded SoundBuffer
+// Return a reference to a const loaded SoundBuffer
 const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) const
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -260,7 +256,7 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
 
 // Shader functions
 
-// Loads a Shader and binds it to the map, and returns a reference to the const loaded Shader
+// Load a Shader and bind it to the map if the key is available, and return a reference to the const loaded Shader
 const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std::string& filename, sf::Shader::Type type)
 {
     // If a Shader is already loaded at the specified key, return the existing Shader
@@ -280,7 +276,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
     return m_shaders.at(name);
 }
 
-// Removes a Shader from the Shader map
+// Remove a Shader from the Shader map
 void ResourceManager::UnloadShader(const std::string& name)
 {
     std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
@@ -294,7 +290,7 @@ void ResourceManager::UnloadShader(const std::string& name)
     }
 }
 
-// Returns a reference to a const loaded Shader
+// Return a reference to a const loaded Shader
 const sf::Shader& ResourceManager::GetShader(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);

@@ -18,7 +18,6 @@ private:
     unsigned int m_orderCreated;
 
     static sf::Vector2f s_windowDimensions;
-    static sf::View s_defaultView;
     static sf::Vector2f s_windowMousePosition;
     static sf::RectangleShape s_backgroundColorShape;
 
@@ -50,14 +49,13 @@ protected:
     virtual ~State() {}
 
     // Functions
-    void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states);
+    void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
 
     // Setters
     void SetBackgroundColor(sf::Color color) {m_backgroundColor = color;}
 
     // Getters
     static const sf::Vector2f& GetWindowDimensions() {return s_windowDimensions;}
-    static const sf::View& GetDefaultView() {return s_defaultView;}
     static const sf::Vector2f& GetWindowMousePosition() {return s_windowMousePosition;}
 
     // Utility functions

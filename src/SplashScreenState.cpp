@@ -33,7 +33,7 @@ void SplashScreenState::MainMenuStart()
 
 void SplashScreenState::HandleInput()
 { 
-    if (m_rGame.m_inputManager.DetectedKeyDownEvent() || m_rGame.m_inputManager.DetectedMouseButtonUpEvent())
+    if (m_rGame.m_inputManager.DetectedKeyPressedEvent() || m_rGame.m_inputManager.DetectedMouseButtonReleasedEvent())
     {
         // Go to main menu
         MainMenuStart();
@@ -57,8 +57,6 @@ void SplashScreenState::Update()
 
 void SplashScreenState::Draw(sf::RenderTarget& rTarget, float lag)
 {
-    rTarget.setView(GetDefaultView());
-
     rTarget.draw(m_mask);
     rTarget.draw(m_splash);
 }

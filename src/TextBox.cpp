@@ -73,21 +73,21 @@ TextBox::~TextBox()
 
 void TextBox::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 {
-    rTarget.draw(m_box);
+    rTarget.draw(m_box, states);
     if (m_cursorIndex != m_selectionStartIndex)
     {
-        rTarget.draw(m_selection);
+        rTarget.draw(m_selection, states);
     }
     rTarget.draw(m_renderSprite, states);
-    rTarget.draw(m_hideBoxLeft);
-    rTarget.draw(m_hideBoxRight);
+    rTarget.draw(m_hideBoxLeft, states);
+    rTarget.draw(m_hideBoxRight, states);
     if (m_hasFocus == true && m_isCursorVisible == true)
     {
-        rTarget.draw(m_cursor);
+        rTarget.draw(m_cursor, states);
     }
     if (m_hasFocus == false && m_displayText.getString().isEmpty())
     {
-        rTarget.draw(m_backgroundText);
+        rTarget.draw(m_backgroundText, states);
     }
 }
 
@@ -134,7 +134,7 @@ void TextBox::SetDisplayText(const sf::String& text)
 void TextBox::UpdateCursor()
 {
     // If the left or right arrows are pressed
-    if (m_rInputManager.IsKeyDown(sf::Keyboard::Left, true) || m_rInputManager.IsKeyDown(sf::Keyboard::Right, true))
+    if (m_rInputManager.IsKeyDescending(sf::Keyboard::Left, true) || m_rInputManager.IsKeyDescending(sf::Keyboard::Right, true))
     {
         ControlCursorArrow();
         SetTextPosition();
@@ -145,13 +145,13 @@ void TextBox::UpdateCursor()
             SetSelectionBounds();
         }
     }
-    if (m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) || m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
+    if (m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) || m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         if (m_rInputManager.GetWindowMousePosition().x > m_box.getPosition().x &&
             m_rInputManager.GetWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
         {
             if ((m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) && m_rInputManager.DetectedMouseMovedEvent()) ||
-                 m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
+                 m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
             {
                 ControlCursorMouse();
             }
@@ -164,7 +164,7 @@ void TextBox::UpdateCursor()
         DrawTexture();
         SetCursorPosition();
         // Reset selection on mouse click
-        if (m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
+        if (m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
         {
             ResetSelection();
         }
@@ -203,11 +203,11 @@ void TextBox::MoveCursorLeft()
 }
 
 // Control left and right arrows
-// Supports shift selection
+// Shift selection is supported
 void TextBox::ControlCursorArrow()
 {
     // If left arrow key is pressed
-    if (m_rInputManager.IsKeyDown(sf::Keyboard::Left, true))
+    if (m_rInputManager.IsKeyDescending(sf::Keyboard::Left, true))
     {
         // If there is a selection and shift and control are not held
         if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
@@ -243,7 +243,7 @@ void TextBox::ControlCursorArrow()
         }
     }
     // If the right arrow key is pressed
-    else if (m_rInputManager.IsKeyDown(sf::Keyboard::Right, true))
+    else if (m_rInputManager.IsKeyDescending(sf::Keyboard::Right, true))
     {
         // If there is a selection and shift and control are not held
         if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
@@ -279,7 +279,7 @@ void TextBox::ControlCursorArrow()
     }
 }
 
-// Controls the cursor with the mouse
+// Control the cursor with the mouse
 void TextBox::ControlCursorMouse()
 {
     m_cursorTickCount = 0;
@@ -361,7 +361,7 @@ void TextBox::DragCursor()
 
 void TextBox::UpdateText()
 {
-    if (m_rInputManager.DetectedTextEnteredEvent() || m_rInputManager.IsKeyDown(sf::Keyboard::Delete, true))
+    if (m_rInputManager.DetectedTextEnteredEvent() || m_rInputManager.IsKeyDescending(sf::Keyboard::Delete, true))
     {
         m_isCursorVisible = true;
         m_cursorTickCount = 0;
@@ -502,7 +502,7 @@ void TextBox::UpdateText()
                 SetCursorPosition();
             }
         }
-        if (m_rInputManager.IsKeyDown(sf::Keyboard::Delete, true))
+        if (m_rInputManager.IsKeyDescending(sf::Keyboard::Delete, true))
         {
             if (m_cursorIndex < m_displayText.getString().getSize())
             {
@@ -533,7 +533,7 @@ bool TextBox::IsCharacterAccepted(sf::Uint32 enteredChar)
     return ((enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160);
 }
 
-// Sets the position of the text
+// Set the position of the text
 void TextBox::SetTextPosition()
 {
     // If the text is bigger than the box
@@ -689,7 +689,7 @@ void TextBox::HandleInput()
         }
 
         // Check if there is a mouse press
-        if (m_rInputManager.IsMouseButtonDown(sf::Mouse::Left))
+        if (m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
         {
             bool isMouseInsideBox = CheckMousePosition();
             if (isMouseInsideBox == true && m_hasFocus == false)

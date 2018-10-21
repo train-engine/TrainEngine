@@ -24,7 +24,6 @@ private:
     // Functions
     void PauseStart();
     void ReadMusicSettings();
-    void UnloadResources() const;
 
     // State functions
     virtual void HandleInput() override;

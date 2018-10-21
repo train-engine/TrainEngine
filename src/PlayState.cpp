@@ -28,7 +28,7 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
 
 PlayState::~PlayState()
 {
-    UnloadResources();
+
 }
 
 void PlayState::ReadMusicSettings()
@@ -49,15 +49,6 @@ void PlayState::ReadMusicSettings()
     std::cout << "Failed to read sound settings.\n";
 }
 
-void PlayState::UnloadResources() const
-{
-    m_rGame.m_resourceManager.UnloadTexture("parallaxMountains1");
-    m_rGame.m_resourceManager.UnloadTexture("parallaxMountains2");
-    m_rGame.m_resourceManager.UnloadTexture("parallaxMountains3");
-    m_rGame.m_resourceManager.UnloadTexture("parallaxMountains4");
-    m_rGame.m_resourceManager.UnloadTexture("parallaxMountains5");
-}
-
 void PlayState::PauseStart()
 {
     m_music.setVolume(m_music.getVolume() * 0.20);
@@ -68,7 +59,7 @@ void PlayState::HandleInput()
 {
     m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.m_inputManager.DetectedLostFocusEvent() || m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.DetectedLostFocusEvent() || m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         PauseStart();
         return;
@@ -78,11 +69,11 @@ void PlayState::HandleInput()
     {
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)
         {
@@ -108,12 +99,10 @@ void PlayState::Update()
 
 void PlayState::Draw(sf::RenderTarget& rTarget, float lag)
 {
-    rTarget.setView(GetDefaultView());
-    DrawBackgroundColor(rTarget, sf::RenderStates());
+    DrawBackgroundColor(rTarget);
     
-    m_level.Draw(rTarget, sf::RenderStates(), lag);
+    m_level.Draw(rTarget, sf::RenderStates::Default, lag);
 
-    rTarget.setView(GetDefaultView());
     rTarget.draw(m_darkness);
     rTarget.draw(m_muteButton);
 }

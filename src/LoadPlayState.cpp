@@ -68,30 +68,7 @@ void LoadPlayState::LoadResources()
         
         while (std::getline(inputFile, line))
         {
-            if (line == "parallaxMountains")
-            {
-                m_rGame.m_resourceManager.LoadTexture("parallaxMountains1", "res/images/backgrounds/parallax_mountains/parallax_mountains1.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxMountains1", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxMountains2", "res/images/backgrounds/parallax_mountains/parallax_mountains2.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxMountains2", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxMountains3", "res/images/backgrounds/parallax_mountains/parallax_mountains3.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxMountains3", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxMountains4", "res/images/backgrounds/parallax_mountains/parallax_mountains4.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxMountains4", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxMountains5", "res/images/backgrounds/parallax_mountains/parallax_mountains5.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxMountains5", true);
-            }
-            else if (line == "parallaxUnderwater")
-            {
-                m_rGame.m_resourceManager.LoadTexture("parallaxUnderwater1", "res/images/backgrounds/parallax_underwater/parallax_underwater1.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxUnderwater1", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxUnderwater2", "res/images/backgrounds/parallax_underwater/parallax_underwater2.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxUnderwater2", true);
-                m_rGame.m_resourceManager.LoadTexture("parallaxUnderwater3", "res/images/backgrounds/parallax_underwater/parallax_underwater3.png");
-                m_rGame.m_resourceManager.SetTextureRepeated("parallaxUnderwater3", true);
-            }
-            
-            else if (line == "grassTopLeftSides")           m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 0, 64, 64));
+            if (line == "grassTopLeftSides")                m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 0, 64, 64));
             else if (line == "grassTopSide")                m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 0, 64, 64));
             else if (line == "grassTopRightSides")          m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 0, 64, 64));
             else if (line == "grassLeftSide")               m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 64, 64, 64));
@@ -134,7 +111,48 @@ void LoadPlayState::LoadResources()
             else if (line == "ladder")                      m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/metal_ladder.png");
             else if (line == "vine")                        m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/vine.png");
             else if (line == "post")                        m_rGame.m_resourceManager.LoadTexture(line, "res/images/tiles/post.png");
-            
+
+            else if (line == "parallaxMountains1")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains1.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxMountains2")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains2.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxMountains3")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains3.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxMountains4")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains4.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxMountains5")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains5.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxUnderwater1")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater1.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxUnderwater2")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater2.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+            else if (line == "parallaxUnderwater3")
+            {
+                m_rGame.m_resourceManager.LoadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater3.png");
+                m_rGame.m_resourceManager.SetTextureRepeated(line, true);
+            }
+
             else if (line == "characterStill")              m_rGame.m_resourceManager.LoadTexture(line, "res/images/entities/player/player_standing.png");
             else if (line == "characterRunning")            m_rGame.m_resourceManager.LoadTexture(line, "res/images/entities/player/player_running.png");
             else if (line == "characterClimbing")           m_rGame.m_resourceManager.LoadTexture(line, "res/images/entities/player/player_climbing.png");
@@ -177,9 +195,7 @@ void LoadPlayState::Update()
 }
 
 void LoadPlayState::Draw(sf::RenderTarget& rTarget, float lag)
-{
-    rTarget.setView(GetDefaultView());
-    
+{   
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_loadingText);
     rTarget.draw(m_loadingBar);

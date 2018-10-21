@@ -26,6 +26,7 @@ private:
     bool m_isInfoBoxVisible;
 
     // Functions
+    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
     void UpdateInfoBox();
 
 public:
@@ -34,7 +35,6 @@ public:
 
     // Functions
     void Update();
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
 
     void ResetTracking();
     void StopTracking();

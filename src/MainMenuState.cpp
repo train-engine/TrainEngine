@@ -98,18 +98,18 @@ void MainMenuState::ReadMusicSettings()
 
 void MainMenuState::HandleInput()
 {
-    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::P))
+    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::P))
     {
         // Start game
         LoadPlayStart("data/levels/level2");
         return;
     }
-    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::C))
+    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::C))
     {
         // Start Level creator
         CreatorStart();
@@ -124,7 +124,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchBeganEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
+    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchBeganEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
@@ -132,7 +132,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchEndedEvent())
+    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchEndedEvent())
     {
         for (unsigned int i = 0; i < m_buttons.size(); i++)
         {
@@ -189,8 +189,6 @@ void MainMenuState::Update()
 
 void MainMenuState::Draw(sf::RenderTarget& rTarget, float lag)
 {
-    rTarget.setView(GetDefaultView());
-
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_gameNameText);
     rTarget.draw(m_creditsText);

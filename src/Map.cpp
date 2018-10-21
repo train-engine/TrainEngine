@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <math.h>
@@ -126,13 +127,13 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
     while (m_horizGridLine.getPosition().y <= viewPosition.y + viewDimensions.y / 2 &&
            m_horizGridLine.getPosition().y <= GetBounds().y)
     {
-        rTarget.draw(m_horizGridLine);
+        rTarget.draw(m_horizGridLine, states);
         m_horizGridLine.setPosition(m_horizGridLine.getPosition() + sf::Vector2f(0, m_tileSize));
     }
     while (m_vertGridLine.getPosition().x <= viewPosition.x + viewDimensions.x / 2 &&
            m_vertGridLine.getPosition().x <= GetBounds().x)
     {
-        rTarget.draw(m_vertGridLine);
+        rTarget.draw(m_vertGridLine, states);
         m_vertGridLine.setPosition(m_vertGridLine.getPosition() + sf::Vector2f(m_tileSize, 0));
     }
 }
@@ -142,7 +143,7 @@ void Map::Update()
     
 }
 
-// Loads the Map from a save file
+// Load the Map from a save file
 bool Map::Load(const std::string& filename)
 {
     // First delete all elements of the vector (necessary when changing level)
@@ -253,7 +254,7 @@ bool Map::Load(const std::string& filename)
     }
 }
 
-// Saves the Map to a save file
+// Save the Map to a save file
 bool Map::Save(const std::string& filename)
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
@@ -313,19 +314,19 @@ bool Map::Save(const std::string& filename)
     }
 }
 
-// For converting a world coord to a Tile index
+// Convert world coordinates to a Tile index
 sf::Vector2u Map::CoordsToTileIndex(const sf::Vector2f& position) const
 {
     return sf::Vector2u(position.x / m_tileSize, position.y / m_tileSize);
 }
 
-// For converting a Tile index to a world coord
+// Convert a Tile index to world coordinates
 sf::Vector2f Map::TileIndexToCoords(const sf::Vector2u& position) const
 {
     return sf::Vector2f(position.x * m_tileSize, position.y * m_tileSize);
 }
 
-// Updates a Tile's texture according to surrounding Tiles
+// Update a Tile's texture according to surrounding Tiles
 void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 {
     if (layer == MapLayer::Count)
@@ -635,7 +636,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
     }
 }
 
-// Creates a new Tile at the specified index
+// Create a new Tile at the specified index
 void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
@@ -853,7 +854,7 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
     }
 }
 
-// Creates a new range of Tiles at the specified index
+// Create a new range of Tiles at the specified index
 void Map::AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
@@ -882,7 +883,7 @@ void Map::AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const s
     }
 }
 
-// Deletes the Tile at the specified index
+// Delete the Tile at the specified index
 void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
@@ -919,7 +920,7 @@ void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateT
     }
 }
 
-// Deletes the range of Tiles at the specified index
+// Delete the range of Tiles at the specified index
 void Map::RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
@@ -947,7 +948,7 @@ void Map::RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& ran
     }
 }
 
-// Resizes the Map to the specified index dimensions
+// Resize the Map to the specified index dimensions
 void Map::Resize(const sf::Vector2u& indexDimensions)
 {
     if (indexDimensions.x == 0 || indexDimensions.y == 0)
@@ -1001,7 +1002,7 @@ void Map::Resize(const sf::Vector2u& indexDimensions)
     m_indexDimensions = newIndexDimensions;
 }
 
-// Removes all Tiles by deleting them and setting them to nullptr, but conserves the Map's index dimensions
+// Remove all Tiles by deleting them and setting them to nullptr, but conserve the Map's index dimensions
 void Map::Clear()
 {
     for (unsigned int z = 0; z < m_layerCount; z++)
@@ -1017,7 +1018,7 @@ void Map::Clear()
     }
 }
 
-// Removes all Tiles on a Layer by deleting them and setting them to nullptr
+// Remove all Tiles on a Layer by deleting them and setting them to nullptr
 void Map::ClearLayer(MapLayer layer)
 {
     if (layer == MapLayer::Count)
@@ -1035,7 +1036,7 @@ void Map::ClearLayer(MapLayer layer)
     }
 }
 
-// Sets a layer's Tiles' color
+// Set a layer's Tiles' color
 void Map::SetLayerColor(sf::Color color, MapLayer layer)
 {
     if (layer == MapLayer::Count)
@@ -1059,19 +1060,19 @@ void Map::SetLayerColor(sf::Color color, MapLayer layer)
     }
 }
 
-// Returns Map dimensions, in world coords
+// Return Map dimensions, in world coords
 sf::Vector2u Map::GetBounds() const
 {
     return sf::Vector2u(m_indexDimensions.x * m_tileSize, m_indexDimensions.y * m_tileSize);
 }
 
-// Returns true if the Map is 0x0
+// Return true if the Map is 0x0
 bool Map::IsNull() const
 {
     return (m_indexDimensions == sf::Vector2u(0, 0));
 }
 
-// Returns a pointer to a const Tile at given coords
+// Return a pointer to a const Tile at given coords
 const Tile* Map::GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const
 {
     if (layer == MapLayer::Count || index.x >= m_indexDimensions.x || index.y >= m_indexDimensions.y)
@@ -1081,7 +1082,7 @@ const Tile* Map::GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const
     return m_tiles[static_cast<int>(layer)][index.y][index.x];
 }
 
-// Returns a pointer to a Tile at given coords
+// Return a pointer to a Tile at given coords
 Tile* Map::GetTilePtr(const sf::Vector2u& index, MapLayer layer) const
 {
     if (layer == MapLayer::Count || index.x >= m_indexDimensions.x || index.y >= m_indexDimensions.y)

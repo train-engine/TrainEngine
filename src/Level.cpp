@@ -30,9 +30,12 @@ Level::~Level()
     }
 }
 
-// Loads the background from a save file
+// Load the background from a save file
 bool Level::LoadBackground(const std::string& filename)
 {
+    // Remove all ParallaxSprites (necessary when changing level)
+    m_parallaxSprites.clear();
+
     std::ifstream inputFile;
     inputFile.open(FileManager::ResourcePath() + filename);
     if (inputFile)
@@ -207,7 +210,7 @@ bool Level::LoadBackground(const std::string& filename)
     }
 }
 
-// Saves the background to a save file
+// Save the background to a save file
 bool Level::SaveBackground(const std::string& filename)
 {
     std::ofstream outputFile;
@@ -253,10 +256,10 @@ bool Level::SaveBackground(const std::string& filename)
     }
 }
 
-// Loads the Entities from a save file
+// Load the Entities from a save file
 bool Level::LoadEntities(const std::string& filename)
 {
-    // Delete all Entities (necessary when changing level)
+    // Remove all Entities (necessary when changing level)
     for (const auto& pEntity : m_entities)
     {
         delete pEntity;
@@ -308,7 +311,7 @@ bool Level::LoadEntities(const std::string& filename)
     }
 }
 
-// Saves the Entities to a save file
+// Save the Entities to a save file
 bool Level::SaveEntities(const std::string& filename)
 {
     std::ofstream outputFile;
@@ -338,13 +341,14 @@ bool Level::SaveEntities(const std::string& filename)
     }
 }
 
-// Loads the list of necessary resources for the Level from a save file
+// Load the list of necessary resources for the Level from a save file
 bool Level::LoadResources(const std::string& filename)
 {
-    // TO DO
+    // TODO
+    return true;
 }
 
-// Saves the list of necessary resources for the Level to a save file
+// Save the list of necessary resources for the Level to a save file
 bool Level::SaveResources(const std::string& filename)
 {
     std::ofstream outputFile;
@@ -370,6 +374,12 @@ bool Level::SaveResources(const std::string& filename)
             }
         }
 
+        // Background
+        for (const auto& parallaxSprite : m_parallaxSprites)
+        {
+            Utility::AddIfUnique(resources, parallaxSprite.GetResourceName());
+        }
+
         // Entities
         for (const auto& pEntity : m_entities)
         {
@@ -382,10 +392,6 @@ bool Level::SaveResources(const std::string& filename)
                 }
             }
         }
-
-        // Background
-        resources.emplace_back("parallaxMountains");
-        resources.emplace_back("parallaxUnderwater");
 
         std::cout << "Number of resources: " << resources.size() << '\n';
 
@@ -415,7 +421,7 @@ void Level::HandleInput()
     }
 
     // Show debug boxes
-    if (m_inputManager.IsKeyDown(sf::Keyboard::BackSlash))
+    if (m_inputManager.IsKeyDescending(sf::Keyboard::BackSlash))
     {
         m_isEntityDebugBoxVisible = !m_isEntityDebugBoxVisible;
         for (const auto pEntity : m_entities)
@@ -452,11 +458,11 @@ void Level::HandleInput()
         m_camera.Move({cameraSpeed, 0});
     }
 
-    if (m_inputManager.IsMouseButtonDown(sf::Mouse::Middle))
+    if (m_inputManager.IsMouseButtonDescending(sf::Mouse::Middle))
     {
         m_camera.SetTranslate(m_camera.GetPosition(), GetLevelMousePosition(), 60, true);
     }
-    if (m_camera.GetMode() == CameraMode::Static && m_inputManager.IsKeyDown(sf::Keyboard::Q))
+    if (m_camera.GetMode() == CameraMode::Static && m_inputManager.IsKeyDescending(sf::Keyboard::Q))
     {
         if (!m_entities.empty() && m_entities[0] != nullptr)
         {
@@ -496,6 +502,9 @@ void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
 {
     // Camera
     m_camera.Interpolate(lag);
+
+    // Change view to Camera view
+    sf::View oldView = rTarget.getView();
     rTarget.setView(m_camera.GetView());
 
     // Parallax background
@@ -512,15 +521,19 @@ void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
         pEntity->Interpolate(lag);
         rTarget.draw(*pEntity, states);
     }
+
+    // Reset the target's view back to its initial view
+    rTarget.setView(oldView);
 }
 
-// Calls the loading functions for the Entities and the Map (comment à changer et rendre consistent, du genre Load all components ou jsp)
+// Load all Level components, such as the Map, the Entities and the Parallax background
 bool Level::Load(const std::string& levelDirectory)
 {
     std::cout << "\nLoading Level: " << levelDirectory << "\n\n";
     if (m_map.Load(levelDirectory + "/tiles.txt") &&
         LoadBackground(levelDirectory + "/background.txt") &&
-        LoadEntities(levelDirectory + "/entities.txt"))
+        LoadEntities(levelDirectory + "/entities.txt") &&
+        LoadResources(levelDirectory + "/resources.txt"))
     {
         m_camera.SetBounds(static_cast<sf::Vector2f>(m_map.GetBounds()));
 
@@ -542,7 +555,7 @@ bool Level::Load(const std::string& levelDirectory)
 bool Level::Save(const std::string& levelDirectory)
 {
     std::cout << "\nSaving Level: " << levelDirectory << "\n\n";
-    // TO DO:
+    // TODO
     // check if dir exists
         // if not, create it
     // make temp copy and replace if everything works

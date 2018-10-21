@@ -57,6 +57,7 @@ private:
     void HandleRequests();
     void OnStateChange();
     void OnWindowResize();
+    void ResetWindowView();
 
 public:
     InputManager m_inputManager;
@@ -74,7 +75,7 @@ public:
     void RequestSwap(State* pState);
 
     // Draw the State under the current State
-    void DrawPreviousState(const State& currentState);
+    void DrawPreviousState(const State* pCurrentState);
 
     // Loop clock functions
     void SetTargetUps(unsigned int updatesPerSecond);

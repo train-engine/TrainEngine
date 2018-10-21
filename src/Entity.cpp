@@ -10,9 +10,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
                const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity,
                float acceleration, float deceleration, float jumpForce, bool isGravityApplied,
                bool isTileCollideable, bool isEntityCollideable)
-    : m_rMap(rMap),
-      m_rEntities(rEntities),
-      m_entityType(entityType),
+    : m_entityType(entityType),
       m_state(EntityState::Still),
       m_collisionBox(dimensions),
       m_tileReactionDot(sf::Vector2f(1, 1)),
@@ -36,7 +34,9 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
       m_isPressingShift(false),
       m_jumpForce(jumpForce),
       m_defaultClimbSpeed(8),
-      m_defaultDescentSpeed(6)
+      m_defaultDescentSpeed(6),
+      m_rMap(rMap),
+      m_rEntities(rEntities)
 {
     m_collisionBox.setOrigin(m_dimensions / 2.0f);
     m_collisionBox.setPosition(m_position);
@@ -72,7 +72,7 @@ void Entity::TileCollision(const Tile* pTile)
 // Apply collision with a pointer to a const Entity
 void Entity::EntityCollision(const Entity* pEntity)
 {
-    // TO DO
+    // TODO
 }
 
 // Perform reactions with a pointer to a Tile
@@ -499,11 +499,14 @@ void Entity::Update()
     //PerformCollisions();
 
     // Reactions with Tiles
-    std::array<sf::Vector2f, 5> tileReactionPoints = {sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y), // Center
+    std::array<sf::Vector2f, 5> tileReactionPoints =
+    {
+        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y), // Center
         sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetDimensions().y / 2.75 + GetVelocity().y), // Near bottom
         sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y - GetDimensions().y / 2.75 - GetVelocity().y), // Near top
         sf::Vector2f(GetPosition().x - GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y), // Near left
-        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)}; // Near right
+        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)  // Near right
+    };
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (unsigned int i = 0; i < tileReactionPoints.size(); i++)
     {
@@ -567,7 +570,7 @@ void Entity::Update()
 
 void Entity::Interpolate(float lag)
 {
-    sf::Vector2f position(m_previousPosition + (m_position - m_previousPosition) * lag);
+    sf::Vector2f position = m_previousPosition + (m_position - m_previousPosition) * lag;
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
@@ -649,7 +652,7 @@ float Entity::GetLeftPixelPosition() const
 
 float Entity::GetRightPixelPosition() const
 {
-    return m_position.x + m_dimensions.x / 2 - 1; // Solves off-by-one error caused by pixel width
+    return m_position.x + m_dimensions.x / 2 - 1; // Solve off-by-one error caused by pixel width
 }
 
 float Entity::GetTopPixelPosition() const
@@ -659,5 +662,5 @@ float Entity::GetTopPixelPosition() const
 
 float Entity::GetBottomPixelPosition() const
 {
-    return m_position.y + m_dimensions.y / 2 - 1; // Solves off-by-one error caused by pixel width
+    return m_position.y + m_dimensions.y / 2 - 1; // Solve off-by-one error caused by pixel width
 }

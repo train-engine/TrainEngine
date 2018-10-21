@@ -29,7 +29,7 @@ PauseState::~PauseState()
 
 void PauseState::HandleInput()
 {
-    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
@@ -41,14 +41,14 @@ void PauseState::HandleInput()
             rButton.OnMouseHover(GetWindowMousePosition());
         }
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         for (auto& rButton : m_buttons)
         {
             rButton.OnMouseClick(GetWindowMousePosition());
         }
     }
-    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
         for (unsigned int i = 0; i < m_buttons.size(); i++)
         {
@@ -84,11 +84,9 @@ void PauseState::Update()
 
 void PauseState::Draw(sf::RenderTarget& rTarget, float lag)
 {
-    m_rGame.DrawPreviousState(*this);
+    m_rGame.DrawPreviousState(this);
 
-    rTarget.setView(GetDefaultView());
-
-    DrawBackgroundColor(rTarget, sf::RenderStates());
+    DrawBackgroundColor(rTarget);
     rTarget.draw(m_pausedText);
 
     for (const auto& button : m_buttons)

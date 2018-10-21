@@ -21,20 +21,20 @@ void ParallaxSprite::SetPosition(const sf::Vector2f& position)
     m_sprite.setPosition(position);
 }
 
-// Scales the sprite with a vector of factors
+// Scale the sprite with a vector of factors
 void ParallaxSprite::SetScale(const sf::Vector2f& scale)
 {
     m_initialScale = scale;
 }
 
-// Repeats the sprite's texture according to given dimensions
+// Repeat the sprite's texture according to given dimensions
 void ParallaxSprite::SetTextureRect(const sf::Vector2f& dimensions)
 {
     m_sprite.setTextureRect(sf::IntRect(0, 1, dimensions.x, dimensions.y));
     SetRelativeOrigin(m_relativeOrigin);
 }
 
-// Sets the sprite's origin relative to its dimensions (values between 0 and 1)
+// Set the sprite's origin relative to its dimensions (values between 0 and 1)
 void ParallaxSprite::SetRelativeOrigin(const sf::Vector2f& relativeOrigin)
 {   
     m_relativeOrigin = relativeOrigin;
@@ -49,7 +49,7 @@ void ParallaxSprite::SetRelativeOrigin(const sf::Vector2f& relativeOrigin)
     m_sprite.setOrigin(textureRectDimensions.x * m_relativeOrigin.x, textureRectDimensions.y * m_relativeOrigin.y);
 }
 
-// Applies parallax scrolling effect
+// Apply parallax scrolling effect
 void ParallaxSprite::Update(const Camera& camera)
 {
     float newDimensionsScale = (camera.GetZoom() - 1) * m_parallax + 1;

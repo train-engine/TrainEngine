@@ -41,10 +41,10 @@ void LoopDebugOverlay::draw(sf::RenderTarget& rTarget, sf::RenderStates states) 
 {
     if (m_isVisible == true)
     {
-        rTarget.draw(m_upsText);
-        rTarget.draw(m_fpsText);
-        rTarget.draw(m_updateStrainText);
-        rTarget.draw(m_drawStrainText);
+        rTarget.draw(m_upsText, states);
+        rTarget.draw(m_fpsText, states);
+        rTarget.draw(m_updateStrainText, states);
+        rTarget.draw(m_drawStrainText, states);
     }
 }
 

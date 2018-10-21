@@ -122,18 +122,18 @@ void EntityTracker::draw(sf::RenderTarget& rTarget, sf::RenderStates states) con
                 position.y <= rTarget.getView().getCenter().y + rTarget.getView().getSize().y / 2 + m_dot.getRadius())
             {
                 m_dot.setPosition(position);
-                rTarget.draw(m_dot);
+                rTarget.draw(m_dot, states);
             }
         }
     }
     if (m_isInfoBoxVisible == true)
     {
-        rTarget.draw(m_textContainer);
-        rTarget.draw(m_lastPositionText);
-        rTarget.draw(m_lastVelocityText);
-        rTarget.draw(m_distanceTraveledText);
-        rTarget.draw(m_displacementText);
-        rTarget.draw(m_positionsCountText);
+        rTarget.draw(m_textContainer, states);
+        rTarget.draw(m_lastPositionText, states);
+        rTarget.draw(m_lastVelocityText, states);
+        rTarget.draw(m_distanceTraveledText, states);
+        rTarget.draw(m_displacementText, states);
+        rTarget.draw(m_positionsCountText, states);
     }
 }
 

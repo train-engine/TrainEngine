@@ -9,9 +9,9 @@
 namespace
 {
     const sf::Vector2u minWindowDimensions(800, 600);
-    const int updatesPerSecond = 60;
+    const int initialUps = 60;
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
-    const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding update cycles if the State's m_canSkipUpdates is true
+    const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding update cycles if the State's canSkipUpdates is true
 }
 
 /// Initialize the window and main systems
@@ -100,7 +100,7 @@ GameEngine::GameEngine()
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(m_resourceManager.GetTexture("cursor"));
 
-    SetTargetUps(updatesPerSecond);
+    SetTargetUps(initialUps);
 }
 
 /// Call the destructor of each State by using Pop()
@@ -203,7 +203,7 @@ void GameEngine::OnWindowResize()
 {
     #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
         // Window minimum dimensions
-    if (m_window.getSize().x < minWindowDimensions.x)
+        if (m_window.getSize().x < minWindowDimensions.x)
         {
             m_window.setSize(sf::Vector2u(minWindowDimensions.x, m_window.getSize().y));
         }
@@ -214,8 +214,15 @@ void GameEngine::OnWindowResize()
     #endif
 
     // View resizing
+    ResetWindowView();
+}
+
+/// Set the window's view equal to a view the size of its dimensions and positioned at (0, 0)
+void GameEngine::ResetWindowView()
+{
     m_window.setView(sf::View(sf::FloatRect(0, 0, m_window.getSize().x, m_window.getSize().y)));
 }
+
 
 /// Main game loop
 void GameEngine::GameLoop()
@@ -254,7 +261,7 @@ void GameEngine::GameLoop()
             m_updateLag += elapsedTime;
             m_drawLag += elapsedTime;
 
-            // Output warning to console if m_canSkipUpdates is false and the CPU can't keep up with the cycles
+            // Output warning to console if canSkipUpdates is false and the CPU can't keep up with the cycles
             if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
             {
                 std::cout << "GameEngine warning: Unable to keep up, catching up with " << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks\n";
@@ -272,7 +279,7 @@ void GameEngine::GameLoop()
                 if (m_inputManager.DetectedResizedEvent())
                 {
                     OnWindowResize();
-                    State::ResizeLayout(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
+                    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
                     for (const auto& pState : m_states)
                     {
                         pState->OnWindowResize();
@@ -312,15 +319,15 @@ void GameEngine::GameLoop()
                 sf::Time startTime = clock.getElapsedTime();
 
                 m_window.clear();
-                m_window.setView(Peek()->GetDefaultView()); // Reset view
+                ResetWindowView();
 
                 // Draw with fraction of cycle elapsed before the next update (for interpolation)
                 Peek()->Draw(m_window, static_cast<float>(m_updateLag.asMicroseconds()) / m_timePerUpdate.asMicroseconds());
 
-                m_window.setView(Peek()->GetDefaultView()); // Reset view
+                ResetWindowView();
 
                 m_window.draw(m_loopDebugOverlay);
-                m_cursor.setPosition(static_cast<sf::Vector2f>(m_inputManager.GetWindowMousePosition()));
+                m_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
                 m_window.draw(m_cursor);
                 m_window.display();
 
@@ -376,15 +383,16 @@ void GameEngine::RequestSwap(State* pState)
 }
 
 /// Draw the State under the current State
-void GameEngine::DrawPreviousState(const State& currentState)
+void GameEngine::DrawPreviousState(const State* pCurrentState)
 {
     // Search for the current State, and make sure it can be found and that it is not first in the stack (as we need to draw the State before it)
-    std::vector<State*>::iterator it = std::find(m_states.begin(), m_states.end(), &currentState);
+    std::vector<State*>::iterator it = std::find(m_states.begin(), m_states.end(), pCurrentState);
     if (it != m_states.end() && it != m_states.begin())
     {
         --it;
         (*it)->Draw(m_window);
     }
+    ResetWindowView(); // Reset the view to guarantee that the calling State has a predictable and normal view
 }
 
 // Loop clock functions

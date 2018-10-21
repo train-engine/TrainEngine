@@ -43,4 +43,6 @@ characterRunning
 characterClimbing
 characterJumping
 characterFalling
-parallaxUnderwater
+parallaxUnderwater1
+parallaxUnderwater2
+parallaxUnderwater3

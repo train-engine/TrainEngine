@@ -49,7 +49,7 @@ MenuOptionsState::~MenuOptionsState()
 
 void MenuOptionsState::HandleInput()
 {
-    if (m_rGame.m_inputManager.IsKeyDown(sf::Keyboard::Escape))
+    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
@@ -58,11 +58,11 @@ void MenuOptionsState::HandleInput()
     {
         m_soundSlider.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDown(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         m_soundSlider.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonUp(sf::Mouse::Left))
+    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_soundSlider.OnMouseUnclick(GetWindowMousePosition()))
         {
@@ -102,8 +102,6 @@ void MenuOptionsState::Update()
 
 void MenuOptionsState::Draw(sf::RenderTarget& rTarget, float lag)
 {
-    rTarget.setView(GetDefaultView());
-    
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_titleText);
 

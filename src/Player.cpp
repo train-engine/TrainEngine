@@ -34,7 +34,7 @@ void Player::HandleInput()
 
     // Up/Down
     if (m_inputManager.IsKeyHeld(sf::Keyboard::W) ||
-        m_inputManager.IsJoystickButtonDown(0, 0) || m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) < -50)
+        m_inputManager.IsJoystickButtonDescending(0, 0) || m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::Y) < -50)
     {
         SetPressingUp(true);
     }

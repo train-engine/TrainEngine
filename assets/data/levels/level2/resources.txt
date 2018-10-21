@@ -45,4 +45,8 @@ characterRunning
 characterClimbing
 characterJumping
 characterFalling
-parallaxMountains
+parallaxMountains1
+parallaxMountains2
+parallaxMountains3
+parallaxMountains4
+parallaxMountains5
