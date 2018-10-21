@@ -11,7 +11,7 @@
 				<Option platforms="Windows;" />
 				<Option output="../../bin/windows64/debug/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/codeblocks-windows64/debug/" />
+				<Option object_output="../../build/codeblocks_windows64/debug/" />
 				<Option type="1" />
 				<Option compiler="mingw_610" />
 				<Compiler>
@@ -45,7 +45,7 @@
 				<Option platforms="Windows;" />
 				<Option output="../../bin/windows64/release/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/codeblocks-windows64/release/" />
+				<Option object_output="../../build/codeblocks_windows64/release/" />
 				<Option type="0" />
 				<Option compiler="mingw_610" />
 				<Compiler>
@@ -80,7 +80,7 @@
 				<Option platforms="Windows;" />
 				<Option output="../../bin/windows32/debug/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/codeblocks-windows32/debug/" />
+				<Option object_output="../../build/codeblocks_windows32/debug/" />
 				<Option type="1" />
 				<Option compiler="mingw_610_32" />
 				<Compiler>
@@ -114,7 +114,7 @@
 				<Option platforms="Windows;" />
 				<Option output="../../bin/windows32/release/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/codeblocks-windows32/release/" />
+				<Option object_output="../../build/codeblocks_windows32/release/" />
 				<Option type="0" />
 				<Option compiler="mingw_610_32" />
 				<Compiler>
@@ -149,7 +149,7 @@
 				<Option platforms="Unix;" />
 				<Option output="../../bin/linux/debug/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/codeblocks-linux/debug/" />
+				<Option object_output="../../build/codeblocks_linux/debug/" />
 				<Option type="1" />
 				<Option compiler="mingw_610" />
 				<Compiler>
@@ -181,7 +181,7 @@
 				<Option platforms="Unix;" />
 				<Option output="../../bin/linux/release/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
-				<Option object_output="../../build/linux/release/" />
+				<Option object_output="../../build/codeblocks_linux/release/" />
 				<Option type="0" />
 				<Option compiler="mingw_610" />
 				<Compiler>
