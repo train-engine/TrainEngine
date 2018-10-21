@@ -197,7 +197,10 @@ bool Level::LoadBackground(const std::string& filename)
             }
         }
 
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {return a.GetParallax() > b.GetParallax();});
+        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b)
+        {
+            return a.GetParallax() > b.GetParallax();
+        });
 
         std::cout << "Background successfully loaded.\n\n";
         return true;
@@ -219,8 +222,13 @@ bool Level::SaveBackground(const std::string& filename)
     {
         std::cout << "Saving background...\n";
         outputFile << "# Syntax:\n"
-                "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {return a.GetParallax() > b.GetParallax();});
+                      "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
+
+        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b)
+        {
+            return a.GetParallax() > b.GetParallax();
+        });
+
         std::cout << "Number of parallax sprites: " << m_parallaxSprites.size() << '\n';
 
         std::cout << "Parallax sprites:\n";
@@ -251,7 +259,7 @@ bool Level::SaveBackground(const std::string& filename)
     else
     {
         std::cout << "Level error: Unable to save \"" << filename << "\".\n"
-        "Background saving failed.\n\n";
+                     "Background saving failed.\n\n";
         return false;
     }
 }

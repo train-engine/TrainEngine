@@ -44,8 +44,6 @@ private:
     sf::Time m_timePerDraw; // Amount of time there should be between draws
     sf::Time m_updateLag; // Amount of time since last update (can be much greater than m_timePerUpdate)
     sf::Time m_drawLag; // Amount of time since last draw
-    sf::Time m_lastUpdateTime; // For recording UPS
-    sf::Time m_lastDrawTime; // For recording FPS
     bool m_isPowerSaverEnabled; // Sleep when there is enough time before the next update/draw
     LoopDebugOverlay m_loopDebugOverlay;
 

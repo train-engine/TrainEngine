@@ -1,7 +1,15 @@
+# Top-most editorconfig file
 root = true
 
+# Match every file
 [*]
-insert_final_newline = true
+# Tabs as spaces
 indent_style = space
+# Indent with 4 spaces
 indent_size = 4
+# Unix-style line endings (\n)
+end_of_line = lf
+# Remove whitespace characters at the end of the line
 trim_trailing_whitespace = true
+# End file with newline when saving
+insert_final_newline = true
