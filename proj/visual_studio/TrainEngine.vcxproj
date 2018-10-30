@@ -76,7 +76,9 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\.editorconfig" />
+    <Text Include="..\..\.editorconfig">
+      <FileType>Text</FileType>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TrainEngine.rc" />
