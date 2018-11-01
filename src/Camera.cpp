@@ -115,49 +115,41 @@ void Camera::Update()
 
     if (m_mode == CameraMode::Follow)
     {
-        // If Entity has been deleted
-        if (m_pFollowedEntity == nullptr)
+        // Disable lerp and interpolation to snap to the followed Entity if colliding with Map edge when zooming
+        bool mustSnapHorizontally;
+        bool mustSnapVertically;
+
+        if (m_dimensions != m_targetDimensions)
         {
-            SetPosition(m_position);
+            mustSnapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
+                                  (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
+            mustSnapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
+                                (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
         }
         else
         {
-            // Disable lerp and interpolation to snap to the followed Entity if colliding with Map edge when zooming
-            bool mustSnapHorizontally;
-            bool mustSnapVertically;
+            mustSnapHorizontally = false;
+            mustSnapVertically = false;
+        }
 
-            if (m_dimensions != m_targetDimensions)
-            {
-                mustSnapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
-                                      (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
-                mustSnapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
-                                    (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
-            }
-            else
-            {
-                mustSnapHorizontally = false;
-                mustSnapVertically = false;
-            }
+        if (mustSnapHorizontally == true) // Zooming with horizontal lerp and interpolation disabled
+        {
+            m_position.x = m_pFollowedEntity->GetPosition().x;
+            m_previousPosition.x = m_position.x;
+        }
+        else
+        {
+            m_position.x += (m_pFollowedEntity->GetPosition().x - m_position.x) * m_followLerp;
+        }
 
-            if (mustSnapHorizontally == true) // Zooming with horizontal lerp and interpolation disabled
-            {
-                m_position.x = m_pFollowedEntity->GetPosition().x;
-                m_previousPosition.x = m_position.x;
-            }
-            else
-            {
-                m_position.x += (m_pFollowedEntity->GetPosition().x - m_position.x) * m_followLerp;
-            }
-
-            if (mustSnapVertically == true) // Zooming with vertical lerp and interpolation disabled
-            {
-                m_position.y = m_pFollowedEntity->GetPosition().y;
-                m_previousPosition.y = m_position.y;
-            }
-            else
-            {
-                m_position.y += (m_pFollowedEntity->GetPosition().y - m_position.y) * m_followLerp;
-            }
+        if (mustSnapVertically == true) // Zooming with vertical lerp and interpolation disabled
+        {
+            m_position.y = m_pFollowedEntity->GetPosition().y;
+            m_previousPosition.y = m_position.y;
+        }
+        else
+        {
+            m_position.y += (m_pFollowedEntity->GetPosition().y - m_position.y) * m_followLerp;
         }
     }
     else if (m_mode == CameraMode::Translate)
