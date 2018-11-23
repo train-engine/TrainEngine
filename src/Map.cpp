@@ -149,8 +149,7 @@ bool Map::Load(const std::string& filename)
     // First delete all elements of the vector (necessary when changing level)
     Clear();
 
-    std::ifstream inputFile;
-    inputFile.open(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::ResourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading Map...\n";
@@ -662,160 +661,119 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
 
     switch (tileType)
     {
-        default:
-            m_tiles[z][y][x] = nullptr;
-            break;
         case TileType::GrassTopLeftSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopSide:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSide"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopRightSides"), tileType);\
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassLeftSide:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSide"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassRightSide:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSide"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotLeftSide:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotSide:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSide"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotRightSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopLeftRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftRightSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassLeftRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftRightSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotLeftRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftRightSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopBotLeftSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotLeftSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopBotSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopBotRightSides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotRightSides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::Grass4Sides:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grass4Sides"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopLeftSidesCorner3:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftSidesCorner3"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopSideCorner3:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSideCorner3"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopSideCorner4:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSideCorner4"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassTopRightSidesCorner4:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopRightSidesCorner4"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassLeftSideCorner3:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSideCorner3"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorner3:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner3"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorner4:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner4"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassRightSideCorner4:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSideCorner4"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassLeftSideCorner2:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSideCorner2"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorner2:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner2"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorner1:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner1"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassRightSideCorner1:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSideCorner1"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotLeftSidesCorner2:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftSidesCorner2"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotSideCorner2:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSideCorner2"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotSideCorner1:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSideCorner1"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassBotRightSidesCorner1:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotRightSidesCorner1"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSides4Corners:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSides4Corners"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorners12:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners12"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorners34:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners34"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorners14:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners14"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::GrassNoSidesCorners23:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners23"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::Wood:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("wood"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::Ladder:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("ladder"), tileType);
@@ -823,7 +781,6 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
             break;
         case TileType::LadderTop:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("ladder"), tileType);
-            m_tiles[z][y][x]->SetSolid(true);
             break;
         case TileType::Vine:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("vine"), tileType);
@@ -832,6 +789,9 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
         case TileType::Post:
             m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("post"), tileType);
             m_tiles[z][y][x]->SetSolid(false);
+            break;
+        default:
+            m_tiles[z][y][x] = nullptr;
             break;
     }
     

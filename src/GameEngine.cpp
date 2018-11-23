@@ -8,6 +8,7 @@
 
 namespace
 {
+    const std::string windowName = "TrainEngine";
     const sf::Vector2u minWindowDimensions(800, 600);
     const int initialUps = 60;
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
@@ -22,6 +23,9 @@ GameEngine::GameEngine()
       m_loopDebugOverlay(m_resourceManager.GetFont("altFont")),
       m_inputManager(m_window)
 {
+    std::ofstream f("allo.bin", std::ios::binary);
+    f.put('\n');
+
     // Output game info
     std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
                  "Game development started on: March 15 2015, 7:53:27 PM\n"
@@ -60,7 +64,7 @@ GameEngine::GameEngine()
 
         sf::ContextSettings contextSettings = sf::ContextSettings(0, 0, antiAliasingLevel);
 
-        m_window.create(sf::VideoMode::getFullscreenModes()[fullscreenModeIndex], "TrainEngine", style, contextSettings);
+        m_window.create(sf::VideoMode::getFullscreenModes()[fullscreenModeIndex], windowName, style, contextSettings);
         m_window.setVerticalSyncEnabled(isVSyncEnabled);
         SetTargetFps(targetFps);
 
@@ -68,7 +72,7 @@ GameEngine::GameEngine()
     }
     else
     {
-        m_window.create(sf::VideoMode(1280, 720), "TrainEngine");
+        m_window.create(sf::VideoMode(1280, 720), windowName);
         SetTargetFps(60);
         std::cout << "\nGameEngine error: Unable to open \"data/settings/graphics_settings.txt\".\n"
                      "Graphics settings loading failed.\n\n";

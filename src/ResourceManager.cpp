@@ -81,16 +81,16 @@ bool ResourceManager::LoadInitialResources()
 
 // Texture functions
 
-// Load a Texture and bind it to the map if the key is available, and return a reference to the const loaded Texture
+// Load a texture and bind it to the map if the key is available, and return a reference to the const loaded texture
 const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect)
 {
-    // If a Texture is already loaded at the specified key, return the existing Texture
+    // If a texture is already loaded at the specified key, return the existing texture
     std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
     if (it != m_textures.cend())
     {
         return it->second;
     }
-    // Otherwise, load the Texture
+    // Otherwise, load the texture
     sf::Texture texture;
     if (!texture.loadFromFile(FileManager::ResourcePath() + filename, textureRect))
     {
@@ -101,7 +101,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
     return m_textures.at(name);
 }
 
-// Remove a Texture from the Texture map
+// Remove a texture from the texture map
 void ResourceManager::UnloadTexture(const std::string& name)
 {
     std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
@@ -115,7 +115,7 @@ void ResourceManager::UnloadTexture(const std::string& name)
     }
 }
 
-// Return a reference to a const loaded Texture
+// Return a reference to a const loaded texture
 const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
@@ -123,12 +123,12 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
     {
         return it->second;
     }
-    // If the Texture is not found, return the default Texture
+    // If the texture is not found, return the default texture
     std::cout << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
     return m_textures.at("missingTexture");
 }
 
-// Set a Texture's isRepeated value
+// Set a texture's isRepeated value
 void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeated)
 {
     std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
@@ -142,7 +142,7 @@ void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeate
     }
 }
 
-// Set a Texture's isSmooth value
+// Set a texture's isSmooth value
 void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 {
     std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
@@ -158,16 +158,16 @@ void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 
 // Font functions
 
-// Load a Font and bind it to the map if the key is available, and return a reference to the const loaded Font
+// Load a font and bind it to the map if the key is available, and return a reference to the const loaded font
 const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::string& filename)
 {
-    // If a Font is already loaded at the specified key, return the existing Font
+    // If a font is already loaded at the specified key, return the existing font
     std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
     if (it != m_fonts.cend())
     {
         return it->second;
     }
-    // Otherwise, load the Font
+    // Otherwise, load the font
     sf::Font font;
     if (!font.loadFromFile(FileManager::ResourcePath() + filename))
     {
@@ -178,7 +178,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
     return m_fonts.at(name);
 }
 
-// Remove a Font from the Font map
+// Remove a font from the font map
 void ResourceManager::UnloadFont(const std::string& name)
 {
     std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
@@ -192,7 +192,7 @@ void ResourceManager::UnloadFont(const std::string& name)
     }
 }
 
-// Return a reference to a const loaded Font
+// Return a reference to a const loaded font
 const sf::Font& ResourceManager::GetFont(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
@@ -200,23 +200,23 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
     {
         return it->second;
     }
-    // If the Font is not found, return the default Font
+    // If the font is not found, return the default font
     std::cout << "ResourceManager error: Tried accessing unloaded or inexistent font \"" << name << "\".\n";
     return m_fonts.at("fallbackFont");
 }
 
-// SoundBuffer functions
+// Soundbuffer functions
 
-// Load a SoundBuffer and bind it to the map if the key is available, and return a reference to the const loaded SoundBuffer
+// Load a soundbuffer and bind it to the map if the key is available, and return a reference to the const loaded soundbuffer
 const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name, const std::string& filename)
 {
-    // If a SoundBuffer is already loaded at the specified key, return the existing SoundBuffer
+    // If a soundbuffer is already loaded at the specified key, return the existing soundbuffer
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
     {
         return it->second;
     }
-    // Otherwise, load the SoundBuffer
+    // Otherwise, load the soundbuffer
     sf::SoundBuffer soundBuffer;
     if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
     {
@@ -227,7 +227,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
     return m_soundBuffers.at(name);
 }
 
-// Remove a SoundBuffer from the SoundBuffer map
+// Remove a soundbuffer from the soundbuffer map
 void ResourceManager::UnloadSoundBuffer(const std::string& name)
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -241,7 +241,7 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
     }
 }
 
-// Return a reference to a const loaded SoundBuffer
+// Return a reference to a const loaded soundbuffer
 const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) const
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -249,23 +249,23 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
     {
         return it->second;
     }
-    // If the SoundBuffer is not found, return the default SoundBuffer
+    // If the soundbuffer is not found, return the default soundbuffer
     std::cout << "ResourceManager error: Tried accessing unloaded or inexistent soundbuffer \"" << name << "\".\n";
     return m_soundBuffers.at("error");
 }
 
 // Shader functions
 
-// Load a Shader and bind it to the map if the key is available, and return a reference to the const loaded Shader
+// Load a shader and bind it to the map if the key is available, and return a reference to the const loaded shader
 const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std::string& filename, sf::Shader::Type type)
 {
-    // If a Shader is already loaded at the specified key, return the existing Shader
+    // If a shader is already loaded at the specified key, return the existing shader
     std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
     if (it != m_shaders.cend())
     {
         return it->second;
     }
-    // Otherwise, load the Shader
+    // Otherwise, load the shader
     m_shaders[name];
     if (!m_shaders.at(name).loadFromFile(FileManager::ResourcePath() + filename, type))
     {
@@ -276,7 +276,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
     return m_shaders.at(name);
 }
 
-// Remove a Shader from the Shader map
+// Remove a Shader from the shader map
 void ResourceManager::UnloadShader(const std::string& name)
 {
     std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
@@ -290,7 +290,7 @@ void ResourceManager::UnloadShader(const std::string& name)
     }
 }
 
-// Return a reference to a const loaded Shader
+// Return a reference to a const loaded shader
 const sf::Shader& ResourceManager::GetShader(const std::string& name) const
 {
     std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
@@ -298,7 +298,7 @@ const sf::Shader& ResourceManager::GetShader(const std::string& name) const
     {
         return it->second;
     }
-    // If the SoundBuffer is not found, return the default SoundBuffer
+    // If the shader is not found, return the default shader
     std::cout << "ResourceManager error: Tried accessing unloaded or inexistent shader \"" << name << "\".\n";
     return m_shaders.at("ADDDEFAULTSHADER");
 }

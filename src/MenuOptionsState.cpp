@@ -24,8 +24,7 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     m_soundSliderText.setOrigin(m_soundSliderText.getLocalBounds().left + m_soundSliderText.getLocalBounds().width, m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
 
     // Music settings
-    std::ifstream inputFile;
-    inputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
         bool isMuted = 0;
@@ -75,8 +74,7 @@ void MenuOptionsState::Update()
 {
     if (m_mustUpdateSoundSettings == true)
     {
-        std::ofstream outputFile;
-        outputFile.open(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+        std::ofstream outputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
         if (outputFile)
         {
             if (m_soundSlider.GetValue() == 0)

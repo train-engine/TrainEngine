@@ -3,7 +3,8 @@
 
 Tile::Tile(const sf::Texture& texture, TileType tileType)
     : m_tileType(tileType),
-      m_sprite(texture)
+      m_sprite(texture),
+      m_isSolid(true)
 {
 
 }

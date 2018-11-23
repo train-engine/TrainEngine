@@ -35,8 +35,7 @@ bool Level::LoadBackground(const std::string& filename)
     // Remove all ParallaxSprites (necessary when changing level)
     m_parallaxSprites.clear();
 
-    std::ifstream inputFile;
-    inputFile.open(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::ResourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading background...\n";
@@ -215,8 +214,7 @@ bool Level::LoadBackground(const std::string& filename)
 // Save the background to a save file
 bool Level::SaveBackground(const std::string& filename)
 {
-    std::ofstream outputFile;
-    outputFile.open(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving background...\n";
@@ -272,8 +270,7 @@ bool Level::LoadEntities(const std::string& filename)
         delete pEntity;
     }
 
-    std::ifstream inputFile;
-    inputFile.open(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::ResourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading Entities...\n";
@@ -321,8 +318,7 @@ bool Level::LoadEntities(const std::string& filename)
 // Save the Entities to a save file
 bool Level::SaveEntities(const std::string& filename)
 {
-    std::ofstream outputFile;
-    outputFile.open(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving Entities...\n";
@@ -358,8 +354,7 @@ bool Level::LoadResources(const std::string& filename)
 // Save the list of necessary resources for the Level to a save file
 bool Level::SaveResources(const std::string& filename)
 {
-    std::ofstream outputFile;
-    outputFile.open(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving resources...\n";
