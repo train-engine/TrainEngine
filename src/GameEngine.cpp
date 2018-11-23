@@ -23,9 +23,6 @@ GameEngine::GameEngine()
       m_loopDebugOverlay(m_resourceManager.GetFont("altFont")),
       m_inputManager(m_window)
 {
-    std::ofstream f("allo.bin", std::ios::binary);
-    f.put('\n');
-
     // Output game info
     std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
                  "Game development started on: March 15 2015, 7:53:27 PM\n"

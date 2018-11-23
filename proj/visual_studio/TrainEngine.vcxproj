@@ -67,7 +67,6 @@
     <ClInclude Include="..\..\include\Player.h" />
     <ClInclude Include="..\..\include\PlayState.h" />
     <ClInclude Include="..\..\include\ResourceManager.h" />
-    <ClInclude Include="..\..\include\ResourcePath.h" />
     <ClInclude Include="..\..\include\SplashScreenState.h" />
     <ClInclude Include="..\..\include\State.h" />
     <ClInclude Include="..\..\include\TextBox.h" />
