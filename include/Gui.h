@@ -63,7 +63,7 @@ class GuiRectButton : public InteractiveGui
 protected:
     sf::Vector2f m_dimensions;
     float m_borderThickness;
-    int m_textPadding;
+    float m_textPadding;
 
     sf::RectangleShape m_shape;
     sf::Text m_text;
@@ -265,7 +265,7 @@ class GuiTextSlider : public GuiSlider
 protected:
     std::string m_baseString;
     sf::Text m_text;
-    int m_textPadding;
+    float m_textPadding;
     sf::Color m_textColor;
 
     // Functions
