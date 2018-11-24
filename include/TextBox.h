@@ -98,9 +98,9 @@ public:
     void SetPosition(const sf::Vector2f& position);
     void SetDimensions(const sf::Vector2f& dimensions);
     void SetPaddingSize(const sf::Vector2i& padding);
-    void SetOutlineThickness(int outlineThickness) {m_box.setOutlineThickness(outlineThickness);}
+    void SetOutlineThickness(float outlineThickness) {m_box.setOutlineThickness(outlineThickness);}
     void SetCharacterSize(int characterSize);
-    void SetCursorThickness(int thickness) {m_cursor.setSize(sf::Vector2f(thickness, m_cursor.getSize().y));}
+    void SetCursorThickness(float thickness) {m_cursor.setSize(sf::Vector2f(thickness, m_cursor.getSize().y));}
     // Color
     void SetBackgroundColor(sf::Color backgroundColor);
     void SetOutlineColorFocused(sf::Color outlineColorFocused) {m_outlineColorFocused = outlineColorFocused;}

@@ -39,7 +39,7 @@ private:
 
 public:
     // Constructor and destructor
-    Map(const ResourceManager& resourceManager);
+    explicit Map(const ResourceManager& resourceManager);
     ~Map();
 
     // Functions

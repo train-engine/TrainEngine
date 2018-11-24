@@ -33,7 +33,7 @@ private:
 
 public:
     // Constructor
-    LoopDebugOverlay(const sf::Font& font);
+    explicit LoopDebugOverlay(const sf::Font& font);
 
     // Functions
     void RecordUpdate(sf::Time lastUpdateTime);

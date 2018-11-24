@@ -31,7 +31,7 @@ private:
 
 public:
     // Constructor
-    EntityTracker(const sf::Font& font);
+    explicit EntityTracker(const sf::Font& font);
 
     // Functions
     void Update();

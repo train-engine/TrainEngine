@@ -10,6 +10,12 @@
 
 InputManager::InputManager(sf::RenderWindow& rWindow)
     : m_rWindow(rWindow),
+      m_keyStates{},
+      m_previousKeyStates{},
+      m_mouseButtonStates{},
+      m_previousMouseButtonStates{},
+      m_joystickButtonStates{},
+      m_previousJoystickButtonStates{},
       m_isWindowFocused(m_rWindow.hasFocus()),
       m_closedEvent(false),
       m_resizedEvent(false),
@@ -19,6 +25,9 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
       m_mouseEnteredEvent(false),
       m_mouseWheelDelta(0),
       m_mouseMovedEvent(false),
+      m_eventPressedJoystickButtons{},
+      m_eventReleasedJoystickButtons{},
+      m_joystickAxesPosition{},
       m_joystickMovedEvent(false),
       m_joystickConnectedEvent(false),
       m_joystickDisconnectedEvent(false),
@@ -28,22 +37,6 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
       m_touchEndedEvent(false),
       m_sensorChangedEvent(false)
 {
-    for (auto& rKeyState : m_keyStates)
-    {
-        rKeyState = false;
-    }
-    for (auto& rMouseButtonState : m_mouseButtonStates)
-    {
-        rMouseButtonState = false;
-    }
-    for (auto& rJoysticks : m_joystickButtonStates)
-    {
-        for (auto& rJoystickButtonState : rJoysticks)
-        {
-            rJoystickButtonState = false;
-        }
-    }
-
     // Fix Windows focus on start issue (Merci Bill Gates)
     #if defined(SFML_SYSTEM_WINDOWS)
         m_isWindowFocused = true;

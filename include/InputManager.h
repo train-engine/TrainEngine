@@ -72,7 +72,7 @@ private:
 
 public:
     // Constructor
-    InputManager(sf::RenderWindow& rWindow);
+    explicit InputManager(sf::RenderWindow& rWindow);
 
     // Functions
     void Update();

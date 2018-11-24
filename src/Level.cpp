@@ -106,42 +106,42 @@ bool Level::LoadBackground(const std::string& filename)
                 else if (positionModeString == "TM")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({0.5, 0});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x / 2), 0});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, 0));
                 }
                 else if (positionModeString == "TR")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({1, 0});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x), 0});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, 0));
                 }
                 else if (positionModeString == "ML")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({0, 0.5});
-                    m_parallaxSprites.back().SetPosition({0, static_cast<float>(m_map.GetBounds().y) / 2});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(0, m_map.GetBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MM")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({0.5, 0.5});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x) / 2, static_cast<float>(m_map.GetBounds().y / 2)});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, m_map.GetBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MR")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({1, 0.5});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x), static_cast<float>(m_map.GetBounds().y) / 2});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, m_map.GetBounds().y / 2.0f));
                 }
                 else if (positionModeString == "BL")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({1, 1});
-                    m_parallaxSprites.back().SetPosition({0, static_cast<float>(m_map.GetBounds().y)});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(0, m_map.GetBounds().y));
                 }
                 else if (positionModeString == "BM")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({0.5, 1});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x) / 2, static_cast<float>(m_map.GetBounds().y)});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, m_map.GetBounds().y));
                 }
                 else if (positionModeString == "BR")
                 {
                     m_parallaxSprites.back().SetRelativeOrigin({1, 1});
-                    m_parallaxSprites.back().SetPosition({static_cast<float>(m_map.GetBounds().x), static_cast<float>(m_map.GetBounds().y)});
+                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, m_map.GetBounds().y));
                 }
             }
 
@@ -155,13 +155,11 @@ bool Level::LoadBackground(const std::string& filename)
                 }
                 else if (repeatTextureString == "X")
                 {
-                    m_parallaxSprites.back().SetTextureRect({static_cast<float>(m_map.GetBounds().x),
-                        static_cast<float>(m_parallaxSprites.back().GetTexture()->getSize().y)});
+                    m_parallaxSprites.back().SetTextureRect(sf::Vector2f(m_map.GetBounds().x, m_parallaxSprites.back().GetTexture()->getSize().y));
                 }
                 else if (repeatTextureString == "Y")
                 {
-                    m_parallaxSprites.back().SetTextureRect({static_cast<float>(m_parallaxSprites.back().GetTexture()->getSize().x),
-                        static_cast<float>(m_map.GetBounds().y)});
+                    m_parallaxSprites.back().SetTextureRect(sf::Vector2f(m_parallaxSprites.back().GetTexture()->getSize().x, m_map.GetBounds().y));
                 }
             }
 
