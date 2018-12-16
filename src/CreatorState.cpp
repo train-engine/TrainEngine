@@ -235,7 +235,7 @@ void CreatorState::HandleInput()
             }
         }
         // Saving
-        else if (m_saveLevelTextBox.HasFocus() && m_saveLevelTextBox.GetText() != "")
+        else if (m_saveLevelTextBox.HasFocus() && !m_saveLevelTextBox.GetText().isEmpty())
         {
             m_level.Save("data/levels/" + m_saveLevelTextBox.GetText());
         }
@@ -243,11 +243,11 @@ void CreatorState::HandleInput()
         else if (m_heightTextBox.HasFocus() || m_widthTextBox.HasFocus())
         {
             sf::Vector2u newMapIndexDimensions = sf::Vector2u(0, 0);
-            if (m_widthTextBox.GetText() != "")
+            if (!m_widthTextBox.GetText().isEmpty())
             {
                 newMapIndexDimensions.x = std::stoi(m_widthTextBox.GetText().toAnsiString());
             }
-            if (m_heightTextBox.GetText() != "")
+            if (!m_heightTextBox.GetText().isEmpty())
             {
                 newMapIndexDimensions.y = std::stoi(m_heightTextBox.GetText().toAnsiString());
             }

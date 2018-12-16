@@ -96,7 +96,7 @@ bool Level::LoadBackground(const std::string& filename)
 
             // Position mode
             std::string positionModeString = m_parallaxSprites.back().GetPositionModeString();
-            if (positionModeString != "")
+            if (!positionModeString.empty())
             {
                 if (positionModeString == "TL")
                 {
@@ -147,7 +147,7 @@ bool Level::LoadBackground(const std::string& filename)
 
             // Repeat texture
             std::string repeatTextureString = m_parallaxSprites.back().GetRepeatTextureString();
-            if (repeatTextureString != "")
+            if (!repeatTextureString.empty())
             {
                 if (repeatTextureString == "XY")
                 {
@@ -165,7 +165,7 @@ bool Level::LoadBackground(const std::string& filename)
 
             // Scale
             std::string scaleString = m_parallaxSprites.back().GetScaleString();
-            if (scaleString != "")
+            if (!scaleString.empty())
             {
                 if (scaleString == "map")
                 {
@@ -184,7 +184,7 @@ bool Level::LoadBackground(const std::string& filename)
 
             // Offset
             std::string offsetString = m_parallaxSprites.back().GetOffsetString();
-            if (offsetString != "")
+            if (!offsetString.empty())
             {
                 size_t commaPos = offsetString.find(',');
                 float x = std::stof(offsetString.substr(0, commaPos));
@@ -230,15 +230,15 @@ bool Level::SaveBackground(const std::string& filename)
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
             outputFile << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
-            if (parallaxSprite.GetRepeatTextureString() != "")
+            if (!parallaxSprite.GetRepeatTextureString().empty())
             {
                 outputFile << " repeatTexture:" << parallaxSprite.GetRepeatTextureString();
             }
-            if (parallaxSprite.GetScaleString() != "")
+            if (!parallaxSprite.GetScaleString().empty())
             {
                 outputFile << " scale:" << parallaxSprite.GetScaleString();
             }
-            if (parallaxSprite.GetOffsetString() != "")
+            if (!parallaxSprite.GetOffsetString().empty())
             {
                 outputFile << " offset:" << parallaxSprite.GetOffsetString();
             }

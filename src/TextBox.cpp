@@ -405,7 +405,7 @@ void TextBox::UpdateText()
                     // Add all clipboard characters
                     for (const auto& clipboardChar : m_rInputManager.GetClipboardText())
                     {
-                        sf::String pastedText = "";
+                        sf::String pastedText;
                         if (IsCharacterAccepted(clipboardChar) || clipboardChar == '\n')
                         {
                             if (clipboardChar == '\n') pastedText += ' ';

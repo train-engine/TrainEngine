@@ -184,7 +184,7 @@ void InputManager::ResetEvents()
     m_mouseEnteredEvent = false;
 
     // Keyboard data
-    m_enteredText = "";
+    m_enteredText.clear();
     m_eventPressedKeys.clear();
     m_eventReleasedKeys.clear();
 
@@ -244,7 +244,7 @@ std::string InputManager::MacExec(const char* cmd)
     FILE* pipe = popen(cmd, "r");
     if (!pipe) return "ERROR";
     char buffer[128];
-    std::string result = "";
+    std::string result;
     while (!feof(pipe))
     {
         if (fgets(buffer, 128, pipe) != NULL)
