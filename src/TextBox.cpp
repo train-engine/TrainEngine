@@ -15,7 +15,7 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font)
 TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions)
     :  m_rInputManager(rInputManager),
        m_position(position),
-       m_padding(sf::Vector2i(6, 4)),
+       m_padding({6, 4}),
        m_opaquePaddingProportion(0.25),
        m_startingOpacity(64),
        m_endingOpacity(255),
@@ -724,7 +724,7 @@ void TextBox::SetPosition(const sf::Vector2f& position)
     m_box.setPosition(position);
     CenterText();
     m_cursor.setPosition(position.x + m_padding.x, m_displayText.getPosition().y);
-    m_selection.setPosition(sf::Vector2f(position.x, m_cursor.getPosition().y));
+    m_selection.setPosition({position.x, m_cursor.getPosition().y});
     m_renderTexture.setView(sf::View(sf::FloatRect(position.x, position.y, m_box.getSize().x, m_box.getSize().y)));
     m_renderSprite.setPosition(position);
     SetPaddingSize(m_padding);
@@ -735,7 +735,7 @@ void TextBox::SetDimensions(const sf::Vector2f& dimensions)
     m_box.setSize(dimensions);
     CenterText();
     m_cursor.setPosition(m_position.x + m_padding.x, m_displayText.getPosition().y);
-    m_selection.setPosition(sf::Vector2f(m_box.getPosition().x , m_cursor.getPosition().y));
+    m_selection.setPosition({m_box.getPosition().x, m_cursor.getPosition().y});
     SetPaddingSize(m_padding);
     m_renderTexture.create(dimensions.x, dimensions.y);
     m_renderTexture.setView(sf::View(sf::FloatRect(m_box.getPosition().x, m_box.getPosition().y, dimensions.x, dimensions.y)));
@@ -765,8 +765,8 @@ void TextBox::SetCharacterSize(int characterSize)
 {
     m_displayText.setCharacterSize(characterSize);
     m_backgroundText.setCharacterSize(characterSize);
-    m_cursor.setSize(sf::Vector2f(m_cursor.getSize().x , m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())));
-    m_selection.setSize(sf::Vector2f(m_selection.getSize().x, m_cursor.getSize().y));
+    m_cursor.setSize(sf::Vector2f(m_cursor.getSize().x, m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())));
+    m_selection.setSize({m_selection.getSize().x, m_cursor.getSize().y});
     CenterText();
 }
 

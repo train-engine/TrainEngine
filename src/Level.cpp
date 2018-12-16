@@ -247,7 +247,6 @@ bool Level::SaveBackground(const std::string& filename)
             std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
         }
 
-        outputFile.close();
         std::cout << "Background successfully saved.\n\n";
         return true;
     }
@@ -293,7 +292,7 @@ bool Level::LoadEntities(const std::string& filename)
                     rpEntity->AddAnimation(EntityState::Climbing, AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
                     rpEntity->AddAnimation(EntityState::Jumping, AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
                     rpEntity->AddAnimation(EntityState::Falling, AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3, 2));
-                    rpEntity->SetPosition(sf::Vector2f(xPosition, yPosition));
+                    rpEntity->SetPosition({xPosition, yPosition});
                     break;
                 default:
                     break;
@@ -301,7 +300,6 @@ bool Level::LoadEntities(const std::string& filename)
             std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", " << rpEntity->GetPosition().y << ")\n";
         }
         
-        inputFile.close();
         std::cout << "Entities successfully loaded.\n\n";
         return true;
     }
@@ -330,7 +328,6 @@ bool Level::SaveEntities(const std::string& filename)
             std::cout << Entity::GetEntityTypeString(pEntity->GetEntityType()) << " at (" << pEntity->GetPosition().x << ", " << pEntity->GetPosition().y << ")\n";
         }
 
-        outputFile.close();
         std::cout << "Entities successfully saved.\n\n";
         return true;
     }
@@ -400,7 +397,6 @@ bool Level::SaveResources(const std::string& filename)
             outputFile << resource << '\n';
         }
 
-        outputFile.close();
         std::cout << "Resources successfully saved.\n\n";
         return true;
     }
@@ -587,10 +583,10 @@ void Level::SetCreatorModeEnabled(bool isCreatorModeEnabled)
     m_camera.SetBoundless(m_isCreatorModeEnabled);
     if (m_isCreatorModeEnabled == true)
     {
-        m_camera.SetMaxDimensions(sf::Vector2f(7680, 4320));
+        m_camera.SetMaxDimensions({7680, 4320});
     }
     else
     {
-        m_camera.SetMaxDimensions(sf::Vector2f(2560, 1440));
+        m_camera.SetMaxDimensions({2560, 1440});
     }
 }

@@ -86,9 +86,10 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
     sf::Vector2f viewPosition = rTarget.getView().getCenter();
     sf::Vector2f viewDimensions = rTarget.getView().getSize();
 
-    m_horizGridLine.setSize(sf::Vector2f(viewDimensions.x, 2));
-    m_vertGridLine.setSize(sf::Vector2f(2, viewDimensions.y));
+    m_horizGridLine.setSize({viewDimensions.x, 2});
+    m_vertGridLine.setSize({2, viewDimensions.y});
 
+    // Set initial horizontal grid line position
     m_horizGridLine.setPosition(viewPosition.x - viewDimensions.x / 2,
                                 viewPosition.y - viewDimensions.y / 2 -
                                 static_cast<int>(viewPosition.y - viewDimensions.y / 2) % static_cast<int>(m_tileSize) - 1);
@@ -105,6 +106,7 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
         m_horizGridLine.setSize(sf::Vector2f(GetBounds().x - m_horizGridLine.getPosition().x, 2));
     }
 
+    // Set initial vertical grid line position
     m_vertGridLine.setPosition(viewPosition.x - viewDimensions.x / 2 -
                                static_cast<int>(viewPosition.x - viewDimensions.x / 2) % static_cast<int>(m_tileSize) - 1,
                                viewPosition.y - viewDimensions.y / 2);
@@ -121,6 +123,7 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
         m_vertGridLine.setSize(sf::Vector2f(2, GetBounds().y - m_vertGridLine.getPosition().y));
     }
 
+    // Draw and move grid lines incrementally from their starting position
     while (m_horizGridLine.getPosition().y <= viewPosition.y + viewDimensions.y / 2 &&
            m_horizGridLine.getPosition().y <= GetBounds().y)
     {
@@ -170,7 +173,7 @@ bool Map::Load(const std::string& filename)
         {
             std::cout << '#' << z << ": \n";
             inputFile.ignore(); // Ignore the \n
-            if (inputFile.get() == '-') // Empty layer
+            if (inputFile.peek() == '-') // Empty layer
             {
                 for (unsigned int y = 0; y < m_indexDimensions.y; y++)
                 {
@@ -181,10 +184,6 @@ bool Map::Load(const std::string& filename)
                 }
                 std::cout << "(empty)\n";
                 continue;
-            }
-            else
-            {
-                inputFile.unget();
             }
 
             for (unsigned int y = 0; y < m_indexDimensions.y; y++)
@@ -238,7 +237,6 @@ bool Map::Load(const std::string& filename)
             }
         }
 
-        inputFile.close();
         std::cout << "Map successfully loaded.\n\n";
         return true;
     }
@@ -298,7 +296,6 @@ bool Map::Save(const std::string& filename)
             }
         }
 
-        outputFile.close();
         std::cout << "Map successfully saved.\n\n";
         return true;
     }

@@ -39,24 +39,24 @@ CreatorState::CreatorState(GameEngine& rGame)
     m_tileNameLabel.setFillColor(sf::Color::Black);
 
     m_loadLevelTextBox.SetBackgroundText("Level name");
-    m_loadLevelTextBox.SetDimensions(sf::Vector2f(230, 30));
+    m_loadLevelTextBox.SetDimensions({230, 30});
     m_loadLevelTextBox.SetCharacterSize(20);
 
     m_saveLevelTextBox.SetBackgroundText("Level name");
-    m_saveLevelTextBox.SetDimensions(sf::Vector2f(230, 30));
+    m_saveLevelTextBox.SetDimensions({230, 30});
     m_saveLevelTextBox.SetCharacterSize(20);
 
     m_widthTextBox.SetBackgroundText("Width");
-    m_widthTextBox.SetDimensions(sf::Vector2f(110, 30));
+    m_widthTextBox.SetDimensions({110, 30});
     m_widthTextBox.SetCharacterSize(20);
     m_widthTextBox.SetDigitsOnly(true);
 
     m_heightTextBox.SetBackgroundText("Height");
-    m_heightTextBox.SetDimensions(sf::Vector2f(110, 30));
+    m_heightTextBox.SetDimensions({110, 30});
     m_heightTextBox.SetCharacterSize(20);
     m_heightTextBox.SetDigitsOnly(true);
 
-    m_tileNameTextBox.SetDimensions(sf::Vector2f(230, 30));
+    m_tileNameTextBox.SetDimensions({230, 30});
     m_tileNameTextBox.SetCharacterSize(20);
     m_tileNameTextBox.SetReadOnly(true);
     m_tileNameTextBox.SetText(Tile::GetTileTypeString(m_selectableTileTypes[m_selectedTileTypeIndex]));
@@ -267,7 +267,7 @@ void CreatorState::HandleInput()
     {
         if (m_createLevelButton.OnMouseUnclick(GetWindowMousePosition()) == true)
         {
-            m_level.Resize(sf::Vector2u(10, 10));
+            m_level.Resize({10, 10});
         }
     }
 
