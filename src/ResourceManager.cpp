@@ -25,7 +25,7 @@ ResourceManager::~ResourceManager()
 bool ResourceManager::LoadInitialResources()
 {
     #if defined(SFML_SYSTEM_ANDROID)
-        std::istringstream inf(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
+        std::istringstream inputFile(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
     #else
         std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
         if (!inputFile)
@@ -72,9 +72,7 @@ bool ResourceManager::LoadInitialResources()
             std::cout << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename << "\"\n";
         }
     }
-    #if !defined(SFML_SYSTEM_ANDROID)
-        inputFile.close();
-    #endif
+
     std::cout << "Initial resources successfully loaded.\n\n";
     return true;
 }

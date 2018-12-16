@@ -166,7 +166,6 @@ void LoadPlayState::LoadResources()
             m_progress++;
         }
 
-        inputFile.close();
         std::cout << "Resources successfully loaded.\n\n";
     }
     else

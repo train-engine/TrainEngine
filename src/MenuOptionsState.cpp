@@ -27,12 +27,11 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
-        bool isMuted = 0;
+        bool isMuted = false;
         inputFile >> isMuted;
         unsigned int volume = 50;
         inputFile >> volume;
         m_soundSlider.SetValue(volume);
-        inputFile.close();
         std::cout << "Successfully read sound settings.\n";
     }
     else
@@ -88,7 +87,6 @@ void MenuOptionsState::Update()
             unsigned int volume = m_soundSlider.GetValue();
             outputFile << volume;
             m_mustUpdateSoundSettings = false;
-            outputFile.close();
             std::cout << "Successfully wrote sound settings.\n";
         }
         else

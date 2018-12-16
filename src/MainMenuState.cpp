@@ -83,12 +83,11 @@ void MainMenuState::ReadMusicSettings()
     std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
-        bool isMuted = 0;
+        bool isMuted = false;
         inputFile >> isMuted;
         unsigned int volume = 50;
         inputFile >> volume;
         m_music.setVolume(volume);
-        inputFile.close();
         std::cout << "Successfully read sound settings.\n";
         return;
     }

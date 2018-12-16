@@ -164,7 +164,6 @@ void EntityTracker::OutputToExcel() const
             outputFile << position.x << "," << position.y << '\n';
         }
 
-        outputFile.close();
         std::cout << "EntityTracker: Data successfully output to Excel format file.\n";
     }
     else
