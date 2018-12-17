@@ -182,6 +182,8 @@ bool Map::Load(const std::string& filename)
                         m_tiles[z][y][x] = nullptr;
                     }
                 }
+                inputFile.ignore(); // Remove the '-' from the buffer to continue reading
+
                 std::cout << "(empty)\n";
                 continue;
             }
