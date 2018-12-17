@@ -7,11 +7,11 @@
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame),
       m_darkness(GetWindowDimensions()),
-      m_muteButton(m_rGame.m_resourceManager.GetTexture("muteNormal"),
-                   m_rGame.m_resourceManager.GetTexture("muteHovered"),
-                   m_rGame.m_resourceManager.GetTexture("muteClicked"),
+      m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"),
+                   m_rGame.resourceManager.GetTexture("muteHovered"),
+                   m_rGame.resourceManager.GetTexture("muteClicked"),
                    sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64)),
-      m_level(m_rGame.m_resourceManager, m_rGame.m_inputManager)
+      m_level(m_rGame.resourceManager, m_rGame.inputManager)
 {
     // Content settings
     SetBackgroundColor(sf::Color(238, 241, 244));
@@ -57,21 +57,21 @@ void PlayState::HandleInput()
 {
     m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.m_inputManager.DetectedLostFocusEvent() || m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.DetectedLostFocusEvent() || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         PauseStart();
         return;
     }
 
-    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
+    if (m_rGame.inputManager.DetectedMouseMovedEvent())
     {
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left))
+    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left))
+    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)
         {
@@ -86,7 +86,7 @@ void PlayState::HandleInput()
             }
         }
     }
-    
+
     m_level.HandleInput();
 }
 
@@ -98,7 +98,7 @@ void PlayState::Update()
 void PlayState::Draw(sf::RenderTarget& rTarget, float lag)
 {
     DrawBackgroundColor(rTarget);
-    
+
     m_level.Draw(rTarget, sf::RenderStates::Default, lag);
 
     rTarget.draw(m_darkness);

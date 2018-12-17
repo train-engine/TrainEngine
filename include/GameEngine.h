@@ -13,7 +13,7 @@ class State;
 class GameEngine final
 {
 public:
-    ResourceManager m_resourceManager; // Placed here for constructor initializer list order
+    ResourceManager resourceManager; // Placed here for constructor initializer list order
 
 private:
     // Window
@@ -58,7 +58,7 @@ private:
     void ResetWindowView();
 
 public:
-    InputManager m_inputManager;
+    InputManager inputManager;
 
     // Constructor and destructor
     GameEngine();

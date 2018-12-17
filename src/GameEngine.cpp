@@ -20,8 +20,8 @@ GameEngine::GameEngine()
     : m_window(),
       m_stateChanged(false),
       m_isPowerSaverEnabled(true),
-      m_loopDebugOverlay(m_resourceManager.GetFont("altFont")),
-      m_inputManager(m_window)
+      m_loopDebugOverlay(resourceManager.GetFont("altFont")),
+      inputManager(m_window)
 {
     // Output game info
     std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
@@ -101,7 +101,7 @@ GameEngine::GameEngine()
 
     // Cursor
     m_window.setMouseCursorVisible(false);
-    m_cursor.setTexture(m_resourceManager.GetTexture("cursor"));
+    m_cursor.setTexture(resourceManager.GetTexture("cursor"));
 
     SetTargetUps(initialUps);
 }
@@ -279,10 +279,10 @@ void GameEngine::GameLoop()
                 sf::Time startTime = clock.getElapsedTime();
 
                 // InputManager
-                m_inputManager.Update();
+                inputManager.Update();
 
                 // Window resizing
-                if (m_inputManager.DetectedResizedEvent())
+                if (inputManager.DetectedResizedEvent())
                 {
                     OnWindowResize();
                     State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));

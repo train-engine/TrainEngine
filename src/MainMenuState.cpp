@@ -10,12 +10,12 @@
 
 MainMenuState::MainMenuState(GameEngine& rGame)
     : State(rGame),
-      m_backgroundSprite(m_rGame.m_resourceManager.GetTexture("menuBackground")),
-      m_gameNameText("TrainEngine", m_rGame.m_resourceManager.GetFont("mainFont"), 64),
-      m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.", m_rGame.m_resourceManager.GetFont("altFont"), 16),
-      m_muteButton(m_rGame.m_resourceManager.GetTexture("muteNormal"),
-                   m_rGame.m_resourceManager.GetTexture("muteHovered"),
-                   m_rGame.m_resourceManager.GetTexture("muteClicked"),
+      m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground")),
+      m_gameNameText("TrainEngine", m_rGame.resourceManager.GetFont("mainFont"), 64),
+      m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.", m_rGame.resourceManager.GetFont("altFont"), 16),
+      m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"),
+                   m_rGame.resourceManager.GetTexture("muteHovered"),
+                   m_rGame.resourceManager.GetTexture("muteClicked"),
                    sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64)),
       m_elapsedTicks(0)
 {
@@ -23,8 +23,8 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     m_stateSettings.canSkipUpdates = true;
 
     // Initialize GUI
-    const sf::Font& font = m_rGame.m_resourceManager.GetFont("mainFont");
-    const sf::SoundBuffer& soundBuffer = m_rGame.m_resourceManager.GetSoundBuffer("click");
+    const sf::Font& font = m_rGame.resourceManager.GetFont("mainFont");
+    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.GetSoundBuffer("click");
     m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
                                               sf::Vector2f(0, 0),
                                               sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White));
@@ -96,25 +96,25 @@ void MainMenuState::ReadMusicSettings()
 
 void MainMenuState::HandleInput()
 {
-    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::P))
+    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::P))
     {
         // Start game
         LoadPlayStart("data/levels/level2");
         return;
     }
-    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::C))
+    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::C))
     {
         // Start Level creator
         CreatorStart();
         return;
     }
 
-    if (m_rGame.m_inputManager.DetectedMouseMovedEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
+    if (m_rGame.inputManager.DetectedMouseMovedEvent() || m_rGame.inputManager.DetectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
@@ -122,7 +122,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchBeganEvent() || m_rGame.m_inputManager.DetectedTouchMovedEvent())
+    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left) || m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
@@ -130,7 +130,7 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left) || m_rGame.m_inputManager.DetectedTouchEndedEvent())
+    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left) || m_rGame.inputManager.DetectedTouchEndedEvent())
     {
         for (unsigned int i = 0; i < m_buttons.size(); i++)
         {

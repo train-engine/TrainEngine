@@ -6,10 +6,10 @@
 
 MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     : State(rGame),
-      m_backgroundSprite(m_rGame.m_resourceManager.GetTexture("menuBackground")),
-      m_titleText("Options", m_rGame.m_resourceManager.GetFont("mainFont"), 48),
-      m_soundSliderText("Music Volume", m_rGame.m_resourceManager.GetFont("mainFont"), 32),
-      m_soundSlider(m_rGame.m_resourceManager.GetFont("mainFont"),
+      m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground")),
+      m_titleText("Options", m_rGame.resourceManager.GetFont("mainFont"), 48),
+      m_soundSliderText("Music Volume", m_rGame.resourceManager.GetFont("mainFont"), 32),
+      m_soundSlider(m_rGame.resourceManager.GetFont("mainFont"),
                     GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
                     sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100),
       m_mustUpdateSoundSettings(false)
@@ -47,20 +47,20 @@ MenuOptionsState::~MenuOptionsState()
 
 void MenuOptionsState::HandleInput()
 {
-    if (m_rGame.m_inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         m_rGame.RequestPop();
         return;
     }
-    if (m_rGame.m_inputManager.DetectedMouseMovedEvent())
+    if (m_rGame.inputManager.DetectedMouseMovedEvent())
     {
         m_soundSlider.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonDescending(sf::Mouse::Left))
+    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left))
     {
         m_soundSlider.OnMouseClick(GetWindowMousePosition());
     }
-    if (m_rGame.m_inputManager.IsMouseButtonAscending(sf::Mouse::Left))
+    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_soundSlider.OnMouseUnclick(GetWindowMousePosition()))
         {

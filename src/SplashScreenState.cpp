@@ -4,9 +4,9 @@
 
 SplashScreenState::SplashScreenState(GameEngine& rGame)
     : State(rGame),
-      m_splash(m_rGame.m_resourceManager.LoadTexture("splash", "res/images/backgrounds/engine_splash.png")),
-      m_mask(m_rGame.m_resourceManager.LoadTexture("mask", "res/images/backgrounds/mask.png")),
-      m_sound(m_rGame.m_resourceManager.LoadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav")),
+      m_splash(m_rGame.resourceManager.LoadTexture("splash", "res/images/backgrounds/engine_splash.png")),
+      m_mask(m_rGame.resourceManager.LoadTexture("mask", "res/images/backgrounds/mask.png")),
+      m_sound(m_rGame.resourceManager.LoadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav")),
       m_alpha(255)
 {
     // Content settings
@@ -21,9 +21,9 @@ SplashScreenState::SplashScreenState(GameEngine& rGame)
 SplashScreenState::~SplashScreenState()
 {
     // Unload resources
-    m_rGame.m_resourceManager.UnloadTexture("splash");
-    m_rGame.m_resourceManager.UnloadTexture("mask");
-    m_rGame.m_resourceManager.UnloadSoundBuffer("splashScreenSound");
+    m_rGame.resourceManager.UnloadTexture("splash");
+    m_rGame.resourceManager.UnloadTexture("mask");
+    m_rGame.resourceManager.UnloadSoundBuffer("splashScreenSound");
 }
 
 void SplashScreenState::MainMenuStart()
@@ -32,8 +32,8 @@ void SplashScreenState::MainMenuStart()
 }
 
 void SplashScreenState::HandleInput()
-{ 
-    if (m_rGame.m_inputManager.DetectedKeyPressedEvent() || m_rGame.m_inputManager.DetectedMouseButtonReleasedEvent())
+{
+    if (m_rGame.inputManager.DetectedKeyPressedEvent() || m_rGame.inputManager.DetectedMouseButtonReleasedEvent())
     {
         // Go to main menu
         MainMenuStart();
