@@ -172,7 +172,7 @@ void LoadPlayState::LoadResources()
     }
     else
     {
-        std::cout << "Loading error: Unable to open \"" << m_levelDirectory << "/resources.txt" << "\".\n"
+        std::cerr << "Loading error: Unable to open \"" << m_levelDirectory << "/resources.txt" << "\".\n"
                      "Resources loading failed.\n\n";
     }
 

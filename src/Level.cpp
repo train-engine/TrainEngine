@@ -54,7 +54,7 @@ bool Level::LoadBackground(const std::string& filename)
             float parallaxValue = 0;
             if (!(lineStream >> resourceName >> parallaxValue))
             {
-                std::cout << "\nLevel error: Parsing resource name or parallax value failed in file: \"" << filename << "\".\n"
+                std::cerr << "\nLevel error: Parsing resource name or parallax value failed in file: \"" << filename << "\".\n"
                              "Background loading failed.\n\n";
                 return false;
             }
@@ -68,7 +68,7 @@ bool Level::LoadBackground(const std::string& filename)
                 size_t delimPos = pair.find(':');
                 if (delimPos == std::string::npos)
                 {
-                    std::cout << "\nLevel error: Parsing key-value pair failed in file: \"" << filename << "\".\n"
+                    std::cerr << "\nLevel error: Parsing key-value pair failed in file: \"" << filename << "\".\n"
                                  "Background loading failed.\n\n";
                     return false;
                 }
@@ -203,7 +203,7 @@ bool Level::LoadBackground(const std::string& filename)
     }
     else
     {
-        std::cout << "Level error: Unable to open \"" << filename << "\".\n"
+        std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
                      "Background loading failed.\n\n";
         return false;
     }
@@ -252,7 +252,7 @@ bool Level::SaveBackground(const std::string& filename)
     }
     else
     {
-        std::cout << "Level error: Unable to save \"" << filename << "\".\n"
+        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
                      "Background saving failed.\n\n";
         return false;
     }
@@ -305,7 +305,7 @@ bool Level::LoadEntities(const std::string& filename)
     }
     else
     {
-        std::cout << "Level error: Unable to open \"" << filename << "\".\n"
+        std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
                      "Entities loading failed.\n\n";
         return false;
     }
@@ -333,7 +333,7 @@ bool Level::SaveEntities(const std::string& filename)
     }
     else
     {
-        std::cout << "Level error: Unable to save \"" << filename << "\".\n"
+        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
                      "Entities saving failed.\n\n";
         return false;
     }
@@ -402,7 +402,7 @@ bool Level::SaveResources(const std::string& filename)
     }
     else
     {
-        std::cout << "Level error: Unable to save \"" << filename << "\".\n"
+        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
                      "Resources saving failed.\n\n";
         return false;
     }

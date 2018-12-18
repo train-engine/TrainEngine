@@ -69,7 +69,7 @@ GameEngine::GameEngine()
     {
         m_window.create(sf::VideoMode(1280, 720), windowName);
         SetTargetFps(60);
-        std::cout << "\nGameEngine error: Unable to open \"data/settings/graphics_settings.txt\".\n"
+        std::cerr << "\nGameEngine error: Unable to open \"data/settings/graphics_settings.txt\".\n"
                      "Graphics settings loading failed.\n\n";
     }
 
@@ -92,7 +92,7 @@ GameEngine::GameEngine()
     }
     else
     {
-        std::cout << "\nGameEngine error: Unable to open \"res/icon.png\".\n"
+        std::cerr << "\nGameEngine error: Unable to open \"res/icon.png\".\n"
                      "Program icon loading failed.\n\n";
     }
 

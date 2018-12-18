@@ -168,7 +168,7 @@ void EntityTracker::OutputToExcel() const
     }
     else
     {
-        std::cout << "EntityTracker error: Outputting to Excel format file failed.\n";
+        std::cerr << "EntityTracker error: Outputting to Excel format file failed.\n";
     }
 }
 

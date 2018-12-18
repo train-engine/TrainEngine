@@ -16,7 +16,7 @@ ResourceManager::ResourceManager()
     LoadTexture("missingTexture", "res/images/missing_texture.png");
     LoadFont("fallbackFont", "res/fonts/roboto_mono/RobotoMono-Regular.ttf");
     LoadSoundBuffer("error", "res/sounds/error.ogg");
-    
+
     LoadInitialResources();
 }
 
@@ -34,7 +34,7 @@ bool ResourceManager::LoadInitialResources()
         std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
         if (!inputFile)
         {
-            std::cout << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
+            std::cerr << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
                          "Initial resources loading failed.\n\n";
             return false;
         }
@@ -73,7 +73,7 @@ bool ResourceManager::LoadInitialResources()
         }
         else
         {
-            std::cout << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename << "\"\n";
+            std::cerr << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename << "\"\n";
         }
     }
 
@@ -96,7 +96,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
     sf::Texture texture;
     if (!texture.loadFromFile(FileManager::ResourcePath() + filename, textureRect))
     {
-        std::cout << "ResourceManager error: Failed to load texture \"" << name << "\" from file \"" << filename << "\".\n";
+        std::cerr << "ResourceManager error: Failed to load texture \"" << name << "\" from file \"" << filename << "\".\n";
         return m_textures.at("missingTexture");
     }
     m_textures.emplace(name, std::move(texture));
@@ -113,7 +113,7 @@ void ResourceManager::UnloadTexture(const std::string& name)
     }
     else
     {
-        std::cout << "ResourceManager error: Tried unloading already unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent texture \"" << name << "\".\n";
     }
 }
 
@@ -126,7 +126,7 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
         return it->second;
     }
     // If the texture is not found, return the default texture
-    std::cout << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
     return m_textures.at("missingTexture");
 }
 
@@ -140,7 +140,7 @@ void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeate
     }
     else
     {
-        std::cout << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
     }
 }
 
@@ -154,7 +154,7 @@ void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
     }
     else
     {
-        std::cout << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
     }
 }
 
@@ -173,7 +173,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
     sf::Font font;
     if (!font.loadFromFile(FileManager::ResourcePath() + filename))
     {
-        std::cout << "ResourceManager error: Failed to load font \"" << name << "\" from file \"" << filename << "\".\n";
+        std::cerr << "ResourceManager error: Failed to load font \"" << name << "\" from file \"" << filename << "\".\n";
         return m_fonts.at("fallbackFont");
     }
     m_fonts.emplace(name, std::move(font));
@@ -190,7 +190,7 @@ void ResourceManager::UnloadFont(const std::string& name)
     }
     else
     {
-        std::cout << "ResourceManager error: Tried unloading already unloaded or inexistent font \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent font \"" << name << "\".\n";
     }
 }
 
@@ -203,7 +203,7 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
         return it->second;
     }
     // If the font is not found, return the default font
-    std::cout << "ResourceManager error: Tried accessing unloaded or inexistent font \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent font \"" << name << "\".\n";
     return m_fonts.at("fallbackFont");
 }
 
@@ -222,7 +222,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
     sf::SoundBuffer soundBuffer;
     if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
     {
-        std::cout << "ResourceManager error: Failed to load soundbuffer \"" << name << "\" from file \"" << filename << "\".\n";
+        std::cerr << "ResourceManager error: Failed to load soundbuffer \"" << name << "\" from file \"" << filename << "\".\n";
         return m_soundBuffers.at("error");
     }
     m_soundBuffers.emplace(name, std::move(soundBuffer));
@@ -239,7 +239,7 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
     }
     else
     {
-        std::cout << "ResourceManager error: Tried unloading already unloaded or inexistent soundbuffer \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent soundbuffer \"" << name << "\".\n";
     }
 }
 
@@ -252,7 +252,7 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
         return it->second;
     }
     // If the soundbuffer is not found, return the default soundbuffer
-    std::cout << "ResourceManager error: Tried accessing unloaded or inexistent soundbuffer \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent soundbuffer \"" << name << "\".\n";
     return m_soundBuffers.at("error");
 }
 
@@ -271,7 +271,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
     m_shaders[name];
     if (!m_shaders.at(name).loadFromFile(FileManager::ResourcePath() + filename, type))
     {
-        std::cout << "ResourceManager error: Failed to load shader \"" << name << "\" from file \"" << filename << "\".\n";
+        std::cerr << "ResourceManager error: Failed to load shader \"" << name << "\" from file \"" << filename << "\".\n";
         m_shaders.erase(name);
         return m_shaders.at("ADDDEFAULTSHADER");
     }
@@ -288,7 +288,7 @@ void ResourceManager::UnloadShader(const std::string& name)
     }
     else
     {
-        std::cout << "ResourceManager error: Tried unloading already unloaded or inexistent shader \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent shader \"" << name << "\".\n";
     }
 }
 
@@ -301,6 +301,6 @@ const sf::Shader& ResourceManager::GetShader(const std::string& name) const
         return it->second;
     }
     // If the shader is not found, return the default shader
-    std::cout << "ResourceManager error: Tried accessing unloaded or inexistent shader \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent shader \"" << name << "\".\n";
     return m_shaders.at("ADDDEFAULTSHADER");
 }

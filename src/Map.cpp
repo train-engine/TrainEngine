@@ -211,7 +211,7 @@ bool Map::Load(const std::string& filename)
                                     return std::isdigit(c) == false;
                                 }) != input.cend())
                             {
-                                std::cout << "\nMap error: Parsing tile type failed in file: \"" << filename << "\".\n"
+                                std::cerr << "\nMap error: Parsing tile type failed in file: \"" << filename << "\".\n"
                                              "Map loading failed.\n\n";
                                 return false;
                             }
@@ -244,7 +244,7 @@ bool Map::Load(const std::string& filename)
     }
     else
     {
-        std::cout << "Map error: Unable to open \"" << filename << "\".\n"
+        std::cerr << "Map error: Unable to open \"" << filename << "\".\n"
                      "Map loading failed.\n\n";
         return false;
     }
@@ -303,7 +303,7 @@ bool Map::Save(const std::string& filename)
     }
     else
     {
-        std::cout << "Map error: Unable to save \"" << filename << "\".\n"
+        std::cerr << "Map error: Unable to save \"" << filename << "\".\n"
                      "Map saving failed.\n\n";
         return false;
     }
