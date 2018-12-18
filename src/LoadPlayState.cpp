@@ -55,7 +55,7 @@ void LoadPlayState::LoadResources()
     std::ifstream inputFile(FileManager::ResourcePath() + m_levelDirectory + "/resources.txt");
     if (inputFile)
     {
-        sf::Context m_context; // Unused but its existence is necessary to make OpenGL calls without an active window (for example in a different thread)
+        sf::Context context; // Unused, but its existence is necessary to make OpenGL calls without an active window in the current thread
 
         std::cout << "\nLoading resources...\n";
 

@@ -9,8 +9,8 @@
 // and load resources loaded for the entire duration of the program
 ResourceManager::ResourceManager()
 {
-    // The sf::Context below is unused but its existence is necessary to make OpenGL calls
-    // without having an active window, which is the case here when loading textures
+    // The sf::Context below is unused but its existence is necessary to make OpenGL calls without having
+    // an active window, which is the case here when loading textures before the window has been created
     sf::Context context;
 
     LoadTexture("missingTexture", "res/images/missing_texture.png");
