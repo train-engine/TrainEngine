@@ -9,6 +9,10 @@
 // and load resources loaded for the entire duration of the program
 ResourceManager::ResourceManager()
 {
+    // The sf::Context below is unused but its existence is necessary to make OpenGL calls
+    // without having an active window, which is the case here when loading textures
+    sf::Context context;
+
     LoadTexture("missingTexture", "res/images/missing_texture.png");
     LoadFont("fallbackFont", "res/fonts/roboto_mono/RobotoMono-Regular.ttf");
     LoadSoundBuffer("error", "res/sounds/error.ogg");
