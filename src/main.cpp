@@ -11,7 +11,9 @@
 int main()
 {
     #if defined(SFML_SYSTEM_ANDROID)
-        std::cout.rdbuf(new AndroidBuffer);
+        pAndroidBuffer = new AndroidBuffer;
+        std::cout.rdbuf(pAndroidBuffer);
+        std::cerr.rdbuf(pAndroidBuffer);
     #endif
 
     GameEngine trainEngine;
@@ -20,6 +22,8 @@ int main()
     trainEngine.GameLoop();
 
     #if defined(SFML_SYSTEM_ANDROID)
-        delete std::cout.rdbuf(nullptr);
+        std::cout.rdbuf(nullptr);
+        std::cerr.rdbuf(nullptr);
+        delete pAndroidBuffer;
     #endif
 }
