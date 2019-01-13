@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd "`dirname "$0"`"
+cd "$(dirname "$0")"
 
 cd ..
 
-find . -name ‘*.DS_Store’ -type f -delete
+find . -name '*.DS_Store' -type f -delete
