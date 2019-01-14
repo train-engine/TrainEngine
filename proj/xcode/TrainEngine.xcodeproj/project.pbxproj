@@ -267,6 +267,8 @@
 				C63E54421F3D228B00143907 /* Entities */,
 				C647583F1F3954840097C7DE /* Camera.cpp */,
 				C64758211F3954740097C7DE /* Camera.h */,
+				C64758531F3954840097C7DE /* ParallaxSprite.cpp */,
+				C64758341F3954740097C7DE /* ParallaxSprite.h */,
 				C64758431F3954840097C7DE /* EntityTracker.cpp */,
 				C64758251F3954740097C7DE /* EntityTracker.h */,
 			);
@@ -400,8 +402,6 @@
 			children = (
 				C647583E1F3954840097C7DE /* AnimatedSprite.cpp */,
 				C64758201F3954740097C7DE /* AnimatedSprite.h */,
-				C64758531F3954840097C7DE /* ParallaxSprite.cpp */,
-				C64758341F3954740097C7DE /* ParallaxSprite.h */,
 				C6681D4D20DC40AE009D309F /* Utility.cpp */,
 				C6681D5120DC4108009D309F /* Utility.h */,
 			);
