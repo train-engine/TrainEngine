@@ -5,7 +5,7 @@
 		<Option title="TrainEngine" />
 		<Option pch_mode="2" />
 		<Option compiler="mingw_610" />
-		<Option virtualFolders="Level\Map\;Level\;GameEngine\;Level\Entities\;States\;Gui\;Misc\;" />
+		<Option virtualFolders="Level/Map/;Level/;GameEngine/;Level/Entities/;States/;Gui/;Misc/;" />
 		<Build>
 			<Target title="Windows64-Debug">
 				<Option platforms="Windows;" />
@@ -151,29 +151,16 @@
 				<Option working_dir="../../assets" />
 				<Option object_output="../../build/codeblocks_linux/debug/" />
 				<Option type="1" />
-				<Option compiler="mingw_610" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
-					<Add library="sfml-graphics-s" />
-					<Add library="freetype" />
-					<Add library="jpeg" />
-					<Add library="sfml-window-s" />
-					<Add library="opengl32" />
-					<Add library="gdi32" />
-					<Add library="sfml-audio-s" />
-					<Add library="openal32" />
-					<Add library="flac" />
-					<Add library="vorbisenc" />
-					<Add library="vorbisfile" />
-					<Add library="vorbis" />
-					<Add library="ogg" />
-					<Add library="sfml-network-s" />
-					<Add library="ws2_32" />
-					<Add library="sfml-system-s" />
-					<Add library="winmm" />
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-audio" />
+					<Add library="sfml-network" />
+					<Add library="sfml-system" />
 					<Add directory="../../libs/SFML-2.4.2/lib/windows-gcc-6.1.0-mingw-64-bit" />
 				</Linker>
 			</Target>
@@ -182,30 +169,17 @@
 				<Option output="../../bin/linux/release/TrainEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../assets" />
 				<Option object_output="../../build/codeblocks_linux/release/" />
-				<Option type="0" />
-				<Option compiler="mingw_610" />
+				<Option type="1" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
-					<Add library="sfml-graphics-s" />
-					<Add library="freetype" />
-					<Add library="jpeg" />
-					<Add library="sfml-window-s" />
-					<Add library="opengl32" />
-					<Add library="gdi32" />
-					<Add library="sfml-audio-s" />
-					<Add library="openal32" />
-					<Add library="flac" />
-					<Add library="vorbisenc" />
-					<Add library="vorbisfile" />
-					<Add library="vorbis" />
-					<Add library="ogg" />
-					<Add library="sfml-network-s" />
-					<Add library="ws2_32" />
-					<Add library="sfml-system-s" />
-					<Add library="winmm" />
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-audio" />
+					<Add library="sfml-network" />
+					<Add library="sfml-system" />
 				</Linker>
 			</Target>
 		</Build>
