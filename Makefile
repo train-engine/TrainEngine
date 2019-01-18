@@ -16,37 +16,40 @@ SFML_SYSTEM_LIBS = sfml-system
 
 # OS-specific settings
 ifeq ($(OS),Windows_NT)
-	EXEC += .exe
+	EXEC := $(EXEC).exe
 	BUILD_DIR := $(BUILD_DIR)/make_windows
 	BIN_DIR := $(BIN_DIR)/windows
 	CXX := C:/mingw64/bin/$(CXX)
-	
+
 	# Link SFML statically on Windows
 	CXXFLAGS += -DSFML_STATIC
 	LDFLAGS = -Wl,-Bstatic
-	
-	SFML_GRAPHICS_LIB_NAME := $(SFML_GRAPHICS_LIBS)-s
-	SFML_WINDOW_LIB_NAME := $(SFML_WINDOW_LIBS)-s
-	SFML_AUDIO_LIB_NAME := $(SFML_AUDIO_LIBS)-s
-	SFML_NETWORK_LIB_NAME := $(SFML_NETWORK_LIBS)-s
-	SFML_SYSTEM_LIB_NAME := $(SFML_SYSTEM_LIBS)-s
-	
-	# Link the debug versions of SFML when compiling for debug on Windows
-	ifeq ($(release),1)
-		SFML_GRAPHICS_LIB_NAME := $(SFML_GRAPHICS_LIBS)-d
-		SFML_WINDOW_LIB_NAME := $(SFML_WINDOW_LIBS)-d
-		SFML_AUDIO_LIB_NAME := $(SFML_AUDIO_LIBS)-d
-		SFML_NETWORK_LIB_NAME := $(SFML_NETWORK_LIBS)-d
-		SFML_SYSTEM_LIB_NAME := $(SFML_SYSTEM_LIBS)-d
+
+	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-s
+	SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-s
+	SFML_AUDIO_LIBS := $(SFML_AUDIO_LIBS)-s
+	SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)-s
+	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-s
+
+	ifneq ($(release),1)
+		# Disable console output on release builds
+		CXXFLAGS += -mconsole
+
+		# Link the debug versions of SFML when compiling for debug on Windows
+		SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-d
+		SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-d
+		SFML_AUDIO_LIBS := $(SFML_AUDIO_LIBS)-d
+		SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)-d
+		SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-d
 	endif
-	
+
 	# Add dependencies for SFML libraries when statically linking
 	SFML_GRAPHICS_LIBS += freetype jpeg
 	SFML_WINDOW_LIBS += opengl32 gdi32
 	SFML_AUDIO_LIBS += openal32 flac vorbisenc vorbisfile vorbis ogg
 	SFML_NETWORK_LIBS += ws2_32
 	SFML_SYSTEM_LIBS += winmm
-	
+
 	# 32-bit
 	ifeq ($(win32),1)
 		BUILD_DIR := $(BUILD_DIR)32
@@ -78,7 +81,7 @@ else
 	BUILD_DIR := $(BUILD_DIR)/debug
 	BIN_DIR := $(BIN_DIR)/debug
 	CXXFLAGS += -O0 -g -DDEBUG
-	
+
 	# Link the debug versions of SFML on Windows
 	ifeq ($(OS),Windows_NT)
 		SFML_GRAPHICS_LIB_NAME := $(SFML_GRAPHICS_LIBS)-d
@@ -105,7 +108,7 @@ SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
-INC_DIRS = include $(SFML_DIR)
+INC_DIRS = include $(SFML_DIR)/include
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # Recipes
@@ -131,7 +134,12 @@ run: all
 clean:
 	$(RM) -r $(BUILD_DIR)
 	$(RM) -r $(BIN_DIR)
-	
+
+.PHONY: cleanall
+cleanall:
+	$(RM) -r build
+	$(RM) -r bin
+
 .PHONY: printvars
 printvars:
 	@echo EXEC: $(EXEC)
