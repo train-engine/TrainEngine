@@ -418,7 +418,7 @@ void GameEngine::SetTargetUps(unsigned int updatesPerSecond)
 
 void GameEngine::SetTargetFps(unsigned int drawsPerSecond)
 {
-    m_timePerDraw = (drawsPerSecond != 0) ? sf::microseconds(1000000 / static_cast<double>(drawsPerSecond)) : sf::Time::Zero;
+    m_timePerDraw = (drawsPerSecond != 0 ? sf::microseconds(1000000 / static_cast<double>(drawsPerSecond)) : sf::Time::Zero);
     m_drawLag = m_timePerDraw;
 }
 
