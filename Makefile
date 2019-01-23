@@ -1,10 +1,10 @@
 EXEC = TrainEngine
 
-BUILD_DIR = build
-BIN_DIR = bin
-
 CXX = g++
 CXXFLAGS = -std=c++14 -Wall
+
+BUILD_DIR = build
+BIN_DIR = bin
 
 # SFML variables
 SFML_DIR = libs/SFML-2.4.2
@@ -19,7 +19,6 @@ ifeq ($(OS),Windows_NT)
 	EXEC := $(EXEC).exe
 	BUILD_DIR := $(BUILD_DIR)/make_windows
 	BIN_DIR := $(BIN_DIR)/windows
-	CXX := C:/mingw64/bin/$(CXX)
 
 	# Link SFML statically on Windows
 	CXXFLAGS += -DSFML_STATIC
@@ -72,6 +71,29 @@ else
 	endif
 endif
 
+# OS-specific assets-copying script
+ifeq ($(OS),Windows_NT)
+	ifeq ($(win32),1)
+		ifeq ($(release),1)
+			COPY_ASSETS_SCRIPT = l_copy_assets_windows32_r.sh
+		else
+			COPY_ASSETS_SCRIPT = l_copy_assets_windows32_d.sh
+		endif
+	else
+		ifeq ($(release),1)
+			COPY_ASSETS_SCRIPT = l_copy_assets_windows64_r.sh
+		else
+			COPY_ASSETS_SCRIPT = l_copy_assets_windows64_d.sh
+		endif
+	endif
+else ifeq ($(UNAME),Linux)
+	ifeq ($(release),1)
+		COPY_ASSETS_SCRIPT = l_copy_assets_linux_r.sh
+	else
+		COPY_ASSETS_SCRIPT = l_copy_assets_linux_d.sh
+	endif
+endif
+
 # Debug (default) and release modes
 ifeq ($(release),1)
 	BUILD_DIR := $(BUILD_DIR)/release
@@ -81,15 +103,6 @@ else
 	BUILD_DIR := $(BUILD_DIR)/debug
 	BIN_DIR := $(BIN_DIR)/debug
 	CXXFLAGS += -O0 -g -DDEBUG
-
-	# Link the debug versions of SFML on Windows
-	ifeq ($(OS),Windows_NT)
-		SFML_GRAPHICS_LIB_NAME := $(SFML_GRAPHICS_LIBS)-d
-		SFML_WINDOW_LIB_NAME := $(SFML_WINDOW_LIBS)-d
-		SFML_AUDIO_LIB_NAME := $(SFML_AUDIO_LIBS)-d
-		SFML_NETWORK_LIB_NAME := $(SFML_NETWORK_LIBS)-d
-		SFML_SYSTEM_LIB_NAME := $(SFML_SYSTEM_LIBS)-d
-	endif
 endif
 
 # Linker flags
@@ -112,7 +125,6 @@ INC_DIRS = include $(SFML_DIR)/include
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # Recipes
-
 .PHONY: all
 all: $(BIN_DIR)/$(EXEC)
 
@@ -128,8 +140,12 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 .PHONY: run
 run: all
-	cd ./$(BIN_DIR); ./$(EXEC)
+	@cd ./$(BIN_DIR); ./$(EXEC)
 
+.PHONY: copyassets
+copyassets:
+	@./scripts/$(COPY_ASSETS_SCRIPT)
+	
 .PHONY: clean
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -140,6 +156,10 @@ cleanall:
 	$(RM) -r build
 	$(RM) -r bin
 
+.PHONY: cleanassets
+cleanassets:
+	@./scripts/l_clean_assets.sh
+
 .PHONY: printvars
 printvars:
 	@echo EXEC: $(EXEC)
@@ -148,3 +168,4 @@ printvars:
 	@echo CXX: $(CXX)
 	@echo CXXFLAGS: $(CXXFLAGS)
 	@echo LDFLAGS: $(LDFLAGS)
+	@echo COPY_ASSETS_SCRIPT: $(COPY_ASSETS_SCRIPT)
