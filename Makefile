@@ -98,11 +98,11 @@ endif
 ifeq ($(release),1)
 	BUILD_DIR := $(BUILD_DIR)/release
 	BIN_DIR := $(BIN_DIR)/release
-	CXXFLAGS += -O3
+	CXXFLAGS += -O3 -DNDEBUG
 else
 	BUILD_DIR := $(BUILD_DIR)/debug
 	BIN_DIR := $(BIN_DIR)/debug
-	CXXFLAGS += -O0 -g -DDEBUG
+	CXXFLAGS += -O0 -g
 endif
 
 # Linker flags
@@ -145,7 +145,7 @@ run: all
 .PHONY: copyassets
 copyassets:
 	@./scripts/$(COPY_ASSETS_SCRIPT)
-	
+
 .PHONY: clean
 clean:
 	$(RM) -r $(BUILD_DIR)
