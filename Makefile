@@ -30,10 +30,10 @@ ifeq ($(OS),Windows_NT)
 	SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)-s
 	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-s
 
-	ifneq ($(release),1)
-		# Enable console output on debug builds
-		CXXFLAGS += -mconsole
-
+	ifeq ($(release),1)
+		# Disable console output on release builds
+		LDFLAGS += -mwindows
+	else
 		# Link the debug versions of SFML when compiling for debug on Windows
 		SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-d
 		SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-d
@@ -75,22 +75,22 @@ endif
 ifeq ($(OS),Windows_NT)
 	ifeq ($(win32),1)
 		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = l_copy_assets_windows32_r.sh
+			COPY_ASSETS_SCRIPT = u_copy_assets_windows32_r.sh
 		else
-			COPY_ASSETS_SCRIPT = l_copy_assets_windows32_d.sh
+			COPY_ASSETS_SCRIPT = u_copy_assets_windows32_d.sh
 		endif
 	else
 		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = l_copy_assets_windows64_r.sh
+			COPY_ASSETS_SCRIPT = u_copy_assets_windows64_r.sh
 		else
-			COPY_ASSETS_SCRIPT = l_copy_assets_windows64_d.sh
+			COPY_ASSETS_SCRIPT = u_copy_assets_windows64_d.sh
 		endif
 	endif
 else ifeq ($(UNAME),Linux)
 	ifeq ($(release),1)
-		COPY_ASSETS_SCRIPT = l_copy_assets_linux_r.sh
+		COPY_ASSETS_SCRIPT = u_copy_assets_linux_r.sh
 	else
-		COPY_ASSETS_SCRIPT = l_copy_assets_linux_d.sh
+		COPY_ASSETS_SCRIPT = u_copy_assets_linux_d.sh
 	endif
 endif
 
@@ -134,7 +134,7 @@ $(BIN_DIR)/$(EXEC): $(OBJS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -MP -MMD $(INC_FLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP $(INC_FLAGS) -c $< -o $@
 
 -include $(DEPS)
 
@@ -144,7 +144,7 @@ run: all
 
 .PHONY: copyassets
 copyassets:
-	@./scripts/$(COPY_ASSETS_SCRIPT)
+	./scripts/$(COPY_ASSETS_SCRIPT)
 
 .PHONY: clean
 clean:
@@ -158,7 +158,7 @@ cleanall:
 
 .PHONY: cleanassets
 cleanassets:
-	@./scripts/l_clean_assets.sh
+	./scripts/u_clean_assets.sh
 
 .PHONY: printvars
 printvars:
