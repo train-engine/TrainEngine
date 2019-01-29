@@ -77,9 +77,6 @@
   <ItemGroup>
     <ResourceCompile Include="TrainEngine.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon.ico" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C9DF87E7-77F6-4DB1-A78A-2865DC0D0372}</ProjectGuid>

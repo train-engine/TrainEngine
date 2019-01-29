@@ -71,7 +71,7 @@ else
 	endif
 endif
 
-# OS-specific assets-copying script
+# OS-specific assets-copying script selection
 ifeq ($(OS),Windows_NT)
 	ifeq ($(win32),1)
 		ifeq ($(release),1)
@@ -114,52 +114,72 @@ SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
 
 LDFLAGS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
 
-# Sources, objects and includes
+# Sources
 SRC_DIR = src
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 
+# Objects and dependencies
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
+# Include program icon and info on Windows
+ifeq ($(OS),Windows_NT)
+	OBJS += $(BUILD_DIR)/icon.res
+endif
+
+# Includes
 INC_DIRS = include $(SFML_DIR)/include
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # Recipes
+
 .PHONY: all
 all: $(BIN_DIR)/$(EXEC)
 
+# Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $^ $(LDFLAGS) -o $@
 
+# Build C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) -MMD -MP $(INC_FLAGS) -c $< -o $@
 
+# Add icon to Windows executable
+$(BUILD_DIR)/%.res: assets/%.rc
+	windres $< -O coff -o $@
+
 -include $(DEPS)
 
+# Build and run
 .PHONY: run
 run: all
 	@cd ./$(BIN_DIR); ./$(EXEC)
 
+# Copy assets to bin directory for selected platform
 .PHONY: copyassets
 copyassets:
 	./scripts/$(COPY_ASSETS_SCRIPT)
 
+# Clean build and bin directories for selected platform
 .PHONY: clean
 clean:
 	$(RM) -r $(BUILD_DIR)
 	$(RM) -r $(BIN_DIR)
 
+# Clean all build and bin directories for all platforms
 .PHONY: cleanall
 cleanall:
 	$(RM) -r build
 	$(RM) -r bin
 
+# Clean all assets from build and bin directories for all platforms
 .PHONY: cleanassets
 cleanassets:
 	./scripts/u_clean_assets.sh
 
+# Echo Makefile variables
 .PHONY: printvars
 printvars:
 	@echo EXEC: $(EXEC)
