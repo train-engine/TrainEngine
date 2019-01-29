@@ -31,7 +31,7 @@ ifeq ($(OS),Windows_NT)
 	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-s
 
 	ifneq ($(release),1)
-		# Disable console output on release builds
+		# Enable console output on debug builds
 		CXXFLAGS += -mconsole
 
 		# Link the debug versions of SFML when compiling for debug on Windows
