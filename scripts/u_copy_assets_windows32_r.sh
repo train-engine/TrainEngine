@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd "$(dirname "$0")"
 
 cd ..
 
+mkdir -p bin/windows32/release
 cp -r assets/data/. bin/windows32/release/data
 cp -r assets/logs/. bin/windows32/release/logs
 cp -r assets/res/. bin/windows32/release/res

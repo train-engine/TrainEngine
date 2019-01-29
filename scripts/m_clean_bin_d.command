@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd "$(dirname "$0")"
 
-./l_clean_bin_d.sh
+./u_clean_bin_d.sh

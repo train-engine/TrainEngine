@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cd "$(dirname "$0")"
 
-./l_copy_assets_linux_r.sh
+./u_copy_assets_linux_r.sh
