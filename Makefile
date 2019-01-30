@@ -1,13 +1,21 @@
 EXEC = TrainEngine
 
+# C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14 -Wall
 
+# Build and bin directories
 BUILD_DIR = build
 BIN_DIR = bin
 
-# SFML variables
+# Includes
 SFML_DIR = libs/SFML-2.4.2
+INC_DIRS = include $(SFML_DIR)/include
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+
+CPPFLAGS := -MMD -MP $(INC_FLAGS)
+
+# SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
 SFML_WINDOW_LIBS = sfml-window
 SFML_AUDIO_LIBS = sfml-audio
@@ -21,7 +29,7 @@ ifeq ($(OS),Windows_NT)
 	BIN_DIR := $(BIN_DIR)/windows
 
 	# Link SFML statically on Windows
-	CXXFLAGS += -DSFML_STATIC
+	CPPFLAGS += -DSFML_STATIC
 	LDFLAGS = -Wl,-Bstatic
 
 	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-s
@@ -98,7 +106,8 @@ endif
 ifeq ($(release),1)
 	BUILD_DIR := $(BUILD_DIR)/release
 	BIN_DIR := $(BIN_DIR)/release
-	CXXFLAGS += -O3 -DNDEBUG
+	CXXFLAGS += -O3
+	CPPFLAGS += -DNDEBUG
 else
 	BUILD_DIR := $(BUILD_DIR)/debug
 	BIN_DIR := $(BIN_DIR)/debug
@@ -127,10 +136,6 @@ ifeq ($(OS),Windows_NT)
 	OBJS += $(BUILD_DIR)/icon.res
 endif
 
-# Includes
-INC_DIRS = include $(SFML_DIR)/include
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-
 # Recipes
 
 .PHONY: all
@@ -144,7 +149,7 @@ $(BIN_DIR)/$(EXEC): $(OBJS)
 # Build C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(INC_FLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 # Add icon to Windows executable
 $(BUILD_DIR)/%.res: assets/%.rc
@@ -187,5 +192,6 @@ printvars:
 	@echo BIN_DIR: $(BIN_DIR)
 	@echo CXX: $(CXX)
 	@echo CXXFLAGS: $(CXXFLAGS)
+	@echo CPPFLAGS: $(CPPFLAGS)
 	@echo LDFLAGS: $(LDFLAGS)
 	@echo COPY_ASSETS_SCRIPT: $(COPY_ASSETS_SCRIPT)
