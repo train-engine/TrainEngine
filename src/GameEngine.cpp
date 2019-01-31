@@ -229,7 +229,6 @@ void GameEngine::ResetWindowView()
     m_window.setView(sf::View(sf::FloatRect(0, 0, m_window.getSize().x, m_window.getSize().y)));
 }
 
-
 /// Main game loop
 void GameEngine::GameLoop()
 {
