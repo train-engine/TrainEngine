@@ -140,7 +140,7 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
 
 void Map::Update()
 {
-    
+
 }
 
 // Load the Map from a save file
@@ -172,7 +172,7 @@ bool Map::Load(const std::string& filename)
         for (unsigned int z = 0; z < m_layerCount; z++)
         {
             std::cout << '#' << z << ": \n";
-            inputFile.ignore(); // Ignore the \n
+            inputFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore all chars until '\n' to peek next character properly
             if (inputFile.peek() == '-') // Empty layer
             {
                 for (unsigned int y = 0; y < m_indexDimensions.y; y++)
@@ -261,7 +261,7 @@ bool Map::Save(const std::string& filename)
         std::cout << "Dimensions:\t" << m_indexDimensions.x << 'x' << m_indexDimensions.y << '\n';
         std::cout << "TileSize:\t" << m_tileSize << '\n';
 
-        ClearLayer(MapLayer::Overlay); // Skip saving overlay
+        ClearLayer(MapLayer::Overlay); // Do not save overlay
 
         for (unsigned int z = 0; z < m_layerCount; z++)
         {
@@ -401,7 +401,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
         {
             isBottomEmpty = false;
         }
-        
+
         if (isTopEmpty == true &&
             isLeftEmpty == true && isRightEmpty == false &&
             isBottomEmpty == false && isBottomRightEmpty == false)
@@ -790,7 +790,7 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
             m_tiles[z][y][x] = nullptr;
             break;
     }
-    
+
     if (m_tiles[z][y][x] != nullptr)
     {
         m_tiles[z][y][x]->SetPosition(sf::Vector2f(tileIndex.x * m_tileSize, tileIndex.y * m_tileSize));
@@ -856,7 +856,7 @@ void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateT
     {
         return;
     }
-    
+
     // Replace existing Tile if found
     if (m_tiles[z][y][x] != nullptr)
     {

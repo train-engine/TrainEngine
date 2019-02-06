@@ -92,7 +92,6 @@ void Camera::Update()
         m_dimensions = m_targetDimensions;
     }
 
-
     // Independent Camera movement
     if (m_mode == CameraMode::Static || m_mode == CameraMode::Moving)
     {
