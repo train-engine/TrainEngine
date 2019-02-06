@@ -7,7 +7,7 @@ namespace
 }
 
 TextBox::TextBox(InputManager& rInputManager, const sf::Font& font)
-    : TextBox(rInputManager, font, sf::Vector2f(0, 0), sf::Vector2f(0, 0))
+    : TextBox(rInputManager, font, sf::Vector2f(0, 0), sf::Vector2f(100, 20))
 {
 
 }
@@ -450,6 +450,19 @@ void TextBox::UpdateText()
             {
                 if (m_displayText.getString().getSize() > 0)
                 {
+                        if (m_rInputManager.IsModifierKeyHeld())
+                    {
+                        // If CTRL + backspace, delete whole section
+                        if (enteredChar == '\b')
+                        {
+                            MoveCursorToPreviousSpace();
+                        }
+                        else
+                        {
+                            MoveCursorToNextSpace();
+                        }
+
+                    }
                     // If there is a selection
                     if (m_selectionStartIndex != m_cursorIndex)
                     {
@@ -732,6 +745,10 @@ void TextBox::SetPosition(const sf::Vector2f& position)
 
 void TextBox::SetDimensions(const sf::Vector2f& dimensions)
 {
+    if (dimensions.x == 0 || dimensions.y == 0)
+    {
+        return;
+    }
     m_box.setSize(dimensions);
     CenterText();
     m_cursor.setPosition(m_position.x + m_padding.x, m_displayText.getPosition().y);
