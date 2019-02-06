@@ -85,14 +85,14 @@
 				"name": "(gdb) Launch",
 				"type": "cppdbg",
 				"request": "launch",
-				"program": "${workspaceFolder}/bin/windows64/debug/TrainEngine.exe",
+				"program": "${workspaceFolder}/bin/linux/debug/TrainEngine",
 				"args": [],
 				"stopAtEntry": false,
 				"cwd": "${workspaceFolder}/assets",
 				"environment": [],
 				"externalConsole": true,
 				"MIMode": "gdb",
-				"miDebuggerPath": "gdb.exe",
+				"miDebuggerPath": "gdb",
 				"setupCommands": [
 					{
 						"description": "Enable pretty-printing for gdb",

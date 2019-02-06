@@ -13,6 +13,7 @@ SFML_DIR = libs/SFML-2.4.2
 INC_DIRS = include $(SFML_DIR)/include
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
+# C preprocessor flags
 CPPFLAGS := -MMD -MP $(INC_FLAGS)
 
 # SFML variables
@@ -30,7 +31,7 @@ ifeq ($(OS),Windows_NT)
 
 	# Link SFML statically on Windows
 	CPPFLAGS += -DSFML_STATIC
-	LDFLAGS = -Wl,-Bstatic
+	SFML_LINK_FLAGS = -Wl,-Bstatic
 
 	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-s
 	SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-s
@@ -74,6 +75,9 @@ else
 	ifeq ($(UNAME),Linux)
 		BUILD_DIR := $(BUILD_DIR)/make_linux
 		BIN_DIR := $(BIN_DIR)/linux
+		
+		# Explicitly link SFML dynamically
+		SFML_LINK_FLAGS = -Wl,-Bdynamic
 	else
     	$(error OS not supported by this Makefile)
 	endif
@@ -114,14 +118,14 @@ else
 	CXXFLAGS += -O0 -g
 endif
 
-# Linker flags
+# Linker flags for SFML
 SFML_GRAPHICS_LIBS := $(addprefix -l,$(SFML_GRAPHICS_LIBS))
 SFML_WINDOW_LIBS := $(addprefix -l,$(SFML_WINDOW_LIBS))
 SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
 SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
 SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
 
-LDFLAGS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
+LDFLAGS += $(SFML_LINK_FLAGS) $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
 
 # Sources
 SRC_DIR = src
@@ -136,7 +140,7 @@ ifeq ($(OS),Windows_NT)
 	OBJS += $(BUILD_DIR)/icon.res
 endif
 
-# Recipes
+# Rules
 
 .PHONY: all
 all: $(BIN_DIR)/$(EXEC)
