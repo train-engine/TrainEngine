@@ -105,8 +105,8 @@ void Camera::Update()
 
         if (m_dimensions != m_targetDimensions)
         {
-            BoundsCollision(m_previousPosition, m_previousDimensions);
             BoundsCollision(m_position, m_dimensions);
+            BoundsCollision(m_previousPosition, m_previousDimensions);
         }
 
         return;

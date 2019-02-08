@@ -2,7 +2,21 @@ EXEC = TrainEngine
 
 # C++ compiler settings
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall
+<<<<<<< HEAD
+CXXFLAGS = -std=c++14 -Wnon-virtual-dtor -Wshadow -Wredundant-decls -Wcast-align -Wfloat-equal\
+		   -Winline -Wunreachable-code -Wmissing-declarations -Wswitch-default -Wzero-as-null-pointer-constant -Wmain -Wall
+=======
+CXXFLAGS = -std=c++14 -Wall -Wmissing-braces -Wno-aggressive-loop-optimizations\
+			-Wsign-compare -Waddress -Wlogical-op -Wmissing-include-dirs -Wswitch-default\
+			-Wswitch-unreachable -Wmaybe-uninitialized -Wmissing-field-initializers\
+			-Wunknown-pragmas -Wsuggest-attribute=const -Wsuggest-final-types -Wsuggest-final-methods\
+			-Wbool-compare -Wbool-operation -Wduplicated-branches -Wduplicated-cond -Wdangling-else\
+			-Wtautological-compare -Wpointer-compare -Wtype-limits -Wundef -Wcast-align\
+			-Wparentheses -Wuseless-cast -Wenum-compare -Wlogical-not-parentheses
+
+			#doutes
+			#-Wsign-conversion -Wfloat-equal -Wfloat-conversion
+>>>>>>> Ajout de warnings dans le makefile
 
 # Build and bin directories
 BUILD_DIR = build
@@ -75,7 +89,7 @@ else
 	ifeq ($(UNAME),Linux)
 		BUILD_DIR := $(BUILD_DIR)/make_linux
 		BIN_DIR := $(BIN_DIR)/linux
-		
+
 		# Explicitly link SFML dynamically
 		SFML_LINK_FLAGS = -Wl,-Bdynamic
 	else
