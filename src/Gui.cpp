@@ -728,19 +728,19 @@ void GuiTextSlider::SetStyle(GuiStyle style)
     
     switch (m_style)
     {
-        default:
-        case GuiStyle::White:
-            m_textColor = sf::Color(255, 255, 255);
-            break;
-        case GuiStyle::Green:
-            m_textColor = sf::Color(255, 255, 255);
-            break;
-        case GuiStyle::Red:
-            m_textColor = sf::Color(255, 255, 255);
-            break;
-        case GuiStyle::Blue:
-            m_textColor = sf::Color(255, 255, 255);
-            break;
+    default:
+    case GuiStyle::White:
+        m_textColor = sf::Color(255, 255, 255);
+        break;
+    case GuiStyle::Green:
+        m_textColor = sf::Color(255, 255, 255);
+        break;
+    case GuiStyle::Red:
+        m_textColor = sf::Color(255, 255, 255);
+        break;
+    case GuiStyle::Blue:
+        m_textColor = sf::Color(255, 255, 255);
+        break;
     }
 }
 

@@ -59,12 +59,12 @@ void Entity::TileCollision(const Tile* pTile)
     {
         switch (pTile->GetTileType())
         {
-            default:
-                StandardCollision(pTile);
-                break;
-            case TileType::LadderTop:
-                LadderTopCollision(pTile);
-                break;
+        default:
+            StandardCollision(pTile);
+            break;
+        case TileType::LadderTop:
+            LadderTopCollision(pTile);
+            break;
         }
     }
 }
@@ -85,16 +85,16 @@ void Entity::TileReaction(Tile* pTile)
     }
     switch (pTile->GetTileType())
     {
-        case TileType::Ladder:
-        case TileType::LadderTop:
-            Climb();
-            break;
-        case TileType::Vine:
-            Climb(0.75);
-            break;
-        default:
-            m_state = EntityState::Still;
-            break;
+    case TileType::Ladder:
+    case TileType::LadderTop:
+        Climb();
+        break;
+    case TileType::Vine:
+        Climb(0.75);
+        break;
+    default:
+        m_state = EntityState::Still;
+        break;
     }
 }
 
@@ -103,11 +103,11 @@ void Entity::EntityReaction(Entity* pEntity)
 {
     switch (pEntity->GetEntityType())
     {
-        case EntityType::Player:
-            PlayerReaction(pEntity);
-            break;
-        default:
-            break;
+    case EntityType::Player:
+        PlayerReaction(pEntity);
+        break;
+    default:
+        break;
     }
 }
 

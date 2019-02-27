@@ -285,17 +285,17 @@ bool Level::LoadEntities(const std::string& filename)
             inputFile >> type >> xPosition >> yPosition;
             switch (static_cast<EntityType>(type))
             {
-                case EntityType::Player:
-                    rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f (xPosition, yPosition));
-                    rpEntity->AddAnimation(EntityState::Still, AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22, 3));
-                    rpEntity->AddAnimation(EntityState::Running, AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27, 1));
-                    rpEntity->AddAnimation(EntityState::Climbing, AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
-                    rpEntity->AddAnimation(EntityState::Jumping, AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
-                    rpEntity->AddAnimation(EntityState::Falling, AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3, 2));
-                    rpEntity->SetPosition({xPosition, yPosition});
-                    break;
-                default:
-                    break;
+            case EntityType::Player:
+                rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f (xPosition, yPosition));
+                rpEntity->AddAnimation(EntityState::Still, AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22, 3));
+                rpEntity->AddAnimation(EntityState::Running, AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27, 1));
+                rpEntity->AddAnimation(EntityState::Climbing, AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
+                rpEntity->AddAnimation(EntityState::Jumping, AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
+                rpEntity->AddAnimation(EntityState::Falling, AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3, 2));
+                rpEntity->SetPosition({xPosition, yPosition});
+                break;
+            default:
+                break;
             }
             std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", " << rpEntity->GetPosition().y << ")\n";
         }
