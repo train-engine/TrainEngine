@@ -352,11 +352,23 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
     {
         if (x > 0)
         {
-            if (y > 0) isTopLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->IsSolid() == false);
-            else isTopLeftEmpty = false;
+            if (y > 0)
+            {
+                isTopLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->IsSolid() == false);
+            }
+            else
+            {
+                isTopLeftEmpty = false;
+            }
 
-            if (y < m_indexDimensions.y - 1) isBottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->IsSolid() == false);
-            else isBottomLeftEmpty = false;
+            if (y < m_indexDimensions.y - 1)
+            {
+                isBottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->IsSolid() == false);
+            }
+            else 
+            {
+                isBottomLeftEmpty = false;
+            }
 
             isLeftEmpty = (m_tiles[z][y][x - 1] == nullptr || m_tiles[z][y][x - 1]->IsSolid() == false);
         }
@@ -369,11 +381,23 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
         if (x < m_indexDimensions.x - 1)
         {
-            if (y > 0) isTopRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->IsSolid() == false);
-            else isTopRightEmpty = false;
+            if (y > 0)
+            {
+                isTopRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->IsSolid() == false);
+            }
+            else
+            {
+                isTopRightEmpty = false;
+            }
 
-            if (y < m_indexDimensions.y - 1) isBottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->IsSolid() == false);
-            else isBottomRightEmpty = false;
+            if (y < m_indexDimensions.y - 1)
+            {
+                isBottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->IsSolid() == false);
+            }
+            else
+            {
+                isBottomRightEmpty = false;
+            }
 
             isRightEmpty = (m_tiles[z][y][x + 1] == nullptr || m_tiles[z][y][x + 1]->IsSolid() == false);
         }

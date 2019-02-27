@@ -685,7 +685,7 @@ void TextBox::Update()
         m_cursorTickCount++;
         if (m_cursorTickCount >= m_cursorBlinkSpeed)
         {
-            m_isCursorVisible = (!m_isCursorVisible);
+            m_isCursorVisible = !m_isCursorVisible;
             m_cursorTickCount = 0;
         }
     }

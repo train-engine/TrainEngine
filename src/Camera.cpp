@@ -121,9 +121,9 @@ void Camera::Update()
         if (m_dimensions != m_targetDimensions)
         {
             mustSnapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
-                                  (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
+                                    (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
             mustSnapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
-                                (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
+                                  (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
         }
         else
         {

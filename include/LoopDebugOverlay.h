@@ -41,7 +41,7 @@ public:
     void OnWindowResize();
 
     // Setters
-    void ToggleVisible() {m_isVisible = (!m_isVisible);}
+    void ToggleVisible() {m_isVisible = !m_isVisible;}
 
     // Getters
     double GetRecordedUps() const {return m_recordedUps;}

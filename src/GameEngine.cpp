@@ -51,9 +51,11 @@ GameEngine::GameEngine()
         unsigned int antiAliasingLevel = 0;
         inputFile >> antiAliasingLevel;
 
-        fullscreenModeIndex = (fullscreenModeIndex < sf::VideoMode::getFullscreenModes().size() && fullscreenModeIndex > 0) ?
-                              fullscreenModeIndex :
-                              static_cast<unsigned int>(sf::VideoMode::getFullscreenModes().size()) - 1;
+        // Set to first fullscreen mode index (best mode) if saved fullscreen mode index is unavailable
+        if (fullscreenModeIndex >= sf::VideoMode::getFullscreenModes().size())
+        {
+            fullscreenModeIndex = 0;
+        }
 
         unsigned int style = (isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
 
