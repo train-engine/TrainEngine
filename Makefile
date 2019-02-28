@@ -2,21 +2,11 @@ EXEC = TrainEngine
 
 # C++ compiler settings
 CXX = g++
-<<<<<<< HEAD
-CXXFLAGS = -std=c++14 -Wnon-virtual-dtor -Wshadow -Wredundant-decls -Wcast-align -Wfloat-equal\
-		   -Winline -Wunreachable-code -Wmissing-declarations -Wswitch-default -Wzero-as-null-pointer-constant -Wmain -Wall
-=======
-CXXFLAGS = -std=c++14 -Wall -Wmissing-braces -Wno-aggressive-loop-optimizations\
-			-Wsign-compare -Waddress -Wlogical-op -Wmissing-include-dirs -Wswitch-default\
-			-Wswitch-unreachable -Wmaybe-uninitialized -Wmissing-field-initializers\
-			-Wunknown-pragmas -Wsuggest-attribute=const -Wsuggest-final-types -Wsuggest-final-methods\
-			-Wbool-compare -Wbool-operation -Wduplicated-branches -Wduplicated-cond -Wdangling-else\
-			-Wtautological-compare -Wpointer-compare -Wtype-limits -Wundef -Wcast-align\
-			-Wparentheses -Wuseless-cast -Wenum-compare -Wlogical-not-parentheses
-
-			#doutes
-			#-Wsign-conversion -Wfloat-equal -Wfloat-conversion
->>>>>>> Ajout de warnings dans le makefile
+CXXFLAGS = -std=c++14
+WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wfloat-equal -Wlogical-op -Wmissing-declarations\
+		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wnon-virtual-dtor -Wpedantic -Wredundant-decls\
+		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override\
+		-Wswitch-default -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # Build and bin directories
 BUILD_DIR = build
@@ -24,8 +14,7 @@ BIN_DIR = bin
 
 # Includes
 SFML_DIR = libs/SFML-2.4.2
-INC_DIRS = include $(SFML_DIR)/include
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+INC_FLAGS := -Iinclude -isystem $(SFML_DIR)/include
 
 # C preprocessor flags
 CPPFLAGS := -MMD -MP $(INC_FLAGS)
@@ -139,7 +128,7 @@ SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
 SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
 SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
 
-LDFLAGS += $(SFML_LINK_FLAGS) $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
+LDLIBS += $(SFML_LINK_FLAGS) $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
 
 # Sources
 SRC_DIR = src
@@ -162,12 +151,12 @@ all: $(BIN_DIR)/$(EXEC)
 # Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $^ $(LDFLAGS) -o $@
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 # Build C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
 # Add icon to Windows executable
 $(BUILD_DIR)/%.res: assets/%.rc
@@ -209,7 +198,9 @@ printvars:
 	@echo BUILD_DIR: $(BUILD_DIR)
 	@echo BIN_DIR: $(BIN_DIR)
 	@echo CXX: $(CXX)
-	@echo CXXFLAGS: $(CXXFLAGS)
 	@echo CPPFLAGS: $(CPPFLAGS)
+	@echo CXXFLAGS: $(CXXFLAGS)
+	@echo WARNINGS: $(WARNINGS)
 	@echo LDFLAGS: $(LDFLAGS)
+	@echo LDLIBS: $(LDLIBS)
 	@echo COPY_ASSETS_SCRIPT: $(COPY_ASSETS_SCRIPT)
