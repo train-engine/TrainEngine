@@ -1,5 +1,5 @@
-#ifndef GUI_H_INCLUDED
-#define GUI_H_INCLUDED
+#ifndef GUI_H
+#define GUI_H
 
 #include <string>
 #include <SFML/Audio.hpp>
@@ -329,4 +329,4 @@ public:
     double GetFraction() const {return m_fraction;}
 };
 
-#endif // GUI_H_INCLUDED
+#endif // GUI_H

@@ -1,5 +1,5 @@
-#ifndef FILEMANAGER_H_INCLUDED
-#define FILEMANAGER_H_INCLUDED
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
 
 #include <string>
 #include <vector>
@@ -24,4 +24,4 @@ namespace FileManager
     #endif
 }
 
-#endif // FILEMANAGER_H_INCLUDED
+#endif // FILEMANAGER_H

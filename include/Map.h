@@ -1,5 +1,5 @@
-#ifndef MAP_H_INCLUDED
-#define MAP_H_INCLUDED
+#ifndef MAP_H
+#define MAP_H
 
 #include <array>
 #include <vector>
@@ -78,4 +78,4 @@ public:
     Tile* GetTilePtr(const sf::Vector2u& index, MapLayer layer) const;
 };
 
-#endif // MAP_H_INCLUDED
+#endif // MAP_H

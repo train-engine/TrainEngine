@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_INCLUDED
-#define PLAYER_H_INCLUDED
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Entity.h"
 #include "InputManager.h"
@@ -18,4 +18,4 @@ public:
     virtual void HandleInput() override;
 };
 
-#endif // PLAYER_H_INCLUDED
+#endif // PLAYER_H

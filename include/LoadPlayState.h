@@ -1,5 +1,5 @@
-#ifndef LOADPLAYSTATE_H_INCLUDED
-#define LOADPLAYSTATE_H_INCLUDED
+#ifndef LOADPLAYSTATE_H
+#define LOADPLAYSTATE_H
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -41,4 +41,4 @@ public:
     LoadPlayState(GameEngine& rGame, const std::string& levelDirectory);
 };
 
-#endif // LOADPLAYSTATE_H_INCLUDED
+#endif // LOADPLAYSTATE_H

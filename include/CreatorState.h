@@ -1,5 +1,5 @@
-#ifndef CREATORSTATE_H_INCLUDED
-#define CREATORSTATE_H_INCLUDED
+#ifndef CREATORSTATE_H
+#define CREATORSTATE_H
 
 #include "Gui.h"
 #include "Level.h"
@@ -58,4 +58,4 @@ public:
     CreatorState(GameEngine& rGame, const std::string& levelDirectory);
 };
 
-#endif // CREATORSTATE_H_INCLUDED
+#endif // CREATORSTATE_H

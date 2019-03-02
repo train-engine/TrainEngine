@@ -1,5 +1,5 @@
-#ifndef STATE_H_INCLUDED
-#define STATE_H_INCLUDED
+#ifndef STATE_H
+#define STATE_H
 
 #include "GameEngine.h"
 
@@ -62,4 +62,4 @@ protected:
     sf::Vector2f GetAbsolutePosition(float xRatio, float yRatio) const;
 };
 
-#endif // STATE_H_INCLUDED
+#endif // STATE_H

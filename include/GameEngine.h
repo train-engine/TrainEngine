@@ -1,5 +1,5 @@
-#ifndef GAMEENGINE_H_INCLUDED
-#define GAMEENGINE_H_INCLUDED
+#ifndef GAMEENGINE_H
+#define GAMEENGINE_H
 
 #include <unordered_map>
 #include <vector>
@@ -90,4 +90,4 @@ public:
     void Quit();
 };
 
-#endif // GAMEENGINE_H_INCLUDED
+#endif // GAMEENGINE_H

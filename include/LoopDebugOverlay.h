@@ -1,5 +1,5 @@
-#ifndef LOOPDEBUGOVERLAY_H_INCLUDED
-#define LOOPDEBUGOVERLAY_H_INCLUDED
+#ifndef LOOPDEBUGOVERLAY_H
+#define LOOPDEBUGOVERLAY_H
 
 #include <SFML/Graphics.hpp>
 
@@ -48,4 +48,4 @@ public:
     double GetRecordedFps() const {return m_recordedFps;}
 };
 
-#endif // LOOPDEBUGOVERLAY_H_INCLUDED
+#endif // LOOPDEBUGOVERLAY_H

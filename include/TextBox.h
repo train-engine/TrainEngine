@@ -1,5 +1,5 @@
-#ifndef TEXTBOX_H_INCLUDED
-#define TEXTBOX_H_INCLUDED
+#ifndef TEXTBOX_H
+#define TEXTBOX_H
 
 #include "InputManager.h"
 #include <string>
@@ -126,4 +126,4 @@ public:
     sf::String GetText() const {return m_text;}
 };
 
-#endif // TEXTBOX_H_INCLUDED
+#endif // TEXTBOX_H

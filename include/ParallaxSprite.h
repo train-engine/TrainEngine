@@ -1,5 +1,5 @@
-#ifndef PARALLAXSPRITE_H_INCLUDED
-#define PARALLAXSPRITE_H_INCLUDED
+#ifndef PARALLAXSPRITE_H
+#define PARALLAXSPRITE_H
 
 #include <string>
 #include <SFML/Graphics.hpp>
@@ -64,4 +64,4 @@ public:
     const std::string& GetOffsetString() const {return m_offsetString;}
 };
 
-#endif // PARALLAXSPRITE_H_INCLUDED
+#endif // PARALLAXSPRITE_H

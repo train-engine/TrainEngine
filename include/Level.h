@@ -1,5 +1,5 @@
-#ifndef LEVEL_H_INCLUDED
-#define LEVEL_H_INCLUDED
+#ifndef LEVEL_H
+#define LEVEL_H
 
 #include <vector>
 #include "Camera.h"
@@ -73,4 +73,4 @@ public:
     sf::Vector2f GetLevelMousePosition() const {return m_inputManager.GetMousePosition(m_camera.GetView());}
 };
 
-#endif // LEVEL_H_INCLUDED
+#endif // LEVEL_H

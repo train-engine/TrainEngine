@@ -1,5 +1,5 @@
-#ifndef MENUOPTIONSSTATE_H_INCLUDED
-#define MENUOPTIONSSTATE_H_INCLUDED
+#ifndef MENUOPTIONSSTATE_H
+#define MENUOPTIONSSTATE_H
 
 #include <SFML/Graphics.hpp>
 #include "Gui.h"
@@ -31,4 +31,4 @@ public:
     MenuOptionsState(GameEngine& rGame);
 };
 
-#endif // MENUOPTIONSSTATE_H_INCLUDED
+#endif // MENUOPTIONSSTATE_H

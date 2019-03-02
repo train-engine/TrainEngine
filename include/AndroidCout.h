@@ -1,5 +1,5 @@
-#ifndef ANDROIDCOUT_H_INCLUDED
-#define ANDROIDCOUT_H_INCLUDED
+#ifndef ANDROIDCOUT_H
+#define ANDROIDCOUT_H
 
 #include <android/log.h>
 
@@ -41,4 +41,4 @@ public:
     }
 };
 
-#endif // ANDROIDCOUT_H_INCLUDED
+#endif // ANDROIDCOUT_H

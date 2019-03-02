@@ -1,5 +1,5 @@
-#ifndef INPUTMANAGER_H_INCLUDED
-#define INPUTMANAGER_H_INCLUDED
+#ifndef INPUTMANAGER_H
+#define INPUTMANAGER_H
 
 #include <array>
 #include <vector>
@@ -183,4 +183,4 @@ public:
     sf::String GetClipboardText() const;
 };
 
-#endif // INPUTMANAGER_H_INCLUDED
+#endif // INPUTMANAGER_H

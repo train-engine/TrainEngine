@@ -1,5 +1,5 @@
-#ifndef MAINMENUSTATE_H_INCLUDED
-#define MAINMENUSTATE_H_INCLUDED
+#ifndef MAINMENUSTATE_H
+#define MAINMENUSTATE_H
 
 #include <vector>
 #include <SFML/Audio.hpp>
@@ -43,4 +43,4 @@ public:
     MainMenuState(GameEngine& rGame);
 };
 
-#endif // MAINMENUSTATE_H_INCLUDED
+#endif // MAINMENUSTATE_H

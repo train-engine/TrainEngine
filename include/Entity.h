@@ -1,5 +1,5 @@
-#ifndef ENTITY_H_INCLUDED
-#define ENTITY_H_INCLUDED
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <string>
 #include <unordered_map>
@@ -165,4 +165,4 @@ public:
     float GetBottomPixelPosition() const;
 };
 
-#endif // ENTITY_H_INCLUDED
+#endif // ENTITY_H

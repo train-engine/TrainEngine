@@ -1,5 +1,5 @@
-#ifndef TILE_H_INCLUDED
-#define TILE_H_INCLUDED
+#ifndef TILE_H
+#define TILE_H
 
 #include <SFML/Graphics.hpp>
 
@@ -89,4 +89,4 @@ public:
     bool IsSolid() const {return m_isSolid;}
 };
 
-#endif // TILE_H_INCLUDED
+#endif // TILE_H

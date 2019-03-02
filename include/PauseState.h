@@ -1,5 +1,5 @@
-#ifndef PAUSESTATE_H_INCLUDED
-#define PAUSESTATE_H_INCLUDED
+#ifndef PAUSESTATE_H
+#define PAUSESTATE_H
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -30,4 +30,4 @@ public:
     PauseState(GameEngine& rGame);
 };
 
-#endif // PAUSESTATE_H_INCLUDED
+#endif // PAUSESTATE_H

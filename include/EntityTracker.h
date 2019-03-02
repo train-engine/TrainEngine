@@ -1,5 +1,5 @@
-#ifndef ENTITYTRACKER_H_INCLUDED
-#define ENTITYTRACKER_H_INCLUDED
+#ifndef ENTITYTRACKER_H
+#define ENTITYTRACKER_H
 
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -55,4 +55,4 @@ public:
     bool IsTracking() const {return m_pTrackedEntity != nullptr;}
 };
 
-#endif // ENTITYTRACKER_H_INCLUDED
+#endif // ENTITYTRACKER_H

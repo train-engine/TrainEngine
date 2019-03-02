@@ -1,5 +1,5 @@
-#ifndef ANIMATEDSPRITE_H_INCLUDED
-#define ANIMATEDSPRITE_H_INCLUDED
+#ifndef ANIMATEDSPRITE_H
+#define ANIMATEDSPRITE_H
 
 #include <SFML/Graphics.hpp>
 
@@ -42,4 +42,4 @@ public:
     bool IsPlaying() const {return m_isPlaying;}
 };
 
-#endif // ANIMATEDSPRITE_H_INCLUDED
+#endif // ANIMATEDSPRITE_H

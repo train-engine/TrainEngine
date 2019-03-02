@@ -1,5 +1,5 @@
-#ifndef SPLASHSCREENSTATE_H_INCLUDED
-#define SPLASHSCREENSTATE_H_INCLUDED
+#ifndef SPLASHSCREENSTATE_H
+#define SPLASHSCREENSTATE_H
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -33,4 +33,4 @@ public:
     SplashScreenState(GameEngine& rGame);
 };
 
-#endif // SPLASHSCREENSTATE_H_INCLUDED
+#endif // SPLASHSCREENSTATE_H

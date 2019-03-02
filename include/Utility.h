@@ -1,5 +1,5 @@
-#ifndef UTILITY_H_INCLUDED
-#define UTILITY_H_INCLUDED
+#ifndef UTILITY_H
+#define UTILITY_H
 
 #include <vector>
 #include <SFML/Graphics.hpp>
@@ -25,4 +25,4 @@ namespace Utility
     void SetSpriteScaleToFit(sf::Sprite& rSprite, const sf::Vector2f& fitDimensions);
 }
 
-#endif // UTILITY_H_INCLUDED
+#endif // UTILITY_H

@@ -1,5 +1,5 @@
-#ifndef PLAYSTATE_H_INCLUDED
-#define PLAYSTATE_H_INCLUDED
+#ifndef PLAYSTATE_H
+#define PLAYSTATE_H
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -40,4 +40,4 @@ public:
     PlayState(GameEngine& rGame, const std::string& levelDirectory);
 };
 
-#endif // PLAYSTATE_H_INCLUDED
+#endif // PLAYSTATE_H

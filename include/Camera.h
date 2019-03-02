@@ -1,5 +1,5 @@
-#ifndef CAMERA_H_INCLUDED
-#define CAMERA_H_INCLUDED
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
@@ -85,4 +85,4 @@ public:
     float GetZoom() const {return m_zoom;}
 };
 
-#endif // CAMERA_H_INCLUDED
+#endif // CAMERA_H

@@ -1,5 +1,5 @@
-#ifndef RESOURCEMANAGER_H_INCLUDED
-#define RESOURCEMANAGER_H_INCLUDED
+#ifndef RESOURCEMANAGER_H
+#define RESOURCEMANAGER_H
 
 #include <string>
 #include <unordered_map>
@@ -47,4 +47,4 @@ public:
     const sf::Shader& GetShader(const std::string& name) const;
 };
 
-#endif // RESOURCEMANAGER_H_INCLUDED
+#endif // RESOURCEMANAGER_H
