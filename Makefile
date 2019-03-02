@@ -14,10 +14,10 @@ BIN_DIR = bin
 
 # Includes
 SFML_DIR = libs/SFML-2.4.2
-INC_FLAGS := -Iinclude -isystem $(SFML_DIR)/include
+INCLUDES := -Iinclude -isystem $(SFML_DIR)/include
 
 # C preprocessor flags
-CPPFLAGS := -MMD -MP $(INC_FLAGS)
+CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
