@@ -17,7 +17,7 @@ private:
 
     std::vector<GuiRectSoundButton> m_buttons;
     GuiSpriteButton m_muteButton;
-    
+
     unsigned long m_elapsedTicks;
 
     // Destructor

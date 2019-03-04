@@ -80,11 +80,11 @@ public:
     void SetTargetFps(unsigned int drawsPerSecond);
     double GetTargetUps() const;
     double GetTargetFps() const;
-    double GetRecordedUps() const {return m_loopDebugOverlay.GetRecordedUps();}
-    double GetRecordedFps() const {return m_loopDebugOverlay.GetRecordedFps();}
+    double GetRecordedUps() const { return m_loopDebugOverlay.GetRecordedUps(); }
+    double GetRecordedFps() const { return m_loopDebugOverlay.GetRecordedFps(); }
 
     // Loop debug overlay functions
-    void ToggleDebugOverlay() {m_loopDebugOverlay.ToggleVisible();}
+    void ToggleDebugOverlay() { m_loopDebugOverlay.ToggleVisible(); }
 
     // Quit game
     void Quit();

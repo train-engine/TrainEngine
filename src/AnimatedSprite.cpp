@@ -1,16 +1,17 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration, bool isLoopingEnabled, bool isFlippable)
-    : m_sprite(texture),
-      m_frameDimensions(frameDimensions),
-      m_spriteSheetDimensions(texture.getSize()),
-      m_tickCounter(0),
-      m_frameDuration(frameDuration),
-      m_currentFrameIndex(0),
-      m_totalFrames(frameCount),
-      m_isLoopingEnabled(isLoopingEnabled),
-      m_isFlippable(isFlippable),
-      m_isPlaying(false)
+AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount,
+                               float frameDuration, bool isLoopingEnabled, bool isFlippable)
+    : m_sprite(texture)
+    , m_frameDimensions(frameDimensions)
+    , m_spriteSheetDimensions(texture.getSize())
+    , m_tickCounter(0)
+    , m_frameDuration(frameDuration)
+    , m_currentFrameIndex(0)
+    , m_totalFrames(frameCount)
+    , m_isLoopingEnabled(isLoopingEnabled)
+    , m_isFlippable(isFlippable)
+    , m_isPlaying(false)
 {
     SetTextureRect();
     m_sprite.setOrigin(static_cast<sf::Vector2f>(m_frameDimensions) / 2.0f);
@@ -30,7 +31,10 @@ void AnimatedSprite::SetTextureRect()
     }
     unsigned int xPosition = m_currentFrameIndex % framesPerRow;
     unsigned int yPosition = m_currentFrameIndex / framesPerRow;
-    m_sprite.setTextureRect(sf::IntRect(static_cast<int>(xPosition * m_frameDimensions.x), static_cast<int>(yPosition * m_frameDimensions.y), m_frameDimensions.x, m_frameDimensions.y));
+    m_sprite.setTextureRect(sf::IntRect(static_cast<int>(xPosition * m_frameDimensions.x),
+                                        static_cast<int>(yPosition * m_frameDimensions.y),
+                                        m_frameDimensions.x,
+                                        m_frameDimensions.y));
 }
 
 void AnimatedSprite::Update(bool flipSprite)

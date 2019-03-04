@@ -5,23 +5,24 @@
 #include "Utility.h"
 
 MenuOptionsState::MenuOptionsState(GameEngine& rGame)
-    : State(rGame),
-      m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground")),
-      m_titleText("Options", m_rGame.resourceManager.GetFont("mainFont"), 48),
-      m_soundSliderText("Music Volume", m_rGame.resourceManager.GetFont("mainFont"), 32),
-      m_soundSlider(m_rGame.resourceManager.GetFont("mainFont"),
-                    GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
-                    sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100),
-      m_mustUpdateSoundSettings(false)
+    : State(rGame)
+    , m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground"))
+    , m_titleText("Options", m_rGame.resourceManager.GetFont("mainFont"), 48)
+    , m_soundSliderText("Music Volume", m_rGame.resourceManager.GetFont("mainFont"), 32)
+    , m_soundSlider(m_rGame.resourceManager.GetFont("mainFont"), GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
+                    sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100)
+    , m_mustUpdateSoundSettings(false)
 {
     // State settings
     m_stateSettings.canSkipUpdates = true;
 
     // Content settings
     m_backgroundSprite.setOrigin(static_cast<sf::Vector2f>(m_backgroundSprite.getTexture()->getSize()) / 2.0f);
-    m_titleText.setOrigin(m_titleText.getLocalBounds().left + m_titleText.getLocalBounds().width / 2, m_titleText.getLocalBounds().top + m_titleText.getLocalBounds().height / 2);
+    m_titleText.setOrigin(m_titleText.getLocalBounds().left + m_titleText.getLocalBounds().width / 2,
+                          m_titleText.getLocalBounds().top + m_titleText.getLocalBounds().height / 2);
     // Note: Origin is on the right, centered vertically
-    m_soundSliderText.setOrigin(m_soundSliderText.getLocalBounds().left + m_soundSliderText.getLocalBounds().width, m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
+    m_soundSliderText.setOrigin(m_soundSliderText.getLocalBounds().left + m_soundSliderText.getLocalBounds().width,
+                                m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
 
     // Music settings
     std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
@@ -42,7 +43,6 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
 
 MenuOptionsState::~MenuOptionsState()
 {
-
 }
 
 void MenuOptionsState::HandleInput()

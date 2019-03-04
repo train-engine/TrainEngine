@@ -12,9 +12,9 @@ namespace FileManager
 
         if (bundle == nil)
         {
-            #if defined(DEBUG)
-                NSLog(@"bundle is nil... thus no resources path can be found.");
-            #endif
+#if !defined(NDEBUG)
+            NSLog(@"bundle is nil... thus no resources path can be found.");
+#endif
         }
         else
         {
@@ -26,4 +26,4 @@ namespace FileManager
 
         return rpath;
     }
-}
+} // namespace FileManager

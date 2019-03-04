@@ -12,16 +12,17 @@ namespace
     const sf::Vector2u minWindowDimensions(800, 600);
     const int initialUps = 60;
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
-    const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding update cycles if the State's canSkipUpdates is true
-}
+    const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding
+                                       // update cycles if the State's canSkipUpdates is true
+} // namespace
 
 /// Initialize the window and main systems
 GameEngine::GameEngine()
-    : m_window(),
-      m_stateChanged(false),
-      m_isPowerSaverEnabled(true),
-      m_loopDebugOverlay(resourceManager.GetFont("altFont")),
-      inputManager(m_window)
+    : m_window()
+    , m_stateChanged(false)
+    , m_isPowerSaverEnabled(true)
+    , m_loopDebugOverlay(resourceManager.GetFont("altFont"))
+    , inputManager(m_window)
 {
     // Output game info
     std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
@@ -75,16 +76,16 @@ GameEngine::GameEngine()
                      "Graphics settings loading failed.\n\n";
     }
 
-    // Window initialization
-    #if defined(SFML_SYSTEM_IOS) || defined(SFML_SYSTEM_ANDROID)
-        m_window.setSize(sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
-    #endif
+// Window initialization
+#if defined(SFML_SYSTEM_IOS) || defined(SFML_SYSTEM_ANDROID)
+    m_window.setSize(sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
+#endif
     OnWindowResize();
-    #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
-        // Center window
-        m_window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2,
-                                          sf::VideoMode::getDesktopMode().height / 2) - static_cast<sf::Vector2i>(m_window.getSize()) / 2);
-    #endif
+#if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
+    // Center window
+    m_window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2, sf::VideoMode::getDesktopMode().height / 2) -
+                         static_cast<sf::Vector2i>(m_window.getSize()) / 2);
+#endif
     m_window.setActive();
 
     // Icon
@@ -171,8 +172,7 @@ void GameEngine::HandleRequests()
     // Sort new States by smallest order last, to later be able to simply call pop_back()
     if (m_pendingStates.size() > 1)
     {
-        std::sort(m_pendingStates.begin(), m_pendingStates.end(), [](const State* a, const State* b)
-        {
+        std::sort(m_pendingStates.begin(), m_pendingStates.end(), [](const State* a, const State* b) {
             return a->m_orderCreated > b->m_orderCreated;
         });
     }
@@ -183,7 +183,8 @@ void GameEngine::HandleRequests()
         switch (it->second)
         {
         case PendingRequest::Pop:
-            Pop(std::next(it) == m_pendingRequests.end()); // Send true if the Pop is the last request, so that Resume is called on the State below it
+            // Send true to Pop() if the pop is the last request, so that Resume() is called on the State below it
+            Pop(std::next(it) == m_pendingRequests.end());
             break;
         case PendingRequest::Push:
             Push();
@@ -209,17 +210,17 @@ void GameEngine::OnStateChange()
 /// Actions to perform when the window is resized
 void GameEngine::OnWindowResize()
 {
-    #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
-        // Window minimum dimensions
-        if (m_window.getSize().x < minWindowDimensions.x)
-        {
-            m_window.setSize(sf::Vector2u(minWindowDimensions.x, m_window.getSize().y));
-        }
-        if (m_window.getSize().y < minWindowDimensions.y)
-        {
-            m_window.setSize(sf::Vector2u(m_window.getSize().x, minWindowDimensions.y));
-        }
-    #endif
+#if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
+    // Window minimum dimensions
+    if (m_window.getSize().x < minWindowDimensions.x)
+    {
+        m_window.setSize(sf::Vector2u(minWindowDimensions.x, m_window.getSize().y));
+    }
+    if (m_window.getSize().y < minWindowDimensions.y)
+    {
+        m_window.setSize(sf::Vector2u(m_window.getSize().x, minWindowDimensions.y));
+    }
+#endif
 
     // View resizing
     ResetWindowView();
@@ -249,13 +250,15 @@ void GameEngine::GameLoop()
             // CPU sleep
             if (m_isPowerSaverEnabled == true)
             {
-                // Sleep if the next update is sooner than the next draw and the time before the next update is greater than the sleep imprecision
+                // Sleep if the next update is sooner than the next draw and
+                // the time before the next update is greater than the sleep imprecision
                 if (m_timePerUpdate - m_updateLag <= m_timePerDraw - m_drawLag && m_timePerUpdate - m_updateLag > sleepImprecision)
                 {
                     sf::Time timeToSleepFor = m_timePerUpdate - m_updateLag - sleepImprecision;
                     std::this_thread::sleep_for(std::chrono::microseconds(timeToSleepFor.asMicroseconds()));
                 }
-                // Sleep if the next draw is sooner than the next update and the time before the next draw is greater than the sleep imprecision
+                // Sleep if the next draw is sooner than the next update and
+                // the time before the next draw is greater than the sleep imprecision
                 else if (m_timePerUpdate - m_updateLag > m_timePerDraw - m_drawLag && m_timePerDraw - m_drawLag > sleepImprecision)
                 {
                     sf::Time timeToSleepFor = m_timePerDraw - m_drawLag - sleepImprecision;
@@ -271,7 +274,8 @@ void GameEngine::GameLoop()
             // Output warning to console if canSkipUpdates is false and the CPU can't keep up with the cycles
             if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
             {
-                std::cout << "GameEngine warning: Unable to keep up, catching up with " << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks\n";
+                std::cout << "GameEngine warning: Unable to keep up, catching up with "
+                          << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks\n";
             }
 
             // HandleInput and Update on a fixed timestep (skip draw until caught up)
@@ -389,19 +393,22 @@ void GameEngine::RequestSwap(State* pState)
     m_stateChanged = true;
 }
 
-/// Draw the State under the current State (takes the calling State's "this" pointer to enable drawing multiple states on top of one another)
+/// Draw the State under the current State (takes the calling State's "this" pointer
+/// to enable drawing multiple states on top of one another)
 void GameEngine::DrawPreviousState(const State* pCurrentState)
 {
     ResetWindowView(); // Reset the view to guarantee that the previous State has a predictable and normal view
 
-    // Search for the current State, and make sure it can be found and that it is not first in the stack (as we need to draw the State before it)
+    // Search for the current State, and make sure it can be found and that it is not first in the stack
+    // (as we need to draw the State before it)
     std::vector<State*>::iterator it = std::find(m_states.begin(), m_states.end(), pCurrentState);
     if (it != m_states.end() && it != m_states.begin())
     {
         --it;
         (*it)->Draw(m_window);
 
-        ResetWindowView(); // Reset the view to guarantee that the current State continues to use a predictable and normal view
+        // Reset the view to guarantee that the current State continues to use a predictable and normal view
+        ResetWindowView();
     }
 }
 

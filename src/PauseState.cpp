@@ -2,29 +2,39 @@
 #include <iostream>
 
 PauseState::PauseState(GameEngine& rGame)
-    : State(rGame),
-      m_pausedText("Game Paused", m_rGame.resourceManager.GetFont("mainFont"), 96),
-      m_alpha(0)
+    : State(rGame)
+    , m_pausedText("Game Paused", m_rGame.resourceManager.GetFont("mainFont"), 96)
+    , m_alpha(0)
 {
     // Initialize GUI
-    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"), m_rGame.resourceManager.GetSoundBuffer("click"),
+    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"),
+                           m_rGame.resourceManager.GetSoundBuffer("click"),
                            sf::Vector2f(0, 0),
-                           sf::Vector2f(400, 50), -2, 6, "Back to game", GuiStyle::White);
-    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"), m_rGame.resourceManager.GetSoundBuffer("click"),
+                           sf::Vector2f(400, 50),
+                           -2,
+                           6,
+                           "Back to game",
+                           GuiStyle::White);
+    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"),
+                           m_rGame.resourceManager.GetSoundBuffer("click"),
                            sf::Vector2f(0, 0),
-                           sf::Vector2f(400, 50), -2, 6, "Exit to main menu", GuiStyle::White);
+                           sf::Vector2f(400, 50),
+                           -2,
+                           6,
+                           "Exit to main menu",
+                           GuiStyle::White);
     for (auto& button : m_buttons)
     {
         button.SetVolume(0.75);
     }
 
     // Content settings
-    m_pausedText.setOrigin(m_pausedText.getLocalBounds().left + m_pausedText.getLocalBounds().width / 2, m_pausedText.getLocalBounds().top + m_pausedText.getLocalBounds().height / 2);
+    m_pausedText.setOrigin(m_pausedText.getLocalBounds().left + m_pausedText.getLocalBounds().width / 2,
+                           m_pausedText.getLocalBounds().top + m_pausedText.getLocalBounds().height / 2);
 }
 
 PauseState::~PauseState()
 {
-
 }
 
 void PauseState::HandleInput()
@@ -67,7 +77,9 @@ void PauseState::HandleInput()
                 default:
                     break;
                 }
-                break; // Because if one button has been clicked, the others cannot possibly be clicked at the same time (optimization)
+                // Break because if one button has been clicked,
+                // the others cannot have also been clicked (optimization)
+                break;
             }
         }
     }

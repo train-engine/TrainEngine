@@ -3,11 +3,10 @@
 #include "Utility.h"
 
 ParallaxSprite::ParallaxSprite(const sf::Texture& texture, float parallax)
-    : m_sprite(texture),
-      m_parallax(parallax),
-      m_initialScale(1, 1)
+    : m_sprite(texture)
+    , m_parallax(parallax)
+    , m_initialScale(1, 1)
 {
-
 }
 
 void ParallaxSprite::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
@@ -36,7 +35,7 @@ void ParallaxSprite::SetTextureRect(const sf::Vector2f& dimensions)
 
 // Set the sprite's origin relative to its dimensions (values between 0 and 1)
 void ParallaxSprite::SetRelativeOrigin(const sf::Vector2f& relativeOrigin)
-{   
+{
     m_relativeOrigin = relativeOrigin;
 
     // Clamp
@@ -45,7 +44,8 @@ void ParallaxSprite::SetRelativeOrigin(const sf::Vector2f& relativeOrigin)
     m_relativeOrigin.y = std::max(m_relativeOrigin.y, 0.0f);
     m_relativeOrigin.y = std::min(m_relativeOrigin.y, 1.0f);
 
-    sf::Vector2f textureRectDimensions = sf::Vector2f(m_sprite.getTextureRect().width - m_sprite.getTextureRect().left, m_sprite.getTextureRect().height - m_sprite.getTextureRect().top);
+    sf::Vector2f textureRectDimensions = sf::Vector2f(m_sprite.getTextureRect().width - m_sprite.getTextureRect().left,
+                                                      m_sprite.getTextureRect().height - m_sprite.getTextureRect().top);
     m_sprite.setOrigin(textureRectDimensions.x * m_relativeOrigin.x, textureRectDimensions.y * m_relativeOrigin.y);
 }
 
@@ -53,11 +53,16 @@ void ParallaxSprite::SetRelativeOrigin(const sf::Vector2f& relativeOrigin)
 void ParallaxSprite::Update(const Camera& camera)
 {
     float newDimensionsScale = (camera.GetZoom() - 1) * m_parallax + 1;
-    m_sprite.setScale((m_initialScale.x - 1) + (newDimensionsScale - 1.0f) + 1.0f, (m_initialScale.y - 1) + (newDimensionsScale - 1.0f) + 1.0f);
+    m_sprite.setScale((m_initialScale.x - 1) + (newDimensionsScale - 1.0f) + 1.0f,
+                      (m_initialScale.y - 1) + (newDimensionsScale - 1.0f) + 1.0f);
 
     sf::Vector2f position;
-    position.x = (camera.GetPosition().x + (m_relativeOrigin.x - 0.5) * camera.GetDimensions().x - m_initialPosition.x) * (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) + m_initialPosition.x;
-    position.y = (camera.GetPosition().y + (m_relativeOrigin.y - 0.5) * camera.GetDimensions().y - m_initialPosition.y) * (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) + m_initialPosition.y;
+    position.x = (camera.GetPosition().x + (m_relativeOrigin.x - 0.5) * camera.GetDimensions().x - m_initialPosition.x) *
+                     (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) +
+                 m_initialPosition.x;
+    position.y = (camera.GetPosition().y + (m_relativeOrigin.y - 0.5) * camera.GetDimensions().y - m_initialPosition.y) *
+                     (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) +
+                 m_initialPosition.y;
 
     m_sprite.setPosition(position);
 }

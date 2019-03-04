@@ -8,7 +8,7 @@
 
 class ResourceManager final
 {
-private:   
+private:
     std::unordered_map<std::string, sf::Texture> m_textures;
     std::unordered_map<std::string, sf::Font> m_fonts;
     std::unordered_map<std::string, sf::SoundBuffer> m_soundBuffers;
@@ -16,14 +16,14 @@ private:
 
     // Functions
     bool LoadInitialResources();
-    
+
 public:
     // Constructor and destructor
     ResourceManager();
     ~ResourceManager();
 
     // Functions
-    
+
     // Texture functions
     const sf::Texture& LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect = {});
     void UnloadTexture(const std::string& name);

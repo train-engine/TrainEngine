@@ -9,15 +9,14 @@
 #include "Utility.h"
 
 MainMenuState::MainMenuState(GameEngine& rGame)
-    : State(rGame),
-      m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground")),
-      m_gameNameText("TrainEngine", m_rGame.resourceManager.GetFont("mainFont"), 64),
-      m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.", m_rGame.resourceManager.GetFont("altFont"), 16),
-      m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"),
-                   m_rGame.resourceManager.GetTexture("muteHovered"),
-                   m_rGame.resourceManager.GetTexture("muteClicked"),
-                   sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64)),
-      m_elapsedTicks(0)
+    : State(rGame)
+    , m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground"))
+    , m_gameNameText("TrainEngine", m_rGame.resourceManager.GetFont("mainFont"), 64)
+    , m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.",
+                    m_rGame.resourceManager.GetFont("altFont"), 16)
+    , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
+                   m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+    , m_elapsedTicks(0)
 {
     // State settings
     m_stateSettings.canSkipUpdates = true;
@@ -25,24 +24,18 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     // Initialize GUI
     const sf::Font& font = m_rGame.resourceManager.GetFont("mainFont");
     const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.GetSoundBuffer("click");
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White));
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White));
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White));
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Level Creator", GuiStyle::White));
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Options", GuiStyle::White));
-    m_buttons.emplace_back(GuiRectSoundButton(font, soundBuffer,
-                                              sf::Vector2f(0, 0),
-                                              sf::Vector2f(300, 50), -2, 6, "Quit", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Level Creator", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Options", GuiStyle::White));
+    m_buttons.emplace_back(
+        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Quit", GuiStyle::White));
     for (auto& button : m_buttons)
     {
         button.SetVolume(0.75);
@@ -63,7 +56,6 @@ MainMenuState::MainMenuState(GameEngine& rGame)
 
 MainMenuState::~MainMenuState()
 {
-
 }
 
 void MainMenuState::LoadPlayStart(const std::string& levelName)
@@ -122,7 +114,8 @@ void MainMenuState::HandleInput()
         }
         m_muteButton.OnMouseHover(GetWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left) || m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent())
+    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left) || // Mouse click
+        m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent()) // Touch
     {
         for (auto& rButton : m_buttons)
         {
@@ -163,7 +156,9 @@ void MainMenuState::HandleInput()
                 default:
                     break;
                 }
-                break; // Because if one button has been clicked, the others cannot possibly be clicked at the same time (optimization)
+                // Break because if one button has been clicked,
+                // the others cannot have also been clicked (optimization)
+                break;
             }
         }
         if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)

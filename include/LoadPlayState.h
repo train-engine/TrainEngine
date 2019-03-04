@@ -10,15 +10,15 @@ class LoadPlayState final : public State
 {
 private:
     sf::Thread m_thread;
-    
+
     sf::Sprite m_backgroundSprite;
     sf::Text m_loadingText;
     sf::Sound m_startSound;
     ProgressBar m_loadingBar;
-    
+
     unsigned int m_progress;
     unsigned int m_total;
-    
+
     std::string m_levelDirectory;
     bool m_isLoaded;
 
@@ -28,7 +28,7 @@ private:
     // Functions
     void PlayStart();
     void LoadResources();
-    
+
     // State functions
     virtual void HandleInput() override;
     virtual void Update() override;

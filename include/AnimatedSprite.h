@@ -10,7 +10,7 @@ private:
 
     sf::Vector2u m_frameDimensions;
     sf::Vector2u m_spriteSheetDimensions;
-    
+
     float m_tickCounter;
     float m_frameDuration;
     unsigned int m_currentFrameIndex;
@@ -25,21 +25,22 @@ private:
 
 public:
     // Constructor
-    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration = 5, bool isLoopingEnabled = true, bool isFlippable = true);
-    
+    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration = 5,
+                   bool isLoopingEnabled = true, bool isFlippable = true);
+
     // Functions
     void Update(bool flipSprite);
-    
+
     // Setters
     void SetPosition(const sf::Vector2f& position);
     void SetRotation(float angle);
-    void Play() {m_isPlaying = true;}
-    void Pause() {m_isPlaying = false;}
+    void Play() { m_isPlaying = true; }
+    void Pause() { m_isPlaying = false; }
     void Restart();
     void Stop();
-    
+
     // Getters
-    bool IsPlaying() const {return m_isPlaying;}
+    bool IsPlaying() const { return m_isPlaying; }
 };
 
 #endif // ANIMATEDSPRITE_H

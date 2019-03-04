@@ -4,39 +4,37 @@
 namespace
 {
     const float gravity = 1.3;
-}
+} // namespace
 
-Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType,
-               const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity,
-               float acceleration, float deceleration, float jumpForce, bool isGravityApplied,
-               bool isTileCollideable, bool isEntityCollideable)
-    : m_entityType(entityType),
-      m_state(EntityState::Still),
-      m_collisionBox(dimensions),
-      m_tileReactionDot({1, 1}),
-      m_isDebugBoxVisible(false),
-      m_position(position),
-      m_previousPosition(position),
-      m_dimensions(dimensions),
-      m_velocity({0, 0}),
-      m_maxVelocity(maxVelocity),
-      m_acceleration(acceleration),
-      m_deceleration(deceleration),
-      m_isTileCollideable(isTileCollideable),
-      m_isEntityCollideable(isEntityCollideable),
-      m_isFacingRight(true),
-      m_isGravityApplied(isGravityApplied),
-      m_isOnGround(false),
-      m_isPressingUp(false),
-      m_isPressingDown(false),
-      m_isPressingLeft(false),
-      m_isPressingRight(false),
-      m_isPressingShift(false),
-      m_jumpForce(jumpForce),
-      m_defaultClimbSpeed(8),
-      m_defaultDescentSpeed(6),
-      m_rMap(rMap),
-      m_rEntities(rEntities)
+Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType, const sf::Vector2f& position,
+               const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity, float acceleration, float deceleration, float jumpForce,
+               bool isGravityApplied, bool isTileCollideable, bool isEntityCollideable)
+    : m_entityType(entityType)
+    , m_state(EntityState::Still)
+    , m_collisionBox(dimensions)
+    , m_tileReactionDot({1, 1})
+    , m_isDebugBoxVisible(false)
+    , m_position(position)
+    , m_previousPosition(position)
+    , m_dimensions(dimensions)
+    , m_maxVelocity(maxVelocity)
+    , m_acceleration(acceleration)
+    , m_deceleration(deceleration)
+    , m_isTileCollideable(isTileCollideable)
+    , m_isEntityCollideable(isEntityCollideable)
+    , m_isFacingRight(true)
+    , m_isGravityApplied(isGravityApplied)
+    , m_isOnGround(false)
+    , m_isPressingUp(false)
+    , m_isPressingDown(false)
+    , m_isPressingLeft(false)
+    , m_isPressingRight(false)
+    , m_isPressingShift(false)
+    , m_jumpForce(jumpForce)
+    , m_defaultClimbSpeed(8)
+    , m_defaultDescentSpeed(6)
+    , m_rMap(rMap)
+    , m_rEntities(rEntities)
 {
     m_collisionBox.setOrigin(m_dimensions / 2.0f);
     m_collisionBox.setPosition(m_position);
@@ -120,8 +118,7 @@ void Entity::StandardCollision(const Tile* pTile)
     if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= tilePosition.y &&
         m_position.y - m_dimensions.y / 2 + m_velocity.y < tilePosition.y + tileDimensions.y)
     {
-        if (m_position.x + m_dimensions.x / 2 > tilePosition.x &&
-            m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
+        if (m_position.x + m_dimensions.x / 2 > tilePosition.x && m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
         {
             // If Entity will be above Tile
             if (m_velocity.y > 0)
@@ -142,8 +139,7 @@ void Entity::StandardCollision(const Tile* pTile)
     if (m_position.x + m_dimensions.x / 2 + m_velocity.x >= tilePosition.x &&
         m_position.x - m_dimensions.x / 2 + m_velocity.x < tilePosition.x + tileDimensions.x)
     {
-        if (m_position.y + m_dimensions.y / 2 > tilePosition.y &&
-            m_position.y - m_dimensions.y / 2 < tilePosition.y + tileDimensions.y)
+        if (m_position.y + m_dimensions.y / 2 > tilePosition.y && m_position.y - m_dimensions.y / 2 < tilePosition.y + tileDimensions.y)
         {
             // If Entity will be on the left side of Tile
             if (m_velocity.x > 0)
@@ -168,7 +164,8 @@ void Entity::StandardCollision(const Tile* pTile)
         // If Entity is going right and down
         if (m_velocity.x > 0 && m_velocity.y > 0)
         {
-            if (m_position.x + m_dimensions.x / 2 + m_velocity.x - tilePosition.x >= m_position.y + m_dimensions.y / 2 + m_velocity.y - tilePosition.y)
+            if (m_position.x + m_dimensions.x / 2 + m_velocity.x - tilePosition.x >=
+                m_position.y + m_dimensions.y / 2 + m_velocity.y - tilePosition.y)
             {
                 m_position.y = tilePosition.y - m_dimensions.y / 2;
                 m_isOnGround = true;
@@ -183,7 +180,8 @@ void Entity::StandardCollision(const Tile* pTile)
         // If Entity is going left and down
         else if (m_velocity.x < 0 && m_velocity.y > 0)
         {
-            if (tilePosition.x + tileDimensions.x - m_position.x - m_dimensions.x / 2 + m_velocity.x >= m_position.y + m_dimensions.y / 2 + m_velocity.y - tilePosition.y)
+            if (tilePosition.x + tileDimensions.x - m_position.x - m_dimensions.x / 2 + m_velocity.x >=
+                m_position.y + m_dimensions.y / 2 + m_velocity.y - tilePosition.y)
             {
                 m_position.y = tilePosition.y - m_dimensions.y / 2;
                 m_isOnGround = true;
@@ -198,7 +196,8 @@ void Entity::StandardCollision(const Tile* pTile)
         // If Entity is going right and up
         else if (m_velocity.x > 0 && m_velocity.y < 0)
         {
-            if (m_position.x - m_dimensions.x / 2 + m_velocity.x - tilePosition.x >= tilePosition.y + tileDimensions.y - m_position.y - m_dimensions.y / 2 + m_velocity.y)
+            if (m_position.x - m_dimensions.x / 2 + m_velocity.x - tilePosition.x >=
+                tilePosition.y + tileDimensions.y - m_position.y - m_dimensions.y / 2 + m_velocity.y)
             {
                 m_position.y = tilePosition.y + tileDimensions.y + m_dimensions.y / 2;
                 m_velocity.y = 0;
@@ -212,7 +211,8 @@ void Entity::StandardCollision(const Tile* pTile)
         // If Entity is going left and up
         else if (m_velocity.x < 0 && m_velocity.y < 0)
         {
-            if (tilePosition.x + tileDimensions.x - m_position.x - m_dimensions.x / 2 + m_velocity.x >= tilePosition.y + tileDimensions.y - m_position.y - m_dimensions.y / 2 + m_velocity.y)
+            if (tilePosition.x + tileDimensions.x - m_position.x - m_dimensions.x / 2 + m_velocity.x >=
+                tilePosition.y + tileDimensions.y - m_position.y - m_dimensions.y / 2 + m_velocity.y)
             {
                 m_position.y = tilePosition.y + tileDimensions.y + m_dimensions.y / 2;
                 m_velocity.y = 0;
@@ -235,13 +235,11 @@ void Entity::LadderTopCollision(const Tile* pTile)
     if (m_velocity.y >= 0)
     {
         // Check for x-axis overlap
-        if (m_position.x + m_dimensions.x / 2 > tilePosition.x &&
-            m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
+        if (m_position.x + m_dimensions.x / 2 > tilePosition.x && m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
         {
             // If in the current tick, the Entity's bottom side is above the LadderTop,
             // but it will be inside the LadderTop in the next tick
-            if (m_position.y + m_dimensions.y / 2 <= tilePosition.y &&
-                m_position.y + m_dimensions.y / 2 + m_velocity.y > tilePosition.y)
+            if (m_position.y + m_dimensions.y / 2 <= tilePosition.y && m_position.y + m_dimensions.y / 2 + m_velocity.y > tilePosition.y)
             {
                 if (m_isPressingDown == false)
                 {
@@ -260,14 +258,26 @@ void Entity::LadderTopCollision(const Tile* pTile)
 
 void Entity::MoveLeft()
 {
-    if (GetVelocity().x > 0) SetHorizVelocity(GetVelocity().x - m_deceleration);
-    else SetHorizVelocity(GetVelocity().x - m_acceleration);
+    if (GetVelocity().x > 0)
+    {
+        SetHorizVelocity(GetVelocity().x - m_deceleration);
+    }
+    else
+    {
+        SetHorizVelocity(GetVelocity().x - m_acceleration);
+    }
 }
 
 void Entity::MoveRight()
 {
-    if (GetVelocity().x < 0) SetHorizVelocity(GetVelocity().x + m_deceleration);
-    else SetHorizVelocity(GetVelocity().x + m_acceleration);
+    if (GetVelocity().x < 0)
+    {
+        SetHorizVelocity(GetVelocity().x + m_deceleration);
+    }
+    else
+    {
+        SetHorizVelocity(GetVelocity().x + m_acceleration);
+    }
 }
 
 void Entity::Jump()
@@ -335,35 +345,59 @@ void Entity::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 // Apply deceleration
 void Entity::ApplyDeceleration()
 {
-    if (m_velocity.x >= m_deceleration) m_velocity.x -= m_deceleration;
-    else if (m_velocity.x <= -m_deceleration) m_velocity.x += m_deceleration;
-    else m_velocity.x = 0;
+    if (m_velocity.x >= m_deceleration)
+    {
+        m_velocity.x -= m_deceleration;
+    }
+    else if (m_velocity.x <= -m_deceleration)
+    {
+        m_velocity.x += m_deceleration;
+    }
+    else
+    {
+        m_velocity.x = 0;
+    }
 }
 
 // Apply gravity to the Entity
 void Entity::ApplyGravity()
 {
-    if (m_isGravityApplied == true) m_velocity.y += gravity;
+    if (m_isGravityApplied == true)
+    {
+        m_velocity.y += gravity;
+    }
 }
 
 // Cap the Entity's velocity
 void Entity::MaxVelocityCap()
 {
-    if (m_velocity.x >= m_maxVelocity.x) m_velocity.x = m_maxVelocity.x;
-    else if (m_velocity.x <= -m_maxVelocity.x) m_velocity.x = -m_maxVelocity.x;
-    if (m_velocity.y >= m_maxVelocity.y) m_velocity.y = m_maxVelocity.y;
-    else if (m_velocity.y <= -m_maxVelocity.y) m_velocity.y = -m_maxVelocity.y;
+    if (m_velocity.x >= m_maxVelocity.x)
+    {
+        m_velocity.x = m_maxVelocity.x;
+    }
+    else if (m_velocity.x <= -m_maxVelocity.x)
+    {
+        m_velocity.x = -m_maxVelocity.x;
+    }
+
+    if (m_velocity.y >= m_maxVelocity.y)
+    {
+        m_velocity.y = m_maxVelocity.y;
+    }
+    else if (m_velocity.y <= -m_maxVelocity.y)
+    {
+        m_velocity.y = -m_maxVelocity.y;
+    }
 }
 
 // Apply collision with the edges of the Map
 void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollisionEnabled)
 {
-    // If Map is null
     if (m_rMap.IsNull())
     {
         return;
     }
-    
+
     if (isHorizCollisionEnabled == true)
     {
         if (m_position.x - m_dimensions.x / 2 + m_velocity.x <= 0)
@@ -401,7 +435,7 @@ void Entity::PerformCollisions()
     float biggestAxis = std::fmax(m_dimensions.x, m_dimensions.y);
     float highestVelocity = std::fmax(m_velocity.x, m_velocity.y);
     float range = (biggestAxis + highestVelocity) / m_rMap.GetTileSize();
-    
+
     // Collision with Tiles
     if (m_isTileCollideable == true)
     {
@@ -448,9 +482,9 @@ void Entity::PerformCollisions()
             }
         }
     }
-    
+
     MapEdgeCollision();
-    
+
     // Collision with Entities
     if (m_isEntityCollideable == true)
     {
@@ -495,18 +529,23 @@ void Entity::Update()
     // For falling off a ledge
     m_isOnGround = false;
 
-    // Preliminary collision checking (TEMPORARY - TO BE FIXED WITH DOUBLE BUFFER)
-    //PerformCollisions();
-
     // Reactions with Tiles
+    // clang-format off
     std::array<sf::Vector2f, 5> tileReactionPoints =
     {
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y), // Center
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetDimensions().y / 2.75 + GetVelocity().y), // Near bottom
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y - GetDimensions().y / 2.75 - GetVelocity().y), // Near top
-        sf::Vector2f(GetPosition().x - GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y), // Near left
-        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)  // Near right
+        // Center
+        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y),
+        // Near bottom
+        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetDimensions().y / 2.75 + GetVelocity().y),
+        // Near top
+        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y - GetDimensions().y / 2.75 - GetVelocity().y),
+        // Near left
+        sf::Vector2f(GetPosition().x - GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y),
+        // Near right
+        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)
     };
+    // clang-format on
+
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (unsigned int i = 0; i < tileReactionPoints.size(); i++)
     {
@@ -517,7 +556,8 @@ void Entity::Update()
             m_tileReactionDot.setPosition(tileReactionPoints[i]);
             break;
         }
-        // If no valid Tile is found, perform TileReaction on first point (equivalent to nullptr) anyway (to reset Entity state)
+        // If no valid Tile is found, perform TileReaction on first point (equivalent to nullptr) anyway
+        // (to reset Entity state)
         if (i == tileReactionPoints.size() - 1)
         {
             m_tileReactionDot.setPosition(tileReactionPoints[0]);
@@ -622,7 +662,7 @@ void Entity::SetDefaultSpriteTexture(const sf::Texture& texture)
 std::string Entity::GetEntityTypeString(EntityType entityType)
 {
     static const std::unordered_map<EntityType, std::string> entityTypeStrings = {{EntityType::Player, "Player"}};
-    
+
     const auto it = entityTypeStrings.find(entityType);
     if (it != entityTypeStrings.cend())
     {
@@ -633,7 +673,8 @@ std::string Entity::GetEntityTypeString(EntityType entityType)
 
 std::vector<std::string> Entity::GetTextureNames(EntityType entityType)
 {
-    static const std::unordered_map<EntityType, std::vector<std::string>> entityTextures = {{EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}};
+    static const std::unordered_map<EntityType, std::vector<std::string>> entityTextures = {
+        {EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}};
 
     const auto it = entityTextures.find(entityType);
     if (it != entityTextures.cend())

@@ -62,27 +62,28 @@ public:
     void SetPosition(const sf::Vector2f& position);
     void Move(const sf::Vector2f& offset);
     void SetFollow(const Entity& followedEntity, bool snapOnSet = false);
-    void SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool isSlowDownSmooth = false);
+    void SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration,
+                      bool isSlowDownSmooth = false);
 
     // Setters
-    void SetBoundless(bool isBoundless) {m_isBoundless = isBoundless;}
+    void SetBoundless(bool isBoundless) { m_isBoundless = isBoundless; }
     void SetBounds(const sf::Vector2f& bounds);
     void SetDimensions(const sf::Vector2f& dimensions);
     void SetMinDimensions(const sf::Vector2f& minDimensions);
     void SetMaxDimensions(const sf::Vector2f& maxDimensions);
     void Zoom(float zoom);
     void SetZoom(float absoluteZoom);
-    void SetZoomLerp(float zoomLerp) {m_zoomLerp = zoomLerp;}
-    void SetFollowLerp(float followLerp) {m_followLerp = followLerp;}
-    void SetRotation(float angle) {m_view.setRotation(angle);}
+    void SetZoomLerp(float zoomLerp) { m_zoomLerp = zoomLerp; }
+    void SetFollowLerp(float followLerp) { m_followLerp = followLerp; }
+    void SetRotation(float angle) { m_view.setRotation(angle); }
 
     // Getters
-    const sf::View& GetView() const {return m_view;}
-    CameraMode GetMode() const {return m_mode;}
-    bool IsBoundless() const {return m_isBoundless;}
-    const sf::Vector2f& GetPosition() const {return m_view.getCenter();}
-    const sf::Vector2f& GetDimensions() const {return m_view.getSize();}
-    float GetZoom() const {return m_zoom;}
+    const sf::View& GetView() const { return m_view; }
+    CameraMode GetMode() const { return m_mode; }
+    bool IsBoundless() const { return m_isBoundless; }
+    const sf::Vector2f& GetPosition() const { return m_view.getCenter(); }
+    const sf::Vector2f& GetDimensions() const { return m_view.getSize(); }
+    float GetZoom() const { return m_zoom; }
 };
 
 #endif // CAMERA_H

@@ -52,11 +52,11 @@ protected:
     void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
 
     // Setters
-    void SetBackgroundColor(sf::Color color) {m_backgroundColor = color;}
+    void SetBackgroundColor(sf::Color color) { m_backgroundColor = color; }
 
     // Getters
-    static const sf::Vector2f& GetWindowDimensions() {return s_windowDimensions;}
-    static const sf::Vector2f& GetWindowMousePosition() {return s_windowMousePosition;}
+    static const sf::Vector2f& GetWindowDimensions() { return s_windowDimensions; }
+    static const sf::Vector2f& GetWindowMousePosition() { return s_windowMousePosition; }
 
     // Utility functions
     sf::Vector2f GetAbsolutePosition(float xRatio, float yRatio) const;

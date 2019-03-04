@@ -8,9 +8,9 @@ sf::Vector2f State::s_windowMousePosition(0, 0);
 sf::RectangleShape State::s_backgroundColorShape(sf::Vector2f(0, 0));
 
 State::State(GameEngine& rGame)
-    : m_backgroundColor(sf::Color::White),
-      m_rGame(rGame),
-      m_stateSettings{true, false}
+    : m_backgroundColor(sf::Color::White)
+    , m_rGame(rGame)
+    , m_stateSettings{true, false}
 {
     m_orderCreated = s_orderCounter++;
 }
@@ -29,9 +29,9 @@ void State::BaseHandleInput()
     {
         m_rGame.Quit();
     }
-    if (m_rGame.inputManager.DetectedMouseMovedEvent() ||
-        m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent() ||
-        m_rGame.inputManager.DetectedResizedEvent())
+    if (m_rGame.inputManager.DetectedMouseMovedEvent() || // Mouse events
+        m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent() || // Touch events
+        m_rGame.inputManager.DetectedResizedEvent()) // Resize event
     {
         s_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.inputManager.GetWindowMousePosition());
     }

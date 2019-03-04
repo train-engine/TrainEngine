@@ -6,25 +6,23 @@
 #include "PauseState.h"
 
 CreatorState::CreatorState(GameEngine& rGame)
-    : State(rGame),
-      m_loadLevelLabel("Load Level", m_rGame.resourceManager.GetFont("altFont"), 20),
-      m_saveLevelLabel("Save Level as: ", m_rGame.resourceManager.GetFont("altFont"), 20),
-      m_tileNameLabel("Selected tile", m_rGame.resourceManager.GetFont("altFont"), 20),
-      m_loadLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont")),
-      m_saveLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont")),
-      m_widthTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont")),
-      m_heightTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont")),
-      m_tileNameTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont")),
-      m_createLevelButton(m_rGame.resourceManager.GetFont("altFont"), m_rGame.resourceManager.GetSoundBuffer("click"), sf::Vector2f(0, 0), sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green),
-      m_level(m_rGame.resourceManager, m_rGame.inputManager),
-      m_selectableTileTypes{TileType::Grass4Sides,
-                            TileType::Wood,
-                            TileType::Ladder,
-                            TileType::LadderTop,
-                            TileType::Vine},
-      m_selectedTileTypeIndex(0),
-      m_musicNumber(0),
-      m_brushSize(1)
+    : State(rGame)
+    , m_loadLevelLabel("Load Level", m_rGame.resourceManager.GetFont("altFont"), 20)
+    , m_saveLevelLabel("Save Level as: ", m_rGame.resourceManager.GetFont("altFont"), 20)
+    , m_tileNameLabel("Selected tile", m_rGame.resourceManager.GetFont("altFont"), 20)
+    , m_loadLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont"))
+    , m_saveLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont"))
+    , m_widthTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont"))
+    , m_heightTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont"))
+    , m_tileNameTextBox(m_rGame.inputManager, m_rGame.resourceManager.GetFont("altFont"))
+    , m_createLevelButton(m_rGame.resourceManager.GetFont("altFont"),
+                          m_rGame.resourceManager.GetSoundBuffer("click"), sf::Vector2f(0, 0),
+                          sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green)
+    , m_level(m_rGame.resourceManager, m_rGame.inputManager)
+    , m_selectableTileTypes{TileType::Grass4Sides, TileType::Wood, TileType::Ladder, TileType::LadderTop, TileType::Vine}
+    , m_selectedTileTypeIndex(0)
+    , m_musicNumber(0)
+    , m_brushSize(1)
 {
     // State settings
     SetBackgroundColor(sf::Color(172, 172, 172));
@@ -82,7 +80,6 @@ CreatorState::CreatorState(GameEngine& rGame, const std::string& levelDirectory)
 
 CreatorState::~CreatorState()
 {
-
 }
 
 void CreatorState::SetMusic()
@@ -139,7 +136,7 @@ void CreatorState::HandleInput()
     // Tile selection
     if ((m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::E) ||
          m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Up) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Down)) &&
-         !m_loadLevelTextBox.HasFocus() && !m_saveLevelTextBox.HasFocus() && !m_widthTextBox.HasFocus() && !m_heightTextBox.HasFocus())
+        !m_loadLevelTextBox.HasFocus() && !m_saveLevelTextBox.HasFocus() && !m_widthTextBox.HasFocus() && !m_heightTextBox.HasFocus())
     {
         if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::E) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Up))
         {
@@ -179,9 +176,9 @@ void CreatorState::HandleInput()
     }
 
     // Preview Map
-    if (CheckMouseChangedTile() ||
-        m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Add) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Subtract) ||
-        m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::E))
+    if (CheckMouseChangedTile() || // Mouse changed Tile
+        m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Add) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Subtract) || // Brush
+        m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::E)) // Change Tile
     {
         ClearPreviewMap();
         m_level.AddTileRange(m_selectableTileTypes[m_selectedTileTypeIndex],
@@ -335,18 +332,18 @@ void CreatorState::OnWindowResize()
     m_panel.setPosition(GetWindowDimensions().x - m_panel.getSize().x, 0);
 
     m_loadLevelLabel.setPosition(m_panel.getPosition() + sf::Vector2f(10, 10));
-    m_loadLevelTextBox.SetPosition(m_loadLevelLabel.getPosition() + sf::Vector2f (0, 30));
+    m_loadLevelTextBox.SetPosition(m_loadLevelLabel.getPosition() + sf::Vector2f(0, 30));
 
     m_saveLevelLabel.setPosition(m_loadLevelTextBox.GetPosition() + sf::Vector2f(0, 40));
-    m_saveLevelTextBox.SetPosition(m_saveLevelLabel.getPosition() + sf::Vector2f(0,30));
+    m_saveLevelTextBox.SetPosition(m_saveLevelLabel.getPosition() + sf::Vector2f(0, 30));
 
     m_widthTextBox.SetPosition(m_saveLevelTextBox.GetPosition() + sf::Vector2f(0, 40));
     m_heightTextBox.SetPosition(m_widthTextBox.GetPosition() + sf::Vector2f(m_widthTextBox.GetDimensions().x + 10, 0));
 
     m_createLevelButton.SetPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0, 40) + m_saveLevelTextBox.GetDimensions() / 2.0f);
 
-    m_tileNameLabel.setPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0,80));
-    m_tileNameTextBox.SetPosition(m_tileNameLabel.getPosition() + sf::Vector2f(0,30));
+    m_tileNameLabel.setPosition(m_widthTextBox.GetPosition() + sf::Vector2f(0, 80));
+    m_tileNameTextBox.SetPosition(m_tileNameLabel.getPosition() + sf::Vector2f(0, 30));
 
     m_level.OnWindowResize();
 }

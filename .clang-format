@@ -39,7 +39,7 @@ BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
-ColumnLimit: 120
+ColumnLimit: 140
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
@@ -69,13 +69,13 @@ MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 1000000
-PenaltyBreakComment: 20
+PenaltyBreakBeforeFirstCallParameter: 200 # TODO A PLUS, LVL L158 et MMS ctor et 885 map.cpp
+PenaltyBreakComment: 100
 PenaltyBreakFirstLessLess: 120
-PenaltyBreakString: 20
+PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 0
 PenaltyExcessCharacter: 500
-PenaltyReturnTypeOnItsOwnLine: 1000000
+PenaltyReturnTypeOnItsOwnLine: 1000
 PointerAlignment: Left
 ReflowComments: true
 SortIncludes: true

@@ -7,7 +7,7 @@
 
 class SplashScreenState final : public State
 {
-private:   
+private:
     sf::Sprite m_splash;
     sf::Sprite m_mask;
     sf::Sound m_sound;

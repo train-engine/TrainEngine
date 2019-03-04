@@ -5,19 +5,19 @@
 namespace
 {
     const double pi = 3.141592653589793238462643383279;
-}
+} // namespace
 
 Camera::Camera()
-    : m_mode(CameraMode::Static),
-      m_isBoundless(true),
-      m_minDimensions(128, 72),
-      m_maxDimensions(2560, 1440),
-      m_zoom(1),
-      m_zoomLerp(0.25),
-      m_pFollowedEntity(nullptr),
-      m_followLerp(0.3),
-      m_ticksRemaining(0),
-      m_ticksTotal(0)
+    : m_mode(CameraMode::Static)
+    , m_isBoundless(true)
+    , m_minDimensions(128, 72)
+    , m_maxDimensions(2560, 1440)
+    , m_zoom(1)
+    , m_zoomLerp(0.25)
+    , m_pFollowedEntity(nullptr)
+    , m_followLerp(0.3)
+    , m_ticksRemaining(0)
+    , m_ticksTotal(0)
 {
     SetDimensions(m_minDimensions);
 }
@@ -81,7 +81,8 @@ void Camera::Update()
 
     // Zoom lerp
     static const float epsilon = 1e-6;
-    if (std::fabs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon || std::fabs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
+    if (std::fabs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon ||
+        std::fabs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
     {
         sf::Vector2f newDimensions = m_dimensions + (m_targetDimensions - m_dimensions) * m_zoomLerp;
         m_zoom *= newDimensions.x / m_dimensions.x;
@@ -120,10 +121,19 @@ void Camera::Update()
 
         if (m_dimensions != m_targetDimensions)
         {
-            mustSnapHorizontally = ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) ||
-                                    (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && m_previousPosition.x <= m_pFollowedEntity->GetPosition().x));
-            mustSnapVertically = ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) ||
-                                  (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && m_previousPosition.y <= m_pFollowedEntity->GetPosition().y));
+            // Disable horizontal lerp to snap to left or right of bounds when zooming
+            mustSnapHorizontally =
+                ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && // If Camera is colliding with the left bounds
+                  m_previousPosition.x >= m_pFollowedEntity->GetPosition().x) || // And if Camera is to the right of followed Entity
+                 (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && // Or, if Camera is colliding with the right bounds
+                  m_previousPosition.x <= m_pFollowedEntity->GetPosition().x)); // And if Camera is to the left of followed Entity
+
+            // Disable vertical lerp to snap to bottom or top of bounds when zooming
+            mustSnapVertically =
+                ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && // If Camera is colliding with the top bounds
+                  m_previousPosition.y >= m_pFollowedEntity->GetPosition().y) || // And if Camera is below followed Entity
+                 (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && // Or, if Camera is colliding with the bottom bounds
+                  m_previousPosition.y <= m_pFollowedEntity->GetPosition().y)); // And if Camera above of followed Entity
         }
         else
         {
@@ -163,7 +173,6 @@ void Camera::Update()
             m_startTranslationPosition = sf::Vector2f(0, 0);
             m_finalTranslationPosition = sf::Vector2f(0, 0);
             SetPosition(m_position);
-
         }
     }
     else if (m_mode == CameraMode::SmoothTranslate)
@@ -172,7 +181,7 @@ void Camera::Update()
         {
             // Sinerp function
             m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) *
-                static_cast<float>(pi / 2.0f * std::cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
+                          static_cast<float>(pi / 2.0f * std::cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
             m_ticksRemaining--;
         }
         else
@@ -255,7 +264,8 @@ void Camera::SetFollow(const Entity& followedEntity, bool snapOnSet)
 }
 
 // Set to translate from a start position to an end position
-void Camera::SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration, bool isSlowDownSmooth)
+void Camera::SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration,
+                          bool isSlowDownSmooth)
 {
     if (m_mode != CameraMode::Translate && m_mode != CameraMode::SmoothTranslate)
     {

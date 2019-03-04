@@ -8,12 +8,12 @@
 #include "Utility.h"
 
 Level::Level(const ResourceManager& resourceManager, const InputManager& inputManager)
-    : m_resourceManager(resourceManager),
-      m_inputManager(inputManager),
-      m_map(m_resourceManager),
-      m_hasFocus(true),
-      m_isCreatorModeEnabled(false),
-      m_isEntityDebugBoxVisible(false)
+    : m_resourceManager(resourceManager)
+    , m_inputManager(inputManager)
+    , m_map(m_resourceManager)
+    , m_hasFocus(true)
+    , m_isCreatorModeEnabled(false)
+    , m_isEntityDebugBoxVisible(false)
 {
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
 
@@ -55,7 +55,7 @@ bool Level::LoadBackground(const std::string& filename)
             if (!(lineStream >> resourceName >> parallaxValue))
             {
                 std::cerr << "\nLevel error: Parsing resource name or parallax value failed in file: \"" << filename << "\".\n"
-                             "Background loading failed.\n\n";
+                          << "Background loading failed.\n\n";
                 return false;
             }
 
@@ -69,7 +69,7 @@ bool Level::LoadBackground(const std::string& filename)
                 if (delimPos == std::string::npos)
                 {
                     std::cerr << "\nLevel error: Parsing key-value pair failed in file: \"" << filename << "\".\n"
-                                 "Background loading failed.\n\n";
+                              << "Background loading failed.\n\n";
                     return false;
                 }
 
@@ -155,11 +155,13 @@ bool Level::LoadBackground(const std::string& filename)
                 }
                 else if (repeatTextureString == "X")
                 {
-                    m_parallaxSprites.back().SetTextureRect(sf::Vector2f(m_map.GetBounds().x, m_parallaxSprites.back().GetTexture()->getSize().y));
+                    m_parallaxSprites.back().SetTextureRect(
+                        sf::Vector2f(m_map.GetBounds().x, m_parallaxSprites.back().GetTexture()->getSize().y));
                 }
                 else if (repeatTextureString == "Y")
                 {
-                    m_parallaxSprites.back().SetTextureRect(sf::Vector2f(m_parallaxSprites.back().GetTexture()->getSize().x, m_map.GetBounds().y));
+                    m_parallaxSprites.back().SetTextureRect(
+                        sf::Vector2f(m_parallaxSprites.back().GetTexture()->getSize().x, m_map.GetBounds().y));
                 }
             }
 
@@ -193,8 +195,7 @@ bool Level::LoadBackground(const std::string& filename)
             }
         }
 
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b)
-        {
+        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
             return a.GetParallax() > b.GetParallax();
         });
 
@@ -204,7 +205,7 @@ bool Level::LoadBackground(const std::string& filename)
     else
     {
         std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
-                     "Background loading failed.\n\n";
+                  << "Background loading failed.\n\n";
         return false;
     }
 }
@@ -217,10 +218,10 @@ bool Level::SaveBackground(const std::string& filename)
     {
         std::cout << "Saving background...\n";
         outputFile << "# Syntax:\n"
-                      "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
+                      "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] "
+                      "scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
 
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b)
-        {
+        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
             return a.GetParallax() > b.GetParallax();
         });
 
@@ -229,7 +230,8 @@ bool Level::SaveBackground(const std::string& filename)
         std::cout << "Parallax sprites:\n";
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
-            outputFile << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
+            outputFile << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax()
+                       << " positionMode:" << parallaxSprite.GetPositionModeString();
             if (!parallaxSprite.GetRepeatTextureString().empty())
             {
                 outputFile << " repeatTexture:" << parallaxSprite.GetRepeatTextureString();
@@ -244,7 +246,8 @@ bool Level::SaveBackground(const std::string& filename)
             }
             outputFile << '\n';
 
-            std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax() << " positionMode:" << parallaxSprite.GetPositionModeString();
+            std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax()
+                      << " positionMode:" << parallaxSprite.GetPositionModeString();
         }
 
         std::cout << "Background successfully saved.\n\n";
@@ -253,7 +256,7 @@ bool Level::SaveBackground(const std::string& filename)
     else
     {
         std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                     "Background saving failed.\n\n";
+                  << "Background saving failed.\n\n";
         return false;
     }
 }
@@ -286,27 +289,34 @@ bool Level::LoadEntities(const std::string& filename)
             switch (static_cast<EntityType>(type))
             {
             case EntityType::Player:
-                rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f (xPosition, yPosition));
-                rpEntity->AddAnimation(EntityState::Still, AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22, 3));
-                rpEntity->AddAnimation(EntityState::Running, AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27, 1));
-                rpEntity->AddAnimation(EntityState::Climbing, AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
-                rpEntity->AddAnimation(EntityState::Jumping, AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
-                rpEntity->AddAnimation(EntityState::Falling, AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3, 2));
+                rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f(xPosition, yPosition));
+                rpEntity->AddAnimation(EntityState::Still,
+                                       AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22, 3));
+                rpEntity->AddAnimation(EntityState::Running,
+                                       AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27, 1));
+                rpEntity->AddAnimation(
+                    EntityState::Climbing,
+                    AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
+                rpEntity->AddAnimation(EntityState::Jumping,
+                                       AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
+                rpEntity->AddAnimation(EntityState::Falling,
+                                       AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3, 2));
                 rpEntity->SetPosition({xPosition, yPosition});
                 break;
             default:
                 break;
             }
-            std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", " << rpEntity->GetPosition().y << ")\n";
+            std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", "
+                      << rpEntity->GetPosition().y << ")\n";
         }
-        
+
         std::cout << "Entities successfully loaded.\n\n";
         return true;
     }
     else
     {
         std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
-                     "Entities loading failed.\n\n";
+                  << "Entities loading failed.\n\n";
         return false;
     }
 }
@@ -324,8 +334,10 @@ bool Level::SaveEntities(const std::string& filename)
         std::cout << "Entities:\n";
         for (const auto& pEntity : m_entities)
         {
-            outputFile << static_cast<int>(pEntity->GetEntityType()) << ' ' << pEntity->GetPosition().x << ' ' << pEntity->GetPosition().y << "\n";
-            std::cout << Entity::GetEntityTypeString(pEntity->GetEntityType()) << " at (" << pEntity->GetPosition().x << ", " << pEntity->GetPosition().y << ")\n";
+            outputFile << static_cast<int>(pEntity->GetEntityType()) << ' ' << pEntity->GetPosition().x << ' ' << pEntity->GetPosition().y
+                       << "\n";
+            std::cout << Entity::GetEntityTypeString(pEntity->GetEntityType()) << " at (" << pEntity->GetPosition().x << ", "
+                      << pEntity->GetPosition().y << ")\n";
         }
 
         std::cout << "Entities successfully saved.\n\n";
@@ -334,7 +346,7 @@ bool Level::SaveEntities(const std::string& filename)
     else
     {
         std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                     "Entities saving failed.\n\n";
+                  << "Entities saving failed.\n\n";
         return false;
     }
 }
@@ -403,7 +415,7 @@ bool Level::SaveResources(const std::string& filename)
     else
     {
         std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                     "Resources saving failed.\n\n";
+                  << "Resources saving failed.\n\n";
         return false;
     }
 }
@@ -526,10 +538,8 @@ void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
 bool Level::Load(const std::string& levelDirectory)
 {
     std::cout << "\nLoading Level: " << levelDirectory << "\n\n";
-    if (m_map.Load(levelDirectory + "/tiles.txt") &&
-        LoadBackground(levelDirectory + "/background.txt") &&
-        LoadEntities(levelDirectory + "/entities.txt") &&
-        LoadResources(levelDirectory + "/resources.txt"))
+    if (m_map.Load(levelDirectory + "/tiles.txt") && LoadBackground(levelDirectory + "/background.txt") &&
+        LoadEntities(levelDirectory + "/entities.txt") && LoadResources(levelDirectory + "/resources.txt"))
     {
         m_camera.SetBounds(static_cast<sf::Vector2f>(m_map.GetBounds()));
 
@@ -547,19 +557,17 @@ bool Level::Load(const std::string& levelDirectory)
     std::cout << "Failed to load Level.\n\n";
     return false;
 }
-    
+
 bool Level::Save(const std::string& levelDirectory)
 {
     std::cout << "\nSaving Level: " << levelDirectory << "\n\n";
     // TODO
     // check if dir exists
-        // if not, create it
+    // if not, create it
     // make temp copy and replace if everything works
 
-    if (m_map.Save(levelDirectory + "/tiles.txt") &&
-        SaveBackground(levelDirectory + "/background.txt") &&
-        SaveEntities(levelDirectory + "/entities.txt") &&
-        SaveResources(levelDirectory + "/resources.txt"))
+    if (m_map.Save(levelDirectory + "/tiles.txt") && SaveBackground(levelDirectory + "/background.txt") &&
+        SaveEntities(levelDirectory + "/entities.txt") && SaveResources(levelDirectory + "/resources.txt"))
     {
         std::cout << "Level successfully saved.\n\n";
         return true;

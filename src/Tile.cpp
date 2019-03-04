@@ -2,11 +2,10 @@
 #include <unordered_map>
 
 Tile::Tile(const sf::Texture& texture, TileType tileType)
-    : m_tileType(tileType),
-      m_sprite(texture),
-      m_isSolid(true)
+    : m_tileType(tileType)
+    , m_sprite(texture)
+    , m_isSolid(true)
 {
-
 }
 
 void Tile::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
@@ -52,7 +51,8 @@ std::string Tile::GetTextureName(TileType tileType)
                                                                            {TileType::GrassTopLeftSidesCorner3, "grassTopLeftSidesCorner3"},
                                                                            {TileType::GrassTopSideCorner3, "grassTopSideCorner3"},
                                                                            {TileType::GrassTopSideCorner4, "grassTopSideCorner4"},
-                                                                           {TileType::GrassTopRightSidesCorner4, "grassTopRightSidesCorner4"},
+                                                                           {TileType::GrassTopRightSidesCorner4,
+                                                                            "grassTopRightSidesCorner4"},
                                                                            {TileType::GrassLeftSideCorner3, "grassLeftSideCorner3"},
                                                                            {TileType::GrassNoSidesCorner3, "grassNoSidesCorner3"},
                                                                            {TileType::GrassNoSidesCorner4, "grassNoSidesCorner4"},
@@ -64,7 +64,8 @@ std::string Tile::GetTextureName(TileType tileType)
                                                                            {TileType::GrassBotLeftSidesCorner2, "grassBotLeftSidesCorner2"},
                                                                            {TileType::GrassBotSideCorner2, "grassBotSideCorner2"},
                                                                            {TileType::GrassBotSideCorner1, "grassBotSideCorner1"},
-                                                                           {TileType::GrassBotRightSidesCorner1, "grassBotRightSidesCorner1"},
+                                                                           {TileType::GrassBotRightSidesCorner1,
+                                                                            "grassBotRightSidesCorner1"},
                                                                            {TileType::GrassNoSides4Corners, "grassNoSides4Corners"},
                                                                            {TileType::GrassNoSidesCorners12, "grassNoSidesCorners12"},
                                                                            {TileType::GrassNoSidesCorners34, "grassNoSidesCorners34"},

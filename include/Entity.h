@@ -100,65 +100,64 @@ protected:
     void PerformCollisions();
 
     // Setters
-    void SetPressingUp(bool isPressingUp) {m_isPressingUp = isPressingUp;}
-    void SetPressingDown(bool isPressingDown) {m_isPressingDown = isPressingDown;}
-    void SetPressingLeft(bool isPressingLeft) {m_isPressingLeft = isPressingLeft;}
-    void SetPressingRight(bool isPressingRight) {m_isPressingRight = isPressingRight;}
-    void SetPressingShift(bool isPressingShift) {m_isPressingShift = isPressingShift;}
+    void SetPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
+    void SetPressingDown(bool isPressingDown) { m_isPressingDown = isPressingDown; }
+    void SetPressingLeft(bool isPressingLeft) { m_isPressingLeft = isPressingLeft; }
+    void SetPressingRight(bool isPressingRight) { m_isPressingRight = isPressingRight; }
+    void SetPressingShift(bool isPressingShift) { m_isPressingShift = isPressingShift; }
 
     // Getters
-    bool IsOnGround() const {return m_isOnGround;}
+    bool IsOnGround() const { return m_isOnGround; }
 
-    bool IsPressingUp() const {return m_isPressingUp;}
-    bool IsPressingDown() const {return m_isPressingDown;}
-    bool IsPressingLeft() const {return m_isPressingLeft;}
-    bool IsPressingRight() const {return m_isPressingRight;}
-    bool IsPressingShift() const {return m_isPressingShift;}
+    bool IsPressingUp() const { return m_isPressingUp; }
+    bool IsPressingDown() const { return m_isPressingDown; }
+    bool IsPressingLeft() const { return m_isPressingLeft; }
+    bool IsPressingRight() const { return m_isPressingRight; }
+    bool IsPressingShift() const { return m_isPressingShift; }
 
-    float GetJumpForce() const {return m_jumpForce;}
-    float GetDefaultClimbSpeed() const {return m_defaultClimbSpeed;}
-    float GetDefaultDescentSpeed() const {return m_defaultDescentSpeed;}
+    float GetJumpForce() const { return m_jumpForce; }
+    float GetDefaultClimbSpeed() const { return m_defaultClimbSpeed; }
+    float GetDefaultDescentSpeed() const { return m_defaultDescentSpeed; }
 
 public:
     // Constructor and destructor
-    Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType,
-           const sf::Vector2f& position, const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity = {10, 64},
-           float acceleration = 1, float deceleration = 3, float jumpForce = 18, bool isGravityApplied = true,
-           bool isTileCollideable = false, bool isEntityCollideable = false);
+    Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType, const sf::Vector2f& position, const sf::Vector2f& dimensions,
+           const sf::Vector2f& maxVelocity = {10, 64}, float acceleration = 1, float deceleration = 3, float jumpForce = 18,
+           bool isGravityApplied = true, bool isTileCollideable = false, bool isEntityCollideable = false);
     virtual ~Entity() {}
 
     // Functions
     virtual void HandleInput() {}
     virtual void Update();
     virtual void Interpolate(float lag);
-    
+
     void AddAnimation(EntityState targetState, const AnimatedSprite& animatedSprite);
     void AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite);
 
     // Setters
-    void SetDebugBoxVisible(bool isDebugBoxVisible) {m_isDebugBoxVisible = isDebugBoxVisible;}
+    void SetDebugBoxVisible(bool isDebugBoxVisible) { m_isDebugBoxVisible = isDebugBoxVisible; }
 
-    void SetPosition(const sf::Vector2f& position) {m_position = position;}
-    void SetHorizPosition(float horizPosition) {m_position.x = horizPosition;}
-    void SetVertPosition(float vertPosition) {m_position.y = vertPosition;}
+    void SetPosition(const sf::Vector2f& position) { m_position = position; }
+    void SetHorizPosition(float horizPosition) { m_position.x = horizPosition; }
+    void SetVertPosition(float vertPosition) { m_position.y = vertPosition; }
 
-    void SetDimensions(const sf::Vector2f& dimensions) {m_dimensions = dimensions;}
+    void SetDimensions(const sf::Vector2f& dimensions) { m_dimensions = dimensions; }
 
-    void SetVelocity(const sf::Vector2f& velocity) {m_velocity = velocity;}
-    void SetHorizVelocity(float horizVelocity) {m_velocity.x = horizVelocity;}
-    void SetVertVelocity(float vertVelocity) {m_velocity.y = vertVelocity;}
+    void SetVelocity(const sf::Vector2f& velocity) { m_velocity = velocity; }
+    void SetHorizVelocity(float horizVelocity) { m_velocity.x = horizVelocity; }
+    void SetVertVelocity(float vertVelocity) { m_velocity.y = vertVelocity; }
 
     void SetDefaultSpriteTexture(const sf::Texture& texture);
 
     // Getters
-    EntityType GetEntityType() const {return m_entityType;}
+    EntityType GetEntityType() const { return m_entityType; }
     static std::string GetEntityTypeString(EntityType entityType);
     static std::vector<std::string> GetTextureNames(EntityType entityType);
 
-    const sf::Vector2f& GetPosition() const {return m_position;}
-    const sf::Vector2f& GetDimensions() const {return m_dimensions;}
-    const sf::Vector2f& GetVelocity() const {return m_velocity;}
-    
+    const sf::Vector2f& GetPosition() const { return m_position; }
+    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
+    const sf::Vector2f& GetVelocity() const { return m_velocity; }
+
     float GetLeftPixelPosition() const;
     float GetRightPixelPosition() const;
     float GetTopPixelPosition() const;

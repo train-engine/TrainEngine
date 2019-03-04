@@ -42,17 +42,17 @@ public:
     void OutputToExcel() const;
 
     // Setters
-    void SetDotRadius(float radius) {m_dot.setRadius(radius);}
-    void SetDotColor(sf::Color color) {m_dot.setFillColor(color);}
-    void Track(const Entity& trackedEntity) {m_pTrackedEntity = &trackedEntity;}
-    void ToggleDotPathVisible() {m_isDotPathVisible = !m_isDotPathVisible;}
-    void ToggleInfoBoxVisible() {m_isInfoBoxVisible = !m_isInfoBoxVisible;}
+    void SetDotRadius(float radius) { m_dot.setRadius(radius); }
+    void SetDotColor(sf::Color color) { m_dot.setFillColor(color); }
+    void Track(const Entity& trackedEntity) { m_pTrackedEntity = &trackedEntity; }
+    void ToggleDotPathVisible() { m_isDotPathVisible = !m_isDotPathVisible; }
+    void ToggleInfoBoxVisible() { m_isInfoBoxVisible = !m_isInfoBoxVisible; }
 
     // Getters
-    const sf::Vector2f& GetLastPosition() const {return m_positions.back();}
-    float GetDistanceTraveled() const {return m_totalDistanceTraveled;}
+    const sf::Vector2f& GetLastPosition() const { return m_positions.back(); }
+    float GetDistanceTraveled() const { return m_totalDistanceTraveled; }
     float GetDisplacement() const;
-    bool IsTracking() const {return m_pTrackedEntity != nullptr;}
+    bool IsTracking() const { return m_pTrackedEntity != nullptr; }
 };
 
 #endif // ENTITYTRACKER_H

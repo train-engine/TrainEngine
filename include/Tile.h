@@ -73,20 +73,20 @@ public:
     virtual ~Tile() {}
 
     // Setters
-    void SetTileType(TileType tileType) {m_tileType = tileType;}
+    void SetTileType(TileType tileType) { m_tileType = tileType; }
     void SetTexture(const sf::Texture& texture);
     void SetPosition(const sf::Vector2f& position);
     void SetDimensions(const sf::Vector2f& dimensions);
-    void SetSolid(bool isSolid) {m_isSolid = isSolid;}
-    void SetColor(sf::Color color) {m_sprite.setColor(color);}
+    void SetSolid(bool isSolid) { m_isSolid = isSolid; }
+    void SetColor(sf::Color color) { m_sprite.setColor(color); }
 
     // Getters
-    TileType GetTileType() const {return m_tileType;}
+    TileType GetTileType() const { return m_tileType; }
     static std::string GetTileTypeString(TileType tileType);
     static std::string GetTextureName(TileType tileType);
-    const sf::Vector2f& GetPosition() const {return m_position;}
-    const sf::Vector2f& GetDimensions() const {return m_dimensions;}
-    bool IsSolid() const {return m_isSolid;}
+    const sf::Vector2f& GetPosition() const { return m_position; }
+    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
+    bool IsSolid() const { return m_isSolid; }
 };
 
 #endif // TILE_H

@@ -5,13 +5,11 @@
 #include "PauseState.h"
 
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
-    : State(rGame),
-      m_darkness(GetWindowDimensions()),
-      m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"),
-                   m_rGame.resourceManager.GetTexture("muteHovered"),
-                   m_rGame.resourceManager.GetTexture("muteClicked"),
-                   sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64)),
-      m_level(m_rGame.resourceManager, m_rGame.inputManager)
+    : State(rGame)
+    , m_darkness(GetWindowDimensions())
+    , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
+                   m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+    , m_level(m_rGame.resourceManager, m_rGame.inputManager)
 {
     // Content settings
     SetBackgroundColor(sf::Color(238, 241, 244));
@@ -28,7 +26,6 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
 
 PlayState::~PlayState()
 {
-
 }
 
 void PlayState::ReadMusicSettings()

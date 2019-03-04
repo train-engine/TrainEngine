@@ -29,4 +29,4 @@ namespace Utility
         float scale = GetScaleToFit(static_cast<sf::Vector2f>(rSprite.getTexture()->getSize()), fitDimensions);
         rSprite.setScale(scale, scale);
     }
-}
+} // namespace Utility

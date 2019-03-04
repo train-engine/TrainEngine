@@ -22,10 +22,9 @@ private:
         if (this->pbase() != this->pptr())
         {
             __android_log_print(ANDROID_LOG_INFO,
-                               "TRAINENGINE CONSOLE",
-                               "%s",
-                               std::string(this->pbase(),
-                                           this->pptr() - this->pbase()).c_str());
+                                "TRAINENGINE CONSOLE",
+                                "%s",
+                                std::string(this->pbase(), this->pptr() - this->pbase()).c_str());
             rc = 0;
             this->setp(buffer, buffer + bufsize - 1);
         }
@@ -35,10 +34,7 @@ private:
 
 public:
     const int bufsize = 128;
-    AndroidBuffer()
-    {
-        this->setp(buffer, buffer + bufsize - 1);
-    }
+    AndroidBuffer() { this->setp(buffer, buffer + bufsize - 1); }
 };
 
 #endif // ANDROIDCOUT_H

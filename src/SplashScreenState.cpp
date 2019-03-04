@@ -3,11 +3,11 @@
 #include "Utility.h"
 
 SplashScreenState::SplashScreenState(GameEngine& rGame)
-    : State(rGame),
-      m_splash(m_rGame.resourceManager.LoadTexture("splash", "res/images/backgrounds/engine_splash.png")),
-      m_mask(m_rGame.resourceManager.LoadTexture("mask", "res/images/backgrounds/mask.png")),
-      m_sound(m_rGame.resourceManager.LoadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav")),
-      m_alpha(255)
+    : State(rGame)
+    , m_splash(m_rGame.resourceManager.LoadTexture("splash", "res/images/backgrounds/engine_splash.png"))
+    , m_mask(m_rGame.resourceManager.LoadTexture("mask", "res/images/backgrounds/mask.png"))
+    , m_sound(m_rGame.resourceManager.LoadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav"))
+    , m_alpha(255)
 {
     // Content settings
     m_splash.setOrigin(static_cast<sf::Vector2f>(m_splash.getTexture()->getSize()) / 2.0f);

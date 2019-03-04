@@ -3,44 +3,44 @@
 #include <string>
 #include "FileManager.h"
 #if defined(SFML_SYSTEM_WINDOWS)
-    #include <windows.h>
+#include <windows.h>
 #elif defined(SFML_SYSTEM_MACOS)
-    #include "MacClipboard.h"
+#include "MacClipboard.h"
 #endif
 
 InputManager::InputManager(sf::RenderWindow& rWindow)
-    : m_rWindow(rWindow),
-      m_keyStates{},
-      m_previousKeyStates{},
-      m_mouseButtonStates{},
-      m_previousMouseButtonStates{},
-      m_joystickButtonStates{},
-      m_previousJoystickButtonStates{},
-      m_isWindowFocused(m_rWindow.hasFocus()),
-      m_closedEvent(false),
-      m_resizedEvent(false),
-      m_lostFocusEvent(false),
-      m_gainedFocusEvent(false),
-      m_mouseLeftEvent(false),
-      m_mouseEnteredEvent(false),
-      m_mouseWheelDelta(0),
-      m_mouseMovedEvent(false),
-      m_eventPressedJoystickButtons{},
-      m_eventReleasedJoystickButtons{},
-      m_joystickAxesPosition{},
-      m_joystickMovedEvent(false),
-      m_joystickConnectedEvent(false),
-      m_joystickDisconnectedEvent(false),
-      m_isTouchHeld(false),
-      m_touchBeganEvent(false),
-      m_touchMovedEvent(false),
-      m_touchEndedEvent(false),
-      m_sensorChangedEvent(false)
+    : m_rWindow(rWindow)
+    , m_keyStates{}
+    , m_previousKeyStates{}
+    , m_mouseButtonStates{}
+    , m_previousMouseButtonStates{}
+    , m_joystickButtonStates{}
+    , m_previousJoystickButtonStates{}
+    , m_isWindowFocused(m_rWindow.hasFocus())
+    , m_closedEvent(false)
+    , m_resizedEvent(false)
+    , m_lostFocusEvent(false)
+    , m_gainedFocusEvent(false)
+    , m_mouseLeftEvent(false)
+    , m_mouseEnteredEvent(false)
+    , m_mouseWheelDelta(0)
+    , m_mouseMovedEvent(false)
+    , m_eventPressedJoystickButtons{}
+    , m_eventReleasedJoystickButtons{}
+    , m_joystickAxesPosition{}
+    , m_joystickMovedEvent(false)
+    , m_joystickConnectedEvent(false)
+    , m_joystickDisconnectedEvent(false)
+    , m_isTouchHeld(false)
+    , m_touchBeganEvent(false)
+    , m_touchMovedEvent(false)
+    , m_touchEndedEvent(false)
+    , m_sensorChangedEvent(false)
 {
-    // Fix Windows focus on start issue (Merci Bill Gates)
-    #if defined(SFML_SYSTEM_WINDOWS)
-        m_isWindowFocused = true;
-    #endif
+// Fix Windows focus on start issue (Merci Bill Gates)
+#if defined(SFML_SYSTEM_WINDOWS)
+    m_isWindowFocused = true;
+#endif
 
     // Startup mouse position hack
     sf::Mouse::setPosition(sf::Mouse::getPosition() + sf::Vector2i(1, 1));
@@ -116,21 +116,21 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             m_mouseLeftEvent = true;
             break;
         case sf::Event::JoystickButtonPressed:
-            #if !defined(SFML_SYSTEM_LINUX)
-                m_eventPressedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
-                m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = true;
-            #endif
+#if !defined(SFML_SYSTEM_LINUX)
+            m_eventPressedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
+            m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = true;
+#endif
             break;
         case sf::Event::JoystickButtonReleased:
-            #if !defined(SFML_SYSTEM_LINUX)
-                m_eventReleasedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
-                m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = false;
-            #endif
+#if !defined(SFML_SYSTEM_LINUX)
+            m_eventReleasedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
+            m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = false;
+#endif
             break;
         case sf::Event::JoystickMoved:
-            #if !defined(SFML_SYSTEM_LINUX)
-                m_joystickMovedEvent = true;
-            #endif
+#if !defined(SFML_SYSTEM_LINUX)
+            m_joystickMovedEvent = true;
+#endif
             break;
         case sf::Event::JoystickConnected:
             m_joystickConnectedEvent = true;
@@ -168,9 +168,9 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         }
     }
 
-    #if defined(SFML_SYSTEM_MACOS)
-        MacOsCommandsToUnicode();
-    #endif
+#if defined(SFML_SYSTEM_MACOS)
+    MacOsCommandsToUnicode();
+#endif
 }
 
 void InputManager::ResetEvents()
@@ -242,7 +242,10 @@ void InputManager::MacOsCommandsToUnicode()
 std::string InputManager::MacExec(const char* cmd)
 {
     FILE* pipe = popen(cmd, "r");
-    if (!pipe) return "ERROR";
+    if (!pipe)
+    {
+        return "ERROR";
+    }
     char buffer[128];
     std::string result;
     while (!feof(pipe))
@@ -303,29 +306,29 @@ bool InputManager::IsKeyAscending(sf::Keyboard::Key key) const
 
 bool InputManager::IsModifierKeyHeld() const
 {
-    #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return IsControlKeyHeld();
-    #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return IsSystemKeyHeld();
-    #endif
+#if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
+    return IsControlKeyHeld();
+#elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
+    return IsSystemKeyHeld();
+#endif
 }
 
 bool InputManager::IsModifierKeyDescending(bool isRepeatEnabled) const
 {
-    #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return IsControlKeyDescending(isRepeatEnabled);
-    #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return IsSystemKeyDescending(isRepeatEnabled);
-    #endif
+#if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
+    return IsControlKeyDescending(isRepeatEnabled);
+#elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
+    return IsSystemKeyDescending(isRepeatEnabled);
+#endif
 }
 
 bool InputManager::IsModifierKeyAscending() const
 {
-    #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-        return IsControlKeyAscending();
-    #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-        return IsSystemKeyAscending();
-    #endif
+#if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
+    return IsControlKeyAscending();
+#elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
+    return IsSystemKeyAscending();
+#endif
 }
 
 // Mouse getters
@@ -350,13 +353,15 @@ bool InputManager::IsMouseButtonDescending(sf::Mouse::Button button, bool isRepe
     {
         return false;
     }
-    std::vector<sf::Mouse::Button>::const_iterator it = std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button);
+    std::vector<sf::Mouse::Button>::const_iterator it =
+        std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button);
     return (it != m_eventPressedMouseButtons.cend());
 }
 
 bool InputManager::IsMouseButtonAscending(sf::Mouse::Button button) const
 {
-    std::vector<sf::Mouse::Button>::const_iterator it = std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button);
+    std::vector<sf::Mouse::Button>::const_iterator it =
+        std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button);
     return (it != m_eventReleasedMouseButtons.cend());
 }
 
@@ -370,113 +375,115 @@ sf::Vector2f InputManager::GetMousePosition(const sf::View& view) const
 
 bool InputManager::IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const
 {
-    #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+    return false;
+#else
+    if (m_isWindowFocused == false)
+    {
         return false;
-    #else
-        if (m_isWindowFocused == false)
-        {
-            return false;
-        }
-        return m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button);
-    #endif
+    }
+    return m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button);
+#endif
 }
 
 bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
 {
-    #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+    return false;
+#else
+    if (m_isWindowFocused == false)
+    {
         return false;
-    #else
-        if (m_isWindowFocused == false)
-        {
-            return false;
-        }
-        // If repeating JoystickButtonPressed events should be ignored
-        if (isRepeatEnabled == false && m_previousJoystickButtonStates[joystick][button] == true)
-        {
-            return false;
-        }
-        std::vector<unsigned int>::const_iterator it = std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button);
-        return (it != m_eventPressedJoystickButtons[joystick].cend());
-    #endif
+    }
+    // If repeating JoystickButtonPressed events should be ignored
+    if (isRepeatEnabled == false && m_previousJoystickButtonStates[joystick][button] == true)
+    {
+        return false;
+    }
+    std::vector<unsigned int>::const_iterator it =
+        std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button);
+    return (it != m_eventPressedJoystickButtons[joystick].cend());
+#endif
 }
 
 bool InputManager::IsJoystickButtonAscending(unsigned int joystick, unsigned int button) const
 {
-    #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-        return false;
-    #else
-        std::vector<unsigned int>::const_iterator it = std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button);
-        return (it != m_eventReleasedJoystickButtons[joystick].cend());
-    #endif
+#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+    return false;
+#else
+    std::vector<unsigned int>::const_iterator it =
+        std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button);
+    return (it != m_eventReleasedJoystickButtons[joystick].cend());
+#endif
 }
 
 float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
-    #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-        return false;
-    #else
-        if (sf::Joystick::hasAxis(joystick, axis) == false)
-        {
-            return 0;
-        }
-        return m_joystickAxesPosition[joystick][axis];
-    #endif
+#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
+    return false;
+#else
+    if (sf::Joystick::hasAxis(joystick, axis) == false)
+    {
+        return 0;
+    }
+    return m_joystickAxesPosition[joystick][axis];
+#endif
 }
 
 // Clipboard
 
 void InputManager::SetClipboardText(const sf::String& text)
 {
-    #if defined(SFML_SYSTEM_WINDOWS)
-        HWND handle = m_rWindow.getSystemHandle();
-        if (OpenClipboard(handle))
-        {
-            EmptyClipboard();
-            HGLOBAL hClipboardData;
+#if defined(SFML_SYSTEM_WINDOWS)
+    HWND handle = m_rWindow.getSystemHandle();
+    if (OpenClipboard(handle))
+    {
+        EmptyClipboard();
+        HGLOBAL hClipboardData;
 
-            const wchar_t* wcharCString = text.toWideString().c_str();
+        const wchar_t* wcharCString = text.toWideString().c_str();
 
-            hClipboardData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t) * (wcslen(wcharCString) + 1));
+        hClipboardData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t) * (wcslen(wcharCString) + 1));
 
-            wchar_t* buffer;
-            buffer = (wchar_t*)GlobalLock(hClipboardData);
+        wchar_t* buffer;
+        buffer = (wchar_t*)GlobalLock(hClipboardData);
 
-            wcscpy(buffer, wcharCString);
-            GlobalUnlock(hClipboardData);
+        wcscpy(buffer, wcharCString);
+        GlobalUnlock(hClipboardData);
 
-            SetClipboardData(CF_UNICODETEXT, hClipboardData);
-            CloseClipboard();
-        }
-    #elif defined(SFML_SYSTEM_MACOS)
-        SetMacClipboardText(text);
-    #endif
+        SetClipboardData(CF_UNICODETEXT, hClipboardData);
+        CloseClipboard();
+    }
+#elif defined(SFML_SYSTEM_MACOS)
+    SetMacClipboardText(text);
+#endif
 }
 
 sf::String InputManager::GetClipboardText() const
 {
-    #if defined(SFML_SYSTEM_WINDOWS)
-        HWND handle = m_rWindow.getSystemHandle();
-        if (OpenClipboard(handle))
+#if defined(SFML_SYSTEM_WINDOWS)
+    HWND handle = m_rWindow.getSystemHandle();
+    if (OpenClipboard(handle))
+    {
+        HANDLE hData = GetClipboardData(CF_UNICODETEXT);
+        if (hData == nullptr)
         {
-            HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-            if (hData == nullptr)
-            {
-                return "";
-            }
-
-            wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
-            if (pText == nullptr)
-            {
-                return "";
-            }
-            CloseClipboard();
-
-            return sf::String(pText);
+            return "";
         }
-        return "";
-    #elif defined(SFML_SYSTEM_MACOS)
-        return GetMacClipboardText();
-    #else
-        return "";
-    #endif
+
+        wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
+        if (pText == nullptr)
+        {
+            return "";
+        }
+        CloseClipboard();
+
+        return sf::String(pText);
+    }
+    return "";
+#elif defined(SFML_SYSTEM_MACOS)
+    return GetMacClipboardText();
+#else
+    return "";
+#endif
 }

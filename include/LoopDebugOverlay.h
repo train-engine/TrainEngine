@@ -19,13 +19,13 @@ private:
     sf::Clock m_fpsClock;
     sf::Time m_sampledUpdateTime;
     sf::Time m_sampledDrawTime;
-    
+
     double m_recordedUps;
     double m_recordedFps;
 
     unsigned int m_updateCounter;
     unsigned int m_drawCounter;
-    
+
     bool m_isVisible;
 
     // Functions
@@ -41,11 +41,11 @@ public:
     void OnWindowResize();
 
     // Setters
-    void ToggleVisible() {m_isVisible = !m_isVisible;}
+    void ToggleVisible() { m_isVisible = !m_isVisible; }
 
     // Getters
-    double GetRecordedUps() const {return m_recordedUps;}
-    double GetRecordedFps() const {return m_recordedFps;}
+    double GetRecordedUps() const { return m_recordedUps; }
+    double GetRecordedFps() const { return m_recordedFps; }
 };
 
 #endif // LOOPDEBUGOVERLAY_H

@@ -22,23 +22,22 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
-
 }
 
 // Load resources loaded on startup
 bool ResourceManager::LoadInitialResources()
 {
-    #if defined(SFML_SYSTEM_ANDROID)
-        std::istringstream inputFile(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
-    #else
-        std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
-        if (!inputFile)
-        {
-            std::cerr << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
-                         "Initial resources loading failed.\n\n";
-            return false;
-        }
-    #endif
+#if defined(SFML_SYSTEM_ANDROID)
+    std::istringstream inputFile(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
+#else
+    std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
+    if (!inputFile)
+    {
+        std::cerr << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
+                     "Initial resources loading failed.\n\n";
+        return false;
+    }
+#endif
 
     std::string line;
     while (std::getline(inputFile, line))
@@ -73,7 +72,8 @@ bool ResourceManager::LoadInitialResources()
         }
         else
         {
-            std::cerr << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename << "\"\n";
+            std::cerr << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename
+                      << "\"\n";
         }
     }
 

@@ -49,12 +49,13 @@ public:
 
     sf::Vector2u CoordsToTileIndex(const sf::Vector2f& position) const;
     sf::Vector2f TileIndexToCoords(const sf::Vector2u& position) const;
-    
+
     // Tile functions
     void UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer);
 
     void AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
-    void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false);
+    void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer,
+                      bool updateTextures = false);
     void RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
     void RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false);
 
@@ -64,16 +65,16 @@ public:
 
     // Setters
     void SetLayerColor(sf::Color color, MapLayer layer);
-    void SetGridVisible(bool isGridVisible) {m_isGridVisible = isGridVisible;}
-    
-    // Getters
-    const sf::Vector2u& GetIndexDimensions() const {return m_indexDimensions;}
-    unsigned int GetLayerCount() const {return m_layerCount;}
+    void SetGridVisible(bool isGridVisible) { m_isGridVisible = isGridVisible; }
 
-    unsigned int GetTileSize() const {return m_tileSize;}
+    // Getters
+    const sf::Vector2u& GetIndexDimensions() const { return m_indexDimensions; }
+    unsigned int GetLayerCount() const { return m_layerCount; }
+
+    unsigned int GetTileSize() const { return m_tileSize; }
     sf::Vector2u GetBounds() const;
     bool IsNull() const;
-    
+
     const Tile* GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const;
     Tile* GetTilePtr(const sf::Vector2u& index, MapLayer layer) const;
 };
