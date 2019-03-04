@@ -20,7 +20,7 @@ CXX = g++
 CXXFLAGS = -std=c++14
 WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs\
 		-Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor	-Wpedantic -Wredundant-decls\
-		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods-Wsuggest-final-types -Wsuggest-override -Wundef\
+		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override -Wundef\
 		-Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # SFML variables
@@ -201,6 +201,12 @@ clean:
 cleanassets:
 	@echo "Cleaning assets for all platforms"
 	@./scripts/u_clean_assets.sh
+
+# Run clang-format on source code
+.PHONY: format
+format:
+	@echo "Running clang-format"
+	@clang-format -i src/*.cpp include/*.h
 
 # Echo Makefile variables
 .PHONY: printvars

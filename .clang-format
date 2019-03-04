@@ -6,17 +6,17 @@ AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: DontAlign
 AlignOperands: true
-AlignTrailingComments: false # TODO
+AlignTrailingComments: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: false # TODO
+AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: InlineOnly
-AllowShortIfStatementsOnASingleLine: false # TODO
+AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
-BinPackArguments:  true
+BinPackArguments:  false
 BinPackParameters: true
 BraceWrapping:
   AfterClass:      true
@@ -39,10 +39,10 @@ BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: BeforeComma
 BreakStringLiterals: true
-ColumnLimit: 160 # TODO
+ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
@@ -50,9 +50,9 @@ DerivePointerAlignment: false
 DisableFormat: false
 FixNamespaceComments: true
 ForEachMacros:
-IncludeBlocks: Regroup
-IncludeCategories: # TODO
-  - Regex:           '^<.*>'
+IncludeBlocks: Merge
+IncludeCategories:
+  - Regex:           '^<[^\/]*>'
     Priority:        1
   - Regex:           '^<.*\/.*>'
     Priority:        2
@@ -60,7 +60,7 @@ IncludeCategories: # TODO
     Priority:        3
 IncludeIsMainRegex: ''
 IndentCaseLabels: false
-IndentPPDirectives: None # TODO - voir vs enlever
+IndentPPDirectives: None
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
@@ -72,7 +72,7 @@ PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 1000000
 PenaltyBreakComment: 20
 PenaltyBreakFirstLessLess: 120
-PenaltyBreakString: 1
+PenaltyBreakString: 20
 PenaltyBreakTemplateDeclaration: 0
 PenaltyExcessCharacter: 500
 PenaltyReturnTypeOnItsOwnLine: 1000000
