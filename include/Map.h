@@ -45,7 +45,7 @@ public:
     // Functions
     void Update();
     bool Load(const std::string& filename);
-    bool Save(const std::string& filename);
+    bool Save(const std::string& filename) const;
 
     sf::Vector2u CoordsToTileIndex(const sf::Vector2f& position) const;
     sf::Vector2f TileIndexToCoords(const sf::Vector2u& position) const;

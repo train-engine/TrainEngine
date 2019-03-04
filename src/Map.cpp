@@ -245,7 +245,7 @@ bool Map::Load(const std::string& filename)
 }
 
 // Save the Map to a save file
-bool Map::Save(const std::string& filename)
+bool Map::Save(const std::string& filename) const
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
@@ -255,31 +255,33 @@ bool Map::Save(const std::string& filename)
         std::cout << "Dimensions:\t" << m_indexDimensions.x << 'x' << m_indexDimensions.y << '\n';
         std::cout << "TileSize:\t" << m_tileSize << '\n';
 
-        ClearLayer(MapLayer::Overlay); // Do not save overlay
-
         for (unsigned int z = 0; z < m_layerCount; z++)
         {
             std::string layerOutput;
             bool isEmptyLayer = true;
-            for (unsigned int y = 0; y < m_indexDimensions.y; y++)
+
+            if (z != static_cast<unsigned int>(MapLayer::Overlay)) // Do not save overlay (count as empty layer)
             {
-                for (unsigned int x = 0; x < m_indexDimensions.x; x++)
+                for (unsigned int y = 0; y < m_indexDimensions.y; y++)
                 {
-                    if (m_tiles[z][y][x] == nullptr)
+                    for (unsigned int x = 0; x < m_indexDimensions.x; x++)
                     {
-                        layerOutput += "000";
+                        if (m_tiles[z][y][x] == nullptr)
+                        {
+                            layerOutput += "000";
+                        }
+                        else
+                        {
+                            layerOutput += std::to_string(static_cast<int>(m_tiles[z][y][x]->GetTileType()));
+                            isEmptyLayer = false;
+                        }
+                        if (x + 1 < m_indexDimensions.x)
+                        {
+                            layerOutput += ' ';
+                        }
                     }
-                    else
-                    {
-                        layerOutput += std::to_string(static_cast<int>(m_tiles[z][y][x]->GetTileType()));
-                        isEmptyLayer = false;
-                    }
-                    if (x + 1 < m_indexDimensions.x)
-                    {
-                        layerOutput += ' ';
-                    }
+                    layerOutput += '\n';
                 }
-                layerOutput += '\n';
             }
 
             if (isEmptyLayer == false)

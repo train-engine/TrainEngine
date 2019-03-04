@@ -211,7 +211,7 @@ bool Level::LoadBackground(const std::string& filename)
 }
 
 // Save the background to a save file
-bool Level::SaveBackground(const std::string& filename)
+bool Level::SaveBackground(const std::string& filename) const
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
@@ -221,7 +221,8 @@ bool Level::SaveBackground(const std::string& filename)
                       "# resourceName parallaxValue pos:[TL|TM|TR|ML|MM|MR|BL|BM|BR] repeatTexture[-o]:[XY|X|Y] "
                       "scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
 
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
+        std::vector<ParallaxSprite> sortedParallaxSprites(m_parallaxSprites);
+        std::sort(sortedParallaxSprites.begin(), sortedParallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
             return a.GetParallax() > b.GetParallax();
         });
 
@@ -247,7 +248,7 @@ bool Level::SaveBackground(const std::string& filename)
             outputFile << '\n';
 
             std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax()
-                      << " positionMode:" << parallaxSprite.GetPositionModeString();
+                      << " positionMode:" << parallaxSprite.GetPositionModeString() << '\n';
         }
 
         std::cout << "Background successfully saved.\n\n";
@@ -326,7 +327,7 @@ bool Level::LoadEntities(const std::string& filename)
 }
 
 // Save the Entities to a save file
-bool Level::SaveEntities(const std::string& filename)
+bool Level::SaveEntities(const std::string& filename) const
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
@@ -363,7 +364,7 @@ bool Level::LoadResources(const std::string& filename)
 }
 
 // Save the list of necessary resources for the Level to a save file
-bool Level::SaveResources(const std::string& filename)
+bool Level::SaveResources(const std::string& filename) const
 {
     std::ofstream outputFile(FileManager::ResourcePath() + filename);
     if (outputFile)
@@ -562,7 +563,7 @@ bool Level::Load(const std::string& levelDirectory)
     return false;
 }
 
-bool Level::Save(const std::string& levelDirectory)
+bool Level::Save(const std::string& levelDirectory) const
 {
     std::cout << "\nSaving Level: " << levelDirectory << "\n\n";
     // TODO

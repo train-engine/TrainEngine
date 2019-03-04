@@ -28,11 +28,11 @@ private:
 
     // Functions
     bool LoadBackground(const std::string& filename);
-    bool SaveBackground(const std::string& filename);
+    bool SaveBackground(const std::string& filename) const;
     bool LoadEntities(const std::string& filename);
-    bool SaveEntities(const std::string& filename);
+    bool SaveEntities(const std::string& filename) const;
     bool LoadResources(const std::string& filename);
-    bool SaveResources(const std::string& filename);
+    bool SaveResources(const std::string& filename) const;
 
 public:
     // Constructor and destructor
@@ -45,7 +45,7 @@ public:
     void Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag);
 
     bool Load(const std::string& levelDirectory);
-    bool Save(const std::string& levelDirectory);
+    bool Save(const std::string& levelDirectory) const;
 
     void OnWindowResize();
 
