@@ -34,8 +34,8 @@ private:
     virtual void Update() = 0;
     virtual void Draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
 
-    virtual void Pause() {}
-    virtual void Resume() {} ///< Called automatically after the State above is removed
+    virtual void Pause() {} ///< Called automatically before a new State is added above (ceases to be the topmost State)
+    virtual void Resume() {} ///< Called automatically after the State above is removed (becomes the topmost State again)
 
     virtual void OnWindowResize() {} ///< Called automatically on State creation and on window resizing
 

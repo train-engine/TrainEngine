@@ -33,7 +33,6 @@ private:
     virtual void Update() override;
     virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
 
-    virtual void Pause() override;
     virtual void Resume() override;
 
     virtual void OnWindowResize() override;

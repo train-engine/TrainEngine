@@ -60,13 +60,13 @@ MainMenuState::~MainMenuState()
 
 void MainMenuState::LoadPlayStart(const std::string& levelName)
 {
-    Pause();
+    m_music.stop();
     m_rGame.RequestPush(new LoadPlayState(m_rGame, levelName));
 }
 
 void MainMenuState::CreatorStart()
 {
-    Pause();
+    m_music.stop();
     m_rGame.RequestPush(new CreatorState(m_rGame));
 }
 
@@ -191,11 +191,6 @@ void MainMenuState::Draw(sf::RenderTarget& rTarget, float lag)
         rTarget.draw(button);
     }
     rTarget.draw(m_muteButton);
-}
-
-void MainMenuState::Pause()
-{
-    m_music.stop();
 }
 
 void MainMenuState::Resume()

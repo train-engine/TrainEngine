@@ -78,14 +78,14 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             m_enteredText += event.text.unicode;
             break;
         case sf::Event::KeyPressed:
-            m_eventPressedKeys.emplace_back(event.key.code);
+            m_eventPressedKeys.push_back(event.key.code);
             if (event.key.code != -1) // If key is known
             {
                 m_keyStates[event.key.code] = true;
             }
             break;
         case sf::Event::KeyReleased:
-            m_eventReleasedKeys.emplace_back(event.key.code);
+            m_eventReleasedKeys.push_back(event.key.code);
             if (event.key.code != -1) // If key is known
             {
                 m_keyStates[event.key.code] = false;
@@ -98,11 +98,11 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             }
             break;
         case sf::Event::MouseButtonPressed:
-            m_eventPressedMouseButtons.emplace_back(event.mouseButton.button);
+            m_eventPressedMouseButtons.push_back(event.mouseButton.button);
             m_mouseButtonStates[event.mouseButton.button] = true;
             break;
         case sf::Event::MouseButtonReleased:
-            m_eventReleasedMouseButtons.emplace_back(event.mouseButton.button);
+            m_eventReleasedMouseButtons.push_back(event.mouseButton.button);
             m_mouseButtonStates[event.mouseButton.button] = false;
             break;
         case sf::Event::MouseMoved:
@@ -117,13 +117,13 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::JoystickButtonPressed:
 #if !defined(SFML_SYSTEM_LINUX)
-            m_eventPressedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
+            m_eventPressedJoystickButtons[event.joystickButton.joystickId].push_back(event.joystickButton.button);
             m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = true;
 #endif
             break;
         case sf::Event::JoystickButtonReleased:
 #if !defined(SFML_SYSTEM_LINUX)
-            m_eventReleasedJoystickButtons[event.joystickButton.joystickId].emplace_back(event.joystickButton.button);
+            m_eventReleasedJoystickButtons[event.joystickButton.joystickId].push_back(event.joystickButton.button);
             m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = false;
 #endif
             break;

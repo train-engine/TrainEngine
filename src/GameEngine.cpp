@@ -132,11 +132,19 @@ State* GameEngine::Peek()
 /// Add a new State to the stack from the queue
 void GameEngine::Push()
 {
-    m_states.emplace_back(m_pendingStates.back());
+    // Call Pause() on current topmost State (if present) before adding a new one on top of it
+    if (!m_states.empty())
+    {
+        m_states.back()->Pause();
+    }
+
+    // Push new State
+    m_states.push_back(m_pendingStates.back());
     m_states.back()->m_orderCreated = 0;
     m_pendingStates.pop_back();
 
-    m_states.back()->OnWindowResize(); // Call OnWindowResize on State creation
+    // Call OnWindowResize() on State creation
+    m_states.back()->OnWindowResize();
 }
 
 /// Remove one State from the top of the stack, and call Resume on the State below if desired
@@ -151,7 +159,7 @@ void GameEngine::Pop(bool callResume)
     m_states.pop_back();
     if (!m_states.empty() && callResume == true)
     {
-        Peek()->Resume();
+        m_states.back()->Resume();
     }
 }
 
