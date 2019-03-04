@@ -45,7 +45,7 @@ protected:
     StateSettings m_stateSettings;
 
     // Constructor and destructor
-    State(GameEngine& rGame);
+    explicit State(GameEngine& rGame);
     virtual ~State() {}
 
     // Functions

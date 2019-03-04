@@ -54,7 +54,7 @@ private:
 
 public:
     // Constructors
-    CreatorState(GameEngine& rGame);
+    explicit CreatorState(GameEngine& rGame);
     CreatorState(GameEngine& rGame, const std::string& levelDirectory);
 };
 

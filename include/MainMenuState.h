@@ -40,7 +40,7 @@ private:
 
 public:
     // Constructor
-    MainMenuState(GameEngine& rGame);
+    explicit MainMenuState(GameEngine& rGame);
 };
 
 #endif // MAINMENUSTATE_H

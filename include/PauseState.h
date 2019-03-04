@@ -27,7 +27,7 @@ private:
 
 public:
     // Constructor
-    PauseState(GameEngine& rGame);
+    explicit PauseState(GameEngine& rGame);
 };
 
 #endif // PAUSESTATE_H

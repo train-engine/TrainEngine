@@ -69,7 +69,7 @@ MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 500 # TODO A PLUS, LVL L158 et MMS ctor et 885 map.cpp (etait 200)
+PenaltyBreakBeforeFirstCallParameter: 500
 PenaltyBreakComment: 100
 PenaltyBreakFirstLessLess: 120
 PenaltyBreakString: 2000

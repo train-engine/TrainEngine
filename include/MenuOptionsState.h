@@ -28,7 +28,7 @@ private:
 
 public:
     // Constructor
-    MenuOptionsState(GameEngine& rGame);
+    explicit MenuOptionsState(GameEngine& rGame);
 };
 
 #endif // MENUOPTIONSSTATE_H
