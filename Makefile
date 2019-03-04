@@ -208,6 +208,12 @@ format:
 	@echo "Running clang-format"
 	@clang-format -i src/*.cpp include/*.h
 
+# Generate documentation with Doxygen
+.PHONY: doc
+doc:
+	@echo "Generating documentation"
+	@doxygen docs/Doxyfile
+
 # Echo Makefile variables
 .PHONY: printvars
 printvars:
