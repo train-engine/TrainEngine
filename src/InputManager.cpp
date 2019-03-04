@@ -328,7 +328,6 @@ bool InputManager::IsModifierKeyAscending() const
     #endif
 }
 
-
 // Mouse getters
 
 bool InputManager::IsMouseButtonHeld(sf::Mouse::Button button) const
