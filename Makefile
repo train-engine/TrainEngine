@@ -1,23 +1,28 @@
+# Project name
 EXEC = TrainEngine
+
+# Build, bin and install directories
+BUILD_DIR = build
+BIN_DIR = bin
+INSTALL_DIR := ~/Desktop/$(EXEC)
+
+# Root directories for build and bin directories to use for clean targets
+BUILD_DIR_ROOT := $(BUILD_DIR)
+BIN_DIR_ROOT := $(BIN_DIR)
+
+# C preprocessor flags and includes
+SFML_DIR = libs/SFML-2.4.2
+INCLUDES := -Iinclude -isystem $(SFML_DIR)/include
+CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14
-WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wfloat-equal -Wlogical-op -Wmissing-declarations\
+WARNINGS =
+		#-Wall -Wcast-align -Wduplicated-cond -Wextra -Wfloat-equal -Wlogical-op -Wmissing-declarations\
 		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wnon-virtual-dtor -Wpedantic -Wredundant-decls\
 		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override\
 		-Wswitch-default -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
-
-# Build and bin directories
-BUILD_DIR = build
-BIN_DIR = bin
-
-# Includes
-SFML_DIR = libs/SFML-2.4.2
-INCLUDES := -Iinclude -isystem $(SFML_DIR)/include
-
-# C preprocessor flags
-CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
@@ -43,8 +48,8 @@ ifeq ($(OS),Windows_NT)
 	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-s
 
 	ifeq ($(release),1)
-		# Disable console output on release builds
-		LDFLAGS += -mwindows
+		# Link everything statically (including libgcc and libstdc++) and disable console output on release builds
+		LDFLAGS += -static -mwindows
 	else
 		# Link the debug versions of SFML when compiling for debug on Windows
 		SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-d
@@ -138,9 +143,9 @@ SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 DEPS := $(OBJS:.o=.d)
 
-# Include program icon and info on Windows
+# Include program info and icon on Windows
 ifeq ($(OS),Windows_NT)
-	OBJS += $(BUILD_DIR)/icon.res
+	OBJS += $(BUILD_DIR)/resource.res
 endif
 
 # Rules
@@ -158,11 +163,16 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
-# Add icon to Windows executable
+# Add resource file to Windows executable
 $(BUILD_DIR)/%.res: assets/%.rc
 	windres $< -O coff -o $@
 
 -include $(DEPS)
+
+# Install
+.PHONY: install
+install: all copyassets
+	@mkdir -p $(INSTALL_DIR); cp -r $(BIN_DIR)/. $(INSTALL_DIR)
 
 # Build and run
 .PHONY: run
@@ -174,17 +184,11 @@ run: all
 copyassets:
 	./scripts/$(COPY_ASSETS_SCRIPT)
 
-# Clean build and bin directories for selected platform
+# Clean build and bin directories for all platforms
 .PHONY: clean
 clean:
-	$(RM) -r $(BUILD_DIR)
-	$(RM) -r $(BIN_DIR)
-
-# Clean all build and bin directories for all platforms
-.PHONY: cleanall
-cleanall:
-	$(RM) -r build
-	$(RM) -r bin
+	$(RM) -r $(BUILD_DIR_ROOT)
+	$(RM) -r $(BIN_DIR_ROOT)
 
 # Clean all assets from build and bin directories for all platforms
 .PHONY: cleanassets
@@ -197,6 +201,7 @@ printvars:
 	@echo EXEC: $(EXEC)
 	@echo BUILD_DIR: $(BUILD_DIR)
 	@echo BIN_DIR: $(BIN_DIR)
+	@echo INSTALL_DIR: $(INSTALL_DIR)
 	@echo CXX: $(CXX)
 	@echo CPPFLAGS: $(CPPFLAGS)
 	@echo CXXFLAGS: $(CXXFLAGS)
