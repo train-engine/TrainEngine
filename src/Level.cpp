@@ -294,9 +294,13 @@ bool Level::LoadEntities(const std::string& filename)
                                        AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22, 3));
                 rpEntity->AddAnimation(EntityState::Running,
                                        AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27, 1));
-                rpEntity->AddAnimation(
-                    EntityState::Climbing,
-                    AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8, 3, true, false));
+                rpEntity->AddAnimation(EntityState::Climbing,
+                                       AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"),
+                                                      sf::Vector2u(70, 82),
+                                                      8,
+                                                      3,
+                                                      true,
+                                                      false));
                 rpEntity->AddAnimation(EntityState::Jumping,
                                        AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3, 2));
                 rpEntity->AddAnimation(EntityState::Falling,

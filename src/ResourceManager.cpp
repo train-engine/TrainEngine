@@ -34,7 +34,7 @@ bool ResourceManager::LoadInitialResources()
     if (!inputFile)
     {
         std::cerr << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
-                     "Initial resources loading failed.\n\n";
+                  << "Initial resources loading failed.\n\n";
         return false;
     }
 #endif
