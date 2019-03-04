@@ -18,10 +18,10 @@ CPPFLAGS := -MMD -MP $(INCLUDES)
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14
-WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations\
-		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wpedantic -Wredundant-decls\
-		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override\
-		-Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
+WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs\
+		-Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor	-Wpedantic -Wredundant-decls\
+		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods-Wsuggest-final-types -Wsuggest-override -Wundef\
+		-Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
