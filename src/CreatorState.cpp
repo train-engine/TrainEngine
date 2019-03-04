@@ -103,8 +103,8 @@ void CreatorState::PauseStart()
 
 sf::Vector2u CreatorState::GetBrushTopLeftIndex(const sf::Vector2f& mousePosition)
 {
-    sf::Vector2f coords = sf::Vector2f(mousePosition - sf::Vector2f((static_cast<float>(m_brushSize) - 1.0f) / 2.0f * static_cast<float>(m_level.GetTileSize()),
-                                                                    (static_cast<float>(m_brushSize) - 1.0f) / 2.0f * static_cast<float>(m_level.GetTileSize())));
+    sf::Vector2f coords = mousePosition - sf::Vector2f((m_brushSize - 1.0f) / 2.0f * m_level.GetTileSize(),
+                                                       (m_brushSize - 1.0f) / 2.0f * m_level.GetTileSize());
     return m_level.CoordsToTileIndex(coords);
 }
 

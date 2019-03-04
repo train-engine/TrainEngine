@@ -23,13 +23,13 @@ void AnimatedSprite::draw(sf::RenderTarget& rTarget, sf::RenderStates states) co
 
 void AnimatedSprite::SetTextureRect()
 {
-    unsigned int framesPerRow = static_cast<unsigned int>(m_spriteSheetDimensions.x / m_frameDimensions.x);
+    unsigned int framesPerRow = m_spriteSheetDimensions.x / m_frameDimensions.x;
     if (framesPerRow == 0) // If the Texture's dimensions are too small for the requested frame dimensions
     {
         return;
     }
     unsigned int xPosition = m_currentFrameIndex % framesPerRow;
-    unsigned int yPosition = static_cast<unsigned int>(m_currentFrameIndex / framesPerRow);
+    unsigned int yPosition = m_currentFrameIndex / framesPerRow;
     m_sprite.setTextureRect(sf::IntRect(static_cast<int>(xPosition * m_frameDimensions.x), static_cast<int>(yPosition * m_frameDimensions.y), m_frameDimensions.x, m_frameDimensions.y));
 }
 
@@ -46,12 +46,12 @@ void AnimatedSprite::Update(bool flipSprite)
             m_sprite.setScale(1, 1);
         }
     }
-    
+
     if (m_isPlaying == false)
     {
         return;
     }
-    
+
     if (m_tickCounter >= m_frameDuration)
     {
         m_tickCounter -= m_frameDuration;

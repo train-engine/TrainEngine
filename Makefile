@@ -18,11 +18,10 @@ CPPFLAGS := -MMD -MP $(INCLUDES)
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14
-WARNINGS =
-		#-Wall -Wcast-align -Wduplicated-cond -Wextra -Wfloat-equal -Wlogical-op -Wmissing-declarations\
-		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wnon-virtual-dtor -Wpedantic -Wredundant-decls\
+WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations\
+		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wpedantic -Wredundant-decls\
 		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override\
-		-Wswitch-default -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
+		-Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
@@ -155,45 +154,53 @@ all: $(BIN_DIR)/$(EXEC)
 
 # Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
+	@echo "Building executable: $@"
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 # Build C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@echo "Compiling: $<"
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
 # Add resource file to Windows executable
 $(BUILD_DIR)/%.res: assets/%.rc
-	windres $< -O coff -o $@
+	@echo "Compiling Windows resource file"
+	@windres $< -O coff -o $@
 
 -include $(DEPS)
 
 # Install
 .PHONY: install
 install: all copyassets
+	@echo "Packaging program to $(INSTALL_DIR)"
 	@mkdir -p $(INSTALL_DIR); cp -r $(BIN_DIR)/. $(INSTALL_DIR)
 
 # Build and run
 .PHONY: run
 run: all
+	@echo "Starting program $(BIN_DIR)/$(EXEC)"
 	@cd ./$(BIN_DIR); ./$(EXEC)
 
 # Copy assets to bin directory for selected platform
 .PHONY: copyassets
 copyassets:
-	./scripts/$(COPY_ASSETS_SCRIPT)
+	@echo "Copying assets with script: $(COPY_ASSETS_SCRIPT)"
+	@./scripts/$(COPY_ASSETS_SCRIPT) 2> /dev/null
 
 # Clean build and bin directories for all platforms
 .PHONY: clean
 clean:
-	$(RM) -r $(BUILD_DIR_ROOT)
-	$(RM) -r $(BIN_DIR_ROOT)
+	@echo "Cleaning $(BUILD_DIR_ROOT) and $(BIN_DIR_ROOT) directories"
+	@$(RM) -r $(BUILD_DIR_ROOT)
+	@$(RM) -r $(BIN_DIR_ROOT)
 
-# Clean all assets from build and bin directories for all platforms
+# Clean all assets from bin directories for all platforms
 .PHONY: cleanassets
 cleanassets:
-	./scripts/u_clean_assets.sh
+	@echo "Cleaning assets for all platforms"
+	@./scripts/u_clean_assets.sh
 
 # Echo Makefile variables
 .PHONY: printvars
