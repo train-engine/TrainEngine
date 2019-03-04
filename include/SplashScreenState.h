@@ -30,7 +30,7 @@ private:
 
 public:
     // Constructor
-    SplashScreenState(GameEngine& rGame);
+    explicit SplashScreenState(GameEngine& rGame);
 };
 
 #endif // SPLASHSCREENSTATE_H
