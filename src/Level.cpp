@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include "FileManager.h"
@@ -370,7 +371,8 @@ bool Level::SaveResources(const std::string& filename) const
     if (outputFile)
     {
         std::cout << "Saving resources...\n";
-        std::vector<std::string> resources;
+
+        std::set<std::string> resources;
 
         // Tiles
         for (unsigned int z = 0; z < m_map.GetLayerCount(); z++)
@@ -382,7 +384,7 @@ bool Level::SaveResources(const std::string& filename) const
                     const Tile* pTile = m_map.GetKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
                     if (pTile != nullptr)
                     {
-                        Utility::AddIfUnique(resources, Tile::GetTextureName(pTile->GetTileType()));
+                        resources.insert(Tile::GetTextureName(pTile->GetTileType()));
                     }
                 }
             }
@@ -391,7 +393,7 @@ bool Level::SaveResources(const std::string& filename) const
         // Background
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
-            Utility::AddIfUnique(resources, parallaxSprite.GetResourceName());
+            resources.insert(parallaxSprite.GetResourceName());
         }
 
         // Entities
@@ -402,7 +404,7 @@ bool Level::SaveResources(const std::string& filename) const
                 std::vector<std::string> entityTextureNames = Entity::GetTextureNames(pEntity->GetEntityType());
                 for (const auto& textureName : entityTextureNames)
                 {
-                    Utility::AddIfUnique(resources, textureName);
+                    resources.insert(textureName);
                 }
             }
         }
