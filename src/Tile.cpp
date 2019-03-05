@@ -22,11 +22,12 @@ std::string Tile::GetTileTypeString(TileType tileType)
                                                                               {TileType::Vine, "Vine"},
                                                                               {TileType::Post, "Post"}};
 
-    const auto it = tileTypeStrings.find(tileType);
+    auto it = tileTypeStrings.find(tileType);
     if (it != tileTypeStrings.cend())
     {
         return it->second;
     }
+
     return "Unknown TileType";
 }
 
@@ -77,11 +78,12 @@ std::string Tile::GetTextureName(TileType tileType)
                                                                            {TileType::Vine, "vine"},
                                                                            {TileType::Post, "post"}};
 
-    const auto it = tileTextures.find(tileType);
+    auto it = tileTextures.find(tileType);
     if (it != tileTextures.cend())
     {
         return it->second;
     }
+
     return "";
 }
 

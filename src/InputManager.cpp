@@ -237,6 +237,7 @@ std::string InputManager::MacExec(const char* cmd)
     {
         return "ERROR";
     }
+
     char buffer[128];
     std::string result;
     while (!feof(pipe))
@@ -442,19 +443,16 @@ sf::String InputManager::GetClipboardText() const
     if (OpenClipboard(handle))
     {
         HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-        if (hData == nullptr)
+        if (hData != nullptr)
         {
-            return "";
-        }
-
-        wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
-        if (pText == nullptr)
-        {
-            return "";
+            wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
+            if (pText != nullptr)
+            {
+                CloseClipboard();
+                return sf::String(pText);
+            }
         }
         CloseClipboard();
-
-        return sf::String(pText);
     }
     return "";
 #elif defined(SFML_SYSTEM_MACOS)

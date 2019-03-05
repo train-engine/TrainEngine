@@ -57,7 +57,7 @@ std::vector<std::string> FileManager::GetFilenamesInDirectory(const std::string&
     closedir(pDirectoryStream);
     return filenames;
 #else
-    return std::vector<std::string>();
+    return {};
 #endif
 }
 

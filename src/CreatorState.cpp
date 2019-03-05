@@ -153,7 +153,7 @@ void CreatorState::HandleInput()
         {
             if (m_selectedTileTypeIndex == 0 && !m_selectableTileTypes.empty())
             {
-                m_selectedTileTypeIndex = static_cast<int>(m_selectableTileTypes.size()) - 1;
+                m_selectedTileTypeIndex = m_selectableTileTypes.size() - 1;
             }
             else
             {

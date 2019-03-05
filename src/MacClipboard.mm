@@ -24,5 +24,4 @@ sf::String GetMacClipboardText()
     NSUInteger length = [pbData lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 
     return sf::String::fromUtf8(utf8, utf8 + length);
-    return "";
 }

@@ -792,6 +792,7 @@ void TextBox::SetDimensions(const sf::Vector2f& dimensions)
     {
         return;
     }
+
     m_box.setSize(dimensions);
     CenterText();
     m_cursor.setPosition(m_position.x + m_padding.x, m_displayText.getPosition().y);

@@ -236,12 +236,10 @@ bool Map::Load(const std::string& filename)
         std::cout << "Map successfully loaded.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Map error: Unable to open \"" << filename << "\".\n"
-                  << "Map loading failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Map error: Unable to open \"" << filename << "\".\n"
+              << "Map loading failed.\n\n";
+    return false;
 }
 
 // Save the Map to a save file
@@ -297,12 +295,10 @@ bool Map::Save(const std::string& filename) const
         std::cout << "Map successfully saved.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Map error: Unable to save \"" << filename << "\".\n"
-                  << "Map saving failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Map error: Unable to save \"" << filename << "\".\n"
+              << "Map saving failed.\n\n";
+    return false;
 }
 
 // Convert world coordinates to a Tile index
@@ -335,18 +331,19 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
         return;
     }
 
-    bool isTopLeftEmpty = true;
-    bool isTopEmpty = true;
-    bool isTopRightEmpty = true;
-    bool isRightEmpty = true;
-    bool isBottomRightEmpty = true;
-    bool isBottomEmpty = true;
-    bool isBottomLeftEmpty = true;
-    bool isLeftEmpty = true;
-
-    if (m_tiles[z][y][x] != nullptr && static_cast<int>(m_tiles[z][y][x]->GetTileType()) >= 100 &&
-        static_cast<int>(m_tiles[z][y][x]->GetTileType()) <= 136)
+    // If Grass-like Tile
+    if (m_tiles[z][y][x] != nullptr && m_tiles[z][y][x]->GetTileType() >= TileType::GrassTopLeftSides &&
+        m_tiles[z][y][x]->GetTileType() <= TileType::GrassNoSidesCorners23)
     {
+        bool isTopLeftEmpty = true;
+        bool isTopEmpty = true;
+        bool isTopRightEmpty = true;
+        bool isRightEmpty = true;
+        bool isBottomRightEmpty = true;
+        bool isBottomEmpty = true;
+        bool isBottomLeftEmpty = true;
+        bool isLeftEmpty = true;
+
         if (x > 0)
         {
             if (y > 0)
@@ -827,7 +824,7 @@ void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateT
         return;
     }
 
-    // Replace existing Tile if found
+    // Delete existing Tile if found
     if (m_tiles[z][y][x] != nullptr)
     {
         delete m_tiles[z][y][x];
@@ -1006,6 +1003,7 @@ const Tile* Map::GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const
     {
         return nullptr;
     }
+
     return m_tiles[static_cast<int>(layer)][index.y][index.x];
 }
 
@@ -1016,5 +1014,6 @@ Tile* Map::GetTilePtr(const sf::Vector2u& index, MapLayer layer) const
     {
         return nullptr;
     }
+
     return m_tiles[static_cast<int>(layer)][index.y][index.x];
 }

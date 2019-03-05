@@ -29,6 +29,7 @@ void AnimatedSprite::SetTextureRect()
     {
         return;
     }
+
     unsigned int xPosition = m_currentFrameIndex % framesPerRow;
     unsigned int yPosition = m_currentFrameIndex / framesPerRow;
     m_sprite.setTextureRect(sf::IntRect(static_cast<int>(xPosition * m_frameDimensions.x),

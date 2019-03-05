@@ -203,12 +203,10 @@ bool Level::LoadBackground(const std::string& filename)
         std::cout << "Background successfully loaded.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
-                  << "Background loading failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
+              << "Background loading failed.\n\n";
+    return false;
 }
 
 // Save the background to a save file
@@ -255,12 +253,10 @@ bool Level::SaveBackground(const std::string& filename) const
         std::cout << "Background successfully saved.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                  << "Background saving failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
+              << "Background saving failed.\n\n";
+    return false;
 }
 
 // Load the Entities from a save file
@@ -319,12 +315,10 @@ bool Level::LoadEntities(const std::string& filename)
         std::cout << "Entities successfully loaded.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
-                  << "Entities loading failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Level error: Unable to open \"" << filename << "\".\n"
+              << "Entities loading failed.\n\n";
+    return false;
 }
 
 // Save the Entities to a save file
@@ -349,12 +343,10 @@ bool Level::SaveEntities(const std::string& filename) const
         std::cout << "Entities successfully saved.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                  << "Entities saving failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
+              << "Entities saving failed.\n\n";
+    return false;
 }
 
 // Load the list of necessary resources for the Level from a save file
@@ -419,17 +411,15 @@ bool Level::SaveResources(const std::string& filename) const
         std::cout << "Resources successfully saved.\n\n";
         return true;
     }
-    else
-    {
-        std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
-                  << "Resources saving failed.\n\n";
-        return false;
-    }
+
+    std::cerr << "Level error: Unable to save \"" << filename << "\".\n"
+              << "Resources saving failed.\n\n";
+    return false;
 }
 
 void Level::HandleInput()
 {
-    // Return if the Level does not have the GUI focus
+    // Do not handle input if the Level does not have the GUI focus
     if (m_hasFocus == false)
     {
         return;
@@ -561,6 +551,7 @@ bool Level::Load(const std::string& levelDirectory)
         std::cout << "Level successfully loaded.\n\n";
         return true;
     }
+
     std::cout << "Failed to load Level.\n\n";
     return false;
 }
@@ -579,6 +570,7 @@ bool Level::Save(const std::string& levelDirectory) const
         std::cout << "Level successfully saved.\n\n";
         return true;
     }
+
     std::cout << "Failed to save Level.\n\n";
     return false;
 }

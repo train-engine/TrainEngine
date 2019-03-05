@@ -77,6 +77,7 @@ void MainMenuState::ReadMusicSettings()
         std::cout << "Successfully read sound settings.\n";
         return;
     }
+
     std::cout << "Failed to read sound settings.\n";
 }
 

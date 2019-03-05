@@ -48,11 +48,11 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
 // Apply collision with a pointer to a const Tile
 void Entity::TileCollision(const Tile* pTile)
 {
-    // If the Tile is null
     if (pTile == nullptr)
     {
         return;
     }
+
     if (pTile->IsSolid())
     {
         switch (pTile->GetTileType())
@@ -81,6 +81,7 @@ void Entity::TileReaction(Tile* pTile)
         m_state = EntityState::Still;
         return;
     }
+
     switch (pTile->GetTileType())
     {
     case TileType::Ladder:
@@ -630,6 +631,7 @@ void Entity::AddAnimation(EntityState targetState, const AnimatedSprite& animate
         it->second = animatedSprite;
         return;
     }
+
     // Otherwise, add it to the map of animations
     m_animatedSprites.emplace(targetState, animatedSprite);
 
@@ -645,6 +647,7 @@ void Entity::AddAnimation(EntityState targetState, AnimatedSprite&& animatedSpri
         it->second = std::move(animatedSprite);
         return;
     }
+
     // Otherwise, add it to the map of animations
     m_animatedSprites.emplace(targetState, std::move(animatedSprite));
 
@@ -662,11 +665,12 @@ std::string Entity::GetEntityTypeString(EntityType entityType)
 {
     static const std::unordered_map<EntityType, std::string> entityTypeStrings = {{EntityType::Player, "Player"}};
 
-    const auto it = entityTypeStrings.find(entityType);
+    auto it = entityTypeStrings.find(entityType);
     if (it != entityTypeStrings.cend())
     {
         return it->second;
     }
+
     return "Unknown EntityType";
 }
 
@@ -675,11 +679,12 @@ std::vector<std::string> Entity::GetTextureNames(EntityType entityType)
     static const std::unordered_map<EntityType, std::vector<std::string>> entityTextures = {
         {EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}};
 
-    const auto it = entityTextures.find(entityType);
+    auto it = entityTextures.find(entityType);
     if (it != entityTextures.cend())
     {
         return it->second;
     }
+
     return {};
 }
 

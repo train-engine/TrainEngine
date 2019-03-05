@@ -51,6 +51,7 @@ bool GuiRectButton::OnMouseHover(const sf::Vector2f& mousePosition)
         }
         return true;
     }
+
     SetState(GuiState::Normal);
     m_isClicked = false;
     return false;
@@ -64,6 +65,7 @@ bool GuiRectButton::OnMouseClick(const sf::Vector2f& mousePosition)
         m_isClicked = true;
         return true;
     }
+
     return false;
 }
 
@@ -75,6 +77,7 @@ bool GuiRectButton::OnMouseUnclick(const sf::Vector2f& mousePosition)
         m_isClicked = false;
         return true;
     }
+
     return false;
 }
 
@@ -242,6 +245,7 @@ bool GuiSpriteButton::OnMouseHover(const sf::Vector2f& mousePosition) // REPETIT
         }
         return true;
     }
+
     SetState(GuiState::Normal);
     m_isClicked = false;
     return false;
@@ -255,6 +259,7 @@ bool GuiSpriteButton::OnMouseClick(const sf::Vector2f& mousePosition) // REPETIT
         m_isClicked = true;
         return true;
     }
+
     return false;
 }
 
@@ -266,6 +271,7 @@ bool GuiSpriteButton::OnMouseUnclick(const sf::Vector2f& mousePosition) // REPET
         m_isClicked = false;
         return true;
     }
+
     return false;
 }
 
@@ -409,12 +415,14 @@ bool GuiScrollbar::OnMouseHover(const sf::Vector2f& mousePosition)
         MoveSlider(mousePosition);
         return true;
     }
+
     // If m_isClicked is false
     if (CheckMousePositionOnSlider(mousePosition) == true)
     {
         SetState(GuiState::Hovered);
         return true;
     }
+
     SetState(GuiState::Normal);
     m_isClicked = false;
     return false;
@@ -429,6 +437,7 @@ bool GuiScrollbar::OnMouseClick(const sf::Vector2f& mousePosition)
         MoveSlider(mousePosition);
         return true;
     }
+
     return false;
 }
 
@@ -447,6 +456,7 @@ bool GuiScrollbar::OnMouseUnclick(const sf::Vector2f& mousePosition)
         m_isClicked = false;
         return true;
     }
+
     return false;
 }
 
@@ -469,10 +479,8 @@ bool GuiScrollbar::OnMouseScroll(float scrollAmount)
 
         return true;
     }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
 void GuiScrollbar::SetPosition(const sf::Vector2f& position)

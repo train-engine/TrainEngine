@@ -27,58 +27,61 @@ ResourceManager::~ResourceManager()
 // Load resources loaded on startup
 bool ResourceManager::LoadInitialResources()
 {
+    static const std::string initialResourcesFilename = "data/initial_resources.txt";
+
 #if defined(SFML_SYSTEM_ANDROID)
-    std::istringstream inputFile(FileManager::ReadTxtFromAssets("data/initial_resources.txt"));
+    std::istringstream inputFile(FileManager::ReadTxtFromAssets(initialResourcesFilename));
 #else
-    std::ifstream inputFile(FileManager::ResourcePath() + "data/initial_resources.txt");
-    if (!inputFile)
-    {
-        std::cerr << "ResourceManager error: Unable to open \"data/initial_resources.txt\".\n"
-                  << "Initial resources loading failed.\n\n";
-        return false;
-    }
+    std::ifstream inputFile(FileManager::ResourcePath() + initialResourcesFilename);
 #endif
 
-    std::string line;
-    while (std::getline(inputFile, line))
+    if (inputFile)
     {
-        // Ignore empty lines or those starting with '#'
-        if (line.empty() || line.front() == '#')
+        std::string line;
+        while (std::getline(inputFile, line))
         {
-            continue;
+            // Ignore empty lines or those starting with '#'
+            if (line.empty() || line.front() == '#')
+            {
+                continue;
+            }
+
+            // Read resource name
+            std::string name = line.substr(0, line.find(' '));
+            line.erase(0, line.find(' ') + 1);
+
+            // Read quoted filename
+            std::size_t firstDelimPos = line.find('"');
+            std::size_t lastDelimPos = line.find('"', firstDelimPos + 1);
+            std::string filename = line.substr(firstDelimPos + 1, lastDelimPos - (firstDelimPos + 1));
+
+            // Load resource
+            if (filename.find("images") != std::string::npos)
+            {
+                LoadTexture(name, filename);
+            }
+            else if (filename.find("fonts") != std::string::npos)
+            {
+                LoadFont(name, filename);
+            }
+            else if (filename.find("sounds") != std::string::npos)
+            {
+                LoadSoundBuffer(name, filename);
+            }
+            else
+            {
+                std::cerr << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename
+                          << "\"\n";
+            }
         }
 
-        // Read resource name
-        std::string name = line.substr(0, line.find(' '));
-        line.erase(0, line.find(' ') + 1);
-
-        // Read quoted filename
-        std::size_t firstDelimPos = line.find('"');
-        std::size_t lastDelimPos = line.find('"', firstDelimPos + 1);
-        std::string filename = line.substr(firstDelimPos + 1, lastDelimPos - (firstDelimPos + 1));
-
-        // Load resource
-        if (filename.find("images") != std::string::npos)
-        {
-            LoadTexture(name, filename);
-        }
-        else if (filename.find("fonts") != std::string::npos)
-        {
-            LoadFont(name, filename);
-        }
-        else if (filename.find("sounds") != std::string::npos)
-        {
-            LoadSoundBuffer(name, filename);
-        }
-        else
-        {
-            std::cerr << "ResourceManager error: Unable to deduce resource type for \"" << name << "\" from filename \"" << filename
-                      << "\"\n";
-        }
+        std::cout << "Initial resources successfully loaded.\n\n";
+        return true;
     }
 
-    std::cout << "Initial resources successfully loaded.\n\n";
-    return true;
+    std::cerr << "ResourceManager error: Unable to open \"" << initialResourcesFilename << "\".\n"
+              << "Initial resources loading failed.\n\n";
+    return false;
 }
 
 // Texture functions
@@ -92,6 +95,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
     {
         return it->second;
     }
+
     // Otherwise, load the texture
     sf::Texture texture;
     if (!texture.loadFromFile(FileManager::ResourcePath() + filename, textureRect))
@@ -125,6 +129,7 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
     {
         return it->second;
     }
+
     // If the texture is not found, return the default texture
     std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
     return m_textures.at("missingTexture");
@@ -169,6 +174,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
     {
         return it->second;
     }
+
     // Otherwise, load the font
     sf::Font font;
     if (!font.loadFromFile(FileManager::ResourcePath() + filename))
@@ -202,6 +208,7 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
     {
         return it->second;
     }
+
     // If the font is not found, return the default font
     std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent font \"" << name << "\".\n";
     return m_fonts.at("fallbackFont");
@@ -218,6 +225,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
     {
         return it->second;
     }
+
     // Otherwise, load the sound buffer
     sf::SoundBuffer soundBuffer;
     if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
@@ -251,6 +259,7 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
     {
         return it->second;
     }
+
     // If the sound buffer is not found, return the default sound buffer
     std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent sound buffer \"" << name << "\".\n";
     return m_soundBuffers.at("error");
@@ -267,6 +276,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
     {
         return it->second;
     }
+
     // Otherwise, load the shader
     m_shaders[name];
     if (!m_shaders.at(name).loadFromFile(FileManager::ResourcePath() + filename, type))
@@ -300,6 +310,7 @@ const sf::Shader& ResourceManager::GetShader(const std::string& name) const
     {
         return it->second;
     }
+
     // If the shader is not found, return the default shader
     std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent shader \"" << name << "\".\n";
     return m_shaders.at("ADDDEFAULTSHADER");

@@ -126,6 +126,7 @@ State* GameEngine::Peek()
     {
         return nullptr;
     }
+
     return m_states.back();
 }
 
@@ -428,6 +429,7 @@ void GameEngine::SetTargetUps(unsigned int updatesPerSecond)
     {
         return;
     }
+
     m_timePerUpdate = sf::microseconds(1000000 / static_cast<double>(updatesPerSecond));
     m_updateLag = m_timePerUpdate;
 }
@@ -449,6 +451,7 @@ double GameEngine::GetTargetFps() const
     {
         return 0;
     }
+
     return 1000000 / static_cast<double>(m_timePerDraw.asMicroseconds());
 }
 
