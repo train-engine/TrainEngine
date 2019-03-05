@@ -25,7 +25,7 @@ CreatorState::CreatorState(GameEngine& rGame)
     , m_brushSize(1)
 {
     // State settings
-    SetBackgroundColor(sf::Color(172, 172, 172));
+    m_stateSettings.backgroundColor = sf::Color(172, 172, 172);
 
     // Initialize GUI
     m_panel.setFillColor(sf::Color(235, 235, 235, 235));

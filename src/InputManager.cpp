@@ -37,8 +37,8 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_touchEndedEvent(false)
     , m_sensorChangedEvent(false)
 {
-// Fix Windows focus on start issue (Merci Bill Gates)
 #if defined(SFML_SYSTEM_WINDOWS)
+    // Fix Windows focus on start issue (Merci Bill Gates)
     m_isWindowFocused = true;
 #endif
 

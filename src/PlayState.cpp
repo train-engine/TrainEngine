@@ -12,7 +12,7 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     , m_level(m_rGame.resourceManager, m_rGame.inputManager)
 {
     // Content settings
-    SetBackgroundColor(sf::Color(238, 241, 244));
+    m_stateSettings.backgroundColor = sf::Color(238, 241, 244);
     m_darkness.setFillColor(sf::Color(0, 0, 0, 20));
 
     // Music

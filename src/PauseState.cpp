@@ -76,7 +76,7 @@ void PauseState::Update()
     if (m_alpha < 200)
     {
         m_alpha += 10;
-        SetBackgroundColor(sf::Color(200, 200, 200, m_alpha));
+        m_stateSettings.backgroundColor = sf::Color(200, 200, 200, m_alpha);
     }
 }
 

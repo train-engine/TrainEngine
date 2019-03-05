@@ -28,7 +28,6 @@ ResourceManager::~ResourceManager()
 bool ResourceManager::LoadInitialResources()
 {
     static const std::string initialResourcesFilename = "data/initial_resources.txt";
-
 #if defined(SFML_SYSTEM_ANDROID)
     std::istringstream inputFile(FileManager::ReadTxtFromAssets(initialResourcesFilename));
 #else

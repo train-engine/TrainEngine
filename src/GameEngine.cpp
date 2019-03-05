@@ -31,7 +31,8 @@ GameEngine::GameEngine()
                  "Made by Simon Gauvin, Misha Krieger-Raynauld, Guillaume Jones, and Ba Minh Nguyen.\n\n";
 
     // Graphics settings
-    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/graphics_settings.txt");
+    static const std::string graphicsSettingsFilename = "data/settings/graphics_settings.txt";
+    std::ifstream inputFile(FileManager::ResourcePath() + graphicsSettingsFilename);
     if (inputFile)
     {
         unsigned int fullscreenModeIndex = 0;
@@ -71,7 +72,7 @@ GameEngine::GameEngine()
     {
         m_window.create(sf::VideoMode(1280, 720), windowName);
         SetTargetFps(60);
-        std::cerr << "\nGameEngine error: Unable to open \"data/settings/graphics_settings.txt\".\n"
+        std::cerr << "\nGameEngine error: Unable to open \"" << graphicsSettingsFilename << "\".\n"
                   << "Graphics settings loading failed.\n\n";
     }
 
@@ -88,13 +89,14 @@ GameEngine::GameEngine()
     m_window.setActive();
 
     // Icon
-    if (m_icon.loadFromFile(FileManager::ResourcePath() + "res/icon.png"))
+    static const std::string iconFilename = "res/icon.png";
+    if (m_icon.loadFromFile(FileManager::ResourcePath() + iconFilename))
     {
         m_window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
     }
     else
     {
-        std::cerr << "\nGameEngine error: Unable to open \"res/icon.png\".\n"
+        std::cerr << "\nGameEngine error: Unable to open \"" << iconFilename << "\".\n"
                   << "Program icon loading failed.\n\n";
     }
 
@@ -279,8 +281,8 @@ void GameEngine::GameLoop()
             // Output warning to console if canSkipUpdates is false and the CPU can't keep up with the cycles
             if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
             {
-                std::cout << "GameEngine warning: Unable to keep up, catching up with "
-                          << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks\n";
+                std::cout << "GameEngine warning: Unable to keep up, skipping "
+                          << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks to catch up.\n";
             }
 
             // HandleInput and Update on a fixed timestep (skip draw until caught up)

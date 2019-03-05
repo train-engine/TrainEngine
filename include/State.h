@@ -40,6 +40,7 @@ protected:
     {
         bool isCloseable;
         bool canSkipUpdates;
+        sf::Color backgroundColor;
     } m_stateSettings;
 
     // Constructor and destructor
@@ -48,9 +49,6 @@ protected:
 
     // Functions
     void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
-
-    // Setters
-    void SetBackgroundColor(sf::Color color) { m_backgroundColor = color; }
 
     // Getters
     static const sf::Vector2f& GetWindowDimensions() { return s_windowDimensions; }

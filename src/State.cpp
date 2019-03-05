@@ -9,9 +9,8 @@ sf::RectangleShape State::s_backgroundColorShape(sf::Vector2f(0, 0));
 
 State::State(GameEngine& rGame)
     : m_orderCreated(s_orderCounter++)
-    , m_backgroundColor(sf::Color::White)
     , m_rGame(rGame)
-    , m_stateSettings{true, false}
+    , m_stateSettings{true, false, sf::Color::White}
 {
 }
 
@@ -66,7 +65,7 @@ void State::BaseHandleInput()
 // Draw the background color
 void State::DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states)
 {
-    s_backgroundColorShape.setFillColor(m_backgroundColor);
+    s_backgroundColorShape.setFillColor(m_stateSettings.backgroundColor);
     rTarget.draw(s_backgroundColorShape, states);
 }
 

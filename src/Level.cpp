@@ -16,6 +16,7 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
     , m_isCreatorModeEnabled(false)
     , m_isEntityDebugBoxVisible(false)
 {
+    m_map.SetLayerColor(sf::Color(112, 112, 112, 255), MapLayer::Background);
     m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
 
     m_camera.SetFollowLerp(0.2);
