@@ -25,10 +25,13 @@ void State::ResizeLayout(const sf::Vector2f& windowDimensions)
 // Called only by the GameEngine before derived States' HandleInput()
 void State::BaseHandleInput()
 {
+    // Handle clicking on the close button
     if (m_rGame.inputManager.DetectedClosedEvent() && m_stateSettings.isCloseable == true)
     {
         m_rGame.Quit();
     }
+
+    // Update mouse position if necessary
     if (m_rGame.inputManager.DetectedMouseMovedEvent() || // Mouse events
         m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent() || // Touch events
         m_rGame.inputManager.DetectedResizedEvent()) // Resize event
@@ -36,11 +39,13 @@ void State::BaseHandleInput()
         s_windowMousePosition = static_cast<sf::Vector2f>(m_rGame.inputManager.GetWindowMousePosition());
     }
 
-    // Debug
+    // Debug overlay
     if (m_rGame.inputManager.IsControlKeyHeld() && m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Num1))
     {
         m_rGame.ToggleDebugOverlay();
     }
+
+    // Change UPS
     if (m_rGame.inputManager.IsControlKeyHeld() && m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Num2))
     {
         // Debug mode (slow tick velocity)

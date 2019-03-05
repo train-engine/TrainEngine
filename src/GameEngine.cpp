@@ -27,7 +27,7 @@ GameEngine::GameEngine()
     // Output game info
     std::cout << "TrainEngine 0.5.0-dev - May 23 2017\n"
                  "Game development started on: March 15 2015, 7:53:27 PM\n"
-                 "Lines of code: 9000\n"
+                 "Lines of code: 10400\n"
                  "Library used: SFML 2.4.2\n"
                  "Made by Simon Gauvin, Misha Krieger-Raynauld, Guillaume Jones, and Ba Minh Nguyen.\n\n";
 
@@ -373,7 +373,7 @@ void GameEngine::GameLoop()
 void GameEngine::RequestPush(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Push);
-    m_pendingStates.emplace_back(pState);
+    m_pendingStates.push_back(pState);
     pState = nullptr;
     m_stateChanged = true;
 }
@@ -396,7 +396,7 @@ void GameEngine::RequestPop(unsigned int statesToPop)
 void GameEngine::RequestSwap(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Swap);
-    m_pendingStates.emplace_back(pState);
+    m_pendingStates.push_back(pState);
     pState = nullptr;
     m_stateChanged = true;
 }

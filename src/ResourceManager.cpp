@@ -207,29 +207,29 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
     return m_fonts.at("fallbackFont");
 }
 
-// Soundbuffer functions
+// SoundBuffer functions
 
-// Load a soundbuffer and bind it to the map if the key is available, and return a reference to the const loaded soundbuffer
+// Load a sound buffer and bind it to the map if the key is available, and return a reference to the const loaded sound buffer
 const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name, const std::string& filename)
 {
-    // If a soundbuffer is already loaded at the specified key, return the existing soundbuffer
+    // If a sound buffer is already loaded at the specified key, return the existing sound buffer
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
     {
         return it->second;
     }
-    // Otherwise, load the soundbuffer
+    // Otherwise, load the sound buffer
     sf::SoundBuffer soundBuffer;
     if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
     {
-        std::cerr << "ResourceManager error: Failed to load soundbuffer \"" << name << "\" from file \"" << filename << "\".\n";
+        std::cerr << "ResourceManager error: Failed to load sound buffer \"" << name << "\" from file \"" << filename << "\".\n";
         return m_soundBuffers.at("error");
     }
     m_soundBuffers.emplace(name, std::move(soundBuffer));
     return m_soundBuffers.at(name);
 }
 
-// Remove a soundbuffer from the soundbuffer map
+// Remove a sound buffer from the sound buffer map
 void ResourceManager::UnloadSoundBuffer(const std::string& name)
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -239,11 +239,11 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent soundbuffer \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent sound buffer \"" << name << "\".\n";
     }
 }
 
-// Return a reference to a const loaded soundbuffer
+// Return a reference to a const loaded sound buffer
 const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) const
 {
     std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
@@ -251,8 +251,8 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
     {
         return it->second;
     }
-    // If the soundbuffer is not found, return the default soundbuffer
-    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent soundbuffer \"" << name << "\".\n";
+    // If the sound buffer is not found, return the default sound buffer
+    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent sound buffer \"" << name << "\".\n";
     return m_soundBuffers.at("error");
 }
 

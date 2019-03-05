@@ -108,7 +108,7 @@ void EntityTracker::Update()
         // to avoid useless duplicate positions in the vector
         if (m_positions.empty() || m_positions.back() != m_pTrackedEntity->GetPosition())
         {
-            m_positions.emplace_back(m_pTrackedEntity->GetPosition());
+            m_positions.push_back(m_pTrackedEntity->GetPosition());
             if (m_positions.size() > 1)
             {
                 m_totalDistanceTraveled +=

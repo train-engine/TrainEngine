@@ -12,7 +12,7 @@ namespace Utility
     {
         if (std::find(rVector.cbegin(), rVector.cend(), value) == rVector.cend())
         {
-            rVector.emplace_back(value);
+            rVector.push_back(value);
             return true;
         }
         return false;

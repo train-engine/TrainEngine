@@ -59,7 +59,7 @@ bool Level::LoadBackground(const std::string& filename)
                 return false;
             }
 
-            m_parallaxSprites.emplace_back(ParallaxSprite(m_resourceManager.GetTexture(resourceName), parallaxValue));
+            m_parallaxSprites.emplace_back(m_resourceManager.GetTexture(resourceName), parallaxValue);
             m_parallaxSprites.back().SetResourceName(resourceName);
 
             std::string pair;

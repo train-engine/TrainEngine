@@ -24,18 +24,12 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     // Initialize GUI
     const sf::Font& font = m_rGame.resourceManager.GetFont("mainFont");
     const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.GetSoundBuffer("click");
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White));
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White));
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White));
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Level Creator", GuiStyle::White));
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Options", GuiStyle::White));
-    m_buttons.emplace_back(
-        GuiRectSoundButton(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Quit", GuiStyle::White));
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Level Creator", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Options", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Quit", GuiStyle::White);
     for (auto& button : m_buttons)
     {
         button.SetVolume(0.75);
@@ -156,9 +150,7 @@ void MainMenuState::HandleInput()
                 default:
                     break;
                 }
-                // Break because if one button has been clicked,
-                // the others cannot have also been clicked (optimization)
-                break;
+                break; // Break because if one button has been clicked, the others cannot have also been clicked (optimization)
             }
         }
         if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)

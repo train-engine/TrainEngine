@@ -7,22 +7,10 @@ PauseState::PauseState(GameEngine& rGame)
     , m_alpha(0)
 {
     // Initialize GUI
-    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"),
-                           m_rGame.resourceManager.GetSoundBuffer("click"),
-                           sf::Vector2f(0, 0),
-                           sf::Vector2f(400, 50),
-                           -2,
-                           6,
-                           "Back to game",
-                           GuiStyle::White);
-    m_buttons.emplace_back(m_rGame.resourceManager.GetFont("mainFont"),
-                           m_rGame.resourceManager.GetSoundBuffer("click"),
-                           sf::Vector2f(0, 0),
-                           sf::Vector2f(400, 50),
-                           -2,
-                           6,
-                           "Exit to main menu",
-                           GuiStyle::White);
+    const sf::Font& font = m_rGame.resourceManager.GetFont("mainFont");
+    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.GetSoundBuffer("click");
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(400, 50), -2, 6, "Back to game", GuiStyle::White);
+    m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(400, 50), -2, 6, "Exit to main menu", GuiStyle::White);
     for (auto& button : m_buttons)
     {
         button.SetVolume(0.75);
@@ -77,9 +65,7 @@ void PauseState::HandleInput()
                 default:
                     break;
                 }
-                // Break because if one button has been clicked,
-                // the others cannot have also been clicked (optimization)
-                break;
+                break; // Break because if one button has been clicked, the others cannot have also been clicked (optimization)
             }
         }
     }

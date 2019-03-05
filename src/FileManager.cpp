@@ -51,7 +51,7 @@ std::vector<std::string> FileManager::GetFilenamesInDirectory(const std::string&
 
     while ((pCurrentFile = readdir(pDirectoryStream)))
     {
-        filenames.emplace_back(pCurrentFile->d_name);
+        filenames.push_back(pCurrentFile->d_name);
     }
 
     closedir(pDirectoryStream);
