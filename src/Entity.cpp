@@ -559,7 +559,7 @@ void Entity::Update()
         // (to reset Entity state)
         if (i == tileReactionPoints.size() - 1)
         {
-            m_tileReactionDot.setPosition(tileReactionPoints[0]);
+            m_tileReactionDot.setPosition(tileReactionPoints.front());
             TileReaction(nullptr);
         }
     }

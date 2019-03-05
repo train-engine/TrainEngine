@@ -44,7 +44,7 @@ bool Level::LoadBackground(const std::string& filename)
         while (std::getline(inputFile, line))
         {
             // Ignore empty lines or those starting with '#'
-            if (line.empty() || line[0] == '#')
+            if (line.empty() || line.front() == '#')
             {
                 continue;
             }
@@ -477,9 +477,9 @@ void Level::HandleInput()
     }
     if (m_camera.GetMode() == CameraMode::Static && m_inputManager.IsKeyDescending(sf::Keyboard::Q))
     {
-        if (!m_entities.empty() && m_entities[0] != nullptr)
+        if (!m_entities.empty() && m_entities.front() != nullptr)
         {
-            m_camera.SetFollow(*m_entities[0], true);
+            m_camera.SetFollow(*m_entities.front(), true);
         }
     }
 
@@ -550,9 +550,9 @@ bool Level::Load(const std::string& levelDirectory)
 
         if (m_isCreatorModeEnabled == false)
         {
-            if (!m_entities.empty())
+            if (!m_entities.empty() && m_entities.front() != nullptr)
             {
-                m_camera.SetFollow(*m_entities[0], true);
+                m_camera.SetFollow(*m_entities.front(), true);
             }
         }
 

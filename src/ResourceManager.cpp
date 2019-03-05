@@ -43,7 +43,7 @@ bool ResourceManager::LoadInitialResources()
     while (std::getline(inputFile, line))
     {
         // Ignore empty lines or those starting with '#'
-        if (line.empty() || line[0] == '#')
+        if (line.empty() || line.front() == '#')
         {
             continue;
         }
