@@ -186,13 +186,13 @@ void GameEngine::HandleRequests()
     }
 
     // Handle pending requests
-    for (auto it = m_pendingRequests.begin(); it != m_pendingRequests.end(); ++it)
+    for (auto it = m_pendingRequests.cbegin(), end = m_pendingRequests.cend(); it != end; ++it)
     {
         switch (it->second)
         {
         case PendingRequest::Pop:
             // Send true to Pop() if the pop is the last request, so that Resume() is called on the State below it
-            Pop(std::next(it) == m_pendingRequests.end());
+            Pop(std::next(it) == end);
             break;
         case PendingRequest::Push:
             Push();
@@ -409,7 +409,7 @@ void GameEngine::DrawPreviousState(const State* pCurrentState)
 
     // Search for the current State, and make sure it can be found and that it is not first in the stack
     // (as we need to draw the State before it)
-    std::vector<State*>::iterator it = std::find(m_states.begin(), m_states.end(), pCurrentState);
+    auto it = std::find(m_states.begin(), m_states.end(), pCurrentState);
     if (it != m_states.end() && it != m_states.begin())
     {
         --it;

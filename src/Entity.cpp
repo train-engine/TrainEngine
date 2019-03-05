@@ -335,6 +335,7 @@ void Entity::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     {
         rTarget.draw(m_defaultSprite, states);
     }
+
     if (m_isDebugBoxVisible == true)
     {
         rTarget.draw(m_collisionBox, states);

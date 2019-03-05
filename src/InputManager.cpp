@@ -280,6 +280,7 @@ bool InputManager::IsKeyHeld(sf::Keyboard::Key key) const
     {
         return false;
     }
+
     return m_keyStates[static_cast<int>(key)] || IsKeyDescending(key);
 }
 
@@ -294,14 +295,13 @@ bool InputManager::IsKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) 
     {
         return false;
     }
-    std::vector<sf::Keyboard::Key>::const_iterator it = std::find(m_eventPressedKeys.cbegin(), m_eventPressedKeys.cend(), key);
-    return (it != m_eventPressedKeys.cend());
+
+    return (std::find(m_eventPressedKeys.cbegin(), m_eventPressedKeys.cend(), key) != m_eventPressedKeys.cend());
 }
 
 bool InputManager::IsKeyAscending(sf::Keyboard::Key key) const
 {
-    std::vector<sf::Keyboard::Key>::const_iterator it = std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key);
-    return (it != m_eventReleasedKeys.cend());
+    return (std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key) != m_eventReleasedKeys.cend());
 }
 
 bool InputManager::IsModifierKeyHeld() const
@@ -339,7 +339,8 @@ bool InputManager::IsMouseButtonHeld(sf::Mouse::Button button) const
     {
         return false;
     }
-    return m_mouseButtonStates[static_cast<int>(button)] || IsMouseButtonDescending(button);
+
+    return (m_mouseButtonStates[static_cast<int>(button)] || IsMouseButtonDescending(button));
 }
 
 bool InputManager::IsMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled) const
@@ -353,16 +354,14 @@ bool InputManager::IsMouseButtonDescending(sf::Mouse::Button button, bool isRepe
     {
         return false;
     }
-    std::vector<sf::Mouse::Button>::const_iterator it =
-        std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button);
-    return (it != m_eventPressedMouseButtons.cend());
+
+    return (std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button) != m_eventPressedMouseButtons.cend());
 }
 
 bool InputManager::IsMouseButtonAscending(sf::Mouse::Button button) const
 {
-    std::vector<sf::Mouse::Button>::const_iterator it =
-        std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button);
-    return (it != m_eventReleasedMouseButtons.cend());
+    return (std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button) !=
+            m_eventReleasedMouseButtons.cend());
 }
 
 // Return the mouse position relative to a given view
@@ -382,7 +381,8 @@ bool InputManager::IsJoystickButtonHeld(unsigned int joystick, unsigned int butt
     {
         return false;
     }
-    return m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button);
+
+    return (m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button));
 #endif
 }
 
@@ -400,9 +400,9 @@ bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned in
     {
         return false;
     }
-    std::vector<unsigned int>::const_iterator it =
-        std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button);
-    return (it != m_eventPressedJoystickButtons[joystick].cend());
+
+    return (std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button) !=
+            m_eventPressedJoystickButtons[joystick].cend());
 #endif
 }
 
@@ -411,9 +411,8 @@ bool InputManager::IsJoystickButtonAscending(unsigned int joystick, unsigned int
 #if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
     return false;
 #else
-    std::vector<unsigned int>::const_iterator it =
-        std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button);
-    return (it != m_eventReleasedJoystickButtons[joystick].cend());
+    return (std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button) !=
+            m_eventReleasedJoystickButtons[joystick].cend());
 #endif
 }
 
@@ -426,6 +425,7 @@ float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick:
     {
         return 0;
     }
+
     return m_joystickAxesPosition[joystick][axis];
 #endif
 }

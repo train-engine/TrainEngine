@@ -87,7 +87,7 @@ bool ResourceManager::LoadInitialResources()
 const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect)
 {
     // If a texture is already loaded at the specified key, return the existing texture
-    std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
+    auto it = m_textures.find(name);
     if (it != m_textures.cend())
     {
         return it->second;
@@ -106,7 +106,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
 // Remove a texture from the texture map
 void ResourceManager::UnloadTexture(const std::string& name)
 {
-    std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
+    auto it = m_textures.find(name);
     if (it != m_textures.cend())
     {
         m_textures.erase(it);
@@ -120,7 +120,7 @@ void ResourceManager::UnloadTexture(const std::string& name)
 // Return a reference to a const loaded texture
 const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
 {
-    std::unordered_map<std::string, sf::Texture>::const_iterator it = m_textures.find(name);
+    auto it = m_textures.find(name);
     if (it != m_textures.cend())
     {
         return it->second;
@@ -133,7 +133,7 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
 // Set a texture's isRepeated value
 void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeated)
 {
-    std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
+    auto it = m_textures.find(name);
     if (it != m_textures.end())
     {
         it->second.setRepeated(isRepeated);
@@ -147,7 +147,7 @@ void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeate
 // Set a texture's isSmooth value
 void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 {
-    std::unordered_map<std::string, sf::Texture>::iterator it = m_textures.find(name);
+    auto it = m_textures.find(name);
     if (it != m_textures.end())
     {
         it->second.setRepeated(isSmooth);
@@ -164,7 +164,7 @@ void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
 const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::string& filename)
 {
     // If a font is already loaded at the specified key, return the existing font
-    std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
+    auto it = m_fonts.find(name);
     if (it != m_fonts.cend())
     {
         return it->second;
@@ -183,7 +183,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
 // Remove a font from the font map
 void ResourceManager::UnloadFont(const std::string& name)
 {
-    std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
+    auto it = m_fonts.find(name);
     if (it != m_fonts.cend())
     {
         m_fonts.erase(it);
@@ -197,7 +197,7 @@ void ResourceManager::UnloadFont(const std::string& name)
 // Return a reference to a const loaded font
 const sf::Font& ResourceManager::GetFont(const std::string& name) const
 {
-    std::unordered_map<std::string, sf::Font>::const_iterator it = m_fonts.find(name);
+    auto it = m_fonts.find(name);
     if (it != m_fonts.cend())
     {
         return it->second;
@@ -213,7 +213,7 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
 const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name, const std::string& filename)
 {
     // If a sound buffer is already loaded at the specified key, return the existing sound buffer
-    std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
+    auto it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
     {
         return it->second;
@@ -232,7 +232,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
 // Remove a sound buffer from the sound buffer map
 void ResourceManager::UnloadSoundBuffer(const std::string& name)
 {
-    std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
+    auto it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
     {
         m_soundBuffers.erase(it);
@@ -246,7 +246,7 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
 // Return a reference to a const loaded sound buffer
 const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) const
 {
-    std::unordered_map<std::string, sf::SoundBuffer>::const_iterator it = m_soundBuffers.find(name);
+    auto it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
     {
         return it->second;
@@ -262,7 +262,7 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
 const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std::string& filename, sf::Shader::Type type)
 {
     // If a shader is already loaded at the specified key, return the existing shader
-    std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
+    auto it = m_shaders.find(name);
     if (it != m_shaders.cend())
     {
         return it->second;
@@ -281,7 +281,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
 // Remove a Shader from the shader map
 void ResourceManager::UnloadShader(const std::string& name)
 {
-    std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
+    auto it = m_shaders.find(name);
     if (it != m_shaders.cend())
     {
         m_shaders.erase(it);
@@ -295,7 +295,7 @@ void ResourceManager::UnloadShader(const std::string& name)
 // Return a reference to a const loaded shader
 const sf::Shader& ResourceManager::GetShader(const std::string& name) const
 {
-    std::unordered_map<std::string, sf::Shader>::const_iterator it = m_shaders.find(name);
+    auto it = m_shaders.find(name);
     if (it != m_shaders.cend())
     {
         return it->second;
