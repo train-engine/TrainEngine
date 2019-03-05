@@ -8,11 +8,11 @@ sf::Vector2f State::s_windowMousePosition(0, 0);
 sf::RectangleShape State::s_backgroundColorShape(sf::Vector2f(0, 0));
 
 State::State(GameEngine& rGame)
-    : m_backgroundColor(sf::Color::White)
+    : m_orderCreated(s_orderCounter++)
+    , m_backgroundColor(sf::Color::White)
     , m_rGame(rGame)
     , m_stateSettings{true, false}
 {
-    m_orderCreated = s_orderCounter++;
 }
 
 // Called only by the GameEngine when the window is resized

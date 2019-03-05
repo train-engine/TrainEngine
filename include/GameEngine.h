@@ -31,7 +31,6 @@ private:
     };
     std::unordered_map<unsigned int, PendingRequest> m_pendingRequests;
     std::vector<State*> m_pendingStates;
-    bool m_stateChanged;
 
     // Icon
     sf::Image m_icon;
@@ -53,7 +52,6 @@ private:
     void Pop(bool callResume = false);
     void Swap();
     void HandleRequests();
-    void OnStateChange();
     void OnWindowResize();
     void ResetWindowView();
 

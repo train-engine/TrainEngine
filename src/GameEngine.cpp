@@ -19,7 +19,6 @@ namespace
 /// Initialize the window and main systems
 GameEngine::GameEngine()
     : m_window()
-    , m_stateChanged(false)
     , m_isPowerSaverEnabled(true)
     , m_loopDebugOverlay(resourceManager.GetFont("altFont"))
     , inputManager(m_window)
@@ -99,9 +98,6 @@ GameEngine::GameEngine()
                   << "Program icon loading failed.\n\n";
     }
 
-    // Base State layout
-    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
-
     // Cursor
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(resourceManager.GetTexture("cursor"));
@@ -158,6 +154,8 @@ void GameEngine::Pop(bool callResume)
 
     delete m_states.back();
     m_states.pop_back();
+
+    // Call Resume() on current topmost State (if present) if this is the last State to be popped
     if (!m_states.empty() && callResume == true)
     {
         m_states.back()->Resume();
@@ -207,13 +205,9 @@ void GameEngine::HandleRequests()
     m_pendingRequests.clear();
     m_pendingStates.clear();
     State::s_orderCounter = 0;
-}
 
-/// Reset loop timing on State change
-void GameEngine::OnStateChange()
-{
-    m_updateLag = m_timePerUpdate; // Force update on next cycle
-    m_stateChanged = false;
+    // Force update on next cycle
+    m_updateLag = m_timePerUpdate;
 }
 
 /// Actions to perform when the window is resized
@@ -233,6 +227,9 @@ void GameEngine::OnWindowResize()
 
     // View resizing
     ResetWindowView();
+
+    // Base State layout
+    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
 }
 
 /// Set the window's view equal to a view the size of its dimensions and positioned at (0, 0)
@@ -248,10 +245,9 @@ void GameEngine::GameLoop()
 
     while (m_window.isOpen())
     {
-        if (m_stateChanged == true)
+        if (!m_pendingRequests.empty())
         {
             HandleRequests();
-            OnStateChange();
         }
 
         if (Peek() != nullptr)
@@ -288,18 +284,17 @@ void GameEngine::GameLoop()
             }
 
             // HandleInput and Update on a fixed timestep (skip draw until caught up)
-            while (m_updateLag >= m_timePerUpdate && m_stateChanged == false)
+            while (m_updateLag >= m_timePerUpdate && m_pendingRequests.empty())
             {
                 sf::Time startTime = clock.getElapsedTime();
 
-                // InputManager
+                // InputManager update
                 inputManager.Update();
 
                 // Window resizing
                 if (inputManager.DetectedResizedEvent())
                 {
                     OnWindowResize();
-                    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
                     for (const auto& pState : m_states)
                     {
                         pState->OnWindowResize();
@@ -312,7 +307,7 @@ void GameEngine::GameLoop()
                 Peek()->HandleInput();
 
                 // Update
-                if (m_stateChanged == false)
+                if (m_pendingRequests.empty())
                 {
                     Peek()->Update();
                 }
@@ -334,7 +329,7 @@ void GameEngine::GameLoop()
             m_drawLag += elapsedTime;
 
             // Draw
-            if (m_drawLag >= m_timePerDraw && m_stateChanged == false)
+            if (m_drawLag >= m_timePerDraw && m_pendingRequests.empty())
             {
                 sf::Time startTime = clock.getElapsedTime();
 
@@ -376,7 +371,6 @@ void GameEngine::RequestPush(State* pState)
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Push);
     m_pendingStates.push_back(pState);
     pState = nullptr;
-    m_stateChanged = true;
 }
 
 /// Request a State's removal
@@ -389,7 +383,6 @@ void GameEngine::RequestPop(unsigned int statesToPop)
             m_pendingRequests.emplace(State::s_orderCounter++, PendingRequest::Pop);
             statesToPop--;
         }
-        m_stateChanged = true;
     }
 }
 
@@ -399,7 +392,6 @@ void GameEngine::RequestSwap(State* pState)
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Swap);
     m_pendingStates.push_back(pState);
     pState = nullptr;
-    m_stateChanged = true;
 }
 
 /// Draw the State under the current State (takes the calling State's "this" pointer
