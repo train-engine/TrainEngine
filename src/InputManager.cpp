@@ -79,23 +79,20 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::KeyPressed:
             m_eventPressedKeys.push_back(event.key.code);
-            if (event.key.code != -1) // If key is known
+            if (event.key.code != sf::Keyboard::Unknown) // If key is known
             {
                 m_keyStates[event.key.code] = true;
             }
             break;
         case sf::Event::KeyReleased:
             m_eventReleasedKeys.push_back(event.key.code);
-            if (event.key.code != -1) // If key is known
+            if (event.key.code != sf::Keyboard::Unknown) // If key is known
             {
                 m_keyStates[event.key.code] = false;
             }
             break;
         case sf::Event::MouseWheelScrolled:
-            if (event.mouseWheelScroll.delta != 0)
-            {
-                m_mouseWheelDelta = event.mouseWheelScroll.delta;
-            }
+            m_mouseWheelDelta += event.mouseWheelScroll.delta;
             break;
         case sf::Event::MouseButtonPressed:
             m_eventPressedMouseButtons.push_back(event.mouseButton.button);
@@ -116,21 +113,15 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             m_mouseLeftEvent = true;
             break;
         case sf::Event::JoystickButtonPressed:
-#if !defined(SFML_SYSTEM_LINUX)
             m_eventPressedJoystickButtons[event.joystickButton.joystickId].push_back(event.joystickButton.button);
             m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = true;
-#endif
             break;
         case sf::Event::JoystickButtonReleased:
-#if !defined(SFML_SYSTEM_LINUX)
             m_eventReleasedJoystickButtons[event.joystickButton.joystickId].push_back(event.joystickButton.button);
             m_joystickButtonStates[event.joystickButton.joystickId][event.joystickButton.button] = false;
-#endif
             break;
         case sf::Event::JoystickMoved:
-#if !defined(SFML_SYSTEM_LINUX)
             m_joystickMovedEvent = true;
-#endif
             break;
         case sf::Event::JoystickConnected:
             m_joystickConnectedEvent = true;
@@ -374,23 +365,16 @@ sf::Vector2f InputManager::GetMousePosition(const sf::View& view) const
 
 bool InputManager::IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const
 {
-#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-    return false;
-#else
     if (m_isWindowFocused == false)
     {
         return false;
     }
 
     return (m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button));
-#endif
 }
 
 bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
 {
-#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-    return false;
-#else
     if (m_isWindowFocused == false)
     {
         return false;
@@ -403,31 +387,23 @@ bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned in
 
     return (std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button) !=
             m_eventPressedJoystickButtons[joystick].cend());
-#endif
 }
 
 bool InputManager::IsJoystickButtonAscending(unsigned int joystick, unsigned int button) const
 {
-#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-    return false;
-#else
     return (std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button) !=
             m_eventReleasedJoystickButtons[joystick].cend());
-#endif
 }
 
 float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
-#if defined(SFML_SYSTEM_LINUX) // Joystick disabled on Linux to prevent bugs
-    return false;
-#else
+    // Return 0 if the joystick does not have the specified axis
     if (sf::Joystick::hasAxis(joystick, axis) == false)
     {
         return 0;
     }
 
     return m_joystickAxesPosition[joystick][axis];
-#endif
 }
 
 // Clipboard

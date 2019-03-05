@@ -3,12 +3,6 @@
 
 #include "GameEngine.h"
 
-struct StateSettings
-{
-    bool isCloseable;
-    bool canSkipUpdates;
-};
-
 class State
 {
 private:
@@ -42,7 +36,11 @@ private:
 protected:
     GameEngine& m_rGame;
 
-    StateSettings m_stateSettings;
+    struct StateSettings
+    {
+        bool isCloseable;
+        bool canSkipUpdates;
+    } m_stateSettings;
 
     // Constructor and destructor
     explicit State(GameEngine& rGame);
