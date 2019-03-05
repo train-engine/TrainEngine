@@ -532,8 +532,7 @@ void Entity::Update()
 
     // Reactions with Tiles
     // clang-format off
-    std::array<sf::Vector2f, 5> tileReactionPoints =
-    {
+    std::array<sf::Vector2f, 5> tileReactionPoints = {
         // Center
         sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y),
         // Near bottom
@@ -543,12 +542,11 @@ void Entity::Update()
         // Near left
         sf::Vector2f(GetPosition().x - GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y),
         // Near right
-        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)
-    };
+        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)};
     // clang-format on
 
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
-    for (unsigned int i = 0; i < tileReactionPoints.size(); i++)
+    for (std::size_t i = 0; i < tileReactionPoints.size(); i++)
     {
         Tile* pTile = m_rMap.GetTilePtr(m_rMap.CoordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
         if (pTile != nullptr)

@@ -65,7 +65,7 @@ bool Level::LoadBackground(const std::string& filename)
             std::string pair;
             while (lineStream >> pair)
             {
-                size_t delimPos = pair.find(':');
+                std::size_t delimPos = pair.find(':');
                 if (delimPos == std::string::npos)
                 {
                     std::cerr << "\nLevel error: Parsing key-value pair failed in file: \"" << filename << "\".\n"
@@ -177,7 +177,7 @@ bool Level::LoadBackground(const std::string& filename)
                 }
                 else
                 {
-                    size_t commaPos = scaleString.find(',');
+                    std::size_t commaPos = scaleString.find(',');
                     float x = std::stof(scaleString.substr(0, commaPos));
                     float y = std::stof(scaleString.substr(commaPos + 1));
                     m_parallaxSprites.back().SetScale({x, y});
@@ -188,7 +188,7 @@ bool Level::LoadBackground(const std::string& filename)
             std::string offsetString = m_parallaxSprites.back().GetOffsetString();
             if (!offsetString.empty())
             {
-                size_t commaPos = offsetString.find(',');
+                std::size_t commaPos = offsetString.find(',');
                 float x = std::stof(offsetString.substr(0, commaPos));
                 float y = std::stof(offsetString.substr(commaPos + 1));
                 m_parallaxSprites.back().SetPosition(m_parallaxSprites.back().GetPosition() + sf::Vector2f(x, y));
@@ -437,7 +437,7 @@ void Level::HandleInput()
     if (m_inputManager.IsKeyDescending(sf::Keyboard::BackSlash))
     {
         m_isEntityDebugBoxVisible = !m_isEntityDebugBoxVisible;
-        for (const auto pEntity : m_entities)
+        for (const auto& pEntity : m_entities)
         {
             pEntity->SetDebugBoxVisible(m_isEntityDebugBoxVisible);
         }

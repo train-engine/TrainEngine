@@ -119,7 +119,7 @@ void MainMenuState::HandleInput()
     }
     if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left) || m_rGame.inputManager.DetectedTouchEndedEvent())
     {
-        for (unsigned int i = 0; i < m_buttons.size(); i++)
+        for (std::size_t i = 0; i < m_buttons.size(); i++)
         {
             if (m_buttons[i].OnMouseUnclick(GetWindowMousePosition()) == true)
             {
@@ -202,7 +202,7 @@ void MainMenuState::OnWindowResize()
     m_creditsText.setPosition(GetWindowDimensions().x - (m_creditsText.getGlobalBounds().width) - 4,
                               GetWindowDimensions().y - (m_creditsText.getFont()->getLineSpacing(m_creditsText.getCharacterSize())));
     m_muteButton.SetPosition(sf::Vector2f(GetWindowDimensions().x - 48, 48));
-    for (unsigned int i = 0; i < m_buttons.size(); i++)
+    for (std::size_t i = 0; i < m_buttons.size(); i++)
     {
         m_buttons[i].SetPosition(GetAbsolutePosition(0.25, 0.45) + sf::Vector2f(0, -90 + 60 * static_cast<int>(i)));
     }

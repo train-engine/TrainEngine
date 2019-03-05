@@ -29,7 +29,7 @@ private:
     const unsigned int m_layerCount; // Set to MapLayer::Count in constructor, to avoid repetitive casts
     unsigned int m_tileSize;
 
-    std::array<sf::Color, static_cast<size_t>(MapLayer::Count)> m_layerColors;
+    std::array<sf::Color, static_cast<std::size_t>(MapLayer::Count)> m_layerColors;
 
     bool m_isGridVisible;
 

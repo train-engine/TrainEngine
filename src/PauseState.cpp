@@ -48,7 +48,7 @@ void PauseState::HandleInput()
     }
     if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left))
     {
-        for (unsigned int i = 0; i < m_buttons.size(); i++)
+        for (std::size_t i = 0; i < m_buttons.size(); i++)
         {
             if (m_buttons[i].OnMouseUnclick(GetWindowMousePosition()) == true)
             {
@@ -96,7 +96,7 @@ void PauseState::Draw(sf::RenderTarget& rTarget, float lag)
 void PauseState::OnWindowResize()
 {
     m_pausedText.setPosition(GetAbsolutePosition(0.5, 0.25));
-    for (unsigned int i = 0; i < m_buttons.size(); i++)
+    for (std::size_t i = 0; i < m_buttons.size(); i++)
     {
         m_buttons[i].SetPosition(m_pausedText.getPosition() + sf::Vector2f(0, 150 + 70 * i));
     }

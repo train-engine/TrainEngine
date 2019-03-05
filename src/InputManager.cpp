@@ -160,9 +160,9 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         }
     }
 
-    for (unsigned int i = 0; i < m_joystickAxesPosition.size(); i++)
+    for (std::size_t i = 0; i < m_joystickAxesPosition.size(); i++)
     {
-        for (unsigned int j = 0; j < m_joystickAxesPosition[i].size(); j++)
+        for (std::size_t j = 0; j < m_joystickAxesPosition[i].size(); j++)
         {
             m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(j));
         }

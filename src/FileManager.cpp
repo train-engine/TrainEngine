@@ -69,7 +69,7 @@ std::string FileManager::ReadTxtFromAssets(const std::string& filename)
     AAssetManager* pAssetManager = pNativeActivity->assetManager;
 
     AAsset* pFile = AAssetManager_open(pAssetManager, filename.c_str(), AASSET_MODE_BUFFER);
-    size_t fileLength = AAsset_getLength(pFile);
+    std::size_t fileLength = AAsset_getLength(pFile);
 
     char* buffer = new char[fileLength + 1];
 

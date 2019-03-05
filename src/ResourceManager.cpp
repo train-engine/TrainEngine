@@ -53,8 +53,8 @@ bool ResourceManager::LoadInitialResources()
         line.erase(0, line.find(' ') + 1);
 
         // Read quoted filename
-        size_t firstDelimPos = line.find('"');
-        size_t lastDelimPos = line.find('"', firstDelimPos + 1);
+        std::size_t firstDelimPos = line.find('"');
+        std::size_t lastDelimPos = line.find('"', firstDelimPos + 1);
         std::string filename = line.substr(firstDelimPos + 1, lastDelimPos - (firstDelimPos + 1));
 
         // Load resource
