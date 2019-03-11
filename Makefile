@@ -6,7 +6,7 @@ BUILD_DIR = build
 BIN_DIR = bin
 INSTALL_DIR := ~/Desktop/$(EXEC)
 
-# Root directories for build and bin directories to use for clean targets
+# Conserve root directories for build and bin directories to use for clean
 BUILD_DIR_ROOT := $(BUILD_DIR)
 BIN_DIR_ROOT := $(BIN_DIR)
 
