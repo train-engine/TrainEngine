@@ -117,17 +117,6 @@ GameEngine::~GameEngine()
     std::cout << "TrainEngine quit successfully.\n";
 }
 
-/// Return a pointer to the topmost State in the stack
-State* GameEngine::Peek()
-{
-    if (m_states.empty())
-    {
-        return nullptr;
-    }
-
-    return m_states.back();
-}
-
 /// Add a new State to the stack from the queue
 void GameEngine::Push()
 {
@@ -252,7 +241,7 @@ void GameEngine::GameLoop()
             HandleRequests();
         }
 
-        if (Peek() != nullptr)
+        if (!m_states.empty())
         {
             // CPU sleep
             if (m_isPowerSaverEnabled == true)
@@ -279,7 +268,7 @@ void GameEngine::GameLoop()
             m_drawLag += elapsedTime;
 
             // Output warning to console if canSkipUpdates is false and the CPU can't keep up with the cycles
-            if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
+            if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && m_states.back()->m_stateSettings.canSkipUpdates == false)
             {
                 std::cout << "GameEngine warning: Unable to keep up, skipping " << static_cast<unsigned int>(m_updateLag / m_timePerUpdate)
                           << " ticks to catch up.\n";
@@ -305,13 +294,13 @@ void GameEngine::GameLoop()
                 }
 
                 // HandleInput
-                Peek()->BaseHandleInput();
-                Peek()->HandleInput();
+                m_states.back()->BaseHandleInput();
+                m_states.back()->HandleInput();
 
                 // Update
                 if (m_pendingRequests.empty())
                 {
-                    Peek()->Update();
+                    m_states.back()->Update();
                 }
 
                 m_loopDebugOverlay.RecordUpdate(clock.getElapsedTime() - startTime);
@@ -319,7 +308,7 @@ void GameEngine::GameLoop()
                 m_updateLag -= m_timePerUpdate;
 
                 // Skip updates if current State does not rely on fixed updates
-                if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == true)
+                if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && m_states.back()->m_stateSettings.canSkipUpdates == true)
                 {
                     m_updateLag %= m_timePerUpdate;
                 }
@@ -339,7 +328,7 @@ void GameEngine::GameLoop()
                 ResetWindowView();
 
                 // Draw with fraction of cycle elapsed before the next update (for interpolation)
-                Peek()->Draw(m_window, static_cast<float>(m_updateLag.asMicroseconds()) / m_timePerUpdate.asMicroseconds());
+                m_states.back()->Draw(m_window, static_cast<float>(m_updateLag.asMicroseconds()) / m_timePerUpdate.asMicroseconds());
 
                 ResetWindowView();
 
