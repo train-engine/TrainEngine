@@ -53,7 +53,7 @@ bool Level::LoadBackground(const std::string& filename)
 
             std::istringstream lineStream(line);
             std::string resourceName;
-            float parallaxValue = 0;
+            float parallaxValue;
             if (!(lineStream >> resourceName >> parallaxValue))
             {
                 std::cerr << "\nLevel error: Parsing resource name or parallax value failed in file: \"" << filename << "\".\n"
