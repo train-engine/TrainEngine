@@ -76,7 +76,7 @@ GameEngine::GameEngine()
                   << "Graphics settings loading failed.\n\n";
     }
 
-// Window initialization
+    // Window initialization
 #if defined(SFML_SYSTEM_IOS) || defined(SFML_SYSTEM_ANDROID)
     m_window.setSize(sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
 #endif
@@ -281,8 +281,8 @@ void GameEngine::GameLoop()
             // Output warning to console if canSkipUpdates is false and the CPU can't keep up with the cycles
             if (m_updateLag >= m_timePerUpdate * maxUpdatesBehind && Peek()->m_stateSettings.canSkipUpdates == false)
             {
-                std::cout << "GameEngine warning: Unable to keep up, skipping "
-                          << static_cast<unsigned int>(m_updateLag / m_timePerUpdate) << " ticks to catch up.\n";
+                std::cout << "GameEngine warning: Unable to keep up, skipping " << static_cast<unsigned int>(m_updateLag / m_timePerUpdate)
+                          << " ticks to catch up.\n";
             }
 
             // HandleInput and Update on a fixed timestep (skip draw until caught up)

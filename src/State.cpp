@@ -17,7 +17,7 @@ State::State(GameEngine& rGame)
 // Called only by the GameEngine when the window is resized
 void State::ResizeLayout(const sf::Vector2f& windowDimensions)
 {
-    s_windowDimensions = static_cast<sf::Vector2f>(windowDimensions);
+    s_windowDimensions = windowDimensions;
     s_backgroundColorShape.setSize(windowDimensions);
 }
 
