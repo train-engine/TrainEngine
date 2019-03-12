@@ -47,7 +47,6 @@ private:
     LoopDebugOverlay m_loopDebugOverlay;
 
     // Functions
-    State* Peek();
     void Push();
     void Pop(bool callResume = false);
     void Swap();
