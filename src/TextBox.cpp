@@ -575,7 +575,7 @@ void TextBox::UpdateText()
     }
 }
 
-bool TextBox::IsCharacterAccepted(sf::Uint32 enteredChar)
+bool TextBox::IsCharacterAccepted(sf::Uint32 enteredChar) const
 {
     return ((enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160);
 }

@@ -120,12 +120,6 @@ GameEngine::~GameEngine()
 /// Add a new State to the stack from the queue
 void GameEngine::Push()
 {
-    // Call Pause() on current topmost State (if present) before adding a new one on top of it
-    if (!m_states.empty())
-    {
-        m_states.back()->Pause();
-    }
-
     // Push new State
     m_states.push_back(m_pendingStates.back());
     m_states.back()->m_orderCreated = 0;
@@ -135,33 +129,18 @@ void GameEngine::Push()
     m_states.back()->OnWindowResize();
 }
 
-/// Remove one State from the top of the stack, and call Resume on the State below if desired
-void GameEngine::Pop(bool callResume)
+/// Remove one State from the top of the stack
+void GameEngine::Pop()
 {
+    // Return if there are no States to remove
     if (m_states.empty())
     {
         return;
     }
 
+    // Remove topmost State
     delete m_states.back();
     m_states.pop_back();
-
-    // Call Resume() on current topmost State (if present) if this is the last State to be popped
-    if (!m_states.empty() && callResume == true)
-    {
-        m_states.back()->Resume();
-    }
-}
-
-/// Swap the topmost State with a new one from the queue
-void GameEngine::Swap()
-{
-    if (!m_states.empty())
-    {
-        delete m_states.back();
-        m_states.pop_back();
-    }
-    Push();
 }
 
 /// Process the tick's requested State handling
@@ -180,19 +159,30 @@ void GameEngine::HandleRequests()
     {
         switch (it->second)
         {
-        case PendingRequest::Pop:
-            // Send true to Pop() if the pop is the last request, so that Resume() is called on the State below it
-            Pop(std::next(it) == end);
-            break;
         case PendingRequest::Push:
+            // Call Pause() on State about to be hidden before adding a new one on top of it
+            if (!m_states.empty())
+            {
+                m_states.back()->Pause();
+            }
             Push();
             break;
+        case PendingRequest::Pop:
+            Pop();
+            // Call Resume() on revealed State if this pop is the last request
+            if (std::next(it) == end && !m_states.empty())
+            {
+                m_states.back()->Resume();
+            }
+            break;
         case PendingRequest::Swap:
-            Swap();
+            Pop();
+            Push();
             break;
         }
     }
 
+    // Clear request stacks and reset order counter for next cycle
     m_pendingRequests.clear();
     m_pendingStates.clear();
     State::s_orderCounter = 0;
@@ -361,19 +351,15 @@ void GameEngine::RequestPush(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Push);
     m_pendingStates.push_back(pState);
-    pState = nullptr;
 }
 
 /// Request a State's removal
 void GameEngine::RequestPop(unsigned int statesToPop)
 {
-    if (statesToPop > 0)
+    while (statesToPop > 0)
     {
-        while (statesToPop > 0)
-        {
-            m_pendingRequests.emplace(State::s_orderCounter++, PendingRequest::Pop);
-            statesToPop--;
-        }
+        m_pendingRequests.emplace(State::s_orderCounter++, PendingRequest::Pop);
+        statesToPop--;
     }
 }
 
@@ -382,7 +368,6 @@ void GameEngine::RequestSwap(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Swap);
     m_pendingStates.push_back(pState);
-    pState = nullptr;
 }
 
 /// Draw the State under the current State (takes the calling State's "this" pointer

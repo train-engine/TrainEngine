@@ -48,8 +48,7 @@ private:
 
     // Functions
     void Push();
-    void Pop(bool callResume = false);
-    void Swap();
+    void Pop();
     void HandleRequests();
     void OnWindowResize();
     void ResetWindowView();

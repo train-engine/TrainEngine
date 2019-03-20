@@ -90,7 +90,7 @@
 				"stopAtEntry": false,
 				"cwd": "${workspaceFolder}/assets",
 				"environment": [],
-				"externalConsole": true,
+				"externalConsole": false,
 				"MIMode": "gdb",
 				"miDebuggerPath": "gdb",
 				"setupCommands": [
