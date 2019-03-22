@@ -3,6 +3,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "InputContext.h"
 #include "Gui.h"
 #include "Level.h"
 #include "State.h"
@@ -17,6 +18,8 @@ private:
     GuiSpriteButton m_muteButton;
 
     Level m_level;
+
+    InputContext m_inputContext;
 
     // Destructor
     virtual ~PlayState() override;

@@ -37,9 +37,12 @@ private:
     std::vector<sf::Mouse::Button> m_eventPressedMouseButtons;
     std::vector<sf::Mouse::Button> m_eventReleasedMouseButtons;
     sf::Vector2i m_mousePosition;
-    float m_mouseWheelDelta;
+    sf::Vector2i m_lastMousePosition;
+    float m_verticalMouseWheelDelta;
+    float m_horizontalMouseWheelDelta;
 
     bool m_mouseMovedEvent;
+    bool m_mouseWheelScrolledEvent;
 
     // Joystick data and events
     std::array<std::vector<unsigned int>, sf::Joystick::Count> m_eventPressedJoystickButtons;
@@ -152,12 +155,14 @@ public:
 
     const sf::Vector2i& GetWindowMousePosition() const { return m_mousePosition; }
     sf::Vector2f GetMousePosition(const sf::View& view) const;
-    float GetMouseWheelDelta() const { return m_mouseWheelDelta; }
+    sf::Vector2i GetMousePositionDelta() const {return m_mousePosition - m_lastMousePosition;}
+    float GetVerticalMouseWheelDelta() const { return m_verticalMouseWheelDelta; }
+    float GetHorizontalMouseWheelDelta() const { return m_horizontalMouseWheelDelta; }
 
     bool DetectedMouseButtonPressedEvent() const { return !m_eventPressedMouseButtons.empty(); }
     bool DetectedMouseButtonReleasedEvent() const { return !m_eventReleasedMouseButtons.empty(); }
     bool DetectedMouseMovedEvent() const { return m_mouseMovedEvent; }
-    bool DetectedMouseWheelScrolledEvent() const { return (m_mouseWheelDelta != 0); }
+    bool DetectedMouseWheelScrolledEvent() const { return m_mouseWheelScrolledEvent; }
 
     // Joystick getters
     bool IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const;

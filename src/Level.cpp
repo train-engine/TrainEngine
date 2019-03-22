@@ -479,7 +479,7 @@ void Level::HandleInput()
     // Camera zoom
     if (m_inputManager.DetectedMouseWheelScrolledEvent())
     {
-        m_camera.Zoom(1 - m_inputManager.GetMouseWheelDelta() * 0.05);
+        m_camera.Zoom(1 - m_inputManager.GetVerticalMouseWheelDelta() * 0.05);
     }
 
     // Print the mouse cursor's position when space is held (for testing)

@@ -4,6 +4,23 @@
 #include "FileManager.h"
 #include "PauseState.h"
 
+#include <iostream>
+
+void event()
+{
+    std::cout << "Event!\n";;
+}
+
+void changeState(bool state)
+{
+    std::cout << "State change: " << state << '\n';
+}
+
+void changeRange(float range)
+{
+    std::cout << "Range: " << range << '\n';
+}
+
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame)
     , m_darkness(GetWindowDimensions())
@@ -22,6 +39,13 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     m_music.play();
 
     m_level.Load(levelDirectory);
+
+    m_inputContext.BindActionToKey(&event, sf::Keyboard::A, EventType::Descending);
+    m_inputContext.BindActionToMouseMoved(&event);
+    m_inputContext.BindStateToKey(&changeState, sf::Keyboard::D);
+    m_inputContext.BindStateToMouseButton(&changeState, sf::Mouse::Button::Left);
+    m_inputContext.BindRangeToKeyboard(&changeRange, sf::Keyboard::J, sf::Keyboard::L);
+    m_inputContext.BindRangeToMouseScroll(&changeRange, sf::Mouse::VerticalWheel);
 }
 
 PlayState::~PlayState()
@@ -53,6 +77,7 @@ void PlayState::PauseStart()
 
 void PlayState::HandleInput()
 {
+    m_inputContext.Update(m_rGame.inputManager);
     m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
     if (m_rGame.inputManager.DetectedLostFocusEvent() || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))

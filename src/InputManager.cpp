@@ -23,8 +23,10 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_gainedFocusEvent(false)
     , m_mouseLeftEvent(false)
     , m_mouseEnteredEvent(false)
-    , m_mouseWheelDelta(0)
+    , m_verticalMouseWheelDelta(0)
+    , m_horizontalMouseWheelDelta(0)
     , m_mouseMovedEvent(false)
+    , m_mouseWheelScrolledEvent(false)
     , m_eventPressedJoystickButtons{}
     , m_eventReleasedJoystickButtons{}
     , m_joystickAxesPosition{}
@@ -92,7 +94,15 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             }
             break;
         case sf::Event::MouseWheelScrolled:
-            m_mouseWheelDelta += event.mouseWheelScroll.delta;
+            if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+            {
+                m_verticalMouseWheelDelta += event.mouseWheelScroll.delta;
+            }
+            else if (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel)
+            {
+                m_horizontalMouseWheelDelta += event.mouseWheelScroll.delta;
+            }
+            m_mouseWheelScrolledEvent = true;
             break;
         case sf::Event::MouseButtonPressed:
             m_eventPressedMouseButtons.push_back(event.mouseButton.button);
@@ -104,6 +114,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::MouseMoved:
             m_mouseMovedEvent = true;
+            m_lastMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
             break;
         case sf::Event::MouseEntered:
@@ -140,6 +151,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::TouchEnded:
             m_touchEndedEvent = true;
+            m_lastMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.touch.x, event.touch.y);
             m_isTouchHeld = false;
             break;
@@ -182,8 +194,10 @@ void InputManager::ResetEvents()
     // Mouse data
     m_eventPressedMouseButtons.clear();
     m_eventReleasedMouseButtons.clear();
-    m_mouseWheelDelta = 0;
+    m_verticalMouseWheelDelta = 0;
+    m_horizontalMouseWheelDelta = 0;
     m_mouseMovedEvent = false;
+    m_mouseWheelScrolledEvent = false;
 
     // Joystick data
     for (unsigned int i = 0; i < sf::Joystick::Count; i++)
