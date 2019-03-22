@@ -27,12 +27,12 @@ public:
     void CheckIsTriggered(const InputManager& inputManager) const;
 
     ActionInputBinds GetEventType() const {return m_event;}
-    int GetInputId() const {return m_inputId;}
+    unsigned int GetInputId() const {return m_inputId;}
 
 private:
     void (*const m_callBack)();
     ActionInputBinds m_event;
-    int m_inputId;
+    unsigned int m_inputId;
 };
 
 enum class StateInputBinds
@@ -51,12 +51,12 @@ public:
     void CheckIsTriggered(const InputManager& inputManager) const;
 
     StateInputBinds GetEventType() const {return m_event;}
-    int GetInputId() const {return m_inputId;}
+    unsigned int GetInputId() const {return m_inputId;}
 
 private:
     void (*const m_callBack)(bool);
     StateInputBinds m_event;
-    int m_inputId;
+    unsigned int m_inputId;
 };
 
 enum class RangeInputBinds
@@ -109,14 +109,14 @@ public:
     // InputAction
     void BindActionToKey(void (*const callBack)(), sf::Keyboard::Key key, EventType eventType);
     void BindActionToMouseButton(void (*const callBack)(), sf::Mouse::Button mouseButton, EventType eventType);
-    void BindActionToJoystickButton(void (*const callBack)(), int joystick, EventType eventType);
+    void BindActionToJoystickButton(void (*const callBack)(), unsigned int joystickButton, EventType eventType);
     void BindActionToMouseMoved(void (*const callBack)());
     void BindActionToMouseWheel(void (*const callBack)(), sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
 
     // InputState
     void BindStateToKey(void (*const callBack)(bool), sf::Keyboard::Key key);
     void BindStateToMouseButton(void (*const callBack)(bool), sf::Mouse::Button button);
-    void BindStateToJoystickButton(void (*const callBack)(bool), int joystickId);
+    void BindStateToJoystickButton(void (*const callBack)(bool), unsigned int joystickButton);
 
     // InputRange
     void BindRangeToJoystick(void (*const callBack)(float), sf::Joystick::Axis joystickAxis);

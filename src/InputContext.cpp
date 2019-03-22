@@ -62,53 +62,62 @@ void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
     switch(m_event)
     {
     case ActionInputBinds::KeyDescending:
+        // If the correct key is descending and the callback is bound to it
         if (inputManager.IsKeyDescending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::KeyAscending:
+        // If the correct key is ascending and the callback is bound to it
         if (inputManager.IsKeyAscending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::MouseButtonDescending:
+        // If the correct mouse button is descending and the callback is bound to it
         if (inputManager.IsMouseButtonDescending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::MouseButtonAscending:
+        // If the correct mouse button is ascending and the callback is bound to it
         if (inputManager.IsMouseButtonAscending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::JoystickButtonDescending:
+        // If the correct joystick button is descending and the callback is bound to it
         if (inputManager.IsJoystickButtonDescending(0, m_inputId))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::JoystickButtonAscending:
+        // If the correct joystick button is ascending and the callback is bound to it
         if (inputManager.IsJoystickButtonAscending(0, m_inputId))
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::MouseMoved:
+        // If there is a mouse movement and callback is bound to the mouse movement
         if (inputManager.DetectedMouseMovedEvent())
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::MouseWheelUp:
+         // If there is a scroll up and callback is bound to a scroll up
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetVerticalMouseWheelDelta() > 0)
         {
             m_callBack();
         }
         break;
+        // If there is a scroll down and callback is bound to a scroll down
     case ActionInputBinds::MouseWheelDown:
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetVerticalMouseWheelDelta() < 0)
         {
@@ -116,12 +125,14 @@ void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
         }
         break;
     case ActionInputBinds::MouseWheelLeft:
+        // If there is a scroll to the left and callback is bound to a scroll to the left
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetHorizontalMouseWheelDelta() < 0)
         {
             m_callBack();
         }
         break;
     case ActionInputBinds::MouseWheelRight:
+        // If there is a scroll to the right and callback is bound to a scroll to the right
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetHorizontalMouseWheelDelta() > 0)
         {
             m_callBack();
@@ -133,8 +144,8 @@ void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
 /// Class to make a callback to a function with a bool as a parameter when an action is performed.
 /// \param callback     Pointer to a void function taking a boolean as a parameter.
 /// \param event        Event bound to the callback.
-/// \param inputId      The id (sf::Keyboard::Key or sf::Mouse::Button or int joystickButton) of the input.\
-                        This parameter can be ignored if event is a mouse event, since it is not relevant.
+/// \param inputId      The id (sf::Keyboard::Key or sf::Mouse::Button or int joystickButton) of the input.
+///                     This parameter can be ignored if event is a mouse event, since it is not relevant.
 StateInput::StateInput(void (* callBack)(bool), StateInputBinds event, int inputId)
     : m_callBack(callBack),
       m_event(event),
@@ -191,10 +202,10 @@ void StateInput::CheckIsTriggered(const InputManager& inputManager) const
 /// Class to make a callback to a function with a float as a parameter when a joystick or mouse action is performed.
 /// \param callback     Pointer to a void function taking a float as a parameter.
 /// \param event        Event bound to the callback.
-/// \param inputId      The id of the controller.\
-                        This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
-// \param joystickAxis  The axis to use for the input binding.\
-                        This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
+/// \param inputId      The id of the controller.
+///                     This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
+/// \param joystickAxis The axis to use for the input binding.
+///                     This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
 RangeInput::RangeInput(void (* callBack)(float), RangeInputBinds event, sf::Joystick::Axis joystickAxis)
     : m_callBack(callBack),
       m_event(event),
@@ -234,7 +245,6 @@ void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
         {
             // Send vertical mouseWheelDelta to callback
             float delta = inputmanager.GetVerticalMouseWheelDelta();
-            int a = 0;
             m_callBack(delta);
         }
         break;
@@ -331,10 +341,10 @@ void InputContext::BindActionToMouseButton(void (* callBack)(), sf::Mouse::Butto
 }
 
 /// Assign a joystick button action to a void callback with no parameters.
-/// \param callback     A void callback with no parameters.
-/// \param joystick     The joystick button bound to the action.
-/// \param eventType    The type of event for the action binding.
-void InputContext::BindActionToJoystickButton(void (* callBack)(), int joystickButton, EventType eventType)
+/// \param callback         A void callback with no parameters.
+/// \param joystickButton   The joystick button bound to the action.
+/// \param eventType        The type of event for the action binding.
+void InputContext::BindActionToJoystickButton(void (* callBack)(), unsigned int joystickButton, EventType eventType)
 {
     switch(eventType)
     {
@@ -420,11 +430,11 @@ void InputContext::BindStateToMouseButton(void (* callBack)(bool), sf::Mouse::Bu
 
 /// Assign a joystick button event to a void callback with an int as a parameter.
 /// The callback will receive a bool representing if the joystick button is pressed.
-/// \param callback     A void callback with a bool as a parameter.
-/// \param joystick     The joystick bound to the callback.
-void InputContext::BindStateToJoystickButton(void (* callBack)(bool), int joyStick)
+/// \param callback         A void callback with a bool as a parameter.
+/// \param joystickButton   The joystick button bound to the callback.
+void InputContext::BindStateToJoystickButton(void (* callBack)(bool), unsigned int joystickButton)
 {
-    m_stateInputs.emplace_back(callBack, StateInputBinds::JoystickButtonEvent, joyStick);
+    m_stateInputs.emplace_back(callBack, StateInputBinds::JoystickButtonEvent, joystickButton);
 }
 
 /// Assign a joystick to a void callback with a float as a parameter.
@@ -494,7 +504,7 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
     {
         // If one of the inputs in m_acionInputs is a key input
         // and the eventId is the same as the key the function is looking for.
-        if (IsKeyInput(input.GetEventType()) && static_cast<int>(key) == input.GetInputId())
+        if (IsKeyInput(input.GetEventType()) && static_cast<unsigned int>(key) == input.GetInputId())
         {
             return true;
         }
@@ -505,7 +515,7 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
     {
         // If one of the inputs in m_stateInputs is a key input
         // and the eventId is the same as the key the function is looking for.
-        if (IsKeyInput(input.GetEventType()) && static_cast<int>(key) == input.GetInputId())
+        if (IsKeyInput(input.GetEventType()) && static_cast<unsigned int>(key) == input.GetInputId())
         {
             return true;
         }
@@ -522,6 +532,8 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
         }
     }
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
@@ -535,7 +547,7 @@ bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
     {
         // If one of the inputs in m_acionInputs is a mouse button input
         // and the eventId is the same as the mouse button the function is looking for.
-        if (IsMouseButtonInput(input.GetEventType()) && static_cast<int>(mouseButton) == input.GetInputId())
+        if (IsMouseButtonInput(input.GetEventType()) && static_cast<unsigned int>(mouseButton) == input.GetInputId())
         {
             return true;
         }
@@ -546,7 +558,7 @@ bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
     {
         // If one of the inputs in m_stateInputs is a mouse button input
         // and the eventId is the same as the mouse button the function is looking for.
-        if (IsMouseButtonInput(input.GetEventType()) && static_cast<int>(mouseButton) == input.GetInputId())
+        if (IsMouseButtonInput(input.GetEventType()) && static_cast<unsigned int>(mouseButton) == input.GetInputId())
         {
             return true;
         }
@@ -556,6 +568,8 @@ bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
     // mouse button for range inputs, and it doesn't really make sense. Maybe we could add support
     // for it in the future.
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
@@ -585,6 +599,8 @@ bool InputContext::IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const
         }
     }
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
@@ -619,6 +635,8 @@ bool InputContext::IsJoystickButtonUsed(unsigned int joystickButton) const
     // joystick button for range inputs, and it doesn't really make sense. Maybe we could add support
     // for it in the future.
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
@@ -635,33 +653,48 @@ bool InputContext::IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType e
         switch (eventType)
         {
         case EventType::Ascending:
-            if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel && input.GetEventType() == ActionInputBinds::MouseWheelRight)
+            // If one of the inputs in m_acionInputs is a mouse wheel ascending
+            // and the wheel axis is the same as the axis the function is looking for.
+            if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel &&
+                input.GetEventType() == ActionInputBinds::MouseWheelRight)
             {
                 return true;
             }
-            else if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel && input.GetEventType() == ActionInputBinds::MouseWheelUp)
+            // If one of the inputs in m_acionInputs is a mouse wheel ascending
+            // and the wheel axis is the same as the axis the function is looking for.
+            else if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel &&
+                     input.GetEventType() == ActionInputBinds::MouseWheelUp)
             {
                 return true;
             }
             break;
         case EventType::Descending:
-            if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel && input.GetEventType() == ActionInputBinds::MouseWheelLeft)
+            // If one of the inputs in m_acionInputs is a mouse wheel descending
+            // and the wheel axis is the same as the axis the function is looking for.
+            if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel &&
+                input.GetEventType() == ActionInputBinds::MouseWheelLeft)
             {
                 return true;
             }
-            else if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel && input.GetEventType() == ActionInputBinds::MouseWheelDown)
+            // If one of the inputs in m_acionInputs is a mouse wheel descending
+            // and the wheel axis is the same as the axis the function is looking for.
+            else if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel &&
+                     input.GetEventType() == ActionInputBinds::MouseWheelDown)
             {
                 return true;
             }
             break;
         case EventType::Any:
+            // Combining both EventType::Ascending and EventType::Descending
             if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel &&
-               (input.GetEventType() == ActionInputBinds::MouseWheelRight || input.GetEventType() == ActionInputBinds::MouseWheelLeft))
+               (input.GetEventType() == ActionInputBinds::MouseWheelRight ||
+                input.GetEventType() == ActionInputBinds::MouseWheelLeft))
             {
                 return true;
             }
             if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel &&
-               (input.GetEventType() == ActionInputBinds::MouseWheelUp || input.GetEventType() == ActionInputBinds::MouseWheelDown))
+               (input.GetEventType() == ActionInputBinds::MouseWheelUp ||
+                input.GetEventType() == ActionInputBinds::MouseWheelDown))
             {
                 return true;
             }
@@ -675,16 +708,22 @@ bool InputContext::IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType e
     // Range inputs
     for (const auto& input : m_rangeInputs)
     {
+        // If one the inputs in m_rangeInputs is a vertical mouse wheel and the function
+        // is looking for a vertical mouse wheel
         if (mouseWheelAxis == sf::Mouse::Wheel::VerticalWheel && input.GetEventType() == RangeInputBinds::VerticalMouseWheel)
         {
             return true;
         }
+        // If one the inputs in m_rangeInputs is a horizontal mouse wheel and the function
+        // is looking for a horizontal mouse wheel
         if (mouseWheelAxis == sf::Mouse::Wheel::HorizontalWheel && input.GetEventType() == RangeInputBinds::HorizontalMouseWheel)
         {
             return true;
         }
     }
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
@@ -708,17 +747,22 @@ bool InputContext::IsMouseMovementUsed() const
     for (const auto& input : m_rangeInputs)
     {
         // If one of the inputs in m_acionInputs is a mouse moved
-        if (input.GetEventType() == RangeInputBinds::HorizontalMouseMovement || input.GetEventType() == RangeInputBinds::VertialMouseMovement)
+        if (input.GetEventType() == RangeInputBinds::HorizontalMouseMovement ||
+            input.GetEventType() == RangeInputBinds::VertialMouseMovement)
         {
             return true;
         }
     }
 
+    // If none of the above returned true, it means the input is bound to nothing,
+    // so we return false
     return false;
 }
 
 void InputContext::Update(const InputManager& inputManager)
 {
+    // Update each input type, one by one 
+
     for (const auto& input : m_actionInputs)
     {
         input.CheckIsTriggered(inputManager);
