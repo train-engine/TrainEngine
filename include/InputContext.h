@@ -18,11 +18,12 @@ enum class ActionInputBinds
     MouseWheelRight
 };
 
+template<typename T>
 class ActionInput
 {
 public:
 
-    ActionInput(void (*const callBack)(), ActionInputBinds event, int inputId = 0);
+    ActionInput(T callback, ActionInputBinds event, int inputId = 0);
 
     void CheckIsTriggered(const InputManager& inputManager) const;
 
@@ -30,7 +31,7 @@ public:
     unsigned int GetInputId() const {return m_inputId;}
 
 private:
-    void (*const m_callBack)();
+    T m_callback;
     ActionInputBinds m_event;
     unsigned int m_inputId;
 };
@@ -42,11 +43,12 @@ enum class StateInputBinds
     JoystickButtonEvent
 };
 
+template<typename T>
 class StateInput
 {
 public:
 
-    StateInput(void (*const callBack)(bool), StateInputBinds event, int inputId = 0);
+    StateInput(T callback, StateInputBinds event, int inputId = 0);
 
     void CheckIsTriggered(const InputManager& inputManager) const;
 
@@ -54,7 +56,7 @@ public:
     unsigned int GetInputId() const {return m_inputId;}
 
 private:
-    void (*const m_callBack)(bool);
+    T m_callback;
     StateInputBinds m_event;
     unsigned int m_inputId;
 };
@@ -69,12 +71,13 @@ enum class RangeInputBinds
     Keyboard
 };
 
+template<typename T>
 class RangeInput
 {
 public:
 
-    RangeInput(void (*const callBack)(float), RangeInputBinds event, sf::Joystick::Axis joystickAxis = sf::Joystick::Axis::X);
-    RangeInput(void (*const callBack)(float), sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
+    RangeInput(T callback, RangeInputBinds event, sf::Joystick::Axis joystickAxis = sf::Joystick::Axis::X);
+    RangeInput(T callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
 
     void CheckIsTriggered(const InputManager& inputManager) const;
 
@@ -84,7 +87,7 @@ public:
     sf::Joystick::Axis GetJoystickAxis() const {return m_joystickAxis;}
 
 private:
-    void (*const m_callBack)(float);
+    T m_callback;
     RangeInputBinds m_event;
 
     sf::Joystick::Axis m_joystickAxis;
@@ -140,9 +143,11 @@ public:
 private:
 
     // Attributes
-    std::vector<ActionInput> m_actionInputs;
-    std::vector<StateInput> m_stateInputs;
-    std::vector<RangeInput> m_rangeInputs;
+    std::vector<ActionInput<void (*)()>> m_actionInputs;
+    std::vector<StateInput<void (*)(bool)>> m_stateInputs;
+    std::vector<RangeInput<void (*)(float)>> m_rangeInputs;
 };
+
+#include "InputContext.inl"
 
 #endif // INPUTCONTEXT_H

@@ -1,54 +1,10 @@
-# include "InputContext.h"
-
-namespace
-{
-    bool IsKeyInput(ActionInputBinds input)
-    {
-        return input == ActionInputBinds::KeyAscending || input == ActionInputBinds::KeyDescending;
-    }
-
-    bool IsKeyInput(StateInputBinds input)
-    {
-        return input == StateInputBinds::KeyEvent;
-    }
-
-    bool IsKeyInput(RangeInputBinds input)
-    {
-        return input == RangeInputBinds::Keyboard;
-    }
-
-    bool IsMouseButtonInput(ActionInputBinds input)
-    {
-        return input == ActionInputBinds::MouseButtonAscending || input == ActionInputBinds::MouseButtonDescending;
-    }
-
-    bool IsMouseButtonInput(StateInputBinds input)
-    {
-        return input == StateInputBinds::MouseButtonEvent;
-    }
-
-    bool IsJoystickButtonInput(ActionInputBinds input)
-    {
-        return input == ActionInputBinds::JoystickButtonAscending || input == ActionInputBinds::JoystickButtonDescending;
-    }
-
-    bool IsJoystickButtonInput(StateInputBinds input)
-    {
-        return input == StateInputBinds::JoystickButtonEvent;
-    }
-
-    bool IsJoystickAxisInput(RangeInputBinds input)
-    {
-        return input == RangeInputBinds::JoystickAxis;
-    }
-}
-
 /// Class to make a callback to a function with no parameters when an action is performed.
 /// \param callback     A void callback with no parameters.
 /// \param event        Event bound to the callback.
 /// \param inputId      The id (sf::Keyboard::Key or sf::Mouse::Button or int joystickButton) of the input.
-ActionInput::ActionInput(void (*callBack)(), ActionInputBinds event, int inputId)
-    : m_callBack(callBack),
+template <typename T>
+inline ActionInput<T>::ActionInput(T callback, ActionInputBinds event, int inputId)
+    : m_callback(callback),
       m_event(event),
       m_inputId(inputId)
 {
@@ -57,7 +13,8 @@ ActionInput::ActionInput(void (*callBack)(), ActionInputBinds event, int inputId
 
 /// Check if an input is activated and call the callback when an action is performed.
 /// \param inputManager A constant reference to the inputManager for input handling.
-void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
+template <typename T>
+inline void ActionInput<T>::CheckIsTriggered(const InputManager& inputManager) const
 {
     switch(m_event)
     {
@@ -65,77 +22,77 @@ void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
         // If the correct key is descending and the callback is bound to it
         if (inputManager.IsKeyDescending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::KeyAscending:
         // If the correct key is ascending and the callback is bound to it
         if (inputManager.IsKeyAscending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseButtonDescending:
         // If the correct mouse button is descending and the callback is bound to it
         if (inputManager.IsMouseButtonDescending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseButtonAscending:
         // If the correct mouse button is ascending and the callback is bound to it
         if (inputManager.IsMouseButtonAscending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::JoystickButtonDescending:
         // If the correct joystick button is descending and the callback is bound to it
         if (inputManager.IsJoystickButtonDescending(0, m_inputId))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::JoystickButtonAscending:
         // If the correct joystick button is ascending and the callback is bound to it
         if (inputManager.IsJoystickButtonAscending(0, m_inputId))
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseMoved:
         // If there is a mouse movement and callback is bound to the mouse movement
         if (inputManager.DetectedMouseMovedEvent())
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseWheelUp:
          // If there is a scroll up and callback is bound to a scroll up
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetVerticalMouseWheelDelta() > 0)
         {
-            m_callBack();
+            m_callback();
         }
         break;
         // If there is a scroll down and callback is bound to a scroll down
     case ActionInputBinds::MouseWheelDown:
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetVerticalMouseWheelDelta() < 0)
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseWheelLeft:
         // If there is a scroll to the left and callback is bound to a scroll to the left
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetHorizontalMouseWheelDelta() < 0)
         {
-            m_callBack();
+            m_callback();
         }
         break;
     case ActionInputBinds::MouseWheelRight:
         // If there is a scroll to the right and callback is bound to a scroll to the right
         if (inputManager.DetectedMouseWheelScrolledEvent() && inputManager.GetHorizontalMouseWheelDelta() > 0)
         {
-            m_callBack();
+            m_callback();
         }
         break;
     }
@@ -146,8 +103,9 @@ void ActionInput::CheckIsTriggered(const InputManager& inputManager) const
 /// \param event        Event bound to the callback.
 /// \param inputId      The id (sf::Keyboard::Key or sf::Mouse::Button or int joystickButton) of the input.
 ///                     This parameter can be ignored if event is a mouse event, since it is not relevant.
-StateInput::StateInput(void (* callBack)(bool), StateInputBinds event, int inputId)
-    : m_callBack(callBack),
+template<typename T>
+inline StateInput<T>::StateInput(T callback, StateInputBinds event, int inputId)
+    : m_callback(callback),
       m_event(event),
       m_inputId(inputId)
 {
@@ -156,7 +114,8 @@ StateInput::StateInput(void (* callBack)(bool), StateInputBinds event, int input
 
 /// Check if an input is activated and call the callback when an action is performed.
 /// \param inputManager A constant reference to the inputManager for input handling.
-void StateInput::CheckIsTriggered(const InputManager& inputManager) const
+template<typename T>
+inline void StateInput<T>::CheckIsTriggered(const InputManager& inputManager) const
 {
     switch(m_event)
     {
@@ -164,36 +123,36 @@ void StateInput::CheckIsTriggered(const InputManager& inputManager) const
         if (inputManager.IsKeyDescending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
             // Send isKeyDescending to callback
-            m_callBack(true);
+            m_callback(true);
         }
         else if (inputManager.IsKeyAscending(static_cast<sf::Keyboard::Key>(m_inputId)))
         {
             // Send isKeyAscending to callback
-            m_callBack(false);
+            m_callback(false);
         }
         break;
     case StateInputBinds::MouseButtonEvent:
         if (inputManager.IsMouseButtonDescending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
             // Send isMouseButtonDescending to callback
-            m_callBack(true);
+            m_callback(true);
         }
         else if (inputManager.IsMouseButtonAscending(static_cast<sf::Mouse::Button>(m_inputId)))
         {
             // Send isMouseButtonAscending to callback
-            m_callBack(false);
+            m_callback(false);
         }
         break;
     case StateInputBinds::JoystickButtonEvent:
         if (inputManager.IsJoystickButtonAscending(0, m_inputId))
         {
             // Send isJoystickButtonDescending to callback
-            m_callBack(true);
+            m_callback(true);
         }
         else if (inputManager.IsJoystickButtonDescending(0, m_inputId))
         {
             // Send isJoystickButtonAscending to callback
-            m_callBack(false);
+            m_callback(false);
         }
         break;
     }
@@ -206,8 +165,9 @@ void StateInput::CheckIsTriggered(const InputManager& inputManager) const
 ///                     This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
 /// \param joystickAxis The axis to use for the input binding.
 ///                     This parameter can be ignored if event is a mouse or scroll event, since it is not relevant.
-RangeInput::RangeInput(void (* callBack)(float), RangeInputBinds event, sf::Joystick::Axis joystickAxis)
-    : m_callBack(callBack),
+template<typename T>
+inline RangeInput<T>::RangeInput(T callback, RangeInputBinds event, sf::Joystick::Axis joystickAxis)
+    : m_callback(callback),
       m_event(event),
       m_joystickAxis(joystickAxis)
 {
@@ -218,8 +178,9 @@ RangeInput::RangeInput(void (* callBack)(float), RangeInputBinds event, sf::Joys
 /// \param callback     Pointer to a void function taking a float as a parameter.
 /// \param negativeKey  The key wich will send a negative value (-1) to the callback.
 /// \param positiveKey  The key wich will send a positive value (+1) to the callback.
-RangeInput::RangeInput(void (* callBack)(float), sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
-    : m_callBack(callBack),
+template<typename T>
+inline RangeInput<T>::RangeInput(T callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
+    : m_callback(callback),
       m_event(RangeInputBinds::Keyboard),
       m_negativeKey(negativeKey),
       m_positiveKey(positiveKey)
@@ -229,7 +190,8 @@ RangeInput::RangeInput(void (* callBack)(float), sf::Keyboard::Key negativeKey, 
 
 /// Check if an input is activated and call the callback if necessary.
 /// \param inputManager A constant reference to the inputManager for input handling.
-void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
+template<typename T>
+inline void RangeInput<T>::CheckIsTriggered(const InputManager& inputmanager) const
 {
     switch(m_event)
     {
@@ -237,7 +199,7 @@ void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
         if (inputmanager.DetectedJoystickMovedEvent())
         {
             // Send joystickAxisPosition to the callback
-            m_callBack(inputmanager.GetJoystickAxisPosition(0, m_joystickAxis));
+            m_callback(inputmanager.GetJoystickAxisPosition(0, m_joystickAxis));
         }
         break;
     case RangeInputBinds::VerticalMouseWheel:
@@ -245,28 +207,28 @@ void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
         {
             // Send vertical mouseWheelDelta to callback
             float delta = inputmanager.GetVerticalMouseWheelDelta();
-            m_callBack(delta);
+            m_callback(delta);
         }
         break;
     case RangeInputBinds::HorizontalMouseWheel:
         if (inputmanager.DetectedMouseWheelScrolledEvent())
         {
             // Send horizontal mouseWheelDelta to callback
-            m_callBack(inputmanager.GetHorizontalMouseWheelDelta());
+            m_callback(inputmanager.GetHorizontalMouseWheelDelta());
         }
         break;
     case RangeInputBinds::HorizontalMouseMovement:
         if (inputmanager.DetectedMouseMovedEvent())
         {
             // Send horizontal mouse mouvement to callback
-            m_callBack(inputmanager.GetMousePositionDelta().x);
+            m_callback(inputmanager.GetMousePositionDelta().x);
         }
         break;
     case RangeInputBinds::VertialMouseMovement:
         if (inputmanager.DetectedMouseMovedEvent())
         {
             // Send vertical mouse mouvement to callback
-            m_callBack(inputmanager.GetMousePositionDelta().y);
+            m_callback(inputmanager.GetMousePositionDelta().y);
         }
         break;
     case RangeInputBinds::Keyboard:
@@ -280,18 +242,18 @@ void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
             // If  only negative key is held
             if (isNegativeKeyHeld == true && isPositiveKeyHeld == false)
             {
-                m_callBack(-1.0f);
+                m_callback(-1.0f);
                 return;
             }
 
             // If  only positive key is held
             if (isPositiveKeyHeld == true && isNegativeKeyHeld == false)
             {
-                m_callBack(1.0f);
+                m_callback(1.0f);
                 return;
             }
 
-            m_callBack(0.0f);
+            m_callback(0.0f);
             return;
         }
         break;
@@ -302,7 +264,7 @@ void RangeInput::CheckIsTriggered(const InputManager& inputmanager) const
 /// \param callback     A void callback with no parameters.
 /// \param key          The key bound to the action.
 /// \param eventType    The type of event for the action binding.
-void InputContext::BindActionToKey(void (* callBack)(), sf::Keyboard::Key key, EventType eventType)
+inline void InputContext::BindActionToKey(void (* callBack)(), sf::Keyboard::Key key, EventType eventType)
 {
     switch(eventType)
     {
@@ -323,7 +285,7 @@ void InputContext::BindActionToKey(void (* callBack)(), sf::Keyboard::Key key, E
 /// \param callback     A void callback with no parameters.
 /// \param mouseButton  The mouse button bound to the action.
 /// \param eventType    The type of event for the action binding.
-void InputContext::BindActionToMouseButton(void (* callBack)(), sf::Mouse::Button mouseButton, EventType eventType)
+inline void InputContext::BindActionToMouseButton(void (* callBack)(), sf::Mouse::Button mouseButton, EventType eventType)
 {
     switch(eventType)
     {
@@ -344,7 +306,7 @@ void InputContext::BindActionToMouseButton(void (* callBack)(), sf::Mouse::Butto
 /// \param callback         A void callback with no parameters.
 /// \param joystickButton   The joystick button bound to the action.
 /// \param eventType        The type of event for the action binding.
-void InputContext::BindActionToJoystickButton(void (* callBack)(), unsigned int joystickButton, EventType eventType)
+inline void InputContext::BindActionToJoystickButton(void (* callBack)(), unsigned int joystickButton, EventType eventType)
 {
     switch(eventType)
     {
@@ -364,7 +326,7 @@ void InputContext::BindActionToJoystickButton(void (* callBack)(), unsigned int 
 /// Assign the mouse movement to a void callback with no parameters.
 /// \param callback     A void callback with no parameters.
 /// \param mouseButton  The joystick button bound to the action.
-void InputContext::BindActionToMouseMoved(void (* callBack)())
+inline void InputContext::BindActionToMouseMoved(void (* callBack)())
 {
     m_actionInputs.emplace_back(callBack, ActionInputBinds::MouseMoved);
 }
@@ -373,7 +335,7 @@ void InputContext::BindActionToMouseMoved(void (* callBack)())
 /// \param callback             A void callback with no parameters.
 /// \param mouseWheelAxis       The wheel Axis bound to the callback.
 /// \param mouseWheelDirection  The wheelDirection bound to the callback.
-void InputContext::BindActionToMouseWheel(void (* callBack)(), sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection)
+inline void InputContext::BindActionToMouseWheel(void (* callBack)(), sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection)
 {
     switch (mouseWheelAxis)
     {
@@ -414,7 +376,7 @@ void InputContext::BindActionToMouseWheel(void (* callBack)(), sf::Mouse::Wheel 
 /// The callback will receive a bool representing if the key is pressed.
 /// \param callback     A void callback with a bool as a parameter.
 /// \param key          The key bound to the callback.
-void InputContext::BindStateToKey(void (* callBack)(bool), sf::Keyboard::Key key)
+inline void InputContext::BindStateToKey(void (* callBack)(bool), sf::Keyboard::Key key)
 {
     m_stateInputs.emplace_back(callBack, StateInputBinds::KeyEvent, static_cast<int>(key));
 }
@@ -423,7 +385,7 @@ void InputContext::BindStateToKey(void (* callBack)(bool), sf::Keyboard::Key key
 /// The callback will receive a bool representing if the mouse button is pressed.
 /// \param callback     A void callback with a bool as a parameter.
 /// \param button       The mouse button bound to the callback.
-void InputContext::BindStateToMouseButton(void (* callBack)(bool), sf::Mouse::Button button)
+inline void InputContext::BindStateToMouseButton(void (* callBack)(bool), sf::Mouse::Button button)
 {
     m_stateInputs.emplace_back(callBack, StateInputBinds::MouseButtonEvent, static_cast<int>(button));
 }
@@ -432,7 +394,7 @@ void InputContext::BindStateToMouseButton(void (* callBack)(bool), sf::Mouse::Bu
 /// The callback will receive a bool representing if the joystick button is pressed.
 /// \param callback         A void callback with a bool as a parameter.
 /// \param joystickButton   The joystick button bound to the callback.
-void InputContext::BindStateToJoystickButton(void (* callBack)(bool), unsigned int joystickButton)
+inline void InputContext::BindStateToJoystickButton(void (* callBack)(bool), unsigned int joystickButton)
 {
     m_stateInputs.emplace_back(callBack, StateInputBinds::JoystickButtonEvent, joystickButton);
 }
@@ -441,7 +403,7 @@ void InputContext::BindStateToJoystickButton(void (* callBack)(bool), unsigned i
 /// \param callback     A void callback with a float as a parameter.
 /// \param joystick     The joystick bound to the callback.
 /// \param joystickAxis The joystick axis bound to the callback.
-void InputContext::BindRangeToJoystick(void (* callBack)(float), sf::Joystick::Axis joystickAxis)
+inline void InputContext::BindRangeToJoystick(void (* callBack)(float), sf::Joystick::Axis joystickAxis)
 {
     m_rangeInputs.emplace_back(callBack, RangeInputBinds::JoystickAxis, joystickAxis);
 }
@@ -449,7 +411,7 @@ void InputContext::BindRangeToJoystick(void (* callBack)(float), sf::Joystick::A
 /// Assign a joystick to a void callback with a float as a parameter.
 /// \param callback     A void callback with a float as a parameter.
 /// \param wheelAxis    The mouse wheel axis bound to the callback.
-void InputContext::BindRangeToMouseScroll(void (* callBack)(float), sf::Mouse::Wheel wheelAxis)
+inline void InputContext::BindRangeToMouseScroll(void (* callBack)(float), sf::Mouse::Wheel wheelAxis)
 {
     switch(wheelAxis)
     {
@@ -465,7 +427,7 @@ void InputContext::BindRangeToMouseScroll(void (* callBack)(float), sf::Mouse::W
 /// Assign the horizontal mouse movement to a void callback with a float as a parameter.
 /// The callback will receive the horizontal mouse movement as an argument.
 /// \param callback     A void callback with a float as a parameter.
-void InputContext::BindRangeToHorizontalMouseMoved(void (* callBack)(float))
+inline void InputContext::BindRangeToHorizontalMouseMoved(void (* callBack)(float))
 {
     m_rangeInputs.emplace_back(callBack, RangeInputBinds::VertialMouseMovement);
 }
@@ -473,7 +435,7 @@ void InputContext::BindRangeToHorizontalMouseMoved(void (* callBack)(float))
 /// Assign the vertical mouse movement to a void callback with a float as a parameter.
 /// The callback will receive the vertical mouse movement as an argument.
 /// \param callback     A void callback with a float as a parameter.
-void InputContext::BindRangeToVerticalMouseMoved(void (* callBack)(float))
+inline void InputContext::BindRangeToVerticalMouseMoved(void (* callBack)(float))
 {
     m_rangeInputs.emplace_back(callBack, RangeInputBinds::HorizontalMouseMovement);
 }
@@ -481,13 +443,13 @@ void InputContext::BindRangeToVerticalMouseMoved(void (* callBack)(float))
 /// Assign the vertical mouse movement to a void callback with a float as a parameter.
 /// The callback will receive the vertical mouse movement as an argument.
 /// \param callback     A void callback with a float as a parameter.
-void InputContext::BindRangeToKeyboard(void (* callBack)(float), sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
+inline void InputContext::BindRangeToKeyboard(void (* callBack)(float), sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
 {
     m_rangeInputs.emplace_back(callBack, negativeKey, positiveKey);
 }
 
 /// Clear all the input bindings.
-void InputContext::Clear()
+inline void InputContext::Clear()
 {
     m_actionInputs.clear();
     m_stateInputs.clear();
@@ -497,14 +459,17 @@ void InputContext::Clear()
 /// Check if a key is used in the InputContext
 /// \param key  The key to check
 /// \return true if the key is used
-bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
+inline bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
 {
     // Action inputs
     for (const auto& input : m_actionInputs)
     {
+        bool isKeyInput = input.GetEventType() == ActionInputBinds::KeyAscending ||
+                          input.GetEventType() == ActionInputBinds::KeyDescending;
+
         // If one of the inputs in m_acionInputs is a key input
         // and the eventId is the same as the key the function is looking for.
-        if (IsKeyInput(input.GetEventType()) && static_cast<unsigned int>(key) == input.GetInputId())
+        if (isKeyInput && static_cast<unsigned int>(key) == input.GetInputId())
         {
             return true;
         }
@@ -513,9 +478,10 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
     // State inputs
     for (const auto& input : m_stateInputs)
     {
+        bool isKeyInput = input.GetEventType() == StateInputBinds::KeyEvent;
         // If one of the inputs in m_stateInputs is a key input
         // and the eventId is the same as the key the function is looking for.
-        if (IsKeyInput(input.GetEventType()) && static_cast<unsigned int>(key) == input.GetInputId())
+        if (isKeyInput && static_cast<unsigned int>(key) == input.GetInputId())
         {
             return true;
         }
@@ -524,9 +490,10 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
     // Range inputs
     for (const auto& input : m_rangeInputs)
     {
+        bool isKeyInput = input.GetEventType() == RangeInputBinds::Keyboard;
         // If one of the inputs in m_rangeInputs is a key input
         // and at least one of the two keys is the same as key the function is looking for.
-        if (IsKeyInput(input.GetEventType()) && (key == input.GetNegativeKey() || key == input.GetPositiveKey()))
+        if (isKeyInput && (key == input.GetNegativeKey() || key == input.GetPositiveKey()))
         {
             return true;
         }
@@ -540,14 +507,16 @@ bool InputContext::IsKeyUsed(sf::Keyboard::Key key) const
 /// Check if a mouse button is used in the InputContext
 /// \param mouseButton  The mouse button to check
 /// \return true if tje mouse button is used
-bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
+inline bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
 {
     // Action inputs
     for (const auto& input : m_actionInputs)
     {
+        bool isMouseButtonInput = input.GetEventType() == ActionInputBinds::MouseButtonAscending ||
+                                  input.GetEventType() == ActionInputBinds::MouseButtonDescending;
         // If one of the inputs in m_acionInputs is a mouse button input
         // and the eventId is the same as the mouse button the function is looking for.
-        if (IsMouseButtonInput(input.GetEventType()) && static_cast<unsigned int>(mouseButton) == input.GetInputId())
+        if (isMouseButtonInput && static_cast<unsigned int>(mouseButton) == input.GetInputId())
         {
             return true;
         }
@@ -556,9 +525,10 @@ bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
     // State inputs
     for (const auto& input : m_stateInputs)
     {
+        bool isMouseButtonInput = input.GetEventType() == StateInputBinds::MouseButtonEvent;
         // If one of the inputs in m_stateInputs is a mouse button input
         // and the eventId is the same as the mouse button the function is looking for.
-        if (IsMouseButtonInput(input.GetEventType()) && static_cast<unsigned int>(mouseButton) == input.GetInputId())
+        if (isMouseButtonInput && static_cast<unsigned int>(mouseButton) == input.GetInputId())
         {
             return true;
         }
@@ -576,7 +546,7 @@ bool InputContext::IsMouseButtonUsed(sf::Mouse::Button mouseButton) const
 /// Check if a joystick axis is used in the InputContext
 /// \param joystickAxis the joystick axis to check
 /// \return true if the joystick axis is used
-bool InputContext::IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const
+inline bool InputContext::IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const
 {
     // There is no need to look for a joystick axis in m_actionInputs since the input manager doesn't support it for now.
     // The input manager would need to detect if a joystick position is not 0 and was 0 the last tick, and create an event for it.
@@ -591,9 +561,10 @@ bool InputContext::IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const
     // Range inputs
     for (const auto& input : m_rangeInputs)
     {
+        bool isJoystickAxisInput = input.GetEventType() == RangeInputBinds::JoystickAxis;;
         // If one of the inputs in m_rangeInputs is a joystick axis
         // and the eventId is the same as the joystick axis the function is looking for.
-        if (IsJoystickAxisInput(input.GetEventType()) && joystickAxis == input.GetJoystickAxis())
+        if (isJoystickAxisInput && joystickAxis == input.GetJoystickAxis())
         {
             return true;
         }
@@ -607,14 +578,16 @@ bool InputContext::IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const
 /// Check if a joystick button is used in the InputContext
 /// \param joystickButton the joystick nutton to check
 /// \return true if the joystick button is used
-bool InputContext::IsJoystickButtonUsed(unsigned int joystickButton) const
+inline bool InputContext::IsJoystickButtonUsed(unsigned int joystickButton) const
 {
     // Action inputs
     for (const auto& input : m_actionInputs)
     {
+        bool isJoystickButtonInput = input.GetEventType() == ActionInputBinds::JoystickButtonAscending ||
+                                     input.GetEventType() == ActionInputBinds::JoystickButtonDescending;
         // If one of the inputs in m_acionInputs is a joystick button
         // and the eventId is the same as the joystick button the function is looking for.
-        if (IsJoystickButtonInput(input.GetEventType()) && joystickButton == input.GetInputId())
+        if (isJoystickButtonInput && joystickButton == input.GetInputId())
         {
             return true;
         }
@@ -623,9 +596,10 @@ bool InputContext::IsJoystickButtonUsed(unsigned int joystickButton) const
     // State inputs
     for (const auto& input : m_stateInputs)
     {
+        bool isJoystickButtonInput = input.GetEventType() == StateInputBinds::JoystickButtonEvent;
         // If one of the inputs in m_stateInputs is a key input
         // and the eventId is the same as the key the function is looking for.
-        if (IsJoystickButtonInput(input.GetEventType()) && joystickButton == input.GetInputId())
+        if (isJoystickButtonInput && joystickButton == input.GetInputId())
         {
             return true;
         }
@@ -644,7 +618,7 @@ bool InputContext::IsJoystickButtonUsed(unsigned int joystickButton) const
 /// \param mouseWheelAxis   The axis of the mouse wheel to check
 /// \param eventType        The type of event to check
 /// \return true if the mouse wheel direction button is used
-bool InputContext::IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType eventType) const
+inline bool InputContext::IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType eventType) const
 {
     // Action inputs
     for (const auto& input : m_actionInputs)
@@ -729,7 +703,7 @@ bool InputContext::IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType e
 
 /// Check if a mouse movement is used in the InputContext
 /// \return true if the mouse movement is used
-bool InputContext::IsMouseMovementUsed() const
+inline bool InputContext::IsMouseMovementUsed() const
 {
     // Action inputs
     for (const auto& input : m_actionInputs)
@@ -759,7 +733,7 @@ bool InputContext::IsMouseMovementUsed() const
     return false;
 }
 
-void InputContext::Update(const InputManager& inputManager)
+inline void InputContext::Update(const InputManager& inputManager)
 {
     // Update each input type, one by one 
 
