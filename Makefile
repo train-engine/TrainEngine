@@ -1,27 +1,24 @@
 # Project name
 EXEC = TrainEngine
 
-# Build, bin and install directories
-BUILD_DIR = build
-BIN_DIR = bin
+# Build, bin and install directories (conserve root directories for clean)
+BUILD_DIR_ROOT = build
+BUILD_DIR := $(BUILD_DIR_ROOT)
+BIN_DIR_ROOT = bin
+BIN_DIR := $(BIN_DIR_ROOT)
 INSTALL_DIR := ~/Desktop/$(EXEC)
-
-# Conserve root directories for build and bin directories to use for clean
-BUILD_DIR_ROOT := $(BUILD_DIR)
-BIN_DIR_ROOT := $(BIN_DIR)
 
 # C preprocessor flags and includes
 SFML_DIR = libs/SFML-2.4.2
-INCLUDES := -Iinclude -isystem $(SFML_DIR)/include
+INCLUDES := -Iinclude
 CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14
-WARNINGS = -Wall -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs\
-		-Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor	-Wpedantic -Wredundant-decls\
-		-Wshadow -Wsuggest-attribute=const -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override -Wundef\
-		-Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
+WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations\
+		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wredundant-decls\
+		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # SFML variables
 SFML_GRAPHICS_LIBS = sfml-graphics
@@ -38,7 +35,6 @@ ifeq ($(OS),Windows_NT)
 
 	# Link SFML statically on Windows
 	CPPFLAGS += -DSFML_STATIC
-	SFML_LINK_FLAGS = -Wl,-Bstatic
 
 	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-s
 	SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-s
@@ -48,7 +44,7 @@ ifeq ($(OS),Windows_NT)
 
 	ifeq ($(release),1)
 		# Link everything statically (including libgcc and libstdc++) and disable console output on release builds
-		LDFLAGS += -static -mwindows
+		LDFLAGS = -static -mwindows
 	else
 		# Link the debug versions of SFML when compiling for debug on Windows
 		SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-d
@@ -82,9 +78,6 @@ else
 	ifeq ($(UNAME),Linux)
 		BUILD_DIR := $(BUILD_DIR)/make_linux
 		BIN_DIR := $(BIN_DIR)/linux
-
-		# Explicitly link SFML dynamically
-		SFML_LINK_FLAGS = -Wl,-Bdynamic
 	else
     	$(error OS not supported by this Makefile)
 	endif
@@ -139,7 +132,7 @@ SRC_DIR = src
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 
 # Objects and dependencies
-OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 # Include program info and icon on Windows

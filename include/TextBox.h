@@ -68,7 +68,7 @@ private:
     void DragCursor();
     // Text
     void UpdateText();
-    bool IsCharacterAccepted(sf::Uint32 enteredChar) const;
+    static bool IsCharacterAccepted(sf::Uint32 enteredChar);
     void SetTextPosition();
     void AddText(sf::String enteredText);
     void DeleteSelection();
