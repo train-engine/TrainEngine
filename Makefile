@@ -8,9 +8,16 @@ BIN_DIR_ROOT = bin
 BIN_DIR := $(BIN_DIR_ROOT)
 INSTALL_DIR := ~/Desktop/$(EXEC)
 
-# C preprocessor flags and includes
-SFML_DIR = libs/SFML-2.4.2
-INCLUDES := -Iinclude
+# Sources
+SRC_DIR = src
+SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
+
+# Includes
+INCLUDE_DIR = include
+INCLUDE_SUBDIRS := $(patsubst %/,%,$(sort $(dir $(wildcard $(INCLUDE_DIR)/*/.)))) # Note: only include immediate include subdirectories
+INCLUDES := $(addprefix -I,$(INCLUDE_SUBDIRS))
+
+# C preprocessor flags
 CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # C++ compiler settings
@@ -21,6 +28,7 @@ WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlog
 		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
 # SFML variables
+SFML_DIR = libs/SFML-2.4.2
 SFML_GRAPHICS_LIBS = sfml-graphics
 SFML_WINDOW_LIBS = sfml-window
 SFML_AUDIO_LIBS = sfml-audio
@@ -125,11 +133,7 @@ SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
 SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
 SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
 
-LDLIBS += $(SFML_LINK_FLAGS) $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
-
-# Sources
-SRC_DIR = src
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
 
 # Objects and dependencies
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
@@ -148,13 +152,13 @@ all: $(BIN_DIR)/$(EXEC)
 # Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
 	@echo "Building executable: $@"
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(@D)
 	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 # Build C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo "Compiling: $<"
-	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(@D)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
 # Add resource file to Windows executable
@@ -162,9 +166,10 @@ $(BUILD_DIR)/%.res: assets/%.rc
 	@echo "Compiling Windows resource file"
 	@windres $< -O coff -o $@
 
+# Include automatically-generated dependencies
 -include $(DEPS)
 
-# Install
+# Install packaged program
 .PHONY: install
 install: all copyassets
 	@echo "Packaging program to $(INSTALL_DIR)"
@@ -214,6 +219,10 @@ printvars:
 	@echo BUILD_DIR: $(BUILD_DIR)
 	@echo BIN_DIR: $(BIN_DIR)
 	@echo INSTALL_DIR: $(INSTALL_DIR)
+	@echo SRC_DIR: $(SRC_DIR)
+	@echo SRCS: $(SRCS)
+	@echo INCLUDE_DIR: $(INCLUDE_DIR)
+	@echo INCLUDES: $(INCLUDES)
 	@echo CXX: $(CXX)
 	@echo CPPFLAGS: $(CPPFLAGS)
 	@echo CXXFLAGS: $(CXXFLAGS)
