@@ -39,11 +39,12 @@ public:
 
     virtual bool DetectedEvent() const override
     {
-        float currentAxisPosition = m_inputManager.DetectedJoystickMovedEvent();
+        float currentAxisPosition = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
         bool detectedEvent = currentAxisPosition != m_lastAxisPosition;
         m_lastAxisPosition = currentAxisPosition;
         return detectedEvent;
     }
+
     virtual void CallAction() override {(*m_callback)(m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));}
 
 private:
