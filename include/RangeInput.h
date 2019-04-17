@@ -33,15 +33,23 @@ public:
         : RangeInput(inputManager, callback)
         , m_joystick(joystick)
         , m_axis(axis)
+        , m_lastAxisPosition(0)
     {
     }
 
-    virtual bool DetectedEvent() const override {return m_inputManager.DetectedJoystickMovedEvent();}
+    virtual bool DetectedEvent() const override
+    {
+        float currentAxisPosition = m_inputManager.DetectedJoystickMovedEvent();
+        bool detectedEvent = currentAxisPosition != m_lastAxisPosition;
+        m_lastAxisPosition = currentAxisPosition;
+        return detectedEvent;
+    }
     virtual void CallAction() override {(*m_callback)(m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));}
 
 private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
+    mutable float m_lastAxisPosition;
 };
 
 /// Class representing a vertical mouse wheel able to make a callback to a function with a double as a parameter when scrolled.
