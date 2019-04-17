@@ -320,7 +320,7 @@ public:
     {
     }
 
-    virtual bool DetectedEvent() const override {return m_inputManager.DetectedMouseWheelScrolledEvent();}
+    virtual bool DetectedEvent() const override {return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetVerticalMouseWheelDelta() != 0;}
     virtual void CallAction() override {(*m_callback)(m_inputManager.GetVerticalMouseWheelDelta());}
 };
 
@@ -332,7 +332,7 @@ public:
     {
     }
 
-    virtual bool DetectedEvent() const override {return m_inputManager.DetectedMouseWheelScrolledEvent();}
+    virtual bool DetectedEvent() const override {return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetHorizontalMouseWheelDelta() != 0;}
     virtual void CallAction() override {(*m_callback)(m_inputManager.GetHorizontalMouseWheelDelta());}
 };
 
