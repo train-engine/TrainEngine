@@ -25,10 +25,8 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
     , m_isFacingRight(true)
     , m_isGravityApplied(isGravityApplied)
     , m_isOnGround(false)
-    , m_isPressingUp(false)
-    , m_isPressingDown(false)
-    , m_isPressingLeft(false)
-    , m_isPressingRight(false)
+    , m_horizontalDirection(0.0)
+    , m_verticalDirection(0.0)
     , m_isPressingShift(false)
     , m_jumpForce(jumpForce)
     , m_defaultClimbSpeed(8)
@@ -242,7 +240,7 @@ void Entity::LadderTopCollision(const Tile* pTile)
             // but it will be inside the LadderTop in the next tick
             if (m_position.y + m_dimensions.y / 2 <= tilePosition.y && m_position.y + m_dimensions.y / 2 + m_velocity.y > tilePosition.y)
             {
-                if (m_isPressingDown == false)
+                if (m_verticalDirection >= 0)
                 {
                     m_position.y = tilePosition.y - m_dimensions.y / 2;
                     m_isOnGround = true;
@@ -286,16 +284,18 @@ void Entity::Jump()
     SetVertVelocity(-m_jumpForce);
 }
 
+#include <iostream>
+
 void Entity::Climb(float factor)
 {
-    if (m_isPressingUp == true)
+    if (m_verticalDirection > 0)
     {
         SetVertVelocity(-m_defaultClimbSpeed * factor);
         m_state = EntityState::Climbing;
     }
     else
     {
-        if (m_isPressingShift == true && m_isPressingUp == false)
+        if (m_isPressingShift == true && m_verticalDirection <= 0)
         {
             SetVertVelocity(0);
         }
@@ -506,21 +506,22 @@ void Entity::Update()
 
     // Movement
     ApplyGravity();
-    if (m_isPressingLeft == true)
+    if (m_horizontalDirection < 0)
     {
         MoveLeft();
         m_isFacingRight = false;
     }
-    if (m_isPressingRight == true)
+    else if (m_horizontalDirection > 0)
     {
         MoveRight();
         m_isFacingRight = true;
     }
-    if (m_isPressingLeft == false && m_isPressingRight == false)
+    else
     {
         ApplyDeceleration();
     }
-    if (m_isPressingUp == true && m_isOnGround == true)
+
+    if (m_verticalDirection > 0 && m_isOnGround == true)
     {
         Jump();
     }
@@ -576,7 +577,7 @@ void Entity::Update()
     // States
     if (m_state != EntityState::Climbing || m_isOnGround == true)
     {
-        if ((m_isPressingLeft == true || m_isPressingRight == true) && m_isOnGround == true)
+        if (m_horizontalDirection != 0 && m_isOnGround == true)
         {
             m_state = EntityState::Running;
         }

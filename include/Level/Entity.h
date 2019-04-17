@@ -52,10 +52,9 @@ private:
     bool m_isGravityApplied;
     bool m_isOnGround;
 
-    bool m_isPressingUp;
-    bool m_isPressingDown;
-    bool m_isPressingLeft;
-    bool m_isPressingRight;
+    float m_horizontalDirection;
+    float m_verticalDirection;
+
     bool m_isPressingShift;
 
     float m_jumpForce;
@@ -100,20 +99,16 @@ protected:
     void PerformCollisions();
 
     // Setters
-    void SetPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
-    void SetPressingDown(bool isPressingDown) { m_isPressingDown = isPressingDown; }
-    void SetPressingLeft(bool isPressingLeft) { m_isPressingLeft = isPressingLeft; }
-    void SetPressingRight(bool isPressingRight) { m_isPressingRight = isPressingRight; }
+    void SetHorizontalDirection(float direction) { m_horizontalDirection = direction; }
+    void SetVerticalDirection(float direction) { m_verticalDirection = direction; }
     void SetPressingShift(bool isPressingShift) { m_isPressingShift = isPressingShift; }
 
     // Getters
     bool IsOnGround() const { return m_isOnGround; }
 
-    bool IsPressingUp() const { return m_isPressingUp; }
-    bool IsPressingDown() const { return m_isPressingDown; }
-    bool IsPressingLeft() const { return m_isPressingLeft; }
-    bool IsPressingRight() const { return m_isPressingRight; }
-    bool IsPressingShift() const { return m_isPressingShift; }
+    float GetHorizontalDirection() const { return m_horizontalDirection; }
+    float GetVerticalDirection() const { return m_verticalDirection; }
+    bool GetPressingShift() const { return m_isPressingShift; }
 
     float GetJumpForce() const { return m_jumpForce; }
     float GetDefaultClimbSpeed() const { return m_defaultClimbSpeed; }

@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "Callbacks.h"
 #include "InputManager.h"
-#include "Inputs.h"
+#include "ActionInput.h"
+#include "StateInput.h"
+#include "RangeInput.h"
 
 enum class EventType
 {
@@ -56,6 +58,10 @@ public:
     void BindStateToJoyStickButton(Callable callback, unsigned int joystick, unsigned int button);
     template<typename Object, typename Callable>
     void BindStateToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
+    template<typename Callable>
+    void BindStateToJoyStickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
+    template<typename Object, typename Callable>
+    void BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float treshold);
     
     // InputRange
     template<typename Callable>

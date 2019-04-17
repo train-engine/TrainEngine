@@ -27,13 +27,6 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     m_level.Load(levelDirectory);
 
     m_inputContext.BindActionToKey(this, &PlayState::PauseStart, sf::Keyboard::Escape, EventType::Descending);
-    m_inputContext.BindActionToMouseMoved([](){std::cout << "Mouse Moved!\n";});
-    m_inputContext.BindActionToMouseWheelScrolled([](){std::cout << "Mouse Wheel Down!\n";}, sf::Mouse::VerticalWheel, EventType::Descending);
-    m_inputContext.BindStateToKey([](bool state){std::cout << "'Y' key: " << state << std::endl;}, sf::Keyboard::Y);
-    m_inputContext.BindStateToMouseButton([](bool state){std::cout << "Left mouse button: " << state << std::endl;}, sf::Mouse::Button::Left);
-    m_inputContext.BindStateToMouseButton(this, &PlayState::test, sf::Mouse::Button::Right);
-    m_inputContext.BindRangeToMouseScroll([](double test){std::cout << "Mouse scroll: " << test << std::endl;}, sf::Mouse::Wheel::HorizontalWheel);
-    m_inputContext.BindRangeToKeyboard([](double range){std::cout << "Keyboard range: " << range << std::endl;}, sf::Keyboard::A, sf::Keyboard::D);
 }
 
 PlayState::~PlayState()

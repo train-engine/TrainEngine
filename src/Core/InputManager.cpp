@@ -53,6 +53,7 @@ void InputManager::UpdateInputStates()
     m_previousKeyStates = m_keyStates;
     m_previousMouseButtonStates = m_mouseButtonStates;
     m_previousJoystickButtonStates = m_joystickButtonStates;
+    m_lastMousePosition = m_mousePosition;
 }
 
 void InputManager::PollSfmlEvents(sf::Window& rWindow)
@@ -114,7 +115,6 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::MouseMoved:
             m_mouseMovedEvent = true;
-            m_lastMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
             break;
         case sf::Event::MouseEntered:
