@@ -3,8 +3,8 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "InputContext.h"
 #include "Gui.h"
+#include "InputContext.h"
 #include "Level.h"
 #include "State.h"
 
@@ -37,6 +37,8 @@ private:
     virtual void Resume() override;
 
     virtual void OnWindowResize() override;
+
+    void test(bool test);
 
 public:
     // Constructor

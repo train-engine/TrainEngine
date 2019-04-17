@@ -6,27 +6,13 @@
 
 #include <iostream>
 
-void event()
-{
-    std::cout << "Event!\n";;
-}
-
-void changeState(bool state)
-{
-    std::cout << "State change: " << state << '\n';
-}
-
-void changeRange(float range)
-{
-    std::cout << "Range: " << range << '\n';
-}
-
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame)
     , m_darkness(GetWindowDimensions())
     , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
                    m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
     , m_level(m_rGame.resourceManager, m_rGame.inputManager)
+    , m_inputContext(rGame.inputManager)
 {
     // Content settings
     m_stateSettings.backgroundColor = sf::Color(238, 241, 244);
@@ -40,12 +26,14 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
 
     m_level.Load(levelDirectory);
 
-    m_inputContext.BindActionToKey(&event, sf::Keyboard::A, EventType::Descending);
-    m_inputContext.BindActionToMouseMoved(&event);
-    m_inputContext.BindStateToKey(&changeState, sf::Keyboard::D);
-    m_inputContext.BindStateToMouseButton(&changeState, sf::Mouse::Button::Left);
-    m_inputContext.BindRangeToKeyboard(&changeRange, sf::Keyboard::J, sf::Keyboard::L);
-    m_inputContext.BindRangeToMouseScroll(&changeRange, sf::Mouse::VerticalWheel);
+    m_inputContext.BindActionToKey(this, &PlayState::PauseStart, sf::Keyboard::Escape, EventType::Descending);
+    m_inputContext.BindActionToMouseMoved([](){std::cout << "Mouse Moved!\n";});
+    m_inputContext.BindActionToMouseWheelScrolled([](){std::cout << "Mouse Wheel Down!\n";}, sf::Mouse::VerticalWheel, EventType::Descending);
+    m_inputContext.BindStateToKey([](bool state){std::cout << "'Y' key: " << state << std::endl;}, sf::Keyboard::Y);
+    m_inputContext.BindStateToMouseButton([](bool state){std::cout << "Left mouse button: " << state << std::endl;}, sf::Mouse::Button::Left);
+    m_inputContext.BindStateToMouseButton(this, &PlayState::test, sf::Mouse::Button::Right);
+    m_inputContext.BindRangeToMouseScroll([](double test){std::cout << "Mouse scroll: " << test << std::endl;}, sf::Mouse::Wheel::HorizontalWheel);
+    m_inputContext.BindRangeToKeyboard([](double range){std::cout << "Keyboard range: " << range << std::endl;}, sf::Keyboard::A, sf::Keyboard::D);
 }
 
 PlayState::~PlayState()
@@ -77,10 +65,10 @@ void PlayState::PauseStart()
 
 void PlayState::HandleInput()
 {
-    m_inputContext.Update(m_rGame.inputManager);
+    m_inputContext.Update();
     m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.inputManager.DetectedLostFocusEvent() || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.DetectedLostFocusEvent())
     {
         PauseStart();
         return;
@@ -145,4 +133,8 @@ void PlayState::OnWindowResize()
     m_muteButton.SetPosition(sf::Vector2f(GetWindowDimensions().x - 48, 48));
 
     m_level.OnWindowResize();
+}
+void PlayState::test(bool test)
+{
+    std::cout << "test: " << test << std::endl;
 }

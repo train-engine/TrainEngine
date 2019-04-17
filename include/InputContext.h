@@ -1,100 +1,10 @@
 #ifndef INPUTCONTEXT_H
 #define INPUTCONTEXT_H
 
+#include <SFML/Graphics.hpp>
+#include "Callbacks.h"
 #include "InputManager.h"
-
-enum class ActionInputBinds
-{
-    KeyDescending = 0,
-    KeyAscending,
-    MouseButtonDescending,
-    MouseButtonAscending,
-    JoystickButtonDescending,
-    JoystickButtonAscending,
-    MouseMoved,
-    MouseWheelUp,
-    MouseWheelDown,
-    MouseWheelLeft,
-    MouseWheelRight
-};
-
-template<typename T>
-class ActionInput
-{
-public:
-
-    ActionInput(T callback, ActionInputBinds event, int inputId = 0);
-
-    void CheckIsTriggered(const InputManager& inputManager) const;
-
-    ActionInputBinds GetEventType() const {return m_event;}
-    unsigned int GetInputId() const {return m_inputId;}
-
-private:
-    T m_callback;
-    ActionInputBinds m_event;
-    unsigned int m_inputId;
-};
-
-enum class StateInputBinds
-{
-    KeyEvent = 0,
-    MouseButtonEvent,
-    JoystickButtonEvent
-};
-
-template<typename T>
-class StateInput
-{
-public:
-
-    StateInput(T callback, StateInputBinds event, int inputId = 0);
-
-    void CheckIsTriggered(const InputManager& inputManager) const;
-
-    StateInputBinds GetEventType() const {return m_event;}
-    unsigned int GetInputId() const {return m_inputId;}
-
-private:
-    T m_callback;
-    StateInputBinds m_event;
-    unsigned int m_inputId;
-};
-
-enum class RangeInputBinds
-{
-    JoystickAxis,
-    VerticalMouseWheel,
-    HorizontalMouseWheel,
-    VertialMouseMovement,
-    HorizontalMouseMovement,
-    Keyboard
-};
-
-template<typename T>
-class RangeInput
-{
-public:
-
-    RangeInput(T callback, RangeInputBinds event, sf::Joystick::Axis joystickAxis = sf::Joystick::Axis::X);
-    RangeInput(T callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
-
-    void CheckIsTriggered(const InputManager& inputManager) const;
-
-    RangeInputBinds GetEventType() const {return m_event;}
-    sf::Keyboard::Key GetNegativeKey() const {return m_negativeKey;}
-    sf::Keyboard::Key GetPositiveKey() const {return m_positiveKey;}
-    sf::Joystick::Axis GetJoystickAxis() const {return m_joystickAxis;}
-
-private:
-    T m_callback;
-    RangeInputBinds m_event;
-
-    sf::Joystick::Axis m_joystickAxis;
-
-    sf::Keyboard::Key m_negativeKey;
-    sf::Keyboard::Key m_positiveKey;
-};
+#include "Inputs.h"
 
 enum class EventType
 {
@@ -106,46 +16,83 @@ enum class EventType
 class InputContext
 {
 public:
+    InputContext(const InputManager& inputManager) : m_inputManager(inputManager) {}
+    ~InputContext();
 
-    // Functions
+    void Update();
 
     // InputAction
-    void BindActionToKey(void (*const callBack)(), sf::Keyboard::Key key, EventType eventType);
-    void BindActionToMouseButton(void (*const callBack)(), sf::Mouse::Button mouseButton, EventType eventType);
-    void BindActionToJoystickButton(void (*const callBack)(), unsigned int joystickButton, EventType eventType);
-    void BindActionToMouseMoved(void (*const callBack)());
-    void BindActionToMouseWheel(void (*const callBack)(), sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
-
+    template<typename Callable>
+    void BindActionToKey(Callable callback, sf::Keyboard::Key key, EventType eventType);
+    template<typename Object, typename Callable>
+    void BindActionToKey(Object* object, Callable callback, sf::Keyboard::Key key, EventType eventType);
+    template<typename Callable>
+    void BindActionToMouseButton(Callable callback, sf::Mouse::Button mouseButton, EventType eventType);
+    template<typename Object, typename Callable>
+    void BindActionToMouseButton(Object* object, Callable callback, sf::Mouse::Button mouseButton, EventType eventType);
+    template<typename Callable>
+    void BindActionToJoystickButton(Callable callback, unsigned int joystick, unsigned int button, EventType eventType);
+    template<typename Object, typename Callable>
+    void BindActionToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button, EventType eventType);
+    template<typename Callable>
+    void BindActionToMouseMoved(Callable callback);
+    template<typename Object, typename Callable>
+    void BindActionToMouseMoved(Object* object, Callable callback);
+    template<typename Callable>
+    void BindActionToMouseWheelScrolled(Callable callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
+    template<typename Object, typename Callable>
+    void BindActionToMouseWheelScrolled(Object* object, Callable callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
+    
     // InputState
-    void BindStateToKey(void (*const callBack)(bool), sf::Keyboard::Key key);
-    void BindStateToMouseButton(void (*const callBack)(bool), sf::Mouse::Button button);
-    void BindStateToJoystickButton(void (*const callBack)(bool), unsigned int joystickButton);
-
+    template<typename Callable>
+    void BindStateToKey(Callable callback, sf::Keyboard::Key key);
+    template<typename Object, typename Callable>
+    void BindStateToKey(Object* object, Callable callback, sf::Keyboard::Key key);
+    template<typename Callable>
+    void BindStateToMouseButton(Callable callback, sf::Mouse::Button button);
+    template<typename Object, typename Callable>
+    void BindStateToMouseButton(Object* object, Callable callback, sf::Mouse::Button button);
+    template<typename Callable>
+    void BindStateToJoyStickButton(Callable callback, unsigned int joystick, unsigned int button);
+    template<typename Object, typename Callable>
+    void BindStateToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
+    
     // InputRange
-    void BindRangeToJoystick(void (*const callBack)(float), sf::Joystick::Axis joystickAxis);
-    void BindRangeToMouseScroll(void (*const callBack)(float), sf::Mouse::Wheel wheelAxis);
-    void BindRangeToHorizontalMouseMoved(void (*const callBack)(float));
-    void BindRangeToVerticalMouseMoved(void (*const callBack)(float));
-    void BindRangeToKeyboard(void (*const callBack)(float), sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
+    template<typename Callable>
+    void BindRangeToJoystickAxis(Callable, unsigned int joystick, sf::Joystick::Axis axis);
+    template<typename Object, typename Callable>
+    void BindRangeToJoystickAxis(Object* object, Callable callback, unsigned int joystick, sf::Joystick::Axis axis);
+    template<typename Callable>
+    void BindRangeToMouseScroll(Callable callback, sf::Mouse::Wheel wheelAxis);
+    template<typename Object, typename Callable>
+    void BindRangeToMouseScroll(Object* object, Callable callback, sf::Mouse::Wheel wheelAxis);
+    template<typename Callable>
+    void BindRangeToHorizontalMouseMovement(Callable callback);
+    template<typename Object, typename Callable>
+    void BindRangeToHorizontalMouseMovement(Object* object, Callable callback);
+    template<typename Callable>
+    void BindRangeToVerticalMouseMovement(Callable callback);
+    template<typename Object, typename Callable>
+    void BindRangeToVerticalMouseMovement(Object* object, Callable callback);
+    template<typename Callable>
+    void BindRangeToKeyboard(Callable callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
+    template<typename Object, typename Callable>
+    void BindRangeToKeyboard(Object* object, Callable callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
 
-    void LoadFromFile(const std::string& filename) = delete; // TODO
-    void Clear();
-
-    // Getters
-    bool IsKeyUsed(sf::Keyboard::Key key) const;
-    bool IsMouseButtonUsed(sf::Mouse::Button mouseButton) const;
-    bool IsJoystickAxisUsed(sf::Joystick::Axis joystickAxis) const;
-    bool IsJoystickButtonUsed(unsigned int joystickButton) const;
-    bool IsMouseWheelUsed(sf::Mouse::Wheel mouseWheelAxis, EventType eventType = EventType::Any) const;
-    bool IsMouseMovementUsed() const;
-
-    void Update(const InputManager& inputManager);
 private:
+    // Functions
+    void BindActionToKeyHelper(Callback<>* callback, sf::Keyboard::Key key, EventType eventType);
+    void BindActionToMouseButtonHelper(Callback<>* callback, sf::Mouse::Button mouseButton, EventType eventType);
+    void BindActionToJoystickButtonHelper(Callback<>* callback, unsigned int joystick, unsigned int button, EventType eventType);
+    void BindActionToMouseMovedHelper(Callback<>* callback);
+    void BindActionToMouseWheelScrolledHelper(Callback<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
+    void BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis);
 
     // Attributes
-    std::vector<ActionInput<void (*)()>> m_actionInputs;
-    std::vector<StateInput<void (*)(bool)>> m_stateInputs;
-    std::vector<RangeInput<void (*)(float)>> m_rangeInputs;
+    const InputManager& m_inputManager;
+    std::vector<ActionInput*> m_actionInputs;
+    std::vector<StateInput*> m_stateInputs;
+    std::vector<RangeInput*> m_rangeInputs;
 };
 
 #include "InputContext.inl"
