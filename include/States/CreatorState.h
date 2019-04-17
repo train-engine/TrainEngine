@@ -2,9 +2,9 @@
 #define CREATORSTATE_H
 
 #include "Gui/Gui.h"
+#include "Gui/TextBox.h"
 #include "Level/Level.h"
 #include "States/State.h"
-#include "Gui/TextBox.h"
 
 class CreatorState final : public State
 {

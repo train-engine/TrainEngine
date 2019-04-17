@@ -4,9 +4,9 @@
 #include <string>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
-#include "Misc/AnimatedSprite.h"
 #include "Level/Map.h"
 #include "Level/Tile.h"
+#include "Misc/AnimatedSprite.h"
 
 enum class EntityType
 {

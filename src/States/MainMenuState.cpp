@@ -2,11 +2,11 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include "States/CreatorState.h"
 #include "Core/FileManager.h"
+#include "Misc/Utility.h"
+#include "States/CreatorState.h"
 #include "States/LoadPlayState.h"
 #include "States/MenuOptionsState.h"
-#include "Misc/Utility.h"
 
 MainMenuState::MainMenuState(GameEngine& rGame)
     : State(rGame)

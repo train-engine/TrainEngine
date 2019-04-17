@@ -2,8 +2,8 @@
 #include <fstream>
 #include <iostream>
 #include "Core/FileManager.h"
-#include "States/PlayState.h"
 #include "Misc/Utility.h"
+#include "States/PlayState.h"
 
 LoadPlayState::LoadPlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame)
