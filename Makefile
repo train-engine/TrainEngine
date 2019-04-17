@@ -14,8 +14,7 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
 # Includes
 INCLUDE_DIR = include
-INCLUDE_SUBDIRS := $(patsubst %/,%,$(sort $(dir $(wildcard $(INCLUDE_DIR)/*/.)))) # Note: only include immediate include subdirectories
-INCLUDES := -I$(INCLUDE_DIR) $(addprefix -I,$(INCLUDE_SUBDIRS))
+INCLUDES := -I$(INCLUDE_DIR)
 
 # C preprocessor flags
 CPPFLAGS := -MMD -MP $(INCLUDES)
