@@ -1,6 +1,6 @@
-#include "ParallaxSprite.h"
+#include "Level/ParallaxSprite.h"
 #include <algorithm>
-#include "Utility.h"
+#include "Misc/Utility.h"
 
 ParallaxSprite::ParallaxSprite(const sf::Texture& texture, float parallax)
     : m_sprite(texture)

@@ -1,9 +1,9 @@
-#include "ResourceManager.h"
+#include "Core/ResourceManager.h"
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include "FileManager.h"
+#include "Core/FileManager.h"
 
 // Create defaults to use when an unloaded resource is referenced,
 // and load resources loaded for the entire duration of the program

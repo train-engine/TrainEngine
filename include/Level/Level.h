@@ -2,13 +2,13 @@
 #define LEVEL_H
 
 #include <vector>
-#include "Camera.h"
-#include "EntityTracker.h"
-#include "InputManager.h"
-#include "Map.h"
-#include "ParallaxSprite.h"
-#include "Player.h"
-#include "ResourceManager.h"
+#include "Level/Camera.h"
+#include "Level/EntityTracker.h"
+#include "Core/InputManager.h"
+#include "Level/Map.h"
+#include "Level/ParallaxSprite.h"
+#include "Level/Player.h"
+#include "Core/ResourceManager.h"
 
 class Level final
 {

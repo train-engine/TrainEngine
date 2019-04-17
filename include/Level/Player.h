@@ -1,9 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Entity.h"
-#include "InputContext.h"
-#include "InputManager.h"
+#include "Level/Entity.h"
+#include "Core/InputManager.h"
 
 class Player final : public Entity
 {

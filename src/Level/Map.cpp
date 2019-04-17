@@ -1,10 +1,10 @@
-#include "Map.h"
+#include "Level/Map.h"
 #include <cctype>
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include "FileManager.h"
-#include "Tile.h"
+#include "Core/FileManager.h"
+#include "Level/Tile.h"
 
 namespace
 {

@@ -1,7 +1,6 @@
-#include "FileManager.h"
+#include "Core/FileManager.h"
 #include <iostream>
 #include <SFML/System.hpp>
-#include "FileManager.h"
 #if !defined(SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
 #include <dirent.h>
 #endif

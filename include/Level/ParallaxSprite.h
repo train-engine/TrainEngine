@@ -3,7 +3,7 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
-#include "Camera.h"
+#include "Level/Camera.h"
 
 // Notes for m_parallax values:
 // m_parallax = 1 : sprite does not move

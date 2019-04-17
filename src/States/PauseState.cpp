@@ -1,4 +1,4 @@
-#include "PauseState.h"
+#include "States/PauseState.h"
 #include <iostream>
 
 PauseState::PauseState(GameEngine& rGame)

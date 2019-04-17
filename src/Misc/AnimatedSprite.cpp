@@ -1,4 +1,4 @@
-#include "AnimatedSprite.h"
+#include "Misc/AnimatedSprite.h"
 
 AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount,
                                float frameDuration, bool isLoopingEnabled, bool isFlippable)

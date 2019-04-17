@@ -4,8 +4,8 @@
 #include <array>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "ResourceManager.h"
-#include "Tile.h"
+#include "Core/ResourceManager.h"
+#include "Level/Tile.h"
 
 enum class MapLayer
 {

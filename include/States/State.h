@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "GameEngine.h"
+#include "Core/GameEngine.h"
 
 class State
 {

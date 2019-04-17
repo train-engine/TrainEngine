@@ -4,8 +4,8 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "Gui.h"
-#include "State.h"
+#include "Gui/Gui.h"
+#include "States/State.h"
 
 class MainMenuState final : public State
 {

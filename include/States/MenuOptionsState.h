@@ -2,8 +2,8 @@
 #define MENUOPTIONSSTATE_H
 
 #include <SFML/Graphics.hpp>
-#include "Gui.h"
-#include "State.h"
+#include "Gui/Gui.h"
+#include "States/State.h"
 
 class MenuOptionsState final : public State
 {

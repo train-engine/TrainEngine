@@ -3,10 +3,9 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "Gui.h"
-#include "InputContext.h"
-#include "Level.h"
-#include "State.h"
+#include "Gui/Gui.h"
+#include "Level/Level.h"
+#include "States/State.h"
 
 class PlayState final : public State
 {

@@ -1,8 +1,8 @@
-#include "PlayState.h"
+#include "States/PlayState.h"
 #include <fstream>
 #include <iostream>
-#include "FileManager.h"
-#include "PauseState.h"
+#include "Core/FileManager.h"
+#include "States/PauseState.h"
 
 #include <iostream>
 

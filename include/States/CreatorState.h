@@ -1,10 +1,10 @@
 #ifndef CREATORSTATE_H
 #define CREATORSTATE_H
 
-#include "Gui.h"
-#include "Level.h"
-#include "State.h"
-#include "TextBox.h"
+#include "Gui/Gui.h"
+#include "Level/Level.h"
+#include "States/State.h"
+#include "Gui/TextBox.h"
 
 class CreatorState final : public State
 {

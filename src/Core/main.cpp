@@ -1,11 +1,11 @@
 #include <SFML/Config.hpp>
-#include "GameEngine.h"
-#include "SplashScreenState.h"
+#include "Core/GameEngine.h"
+#include "States/SplashScreenState.h"
 #if defined(SFML_SYSTEM_IOS)
 #include <SFML/Main.hpp>
 #elif defined(SFML_SYSTEM_ANDROID)
 #include <iostream>
-#include "AndroidCout.h"
+#include "Misc/AndroidCout.h"
 #endif
 
 int main()

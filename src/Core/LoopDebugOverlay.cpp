@@ -1,6 +1,6 @@
-#include "LoopDebugOverlay.h"
+#include "Core/LoopDebugOverlay.h"
 #include <string>
-#include "GameEngine.h"
+#include "Core/GameEngine.h"
 
 namespace
 {

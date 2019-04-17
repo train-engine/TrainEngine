@@ -1,9 +1,9 @@
-#include "CreatorState.h"
+#include "States/CreatorState.h"
 #include <algorithm>
 #include <iostream>
 #include <random>
-#include "FileManager.h"
-#include "PauseState.h"
+#include "Core/FileManager.h"
+#include "States/PauseState.h"
 
 CreatorState::CreatorState(GameEngine& rGame)
     : State(rGame)

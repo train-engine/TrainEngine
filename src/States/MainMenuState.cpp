@@ -1,12 +1,12 @@
-#include "MainMenuState.h"
+#include "States/MainMenuState.h"
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include "CreatorState.h"
-#include "FileManager.h"
-#include "LoadPlayState.h"
-#include "MenuOptionsState.h"
-#include "Utility.h"
+#include "States/CreatorState.h"
+#include "Core/FileManager.h"
+#include "States/LoadPlayState.h"
+#include "States/MenuOptionsState.h"
+#include "Misc/Utility.h"
 
 MainMenuState::MainMenuState(GameEngine& rGame)
     : State(rGame)

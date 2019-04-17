@@ -3,7 +3,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "State.h"
+#include "States/State.h"
 
 class SplashScreenState final : public State
 {

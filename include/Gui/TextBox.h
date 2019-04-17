@@ -2,7 +2,7 @@
 #define TEXTBOX_H
 
 #include <string>
-#include "InputManager.h"
+#include "Core/InputManager.h"
 
 class TextBox final : public sf::Drawable
 {

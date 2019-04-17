@@ -1,8 +1,8 @@
-#include "MenuOptionsState.h"
+#include "States/MenuOptionsState.h"
 #include <fstream>
 #include <iostream>
-#include "FileManager.h"
-#include "Utility.h"
+#include "Core/FileManager.h"
+#include "Misc/Utility.h"
 
 MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     : State(rGame)

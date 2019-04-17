@@ -1,10 +1,10 @@
-#include "GameEngine.h"
+#include "Core/GameEngine.h"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include "FileManager.h"
-#include "State.h"
+#include "Core/FileManager.h"
+#include "States/State.h"
 
 namespace
 {

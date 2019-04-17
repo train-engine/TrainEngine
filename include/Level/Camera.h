@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+#include "Level/Entity.h"
 
 enum class CameraMode
 {

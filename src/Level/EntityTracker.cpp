@@ -1,10 +1,10 @@
-#include "EntityTracker.h"
+#include "Level/EntityTracker.h"
 #include <cmath>
 #include <ctime>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "FileManager.h"
+#include "Core/FileManager.h"
 
 EntityTracker::EntityTracker(const sf::Font& font)
     : m_pTrackedEntity(nullptr)

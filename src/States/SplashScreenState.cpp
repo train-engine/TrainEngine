@@ -1,6 +1,6 @@
-#include "SplashScreenState.h"
-#include "MainMenuState.h"
-#include "Utility.h"
+#include "States/SplashScreenState.h"
+#include "States/MainMenuState.h"
+#include "Misc/Utility.h"
 
 SplashScreenState::SplashScreenState(GameEngine& rGame)
     : State(rGame)

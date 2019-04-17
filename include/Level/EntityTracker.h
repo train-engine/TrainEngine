@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+#include "Level/Entity.h"
 
 class EntityTracker final : public sf::Drawable
 {

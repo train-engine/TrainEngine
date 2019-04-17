@@ -1,4 +1,4 @@
-#include "TextBox.h"
+#include "Gui/TextBox.h"
 #include <cmath>
 
 namespace

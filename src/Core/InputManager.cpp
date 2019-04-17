@@ -1,11 +1,11 @@
-#include "InputManager.h"
+#include "Core/InputManager.h"
 #include <algorithm>
 #include <string>
-#include "FileManager.h"
+#include "Core/FileManager.h"
 #if defined(SFML_SYSTEM_WINDOWS)
 #include <windows.h>
 #elif defined(SFML_SYSTEM_MACOS)
-#include "MacClipboard.h"
+#include "Misc/MacClipboard.h"
 #endif
 
 InputManager::InputManager(sf::RenderWindow& rWindow)

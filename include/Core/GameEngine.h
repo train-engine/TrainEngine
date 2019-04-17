@@ -4,9 +4,9 @@
 #include <unordered_map>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "InputManager.h"
-#include "LoopDebugOverlay.h"
-#include "ResourceManager.h"
+#include "Core/InputManager.h"
+#include "Core/LoopDebugOverlay.h"
+#include "Core/ResourceManager.h"
 
 class State;
 

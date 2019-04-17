@@ -1,6 +1,6 @@
-#include "Camera.h"
+#include "Level/Camera.h"
 #include <cmath>
-#include "Utility.h"
+#include "Misc/Utility.h"
 
 namespace
 {

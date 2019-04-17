@@ -1,12 +1,12 @@
-#include "Level.h"
+#include "Level/Level.h"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <set>
 #include <sstream>
 #include <unordered_map>
-#include "FileManager.h"
-#include "Utility.h"
+#include "Core/FileManager.h"
+#include "Misc/Utility.h"
 
 Level::Level(const ResourceManager& resourceManager, const InputManager& inputManager)
     : m_resourceManager(resourceManager)
