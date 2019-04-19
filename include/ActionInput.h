@@ -9,14 +9,10 @@
 class ActionInput
 {
 public:
-    ActionInput(const InputManager& inputManager, Callback<>* callback)
-        : m_inputManager(inputManager)
-        , m_callback(callback)
-    {}
-    virtual ~ActionInput() {delete m_callback;}
-
+    ActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual ~ActionInput();
     virtual bool DetectedEvent() const = 0;
-    virtual void CallAction() {(*m_callback)();}
+    virtual void CallFunction();
 
 protected:
     const InputManager& m_inputManager;
@@ -29,13 +25,8 @@ private:
 class KeyDescendingActionInput final : public ActionInput
 {
 public:
-    KeyDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key)
-        : ActionInput(inputManager, callback)
-        , m_key(key)
-    {
-    }
-     
-    virtual bool DetectedEvent() const override {return m_inputManager.IsKeyDescending(m_key);}
+    KeyDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key);
+    virtual bool DetectedEvent() const override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -45,12 +36,8 @@ private:
 class KeyAscendingActionInput final : public ActionInput
 {
 public:
-    KeyAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key)
-        : ActionInput(inputManager, callback)
-        , m_key(key)
-    {
-    } 
-    virtual bool DetectedEvent() const override {return m_inputManager.IsKeyAscending(m_key);}
+    KeyAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key);
+    virtual bool DetectedEvent() const override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -60,13 +47,8 @@ private:
 class MouseButtonDescendingActionInput final : public ActionInput
 {
 public:
-    MouseButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button)
-        : ActionInput(inputManager, callback)
-        , m_button(button)
-    {
-    }
-    
-    virtual bool DetectedEvent() const override {return m_inputManager.IsMouseButtonDescending(m_button);}
+    MouseButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button);
+    virtual bool DetectedEvent() const override;
 
 private:
     sf::Mouse::Button m_button;
@@ -76,13 +58,8 @@ private:
 class MouseButtonAscendingActionInput final : public ActionInput
 {
 public:
-    MouseButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button)
-        : ActionInput(inputManager, callback)
-        , m_button(button)
-    {
-    }
-
-    virtual bool DetectedEvent() const override {return m_inputManager.IsMouseButtonAscending(m_button);}
+    MouseButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button);
+    virtual bool DetectedEvent() const override;
 
 private:
     sf::Mouse::Button m_button;
@@ -92,14 +69,8 @@ private:
 class JoystickButtonDescendingActionInput final : public ActionInput
 {
 public:
-    JoystickButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button)
-        : ActionInput(inputManager, callback)
-        , m_joystick(joystick)
-        , m_button(button)
-    {
-    }
-
-    virtual bool DetectedEvent() const override {return m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);}
+    JoystickButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button);
+    virtual bool DetectedEvent() const override;
 
 private:
     unsigned int m_joystick;
@@ -110,14 +81,8 @@ private:
 class JoystickButtonAscendingActionInput final : public ActionInput
 {
 public:
-    JoystickButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button)
-        : ActionInput(inputManager, callback)
-        , m_joystick(joystick)
-        , m_button(button)
-    {
-    }
-
-    virtual bool DetectedEvent() const override {return m_inputManager.IsJoystickButtonAscending(m_joystick, m_button);}
+    JoystickButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button);
+    virtual bool DetectedEvent() const override;
 
 private:
     unsigned int m_joystick;
@@ -128,72 +93,40 @@ private:
 class MouseMovedActionInput final : public ActionInput
 {
 public:
-    MouseMovedActionInput(const InputManager& inputManager, Callback<>* callback)
-        : ActionInput(inputManager, callback)
-    {
-    }
-
-    virtual bool DetectedEvent() const override {return m_inputManager.DetectedMouseMovedEvent();}
+    MouseMovedActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual bool DetectedEvent() const override;
 };
 
 /// Class representing mouse wheel up event able to make a callback to a function with no parameters when triggered.
 class MouseWheelUpActionInput final : public ActionInput
 {
 public:
-    MouseWheelUpActionInput(const InputManager& inputManager, Callback<>* callback)
-        : ActionInput(inputManager, callback)
-    {
-    }
-
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetVerticalMouseWheelDelta() > 0;
-    }
+    MouseWheelUpActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual bool DetectedEvent() const override;
 };
 
 /// Class representing mouse wheel down event able to make a callback to a function with no parameters when triggered.
 class MouseWheelDownActionInput final : public ActionInput
 {
 public:
-    MouseWheelDownActionInput(const InputManager& inputManager, Callback<>* callback)
-        : ActionInput(inputManager, callback)
-    {
-    }
-     
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetVerticalMouseWheelDelta() < 0;
-    }
+    MouseWheelDownActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual bool DetectedEvent() const override;
 };
 
 /// Class representing mouse wheel left event able to make a callback to a function with no parameters when triggered.
 class MouseWheelLeftActionInput final : public ActionInput
 {
 public:
-    MouseWheelLeftActionInput(const InputManager& inputManager, Callback<>* callback)
-        : ActionInput(inputManager, callback)
-    {
-    }
-     
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetHorizontalMouseWheelDelta() < 0;
-    }
+    MouseWheelLeftActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual bool DetectedEvent() const override;
 };
 
 /// Class representing mouse wheel right event able to make a callback to a function with no parameters when triggered.
 class MouseWheelRightActionInput final : public ActionInput
 {
 public:
-    MouseWheelRightActionInput(const InputManager& inputManager, Callback<>* callback)
-        : ActionInput(inputManager, callback)
-    {
-    }
-    
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetHorizontalMouseWheelDelta() > 0;
-    }
+    MouseWheelRightActionInput(const InputManager& inputManager, Callback<>* callback);
+    virtual bool DetectedEvent() const override;
 };
 
 

@@ -9,14 +9,8 @@
 class StateInput
 {
 public:
-    StateInput(const InputManager& inputManager, Callback<bool>* callback)
-        : m_inputManager(inputManager)
-        , m_callback(callback)
-    {
-    }
-    
-    virtual ~StateInput() {delete m_callback;}
-
+    StateInput(const InputManager& inputManager, Callback<bool>* callback);
+    virtual ~StateInput();
     virtual bool DetectedEvent() const = 0;
     virtual void CallAction() = 0;
 
@@ -29,21 +23,9 @@ protected:
 class KeyEventStateInput final : public StateInput
 {
 public:
-    KeyEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Keyboard::Key key)
-        : StateInput(inputManager, callback)
-        , m_key(key)
-    {
-    }
-
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.IsKeyAscending(m_key) || m_inputManager.IsKeyDescending(m_key);
-    }
-
-    virtual void CallAction() override
-    {
-        (*m_callback)(m_inputManager.IsKeyHeld(m_key));
-    }
+    KeyEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Keyboard::Key key);
+    virtual bool DetectedEvent() const override;
+    virtual void CallAction() override;
     
 private:
     sf::Keyboard::Key m_key;
@@ -53,22 +35,10 @@ private:
 class MouseButtonEventStateInput final : public StateInput
 {
 public:
-    MouseButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Mouse::Button button)
-        : StateInput(inputManager, callback)
-        , m_button(button)
-    {
-    }
+    MouseButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Mouse::Button button);
+    virtual bool DetectedEvent() const override;
+    virtual void CallAction() override;
 
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.IsMouseButtonAscending(m_button) || m_inputManager.IsMouseButtonDescending(m_button);
-    }
-
-    virtual void CallAction() override
-    {
-        bool mouseButtonDescending = m_inputManager.IsMouseButtonAscending(m_button);
-        (*m_callback)(mouseButtonDescending);
-    }
 private:
     sf::Mouse::Button m_button;
 };
@@ -77,23 +47,10 @@ private:
 class JoystickButtonEventStateInput final : public StateInput
 {
 public:
-    JoystickButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, unsigned int button)
-        : StateInput(inputManager, callback)
-        , m_joystick(joystick)
-        , m_button(button)
-    {
-    }
+    JoystickButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, unsigned int button);
+    virtual bool DetectedEvent() const override;
+    virtual void CallAction() override;
 
-    virtual bool DetectedEvent() const override
-    {
-        return m_inputManager.IsJoystickButtonAscending(m_joystick, m_button) || m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
-    }
-
-    virtual void CallAction() override
-    {
-        bool joystickButtonDescending = m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
-        (*m_callback)(joystickButtonDescending);
-    }
 private:
     unsigned int m_joystick;
     unsigned int m_button;
@@ -103,55 +60,9 @@ private:
 class JoystickAxisStateInput final : public StateInput
 {
 public:
-    /// Constructor
-    /// \param inputManager     A const reference to the InputManager.
-    /// \param callback         The object containing the callback to call when input is triggered.
-    /// \param joystick         The id of the joystick controller.
-    /// \param treshold         The treshold to be exceeded for the callback to be called.
-    ///                         If the treshold is negative, the axis value must be lower for the input to be triggered.
-    ///                         If the treshold is positive, the axis value must be higher for the input to be triggered.
-    JoystickAxisStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold)
-        : StateInput(inputManager, callback)
-        , m_joystick(joystick)
-        , m_axis(axis)
-        , m_treshold(treshold)
-        , m_lastAxisValue(0)
-    {
-    }
-
-    virtual bool DetectedEvent() const override
-    {
-        float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
-        bool detectedEvent = false;
-        if (m_treshold >= 0)
-        {
-            // Return if the current axis position just passed the treshold
-            detectedEvent = (m_lastAxisValue <= m_treshold && currentAxisValue > m_treshold) || 
-                            (m_lastAxisValue > m_treshold && currentAxisValue <= m_treshold);
-        }
-        else
-        {
-            // Return if the current axis position just passed the treshold
-            detectedEvent = (m_lastAxisValue >= m_treshold && currentAxisValue < m_treshold) ||
-                            (m_lastAxisValue < m_treshold && currentAxisValue >= m_treshold);
-        }
-
-        m_lastAxisValue = currentAxisValue;
-        return detectedEvent;
-    }
-
-    virtual void CallAction() override
-    {
-        float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
-        if (m_treshold >= 0)
-        {
-            (*m_callback)(currentAxisValue > m_treshold);
-        }
-        else if (m_treshold < 0)
-        {
-            (*m_callback)(currentAxisValue < m_treshold);
-        }
-    }
+    JoystickAxisStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
+    virtual bool DetectedEvent() const override;
+    virtual void CallAction() override;
 
 private:
     unsigned int m_joystick;

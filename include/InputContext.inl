@@ -28,7 +28,7 @@ inline void InputContext::Update()
     {
         if (input->DetectedEvent())
         {
-            input->CallAction();
+            input->CallFunction();
         }
     }
 
@@ -44,7 +44,7 @@ inline void InputContext::Update()
     {
         if (input->DetectedEvent())
         {
-            input->CallAction();
+            input->CallFunction();
         }
     }
 }
@@ -229,7 +229,7 @@ inline void InputContext::BindStateToJoystickButton(Object* object, Callable cal
 ///                         If the treshold is negative, the axis value must be lower for the input to be triggered.
 ///                         If the treshold is positive or zero, the axis value must be higher for the input to be triggered.
 template<typename Callable>
-void InputContext::BindStateToJoyStickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold)
+void InputContext::BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold)
 {
     m_stateInputs.push_back(new JoystickAxisStateInput(m_inputManager, new CallbackFunctor<Callable, bool>(callback), joystick, axis, treshold));
 }

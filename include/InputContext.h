@@ -59,7 +59,7 @@ public:
     template<typename Object, typename Callable>
     void BindStateToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
     template<typename Callable>
-    void BindStateToJoyStickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
+    void BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
     template<typename Object, typename Callable>
     void BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float treshold);
     
