@@ -481,6 +481,11 @@ void Level::HandleInput()
     {
         m_camera.Zoom(1 - m_inputManager.GetVerticalMouseWheelDelta() * 0.05);
     }
+    else if (m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::V) != 0.0)
+    {
+        m_camera.Zoom(1 - m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::V) / -100 / 20);
+    }
+    
 
     // Print the mouse cursor's position when space is held (for testing)
     if (m_inputManager.IsKeyHeld(sf::Keyboard::Space))
