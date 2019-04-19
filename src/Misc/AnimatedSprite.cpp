@@ -11,6 +11,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& f
     , m_totalFrames(frameCount)
     , m_isLoopingEnabled(isLoopingEnabled)
     , m_isFlippable(isFlippable)
+    , m_isFlipped(false)
     , m_isPlaying(false)
 {
     SetTextureRect();
@@ -38,15 +39,15 @@ void AnimatedSprite::SetTextureRect()
                                         m_frameDimensions.y));
 }
 
-void AnimatedSprite::Update(bool flipSprite)
+void AnimatedSprite::Update()
 {
     if (m_isFlippable == true)
     {
-        if (flipSprite == true && m_sprite.getScale().x > 0)
+        if (m_isFlipped == true && m_sprite.getScale().x > 0)
         {
             m_sprite.setScale(-1, 1);
         }
-        else if (flipSprite == false && m_sprite.getScale().x < 0)
+        else if (m_isFlipped == false && m_sprite.getScale().x < 0)
         {
             m_sprite.setScale(1, 1);
         }
@@ -89,6 +90,11 @@ void AnimatedSprite::SetPosition(const sf::Vector2f& position)
 void AnimatedSprite::SetRotation(float angle)
 {
     m_sprite.setRotation(angle);
+}
+
+void AnimatedSprite::SetFrameDuration(float frameDuration)
+{
+    m_frameDuration = frameDuration;
 }
 
 void AnimatedSprite::Restart()

@@ -42,8 +42,7 @@ public:
 
     virtual void CallAction() override
     {
-        bool keyDescending = m_inputManager.IsKeyDescending(m_key);
-        (*m_callback)(keyDescending);
+        (*m_callback)(m_inputManager.IsKeyHeld(m_key));
     }
     
 private:
@@ -92,7 +91,7 @@ public:
 
     virtual void CallAction() override
     {
-        bool joystickButtonDescending = m_inputManager.IsJoystickButtonAscending(m_joystick, m_button);
+        bool joystickButtonDescending = m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
         (*m_callback)(joystickButtonDescending);
     }
 private:

@@ -17,6 +17,7 @@ private:
     unsigned int m_totalFrames;
     bool m_isLoopingEnabled;
     bool m_isFlippable;
+    bool m_isFlipped;
     bool m_isPlaying;
 
     // Functions
@@ -29,11 +30,13 @@ public:
                    bool isLoopingEnabled = true, bool isFlippable = true);
 
     // Functions
-    void Update(bool flipSprite);
+    void Update();
 
     // Setters
     void SetPosition(const sf::Vector2f& position);
     void SetRotation(float angle);
+    void SetFrameDuration(float frameDuration);
+    void SetIsFlipped(bool isFlipped) { m_isFlipped = isFlipped; }
     void Play() { m_isPlaying = true; }
     void Pause() { m_isPlaying = false; }
     void Restart();

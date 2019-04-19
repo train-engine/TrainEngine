@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include "Callbacks.h"
 #include "InputManager.h"
-
 /// Class representing an input able to make a callback to a function with a double as a parameter when triggered.
 class RangeInput
 {
@@ -39,13 +38,13 @@ public:
 
     virtual bool DetectedEvent() const override
     {
-        float currentAxisPosition = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
-        bool detectedEvent = currentAxisPosition != m_lastAxisPosition;
-        m_lastAxisPosition = currentAxisPosition;
-        return detectedEvent;
+        return m_inputManager.DetectedJoystickMovedEvent();
     }
 
-    virtual void CallAction() override {(*m_callback)(m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));}
+    virtual void CallAction() override
+    {
+        (*m_callback)(m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));
+    }
 
 private:
     unsigned int m_joystick;
@@ -123,8 +122,6 @@ private:
     mutable float m_lastVertMouseMovement;
 };
 
-#include <iostream>
-
 /// Class representing vertical mouse movements able to make a callback to a function with a double as a parameter when the mouse is moved.
 class HorizontalMouseMovementRangeInput final : public RangeInput
 {
@@ -176,14 +173,16 @@ public:
         bool isNegativeKeyHeld = m_inputManager.IsKeyHeld(m_negativeKey);
         bool isPositiveKeyHeld = m_inputManager.IsKeyHeld(m_positiveKey);
 
-        // If only negative key is held
+        // If only negative key is held, and the key is not ascending
+        // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
         if (isNegativeKeyHeld == true && isPositiveKeyHeld == false)
         {
             (*m_callback)(-100.0f);
             return;
         }
 
-        // If only positive key is held
+        // If only positive key is held, and the key is not ascending
+        // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
         if (isPositiveKeyHeld == true && isNegativeKeyHeld == false)
         {
             (*m_callback)(100.0f);

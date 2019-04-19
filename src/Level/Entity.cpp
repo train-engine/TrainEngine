@@ -27,7 +27,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
     , m_isOnGround(false)
     , m_horizontalDirection(0.0)
     , m_verticalDirection(0.0)
-    , m_isPressingShift(false)
+    , m_isPressingUp(false)
     , m_jumpForce(jumpForce)
     , m_defaultClimbSpeed(8)
     , m_defaultDescentSpeed(6)
@@ -223,6 +223,17 @@ void Entity::StandardCollision(const Tile* pTile)
             }
         }
     }
+
+    // Set is on ground even if vertical velocity is zero
+    // Check for strict X-axis overlap
+    if (m_position.x + m_dimensions.x / 2 > tilePosition.x &&
+        m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
+    {
+        if (m_position.y == tilePosition.y - m_dimensions.y / 2)
+        {
+            m_isOnGround = true;
+        }
+    }
 }
 
 // Collision used for LadderTop Tiles that have collision for all four sides
@@ -240,7 +251,8 @@ void Entity::LadderTopCollision(const Tile* pTile)
             // but it will be inside the LadderTop in the next tick
             if (m_position.y + m_dimensions.y / 2 <= tilePosition.y && m_position.y + m_dimensions.y / 2 + m_velocity.y > tilePosition.y)
             {
-                if (m_verticalDirection >= 0)
+                // Is not going down
+                if (m_verticalDirection <= 0)
                 {
                     m_position.y = tilePosition.y - m_dimensions.y / 2;
                     m_isOnGround = true;
@@ -250,6 +262,11 @@ void Entity::LadderTopCollision(const Tile* pTile)
                 {
                     m_state = EntityState::Climbing;
                 }
+            }
+            // Set is on ground
+            else if (m_position.y + m_dimensions.y / 2 == tilePosition.y)
+            {
+                m_isOnGround = true;
             }
         }
     }
@@ -284,30 +301,21 @@ void Entity::Jump()
     SetVertVelocity(-m_jumpForce);
 }
 
-#include <iostream>
-
 void Entity::Climb(float factor)
 {
-    if (m_verticalDirection > 0)
+    // If going pressing up or down
+    if (m_verticalDirection != 0.0)
     {
-        SetVertVelocity(-m_defaultClimbSpeed * factor);
-        m_state = EntityState::Climbing;
+        SetVertVelocity(m_defaultClimbSpeed * factor * m_verticalDirection / 100.0);
     }
     else
     {
-        if (m_isPressingShift == true && m_verticalDirection <= 0)
-        {
-            SetVertVelocity(0);
-        }
-        else
-        {
-            SetVertVelocity(m_defaultDescentSpeed * factor);
-        }
+        SetVertVelocity(0);
+    }
 
-        if (m_isOnGround == false)
-        {
-            m_state = EntityState::Climbing;
-        }
+    if (m_isOnGround == false)
+    {
+        m_state = EntityState::Climbing;
     }
 
     // Animation
@@ -373,13 +381,14 @@ void Entity::ApplyGravity()
 // Cap the Entity's velocity
 void Entity::MaxVelocityCap()
 {
-    if (m_velocity.x >= m_maxVelocity.x)
+    float maxVelocity = m_maxVelocity.x * m_horizontalDirection / 100.0;
+    if (m_velocity.x >= maxVelocity)
     {
-        m_velocity.x = m_maxVelocity.x;
+        m_velocity.x = maxVelocity;
     }
-    else if (m_velocity.x <= -m_maxVelocity.x)
+    else if (m_velocity.x <= maxVelocity)
     {
-        m_velocity.x = -m_maxVelocity.x;
+        m_velocity.x = maxVelocity;
     }
 
     if (m_velocity.y >= m_maxVelocity.y)
@@ -521,16 +530,13 @@ void Entity::Update()
         ApplyDeceleration();
     }
 
-    if (m_verticalDirection > 0 && m_isOnGround == true)
+    if (m_isPressingUp && m_isOnGround == true)
     {
         Jump();
     }
 
     // Max velocity
     MaxVelocityCap();
-
-    // For falling off a ledge
-    m_isOnGround = false;
 
     // Reactions with Tiles
     // clang-format off
@@ -546,6 +552,7 @@ void Entity::Update()
         // Near right
         sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)};
     // clang-format on
+
 
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (std::size_t i = 0; i < tileReactionPoints.size(); i++)
@@ -570,6 +577,7 @@ void Entity::Update()
     // ---
 
     // Collisions
+    m_isOnGround = false;
     PerformCollisions();
 
     SetPosition(GetPosition() + GetVelocity());
@@ -577,7 +585,7 @@ void Entity::Update()
     // States
     if (m_state != EntityState::Climbing || m_isOnGround == true)
     {
-        if (m_horizontalDirection != 0 && m_isOnGround == true)
+        if (m_horizontalDirection != 0.0 && m_isOnGround == true)
         {
             m_state = EntityState::Running;
         }
@@ -602,7 +610,17 @@ void Entity::Update()
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
-        it->second.Update(!m_isFacingRight);
+        if (m_state == EntityState::Running)
+        {
+            it->second.SetFrameDuration(100.0 / std::abs(m_horizontalDirection));
+        }
+        if (m_state == EntityState::Climbing && m_verticalDirection != 0)
+        {
+            it->second.SetFrameDuration(100.0 / std::abs(m_verticalDirection) * 2.0);
+        }
+
+        it->second.SetIsFlipped(!m_isFacingRight);
+        it->second.Update();
         it->second.Play();
     }
 

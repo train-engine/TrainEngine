@@ -52,6 +52,7 @@ private:
     bool m_joystickMovedEvent;
     bool m_joystickConnectedEvent;
     bool m_joystickDisconnectedEvent;
+    float m_joystickDeadZone;
 
     // Touch data and events
     bool m_isTouchHeld;
@@ -67,6 +68,7 @@ private:
     void UpdateInputStates();
     void PollSfmlEvents(sf::Window& rWindow);
     void ResetEvents();
+    void SetupController(unsigned int id);
 
 #if defined(SFML_SYSTEM_MACOS)
     void MacOsCommandsToUnicode();

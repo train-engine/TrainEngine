@@ -297,7 +297,7 @@ bool Level::LoadEntities(const std::string& filename)
                                        AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"),
                                                       sf::Vector2u(70, 82),
                                                       8,
-                                                      3,
+                                                      2,
                                                       true,
                                                       false));
                 rpEntity->AddAnimation(EntityState::Jumping,

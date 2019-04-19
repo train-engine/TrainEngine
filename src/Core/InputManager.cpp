@@ -33,6 +33,7 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_joystickMovedEvent(false)
     , m_joystickConnectedEvent(false)
     , m_joystickDisconnectedEvent(false)
+    , m_joystickDeadZone(8.0)
     , m_isTouchHeld(false)
     , m_touchBeganEvent(false)
     , m_touchMovedEvent(false)
@@ -82,14 +83,16 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::KeyPressed:
             m_eventPressedKeys.push_back(event.key.code);
-            if (event.key.code != sf::Keyboard::Unknown) // If key is known
+            // If key is known
+            if (event.key.code != sf::Keyboard::Unknown)
             {
                 m_keyStates[event.key.code] = true;
             }
             break;
         case sf::Event::KeyReleased:
             m_eventReleasedKeys.push_back(event.key.code);
-            if (event.key.code != sf::Keyboard::Unknown) // If key is known
+            // If key is known
+            if (event.key.code != sf::Keyboard::Unknown)
             {
                 m_keyStates[event.key.code] = false;
             }
@@ -163,6 +166,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         }
     }
 
+    /// Why is this not done in the event loop?
     for (std::size_t i = 0; i < m_joystickAxesPosition.size(); i++)
     {
         for (std::size_t j = 0; j < m_joystickAxesPosition[i].size(); j++)
@@ -287,7 +291,7 @@ bool InputManager::IsKeyHeld(sf::Keyboard::Key key) const
         return false;
     }
 
-    return m_keyStates[static_cast<int>(key)] || IsKeyDescending(key);
+    return m_keyStates[static_cast<int>(key)];
 }
 
 bool InputManager::IsKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) const
@@ -418,7 +422,18 @@ float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick:
         return 0;
     }
 
-    return m_joystickAxesPosition[joystick][axis];
+    // If joystick value is inside the deadzone, return 0
+    if (m_joystickAxesPosition[joystick][axis] >= -m_joystickDeadZone &&
+        m_joystickAxesPosition[joystick][axis] <= m_joystickDeadZone)
+    {
+        return 0;
+    }
+
+    // Defined by SFML
+    static constexpr float maximumJoystickAxisValue = 100.0;
+
+    return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / 
+        (maximumJoystickAxisValue - m_joystickDeadZone);
 }
 
 // Clipboard

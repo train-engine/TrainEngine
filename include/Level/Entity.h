@@ -55,7 +55,7 @@ private:
     float m_horizontalDirection;
     float m_verticalDirection;
 
-    bool m_isPressingShift;
+    bool m_isPressingUp;
 
     float m_jumpForce;
     float m_defaultClimbSpeed;
@@ -98,17 +98,17 @@ protected:
     void MapEdgeCollision(bool isHorizCollisionEnabled = true, bool isVertCollisionEnabled = true);
     void PerformCollisions();
 
+
     // Setters
-    void SetHorizontalDirection(float direction) { m_horizontalDirection = direction; }
-    void SetVerticalDirection(float direction) { m_verticalDirection = direction; }
-    void SetPressingShift(bool isPressingShift) { m_isPressingShift = isPressingShift; }
+    void SetHorizontalDirection(float direction) { m_horizontalDirection = direction;}
+    void SetVerticalDirection(float direction) { m_verticalDirection = direction;}
+    void SetIsPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
 
     // Getters
     bool IsOnGround() const { return m_isOnGround; }
 
     float GetHorizontalDirection() const { return m_horizontalDirection; }
     float GetVerticalDirection() const { return m_verticalDirection; }
-    bool GetPressingShift() const { return m_isPressingShift; }
 
     float GetJumpForce() const { return m_jumpForce; }
     float GetDefaultClimbSpeed() const { return m_defaultClimbSpeed; }
