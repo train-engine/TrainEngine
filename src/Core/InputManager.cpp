@@ -432,8 +432,20 @@ float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick:
     // Defined by SFML
     static constexpr float maximumJoystickAxisValue = 100.0;
 
-    return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / 
-        (maximumJoystickAxisValue - m_joystickDeadZone);
+    // If the axis value is positive
+    if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
+    {
+        // Subtract m_joystickDeadZone to the real axis value
+        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / 
+               (maximumJoystickAxisValue - m_joystickDeadZone);
+    }
+    // If the axis value is negative
+    else
+    {
+        // Add m_joystickDeadZone to the real axis value
+        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) / 
+               (maximumJoystickAxisValue - m_joystickDeadZone);
+    }
 }
 
 // Clipboard

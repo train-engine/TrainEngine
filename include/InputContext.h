@@ -1,18 +1,31 @@
 #ifndef INPUTCONTEXT_H
 #define INPUTCONTEXT_H
 
-#include <SFML/Graphics.hpp>
-#include "Callbacks.h"
-#include "InputManager.h"
-#include "ActionInput.h"
-#include "StateInput.h"
-#include "RangeInput.h"
+#include <SFML/Window.hpp>
+#include "Misc/Callbacks.h"
+#include "Core/Input/InputManager.h"
+#include "Core/Input/ActionInput.h"
+#include "Core/Input/StateInput.h"
+#include "Core/Input/RangeInput.h"
 
 enum class EventType
 {
     Ascending,
     Descending,
     Any
+};
+
+enum class JoystickAxisPosition
+{
+    AboveTreshold,
+    BelowTreshold,
+    Any
+};
+
+enum class RangeRestriction
+{
+    PositiveOnly,
+    NegativeOnly
 };
 
 class InputContext
@@ -59,31 +72,52 @@ public:
     template<typename Object, typename Callable>
     void BindStateToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
     template<typename Callable>
-    void BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
+    void BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold, JoystickAxisPosition axisPosition);
     template<typename Object, typename Callable>
-    void BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float treshold);
+    void BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float treshold,
+                                 JoystickAxisPosition axisPosition);
     
     // InputRange
     template<typename Callable>
-    void BindRangeToJoystickAxis(Callable, unsigned int joystick, sf::Joystick::Axis axis);
+    void BindRangeToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis);
     template<typename Object, typename Callable>
     void BindRangeToJoystickAxis(Object* object, Callable callback, unsigned int joystick, sf::Joystick::Axis axis);
+    template<typename Callable>
+    void BindRangeToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, RangeRestriction rangeRestriction);
+    template<typename Object, typename Callable>
+    void BindRangeToJoystickAxis(Object* object, Callable callback, unsigned int joystick, sf::Joystick::Axis axis, RangeRestriction rangeRestriction);
     template<typename Callable>
     void BindRangeToMouseScroll(Callable callback, sf::Mouse::Wheel wheelAxis);
     template<typename Object, typename Callable>
     void BindRangeToMouseScroll(Object* object, Callable callback, sf::Mouse::Wheel wheelAxis);
     template<typename Callable>
+    void BindRangeToMouseScroll(Callable callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
+    template<typename Object, typename Callable>
+    void BindRangeToMouseScroll(Object* object, Callable callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
+    template<typename Callable>
     void BindRangeToHorizontalMouseMovement(Callable callback);
     template<typename Object, typename Callable>
     void BindRangeToHorizontalMouseMovement(Object* object, Callable callback);
+    template<typename Callable>
+    void BindRangeToHorizontalMouseMovement(Callable callback, RangeRestriction rangeRestriction);
+    template<typename Object, typename Callable>
+    void BindRangeToHorizontalMouseMovement(Object* object, Callable callback, RangeRestriction rangeRestriction);
     template<typename Callable>
     void BindRangeToVerticalMouseMovement(Callable callback);
     template<typename Object, typename Callable>
     void BindRangeToVerticalMouseMovement(Object* object, Callable callback);
     template<typename Callable>
+    void BindRangeToVerticalMouseMovement(Callable callback, RangeRestriction rangeRestriction);
+    template<typename Object, typename Callable>
+    void BindRangeToVerticalMouseMovement(Object* object, Callable callback, RangeRestriction rangeRestriction);
+    template<typename Callable>
     void BindRangeToKeyboard(Callable callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
     template<typename Object, typename Callable>
     void BindRangeToKeyboard(Object* object, Callable callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
+    template<typename Callable>
+    void BindRangeToKeyboard(Callable callback, sf::Keyboard::Key key, RangeRestriction rangeRestriction);
+    template<typename Object, typename Callable>
+    void BindRangeToKeyboard(Object* object, Callable callback, sf::Keyboard::Key key, RangeRestriction rangeRestriction);
 
 private:
     // Functions
@@ -92,7 +126,9 @@ private:
     void BindActionToJoystickButtonHelper(Callback<>* callback, unsigned int joystick, unsigned int button, EventType eventType);
     void BindActionToMouseMovedHelper(Callback<>* callback);
     void BindActionToMouseWheelScrolledHelper(Callback<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
+    void BindStateToJoystickAxisHelper(Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold, JoystickAxisPosition axisPosition);
     void BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis);
+    void BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
 
     // Attributes
     const InputManager& m_inputManager;

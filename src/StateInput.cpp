@@ -70,7 +70,7 @@ void JoystickButtonEventStateInput::CallAction()
     (*m_callback)(joystickButtonDescending);
 }
 
-// JoystickAxisStateInput
+// JoystickAxisAboveTresholdStateInput
 
 /// Constructor
 /// \param inputManager     A const reference to the InputManager.
@@ -79,7 +79,8 @@ void JoystickButtonEventStateInput::CallAction()
 /// \param treshold         The treshold to be exceeded for the callback to be called.
 ///                         If the treshold is negative, the axis value must be lower for the input to be triggered.
 ///                         If the treshold is positive, the axis value must be higher for the input to be triggered.
-JoystickAxisStateInput::JoystickAxisStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold)
+JoystickAxisAboveTresholdStateInput::JoystickAxisAboveTresholdStateInput(const InputManager& inputManager, Callback<bool>* callback,
+                                                                         unsigned int joystick, sf::Joystick::Axis axis, float treshold)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)
@@ -88,36 +89,55 @@ JoystickAxisStateInput::JoystickAxisStateInput(const InputManager& inputManager,
 {
 }
 
-bool JoystickAxisStateInput::DetectedEvent() const 
+bool JoystickAxisAboveTresholdStateInput::DetectedEvent() const 
 {
     float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
-    bool detectedEvent = false;
-    if (m_treshold >= 0)
-    {
-        // Return if the current axis position just passed the treshold
-        detectedEvent = (m_lastAxisValue <= m_treshold && currentAxisValue > m_treshold) || 
-                        (m_lastAxisValue > m_treshold && currentAxisValue <= m_treshold);
-    }
-    else
-    {
-        // Return if the current axis position just passed the treshold
-        detectedEvent = (m_lastAxisValue >= m_treshold && currentAxisValue < m_treshold) ||
-                        (m_lastAxisValue < m_treshold && currentAxisValue >= m_treshold);
-    }
+    // Return if the current axis position just passed the treshold
+    bool detectedEvent = (m_lastAxisValue <= m_treshold && currentAxisValue > m_treshold) || 
+                         (m_lastAxisValue > m_treshold && currentAxisValue <= m_treshold);
 
     m_lastAxisValue = currentAxisValue;
     return detectedEvent;
 }
 
-void JoystickAxisStateInput::CallAction()
+void JoystickAxisAboveTresholdStateInput::CallAction()
 {
     float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
-    if (m_treshold >= 0)
-    {
-        (*m_callback)(currentAxisValue > m_treshold);
-    }
-    else if (m_treshold < 0)
-    {
-        (*m_callback)(currentAxisValue < m_treshold);
-    }
+    (*m_callback)(currentAxisValue > m_treshold);
+}
+
+// JoystickAxisAboveTresholdStateInput
+
+/// Constructor
+/// \param inputManager     A const reference to the InputManager.
+/// \param callback         The object containing the callback to call when input is triggered.
+/// \param joystick         The id of the joystick controller.
+/// \param treshold         The treshold to be exceeded for the callback to be called.
+///                         If the treshold is negative, the axis value must be lower for the input to be triggered.
+///                         If the treshold is positive, the axis value must be higher for the input to be triggered.
+JoystickAxisBelowTresholdStateInput::JoystickAxisBelowTresholdStateInput(const InputManager& inputManager, Callback<bool>* callback,
+                                                                         unsigned int joystick, sf::Joystick::Axis axis, float treshold)
+    : StateInput(inputManager, callback)
+    , m_joystick(joystick)
+    , m_axis(axis)
+    , m_treshold(std::abs(treshold))
+    , m_lastAxisValue(0)
+{
+}
+
+bool JoystickAxisBelowTresholdStateInput::DetectedEvent() const 
+{
+    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    // Return if the current axis position just passed the treshold
+    bool detectedEvent = (m_lastAxisValue < m_treshold && currentAxisValue >= m_treshold) || 
+                         (m_lastAxisValue >= m_treshold && currentAxisValue < m_treshold);
+
+    m_lastAxisValue = currentAxisValue;
+    return detectedEvent;
+}
+
+void JoystickAxisBelowTresholdStateInput::CallAction()
+{
+    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    (*m_callback)(currentAxisValue < m_treshold);
 }
