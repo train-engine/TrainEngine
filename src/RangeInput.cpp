@@ -515,3 +515,69 @@ void JoystickButtonUnidirectionalRangeInput::CallFunction()
         (*m_callback)(0.0f);
     }
 }
+
+// MouseButtonBidirectionalRangeInput
+
+MouseButtonBidirectionalRangeInput::MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                                                       sf::Mouse::Button negativeMouseButton, sf::Mouse::Button positiveMouseButton)
+    : RangeInput(inputManager, callback)
+    , m_negativeMouseButton(negativeMouseButton)
+    , m_positiveMouseButton(positiveMouseButton)
+{
+}
+
+bool MouseButtonBidirectionalRangeInput::DetectedEvent() const
+{
+    return m_inputManager.IsMouseButtonAscending(m_negativeMouseButton) || m_inputManager.IsMouseButtonAscending(m_positiveMouseButton) ||
+           m_inputManager.IsMouseButtonDescending(m_negativeMouseButton) || m_inputManager.IsMouseButtonDescending(m_positiveMouseButton);
+}
+
+void MouseButtonBidirectionalRangeInput::CallFunction()
+{
+    bool isNegativeButtonHeld = m_inputManager.IsMouseButtonHeld(m_negativeMouseButton);
+    bool isPositiveButtonHeld = m_inputManager.IsMouseButtonHeld(m_positiveMouseButton);
+
+    // If only negative key is held, and the key is not ascending
+    // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
+    if (isNegativeButtonHeld == true && isPositiveButtonHeld == false)
+    {
+        (*m_callback)(-100.0f);
+        return;
+    }
+
+    // If only positive key is held, and the key is not ascending
+    // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
+    if (isPositiveButtonHeld == true && isNegativeButtonHeld == false)
+    {
+        (*m_callback)(100.0f);
+        return;
+    }
+
+    (*m_callback)(0.0f);
+}
+
+// MouseButtonUnidirectionalRangeInput
+
+MouseButtonUnidirectionalRangeInput::MouseButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                                                         sf::Mouse::Button mouseButton)
+    : RangeInput(inputManager, callback)
+    , m_mouseButton(mouseButton)
+{
+}
+
+bool MouseButtonUnidirectionalRangeInput::DetectedEvent() const
+{
+    return m_inputManager.IsMouseButtonAscending(m_mouseButton) || m_inputManager.IsMouseButtonDescending(m_mouseButton);
+}
+
+void MouseButtonUnidirectionalRangeInput::CallFunction()
+{
+    if (m_inputManager.IsMouseButtonHeld(m_mouseButton))
+    {
+        (*m_callback)(100.0f);
+    }
+    else
+    {
+        (*m_callback)(0.0f);
+    }
+}

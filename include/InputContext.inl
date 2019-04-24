@@ -700,7 +700,7 @@ inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
 /// The function will receive the simulated analog input as an argument.
 /// Note: The function will receive an argument ranging in [-100, 100]
 /// \param callback         A function with a float as a parameter.
-/// \param joystick         The joystick id
+/// \param joystick         The joystick id.
 /// \param negativeButton   The joystick button which sends a negative float to the function.
 /// \param positiveButton   The joystick button which sends a positive float to the function.
 template<typename Callable>
@@ -722,7 +722,7 @@ inline void InputContext::BindRangeToJoystickButtons(Callable callback, unsigned
 /// Note: The member function will receive an argument ranging in [-100, 100]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
-/// \param joystick         The joystick id
+/// \param joystick         The joystick id.
 /// \param negativeButton   The joystick button which sends a negative float to the member function.
 /// \param positiveButton   The joystick button which sends a positive float to the member function.
 template<typename Object, typename Callable>
@@ -774,6 +774,80 @@ inline void InputContext::BindRangeToJoystickButton(Object* object, Callable cal
             m_inputManager,
             new CallbackMember<Object, Callable, double>(object, callback),
             joystick,
+            button
+        )
+    );
+}
+
+/// Assign two mouse buttons to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument ranging in [-100, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param negativeButton   The mouse button which sends a negative float to the function.
+/// \param positiveButton   The mouse button which sends a positive float to the function.
+template<typename Callable>
+inline void InputContext::BindRangeToMouseButtons(Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonBidirectionalRangeInput(
+            m_inputManager,
+            new CallbackFunctor<Callable, double>(callback),
+            negativeButton,
+            positiveButton
+        )
+    );
+}
+
+/// Assign two mouse buttons to a member function with a float as a parameter.
+/// The member function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument ranging in [-100, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param negativeButton   The mouse button which sends a negative float to the member function.
+/// \param positiveButton   The mouse button which sends a positive float to the member function.
+template<typename Object, typename Callable>
+inline void InputContext::BindRangeToMouseButtons(Object* object, Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonBidirectionalRangeInput(
+            m_inputManager,
+            new CallbackMember<Object, Callable, double>(object, callback),
+            negativeButton,
+            positiveButton
+        )
+    );
+}
+
+/// Assign a mouse button to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument ranging in [0, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param button           The mouse button which triggers the function.
+template<typename Callable>
+inline void InputContext::BindRangeToMouseButton(Callable callback, sf::Mouse::Button button)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new CallbackFunctor<Callable, double>(callback),
+            button
+        )
+    );
+}
+
+/// Assign a mouse button to a member function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument ranging in [0, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param button           The mouse button which triggers the member function.
+template<typename Object, typename Callable>
+inline void InputContext::BindRangeToMouseButton(Object* object, Callable callback, sf::Mouse::Button button)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new CallbackMember<Object, Callable, double>(object, callback),
             button
         )
     );

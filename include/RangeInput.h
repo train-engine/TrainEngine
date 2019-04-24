@@ -265,4 +265,39 @@ private:
     unsigned int m_button;
 };
 
+/// Class representing joystick buttons able to make a callback to a function with a double as a parameter when triggered.
+class MouseButtonBidirectionalRangeInput final : public RangeInput
+{
+public:
+    MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                       sf::Mouse::Button negativeMouseButton, sf::Mouse::Button positiveMouseButton);
+    MouseButtonBidirectionalRangeInput(const MouseButtonBidirectionalRangeInput&) = delete;
+    MouseButtonBidirectionalRangeInput(MouseButtonBidirectionalRangeInput&&) = delete;
+    MouseButtonBidirectionalRangeInput& operator=(const MouseButtonBidirectionalRangeInput&) = delete;
+    MouseButtonBidirectionalRangeInput& operator=(MouseButtonBidirectionalRangeInput&&) = delete;
+    virtual bool DetectedEvent() const override;
+    virtual void CallFunction() override;
+
+private:
+    sf::Mouse::Button m_negativeMouseButton;
+    sf::Mouse::Button m_positiveMouseButton;
+};
+
+/// Class representing a joystick button able to make a callback to a function with a double as a parameter when triggered.
+class MouseButtonUnidirectionalRangeInput final : public RangeInput
+{
+public:
+    MouseButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                        sf::Mouse::Button mouseButton);
+    MouseButtonUnidirectionalRangeInput(const MouseButtonUnidirectionalRangeInput&) = delete;
+    MouseButtonUnidirectionalRangeInput(MouseButtonUnidirectionalRangeInput&&) = delete;
+    MouseButtonUnidirectionalRangeInput& operator=(const MouseButtonUnidirectionalRangeInput&) = delete;
+    MouseButtonUnidirectionalRangeInput& operator=(MouseButtonUnidirectionalRangeInput&&) = delete;
+    virtual bool DetectedEvent() const override;
+    virtual void CallFunction() override;
+
+private:
+    sf::Mouse::Button m_mouseButton;
+};
+
 #endif //RANGEINPUT_H

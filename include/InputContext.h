@@ -118,6 +118,15 @@ public:
     template<typename Object, typename Callable>
     void BindRangeToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
 
+    template<typename Callable>
+    void BindRangeToMouseButtons(Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton);
+    template<typename Object, typename Callable>
+    void BindRangeToMouseButtons(Object* object, Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton);
+    template<typename Callable>
+    void BindRangeToMouseButton(Callable callback, sf::Mouse::Button button);
+    template<typename Object, typename Callable>
+    void BindRangeToMouseButton(Object* object, Callable callback, sf::Mouse::Button button);
+
 private:
     // Functions
     void BindActionToKeyHelper(Callback<>* callback, sf::Keyboard::Key key, EventType eventType);
