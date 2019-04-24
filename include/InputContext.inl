@@ -379,7 +379,7 @@ inline void InputContext::BindRangeToJoystickAxis(Callable callback, unsigned in
         m_rangeInputs.push_back(
             new JoystickAxisBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback),
+                new CallbackFunctor<Callable, float>(callback),
                 joystick,
                 axis
             )
@@ -390,7 +390,7 @@ inline void InputContext::BindRangeToJoystickAxis(Callable callback, unsigned in
         m_rangeInputs.push_back(
             new JoystickAxisUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback),
+                new CallbackFunctor<Callable, float>(callback),
                 joystick,
                 axis,
                 rangeRestriction == RangeRestriction::PositiveOnly
@@ -418,7 +418,7 @@ inline void InputContext::BindRangeToJoystickAxis(Object* object, Callable callb
         m_rangeInputs.push_back(
             new JoystickAxisBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback),
+                new CallbackMember<Object, Callable, float>(object, callback),
                 joystick,
                 axis
             )
@@ -429,7 +429,7 @@ inline void InputContext::BindRangeToJoystickAxis(Object* object, Callable callb
         m_rangeInputs.push_back(
             new JoystickAxisUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback),
+                new CallbackMember<Object, Callable, float>(object, callback),
                 joystick,
                 axis,
                 rangeRestriction == RangeRestriction::PositiveOnly
@@ -452,14 +452,14 @@ inline void InputContext::BindRangeToMouseScroll(Callable callback, sf::Mouse::W
     if (rangeRestriction == RangeRestriction::None)
     {
         BindRangeToMouseScrollHelper(
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             wheelAxis
         );
     }
     else
     {
         BindRangeToMouseScrollHelper(
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             wheelAxis,
             rangeRestriction
         );
@@ -481,14 +481,14 @@ inline void InputContext::BindRangeToMouseScroll(Object* object, Callable callba
     if (rangeRestriction == RangeRestriction::None)
     {
         BindRangeToMouseScrollHelper(
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             wheelAxis
         );
     }
     else
     {
         BindRangeToMouseScrollHelper(
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             wheelAxis,
             rangeRestriction
         );
@@ -510,7 +510,7 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(Callable callback, 
         m_rangeInputs.push_back(
             new HorizontalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback)
+                new CallbackFunctor<Callable, float>(callback)
             )
         );
     }
@@ -519,7 +519,7 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(Callable callback, 
         m_rangeInputs.push_back(
             new HorizontalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback),
+                new CallbackFunctor<Callable, float>(callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
@@ -542,7 +542,7 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(Object* object, Cal
         m_rangeInputs.push_back(
             new HorizontalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback)
+                new CallbackMember<Object, Callable, float>(object, callback)
             )
         );
     }
@@ -551,7 +551,7 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(Object* object, Cal
         m_rangeInputs.push_back(
             new HorizontalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback),
+                new CallbackMember<Object, Callable, float>(object, callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
@@ -573,7 +573,7 @@ inline void InputContext::BindRangeToVerticalMouseMovement(Callable callback, Ra
         m_rangeInputs.push_back(
             new VerticalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback)
+                new CallbackFunctor<Callable, float>(callback)
             )
         );
     }
@@ -582,7 +582,7 @@ inline void InputContext::BindRangeToVerticalMouseMovement(Callable callback, Ra
         m_rangeInputs.push_back(
             new VerticalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, double>(callback),
+                new CallbackFunctor<Callable, float>(callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
@@ -605,7 +605,7 @@ inline void InputContext::BindRangeToVerticalMouseMovement(Object* object, Calla
         m_rangeInputs.push_back(
             new VerticalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback)
+                new CallbackMember<Object, Callable, float>(object, callback)
             )
         );
     }
@@ -614,7 +614,7 @@ inline void InputContext::BindRangeToVerticalMouseMovement(Object* object, Calla
         m_rangeInputs.push_back(
             new VerticalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, double>(object, callback),
+                new CallbackMember<Object, Callable, float>(object, callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
@@ -633,7 +633,7 @@ inline void InputContext::BindRangeToKeyboard(Callable callback, sf::Keyboard::K
     m_rangeInputs.push_back(
         new KeyboardBidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             negativeKey,
             positiveKey
         )
@@ -654,7 +654,7 @@ inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
     m_rangeInputs.push_back(
         new KeyboardBidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             negativeKey,
             positiveKey
         )
@@ -672,7 +672,7 @@ inline void InputContext::BindRangeToKeyboard(Callable callback, sf::Keyboard::K
     m_rangeInputs.push_back(
         new KeyboardUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             key
         )
     );
@@ -690,7 +690,7 @@ inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
     m_rangeInputs.push_back(
         new KeyboardUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             key
         )
     );
@@ -709,7 +709,7 @@ inline void InputContext::BindRangeToJoystickButtons(Callable callback, unsigned
     m_rangeInputs.push_back(
         new JoystickButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             joystick,
             negativeButton,
             positiveButton
@@ -732,7 +732,7 @@ inline void InputContext::BindRangeToJoystickButtons(Object* object, Callable ca
     m_rangeInputs.push_back(
         new JoystickButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             joystick,
             positiveButton,
             negativeButton
@@ -752,7 +752,7 @@ inline void InputContext::BindRangeToJoystickButton(Callable callback, unsigned 
     m_rangeInputs.push_back(
         new JoystickButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             joystick,
             button
         )
@@ -772,7 +772,7 @@ inline void InputContext::BindRangeToJoystickButton(Object* object, Callable cal
     m_rangeInputs.push_back(
         new JoystickButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             joystick,
             button
         )
@@ -791,7 +791,7 @@ inline void InputContext::BindRangeToMouseButtons(Callable callback, sf::Mouse::
     m_rangeInputs.push_back(
         new MouseButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             negativeButton,
             positiveButton
         )
@@ -811,7 +811,7 @@ inline void InputContext::BindRangeToMouseButtons(Object* object, Callable callb
     m_rangeInputs.push_back(
         new MouseButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             negativeButton,
             positiveButton
         )
@@ -829,7 +829,7 @@ inline void InputContext::BindRangeToMouseButton(Callable callback, sf::Mouse::B
     m_rangeInputs.push_back(
         new MouseButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, double>(callback),
+            new CallbackFunctor<Callable, float>(callback),
             button
         )
     );
@@ -847,7 +847,7 @@ inline void InputContext::BindRangeToMouseButton(Object* object, Callable callba
     m_rangeInputs.push_back(
         new MouseButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, double>(object, callback),
+            new CallbackMember<Object, Callable, float>(object, callback),
             button
         )
     );
@@ -1013,7 +1013,7 @@ inline void InputContext::BindStateToJoystickAxisHelper(Callback<bool>* callback
     }
 }
 
-inline void InputContext::BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis)
+inline void InputContext::BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis)
 {
     switch (wheelAxis)
     {
@@ -1036,7 +1036,7 @@ inline void InputContext::BindRangeToMouseScrollHelper(Callback<double>* callbac
     }
 }
 
-inline void InputContext::BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
+inline void InputContext::BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
     switch (wheelAxis)
     {

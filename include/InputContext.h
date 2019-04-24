@@ -135,8 +135,8 @@ private:
     void BindActionToMouseMovedHelper(Callback<>* callback);
     void BindActionToMouseWheelScrolledHelper(Callback<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
     void BindStateToJoystickAxisHelper(Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold, JoystickAxisPosition axisPosition);
-    void BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis);
-    void BindRangeToMouseScrollHelper(Callback<double>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
+    void BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis);
+    void BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
 
     // Attributes
     const InputManager& m_inputManager;
