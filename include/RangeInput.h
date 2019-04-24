@@ -216,8 +216,7 @@ private:
 class KeyboardUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback, sf::Keyboard::Key key,
-                                     bool isRestrictedToPositives);
+    KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback, sf::Keyboard::Key key);
     KeyboardUnidirectionalRangeInput(const KeyboardUnidirectionalRangeInput&) = delete;
     KeyboardUnidirectionalRangeInput(KeyboardUnidirectionalRangeInput&&) = delete;
     KeyboardUnidirectionalRangeInput& operator=(const KeyboardUnidirectionalRangeInput&) = delete;
@@ -227,7 +226,6 @@ public:
 
 private:
     sf::Keyboard::Key m_key;
-    bool m_isRestrictedToPositives;
 };
 
 #endif //RANGEINPUT_H

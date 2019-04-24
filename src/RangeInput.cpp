@@ -425,10 +425,9 @@ void KeyboardBidirectionalRangeInput::CallFunction()
 /// \param negativeKey      The key wich will send -100 to the callback when pressed.
 /// \param positiveKey      The key wich will send +100 to the callback when pressed.
 KeyboardUnidirectionalRangeInput::KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
-                                                                   sf::Keyboard::Key key, bool isRestrictedToPositives)
+                                                                   sf::Keyboard::Key key)
     : RangeInput(inputManager, callback)
     , m_key(key)
-    , m_isRestrictedToPositives(isRestrictedToPositives)
 {
 }
 
@@ -441,14 +440,7 @@ void KeyboardUnidirectionalRangeInput::CallFunction()
 {
     if (m_inputManager.IsKeyHeld(m_key))
     {
-        if (m_isRestrictedToPositives)
-        {
-            (*m_callback)(100.0f);
-        }
-        else
-        {
-            (*m_callback)(-100.0f);
-        }
+        (*m_callback)(100.0f);
     }
     else
     {
