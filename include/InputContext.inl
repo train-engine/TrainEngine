@@ -49,6 +49,28 @@ inline void InputContext::Update()
     }
 }
 
+/// Clear every input binding
+inline void InputContext::Clear()
+{
+    for (auto& input : m_actionInputs)
+    {
+        delete input;
+    }
+    m_actionInputs.resize(0);
+
+    for (auto& input : m_stateInputs)
+    {
+        delete input;
+    }
+    m_stateInputs.resize(0);
+
+    for (auto& input : m_rangeInputs)
+    {
+        delete input;
+    }
+    m_rangeInputs.resize(0);
+}
+
 /// Assign a key action to a function with no parameters.
 /// \param callback     A function with no parameters.
 /// \param key          The key bound to the action.
@@ -342,7 +364,7 @@ void InputContext::BindStateToJoystickAxis(Object* object, Callable callback,  u
 /// The function will receive the joystick axis' position as an argument.
 /// Note: The function will receive an argument ranging in [0, 100] or [-100, 0] depending on the rangeRestriction.
 /// \param callback         A function with a float as a parameter.
-/// \param joystick         The joystick bound to the callback.
+/// \param joystick         The joystick id.
 /// \param joystickAxis     The joystick axis bound to the callback.
 /// \param rangeRestriction The restriction of the callback range of the joystick axis.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
@@ -382,7 +404,7 @@ inline void InputContext::BindRangeToJoystickAxis(Callable callback, unsigned in
 /// Note: The member function will receive an argument ranging in [0, 100] or [-100, 0] depending on the rangeRestriction.
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
-/// \param joystick         The joystick bound to the callback.
+/// \param joystick         The joystick id.
 /// \param joystickAxis     The joystick axis bound to the callback.
 /// \param rangeRestriction The restriction of the callback range of the joystick axis.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
@@ -639,7 +661,7 @@ inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
     );
 }
 
-/// Assign a keys to a function with a float as a parameter.
+/// Assign a key to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
 /// Note: The function will receive an argument ranging in [0, 100]
 /// \param callback         A function with a float as a parameter.
@@ -656,7 +678,7 @@ inline void InputContext::BindRangeToKeyboard(Callable callback, sf::Keyboard::K
     );
 }
 
-/// Assign a keys to a member function with a float as a parameter.
+/// Assign key to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
 /// Note: The member function will receive an argument ranging in [0, 100]
 /// \param object           The object on which the member function must be called.
@@ -670,6 +692,89 @@ inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
             m_inputManager,
             new CallbackMember<Object, Callable, double>(object, callback),
             key
+        )
+    );
+}
+
+/// Assign two joystick buttons to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument ranging in [-100, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param joystick         The joystick id
+/// \param negativeButton   The joystick button which sends a negative float to the function.
+/// \param positiveButton   The joystick button which sends a positive float to the function.
+template<typename Callable>
+inline void InputContext::BindRangeToJoystickButtons(Callable callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton)
+{
+    m_rangeInputs.push_back(
+        new JoystickButtonBidirectionalRangeInput(
+            m_inputManager,
+            new CallbackFunctor<Callable, double>(callback),
+            joystick,
+            negativeButton,
+            positiveButton
+        )
+    );
+}
+
+/// Assign two joystick buttons to a member function with a float as a parameter.
+/// The member function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument ranging in [-100, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param joystick         The joystick id
+/// \param negativeButton   The joystick button which sends a negative float to the member function.
+/// \param positiveButton   The joystick button which sends a positive float to the member function.
+template<typename Object, typename Callable>
+inline void InputContext::BindRangeToJoystickButtons(Object* object, Callable callback, unsigned int joystick, unsigned int positiveButton,
+                                                    unsigned int negativeButton)
+{
+    m_rangeInputs.push_back(
+        new JoystickButtonBidirectionalRangeInput(
+            m_inputManager,
+            new CallbackMember<Object, Callable, double>(object, callback),
+            joystick,
+            positiveButton,
+            negativeButton
+        )
+    );
+}
+
+/// Assign a joystick button to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument ranging in [0, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param joystick         The joystick id.
+/// \param button           The joystick button which triggers the function.
+template<typename Callable>
+inline void InputContext::BindRangeToJoystickButton(Callable callback, unsigned int joystick, unsigned int button)
+{
+    m_rangeInputs.push_back(
+        new JoystickButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new CallbackFunctor<Callable, double>(callback),
+            joystick,
+            button
+        )
+    );
+}
+
+/// Assign a joystick button to a member function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument ranging in [0, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param joystick         The joystick id.
+/// \param button           The joystick button which triggers the member function.
+template<typename Object, typename Callable>
+inline void InputContext::BindRangeToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button)
+{
+    m_rangeInputs.push_back(
+        new JoystickButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new CallbackMember<Object, Callable, double>(object, callback),
+            joystick,
+            button
         )
     );
 }

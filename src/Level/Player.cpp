@@ -15,7 +15,7 @@ Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& i
     m_inputContext.BindRangeToJoystickAxis(this, &Player::SetVerticalDirection, 0, sf::Joystick::Y);
     m_inputContext.BindStateToJoystickButton(this, &Player::SetIsPressingUp, 0, 0);
 
-    m_inputContext.BindRangeToJoystickAxis(
+    /*m_inputContext.BindRangeToJoystickAxis(
         [](float range) {std::cout << "Range: " << range << std::endl;},
         0,
         sf::Joystick::X
@@ -33,6 +33,18 @@ Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& i
     m_inputContext.BindRangeToKeyboard(
         [](float range) {std::cout << "Range: " << range << std::endl;},
         sf::Keyboard::Left
+    );
+
+    m_inputContext.BindRangeToJoystickButton(
+        [](float range) {std::cout << "Range: " << range << std::endl;},
+        0,
+        4
+    );*/
+
+    m_inputContext.BindRangeToJoystickAxis(
+        [](float range) {std::cout << "xd: " << range << std::endl;},
+        0,
+        sf::Joystick::Axis::Z
     );
 }
 

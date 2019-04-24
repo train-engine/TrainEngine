@@ -228,4 +228,41 @@ private:
     sf::Keyboard::Key m_key;
 };
 
+/// Class representing joystick buttons able to make a callback to a function with a double as a parameter when triggered.
+class JoystickButtonBidirectionalRangeInput final : public RangeInput
+{
+public:
+    JoystickButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback, unsigned int joystick,
+                                          unsigned int negativeJoystickButton, unsigned int positiveJoystickButton);
+    JoystickButtonBidirectionalRangeInput(const JoystickButtonBidirectionalRangeInput&) = delete;
+    JoystickButtonBidirectionalRangeInput(JoystickButtonBidirectionalRangeInput&&) = delete;
+    JoystickButtonBidirectionalRangeInput& operator=(const JoystickButtonBidirectionalRangeInput&) = delete;
+    JoystickButtonBidirectionalRangeInput& operator=(JoystickButtonBidirectionalRangeInput&&) = delete;
+    virtual bool DetectedEvent() const override;
+    virtual void CallFunction() override;
+
+private:
+    unsigned int m_joystick;
+    unsigned int m_negativeJoystickButton;
+    unsigned int m_positiveJoystickButton;
+};
+
+/// Class representing a joystick button able to make a callback to a function with a double as a parameter when triggered.
+class JoystickButtonUnidirectionalRangeInput final : public RangeInput
+{
+public:
+    JoystickButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback, unsigned int joystick,
+                                           unsigned int button);
+    JoystickButtonUnidirectionalRangeInput(const JoystickButtonUnidirectionalRangeInput&) = delete;
+    JoystickButtonUnidirectionalRangeInput(JoystickButtonUnidirectionalRangeInput&&) = delete;
+    JoystickButtonUnidirectionalRangeInput& operator=(const JoystickButtonUnidirectionalRangeInput&) = delete;
+    JoystickButtonUnidirectionalRangeInput& operator=(JoystickButtonUnidirectionalRangeInput&&) = delete;
+    virtual bool DetectedEvent() const override;
+    virtual void CallFunction() override;
+
+private:
+    unsigned int m_joystick;
+    unsigned int m_button;
+};
+
 #endif //RANGEINPUT_H

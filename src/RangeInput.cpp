@@ -447,3 +447,71 @@ void KeyboardUnidirectionalRangeInput::CallFunction()
         (*m_callback)(0.0f);
     }
 }
+
+JoystickButtonBidirectionalRangeInput::JoystickButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                                                             unsigned int joystick, unsigned int negativeJoystickButton,
+                                                                             unsigned int positiveJoystickButton)
+    : RangeInput(inputManager, callback)
+    , m_joystick(joystick)
+    , m_negativeJoystickButton(negativeJoystickButton)
+    , m_positiveJoystickButton(positiveJoystickButton)
+{
+}
+
+bool JoystickButtonBidirectionalRangeInput::DetectedEvent() const
+{
+    return m_inputManager.IsJoystickButtonDescending(m_joystick, m_negativeJoystickButton) ||
+           m_inputManager.IsJoystickButtonDescending(m_joystick, m_positiveJoystickButton) ||
+           m_inputManager.IsJoystickButtonAscending(m_joystick, m_negativeJoystickButton) ||
+           m_inputManager.IsJoystickButtonAscending(m_joystick, m_positiveJoystickButton);
+}
+
+void JoystickButtonBidirectionalRangeInput::CallFunction()
+{
+    bool isNegativeButtonHeld = m_inputManager.IsJoystickButtonHeld(m_joystick, m_negativeJoystickButton);
+    bool isPositiveButtonHeld = m_inputManager.IsJoystickButtonHeld(m_joystick, m_positiveJoystickButton);
+
+    // If only negative key is held, and the key is not ascending
+    // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
+    if (isNegativeButtonHeld == true && isPositiveButtonHeld == false)
+    {
+        (*m_callback)(-100.0f);
+        return;
+    }
+
+    // If only positive key is held, and the key is not ascending
+    // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
+    if (isPositiveButtonHeld == true && isNegativeButtonHeld == false)
+    {
+        (*m_callback)(100.0f);
+        return;
+    }
+
+    (*m_callback)(0.0f);
+}
+
+JoystickButtonUnidirectionalRangeInput::JoystickButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<double>* callback,
+                                                                               unsigned int joystick, unsigned int button)
+    : RangeInput(inputManager, callback)
+    , m_joystick(joystick)
+    , m_button(button)
+{
+}
+
+bool JoystickButtonUnidirectionalRangeInput::DetectedEvent() const
+{
+    return m_inputManager.IsJoystickButtonDescending(m_joystick, m_button) ||
+           m_inputManager.IsJoystickButtonAscending(m_joystick, m_button);
+}
+
+void JoystickButtonUnidirectionalRangeInput::CallFunction()
+{
+    if (m_inputManager.IsJoystickButtonHeld(m_joystick, m_button))
+    {
+        (*m_callback)(100.0f);
+    }
+    else
+    {
+        (*m_callback)(0.0f);
+    }
+}

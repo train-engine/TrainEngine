@@ -37,6 +37,8 @@ public:
 
     void Update();
 
+    void Clear();
+
     // InputAction
     template<typename Callable>
     void BindActionToKey(Callable callback, sf::Keyboard::Key key, EventType eventType);
@@ -107,6 +109,14 @@ public:
     void BindRangeToKeyboard(Callable callback, sf::Keyboard::Key key);
     template<typename Object, typename Callable>
     void BindRangeToKeyboard(Object* object, Callable callback, sf::Keyboard::Key key);
+    template<typename Callable>
+    void BindRangeToJoystickButtons(Callable callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton);
+    template<typename Object, typename Callable>
+    void BindRangeToJoystickButtons(Object* object, Callable callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton);
+    template<typename Callable>
+    void BindRangeToJoystickButton(Callable callback, unsigned int joystick, unsigned int button);
+    template<typename Object, typename Callable>
+    void BindRangeToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button);
 
 private:
     // Functions
