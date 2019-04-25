@@ -13,6 +13,7 @@ Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& i
 
     m_inputContext.BindRangeToJoystickAxis(this, &Player::SetHorizontalDirection, 0, sf::Joystick::X);
     m_inputContext.BindRangeToJoystickAxis(this, &Player::SetVerticalDirection, 0, sf::Joystick::Y);
+    m_inputContext.BindRangeToJoystickButtons(this, &Player::SetVerticalDirection, 0, 5, 4);
     m_inputContext.BindStateToJoystickButton(this, &Player::SetIsPressingUp, 0, 0);
 }
 

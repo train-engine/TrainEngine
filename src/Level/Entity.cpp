@@ -509,6 +509,8 @@ void Entity::PerformCollisions()
     }
 }
 
+#include <iostream>
+
 void Entity::Update()
 {
     m_previousPosition = m_position;

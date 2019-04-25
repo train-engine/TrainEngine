@@ -52,7 +52,6 @@ void PlayState::ReadMusicSettings()
 
 void PlayState::PauseStart()
 {
-    m_music.setVolume(m_music.getVolume() * 0.20);
     m_rGame.RequestPush(new PauseState(m_rGame));
 }
 
@@ -111,12 +110,12 @@ void PlayState::Draw(sf::RenderTarget& rTarget, float lag)
 
 void PlayState::Pause()
 {
-    m_music.stop();
+    m_music.pause();
 }
 
 void PlayState::Resume()
 {
-    ReadMusicSettings();
+    m_music.play();
 }
 
 void PlayState::OnWindowResize()
