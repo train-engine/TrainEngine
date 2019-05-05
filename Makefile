@@ -1,3 +1,7 @@
+################################################################################
+##### Variables and settings
+################################################################################
+
 # Project name
 EXEC = TrainEngine
 
@@ -8,7 +12,7 @@ BIN_DIR_ROOT = bin
 BIN_DIR := $(BIN_DIR_ROOT)
 INSTALL_DIR := ~/Desktop/$(EXEC)
 
-# Sources
+# Sources (searches recursively inside the source directory)
 SRC_DIR = src
 SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
@@ -16,7 +20,7 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 INCLUDE_DIR = include
 INCLUDES := -I$(INCLUDE_DIR)
 
-# C preprocessor flags
+# C preprocessor settings
 CPPFLAGS := -MMD -MP $(INCLUDES)
 
 # C++ compiler settings
@@ -26,6 +30,10 @@ WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlog
 		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wredundant-decls\
 		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
+# Linker settings
+LDFLAGS =
+LDLIBS =
+
 # SFML variables
 SFML_DIR = libs/SFML-2.4.2
 SFML_GRAPHICS_LIBS = sfml-graphics
@@ -34,64 +42,91 @@ SFML_AUDIO_LIBS = sfml-audio
 SFML_NETWORK_LIBS = sfml-network
 SFML_SYSTEM_LIBS = sfml-system
 
-# OS-specific settings
-ifeq ($(OS),Windows_NT)
-	EXEC := $(EXEC).exe
-	BUILD_DIR := $(BUILD_DIR)/make_windows
-	BIN_DIR := $(BIN_DIR)/windows
-
-	# Link SFML statically on Windows
-	CPPFLAGS += -DSFML_STATIC
-
-	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-s
-	SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-s
-	SFML_AUDIO_LIBS := $(SFML_AUDIO_LIBS)-s
-	SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)-s
-	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-s
-
-	ifeq ($(release),1)
-		# Link everything statically (including libgcc and libstdc++) and disable console output on release builds
-		LDFLAGS = -static -mwindows
-	else
-		# Link the debug versions of SFML when compiling for debug on Windows
-		SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)-d
-		SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)-d
-		SFML_AUDIO_LIBS := $(SFML_AUDIO_LIBS)-d
-		SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)-d
-		SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)-d
-	endif
-
-	# Add dependencies for SFML libraries when statically linking
-	SFML_GRAPHICS_LIBS += freetype jpeg
-	SFML_WINDOW_LIBS += opengl32 gdi32
-	SFML_AUDIO_LIBS += openal32 flac vorbisenc vorbisfile vorbis ogg
-	SFML_NETWORK_LIBS += ws2_32
-	SFML_SYSTEM_LIBS += winmm
-
-	# 32-bit
-	ifeq ($(win32),1)
-		BUILD_DIR := $(BUILD_DIR)32
-		BIN_DIR := $(BIN_DIR)32
-		CXXFLAGS += -m32
-		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-32-bit
-	else
-		BUILD_DIR := $(BUILD_DIR)64
-		BIN_DIR := $(BIN_DIR)64
-		CXXFLAGS += -m64
-		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-64-bit
-	endif
+# Target OS detection
+ifeq ($(OS),Windows_NT) # OS is a preexisting environment variable on Windows
+	OS = windows
 else
 	UNAME := $(shell uname -s)
-	ifeq ($(UNAME),Linux)
-		BUILD_DIR := $(BUILD_DIR)/make_linux
-		BIN_DIR := $(BIN_DIR)/linux
+	ifeq ($(UNAME),Darwin)
+		ifeq ($(ios),1)
+			OS = ios
+		else
+			OS = macos
+		endif
+	else ifeq ($(UNAME),Linux)
+		OS = linux
 	else
     	$(error OS not supported by this Makefile)
 	endif
 endif
 
+# OS-specific build and bin directories
+BUILD_DIR := $(BUILD_DIR)/make_$(OS)
+BIN_DIR := $(BIN_DIR)/$(OS)
+ifeq ($(OS),windows)
+	# Windows 32-bit
+	ifeq ($(win32),1)
+		BUILD_DIR := $(BUILD_DIR)32
+		BIN_DIR := $(BIN_DIR)32
+	# Windows 64-bit
+	else
+		BUILD_DIR := $(BUILD_DIR)64
+		BIN_DIR := $(BIN_DIR)64
+	endif
+endif
+
+# OS-specific compilation and linking settings
+ifeq ($(OS),windows)
+	# Add .exe extension to executable
+	EXEC := $(EXEC).exe
+
+	# Link everything statically on Windows (including libgcc and libstdc++)
+	LDFLAGS += -static
+
+	# Disable console output on release builds
+	ifeq ($(release),1)
+		LDFLAGS += -mwindows
+	endif
+
+	# Link -s SFML libs in release, and -s-d in debug
+	ifeq ($(release),1)
+		SFML_LIBS_SUFFIX = -s
+	else
+		SFML_LIBS_SUFFIX = -s-d
+	endif
+
+	# Edit SFML lib names with suffix
+	SFML_GRAPHICS_LIBS := $(SFML_GRAPHICS_LIBS)$(SFML_LIBS_SUFFIX)
+	SFML_WINDOW_LIBS := $(SFML_WINDOW_LIBS)$(SFML_LIBS_SUFFIX)
+	SFML_AUDIO_LIBS := $(SFML_AUDIO_LIBS)$(SFML_LIBS_SUFFIX)
+	SFML_NETWORK_LIBS := $(SFML_NETWORK_LIBS)$(SFML_LIBS_SUFFIX)
+	SFML_SYSTEM_LIBS := $(SFML_SYSTEM_LIBS)$(SFML_LIBS_SUFFIX)
+
+	# Link SFML statically and add the dependencies for statically-linked SFML libraries
+	CPPFLAGS += -DSFML_STATIC
+	SFML_GRAPHICS_LIBS += freetype jpeg
+	SFML_WINDOW_LIBS += opengl32 gdi32
+	SFML_AUDIO_LIBS += openal32 flac vorbisenc vorbisfile vorbis ogg
+	SFML_NETWORK_LIBS += ws2_32
+	SFML_SYSTEM_LIBS += winmm
+	
+	# 32-bit flags
+	ifeq ($(win32),1)
+		CXXFLAGS += -m32
+		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-32-bit
+	# 64-bit flags
+	else
+		CXXFLAGS += -m64
+		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-64-bit
+	endif
+else ifeq ($(OS),macos)
+	# TODO
+else ifeq ($(OS),ios)
+	# TODO
+endif
+
 # OS-specific assets-copying script selection
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS),windows)
 	ifeq ($(win32),1)
 		ifeq ($(release),1)
 			COPY_ASSETS_SCRIPT = u_copy_assets_windows32_r.sh
@@ -105,7 +140,7 @@ ifeq ($(OS),Windows_NT)
 			COPY_ASSETS_SCRIPT = u_copy_assets_windows64_d.sh
 		endif
 	endif
-else ifeq ($(UNAME),Linux)
+else ifeq ($(OS),linux)
 	ifeq ($(release),1)
 		COPY_ASSETS_SCRIPT = u_copy_assets_linux_r.sh
 	else
@@ -113,7 +148,7 @@ else ifeq ($(UNAME),Linux)
 	endif
 endif
 
-# Debug (default) and release modes
+# Debug (default) and release modes settings
 ifeq ($(release),1)
 	BUILD_DIR := $(BUILD_DIR)/release
 	BIN_DIR := $(BIN_DIR)/release
@@ -125,15 +160,6 @@ else
 	CXXFLAGS += -O0 -g
 endif
 
-# Linker flags for SFML
-SFML_GRAPHICS_LIBS := $(addprefix -l,$(SFML_GRAPHICS_LIBS))
-SFML_WINDOW_LIBS := $(addprefix -l,$(SFML_WINDOW_LIBS))
-SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
-SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
-SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
-
-LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
-
 # Objects and dependencies
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
@@ -143,7 +169,18 @@ ifeq ($(OS),Windows_NT)
 	OBJS += $(BUILD_DIR)/resource.res
 endif
 
-# Rules
+# Add SFML to linked libraries
+SFML_GRAPHICS_LIBS := $(addprefix -l,$(SFML_GRAPHICS_LIBS))
+SFML_WINDOW_LIBS := $(addprefix -l,$(SFML_WINDOW_LIBS))
+SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
+SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
+SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
+
+LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
+
+################################################################################
+##### Targets
+################################################################################
 
 .PHONY: all
 all: $(BIN_DIR)/$(EXEC)
@@ -154,7 +191,7 @@ $(BIN_DIR)/$(EXEC): $(OBJS)
 	@mkdir -p $(@D)
 	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-# Build C++ source files
+# Compile C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo "Compiling: $<"
 	@mkdir -p $(@D)
@@ -211,9 +248,34 @@ doc:
 	@echo "Generating documentation"
 	@doxygen docs/Doxyfile
 
-# Echo Makefile variables
+# Print help information
+.PHONY: help
+help:
+	@echo "Usage: make target... [options]..."
+	@echo
+	@echo "Targets:"
+	@echo "  all             Build executable (debug mode by default)"
+	@echo "  install         Install packaged program to desktop (debug mode by default)"
+	@echo "  run             Build and run executable (debug mode by default)"
+	@echo "  copyassets      Copy assets to executable directory for selected platform"
+	@echo "  clean           Clean build and bin directories (all platforms)"
+	@echo "  cleanassets     Clean assets from executable directories (all platforms)"
+	@echo "  format          Run clang-format on source code"
+	@echo "  doc             Generate documentation with Doxygen"
+	@echo "  help            Print this information"
+	@echo "  printvars       Print Makefile variables for debugging"
+	@echo
+	@echo "Options:"
+	@echo "  release=1       Build using release configuration rather than debug"
+	@echo "  win32=1         Build for 32-bit Windows (valid when built on Windows only)"
+	@echo "  ios=1           Build for iOS (valid when built on macOS only)"
+	@echo
+	@echo "Note: options affect all, install, run, copyassets, and printvars targets"
+
+# Print Makefile variables
 .PHONY: printvars
 printvars:
+	@echo OS: $(OS)
 	@echo EXEC: $(EXEC)
 	@echo BUILD_DIR: $(BUILD_DIR)
 	@echo BIN_DIR: $(BIN_DIR)
