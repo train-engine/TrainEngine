@@ -1,4 +1,4 @@
-// Not necessary: only for vscode to not put errors everywhere.
+// Not necessary: only for VS Code to not put errors everywhere
 #include "InputContext.h"
 
 /// Destructor

@@ -7,7 +7,7 @@
 
 namespace FileManager
 {
-#if defined(SFML_SYSTEM_MACOS)
+#if defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
     std::string ResourcePath();
 #else
     inline std::string ResourcePath() { return ""; }

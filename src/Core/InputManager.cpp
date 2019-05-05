@@ -166,12 +166,11 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         }
     }
 
-    /// Why is this not done in the event loop?
     for (std::size_t i = 0; i < m_joystickAxesPosition.size(); i++)
     {
         for (std::size_t j = 0; j < m_joystickAxesPosition[i].size(); j++)
         {
-            m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(i, static_cast<sf::Joystick::Axis>(j));
+            m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(static_cast<unsigned int>(i), static_cast<sf::Joystick::Axis>(j));
         }
     }
 

@@ -1,4 +1,5 @@
-#include "StateInput.h"
+#include "Core/Input/StateInput.h"
+#include <cmath>
 
 // StateInput
 
@@ -120,7 +121,7 @@ JoystickAxisBelowTresholdStateInput::JoystickAxisBelowTresholdStateInput(const I
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)
-    , m_treshold(std::abs(treshold))
+    , m_treshold(std::fabs(treshold))
     , m_lastAxisValue(0)
 {
 }
