@@ -18,7 +18,8 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 
 # Includes
 INCLUDE_DIR = include
-INCLUDES := -I$(INCLUDE_DIR)
+SFML_DIR = libs/SFML-2.4.2
+INCLUDES := -I$(INCLUDE_DIR) -isystem $(SFML_DIR)/include
 
 # C preprocessor settings
 CPPFLAGS := -MMD -MP $(INCLUDES)
@@ -34,8 +35,10 @@ WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlog
 LDFLAGS =
 LDLIBS =
 
-# SFML variables
-SFML_DIR = libs/SFML-2.4.2
+# XCode project path
+XCODE_PROJ := proj/xcode/$(EXEC).xcodeproj
+
+# SFML libraries
 SFML_GRAPHICS_LIBS = sfml-graphics
 SFML_WINDOW_LIBS = sfml-window
 SFML_AUDIO_LIBS = sfml-audio
@@ -120,9 +123,13 @@ ifeq ($(OS),windows)
 		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-64-bit
 	endif
 else ifeq ($(OS),macos)
-	# TODO
+	EXEC := $(EXEC).app
+	XCODE_SCHEME = macOS
+	LDFLAGS += -L/Library/Frameworks
 else ifeq ($(OS),ios)
-	# TODO
+	EXEC := $(EXEC).app
+	XCODE_SCHEME = iOS
+	LDFLAGS += -L$(SFML_DIR)/lib/ios
 endif
 
 # OS-specific assets-copying script selection
@@ -183,7 +190,11 @@ LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NE
 ################################################################################
 
 .PHONY: all
+ifneq (,$(filter $(OS),macos ios)) # Build using xcodebuild if target is macOS or iOS
+all: xcodebuild
+else # Build normally if target is neither macOS nor iOS
 all: $(BIN_DIR)/$(EXEC)
+endif
 
 # Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
@@ -202,6 +213,12 @@ $(BUILD_DIR)/%.res: assets/%.rc
 	@echo "Compiling Windows resource file"
 	@windres $< -O coff -o $@
 
+# Build Xcode project using xcodebuild
+.PHONY: xcodebuild
+xcodebuild:
+	@echo "Building project: $(XCODE_PROJ)"
+	@xcodebuild -quiet -project $(XCODE_PROJ) -scheme $(XCODE_SCHEME) build
+
 # Include automatically-generated dependencies
 -include $(DEPS)
 
@@ -214,8 +231,12 @@ install: all copyassets
 # Build and run
 .PHONY: run
 run: all
-	@echo "Starting program $(BIN_DIR)/$(EXEC)"
-	@cd ./$(BIN_DIR); ./$(EXEC)
+	@echo "Starting program: $(BIN_DIR)/$(EXEC)"
+    ifeq ($(OS),macos) # Open app bundle if on macOS
+		@open $(BIN_DIR)/$(EXEC).app
+    else
+		@cd ./$(BIN_DIR); ./$(EXEC)
+    endif
 
 # Copy assets to bin directory for selected platform
 .PHONY: copyassets
