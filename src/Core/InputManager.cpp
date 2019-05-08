@@ -23,8 +23,7 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_gainedFocusEvent(false)
     , m_mouseLeftEvent(false)
     , m_mouseEnteredEvent(false)
-    , m_verticalMouseWheelDelta(0)
-    , m_horizontalMouseWheelDelta(0)
+    , m_mouseWheelDelta(0, 0)
     , m_mouseMovedEvent(false)
     , m_mouseWheelScrolledEvent(false)
     , m_eventPressedJoystickButtons{}
@@ -54,7 +53,6 @@ void InputManager::UpdateInputStates()
     m_previousKeyStates = m_keyStates;
     m_previousMouseButtonStates = m_mouseButtonStates;
     m_previousJoystickButtonStates = m_joystickButtonStates;
-    m_lastMousePosition = m_mousePosition;
 }
 
 void InputManager::PollSfmlEvents(sf::Window& rWindow)
@@ -100,11 +98,11 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         case sf::Event::MouseWheelScrolled:
             if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
             {
-                m_verticalMouseWheelDelta += event.mouseWheelScroll.delta;
+                m_mouseWheelDelta.y += event.mouseWheelScroll.delta;
             }
             else if (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel)
             {
-                m_horizontalMouseWheelDelta += event.mouseWheelScroll.delta;
+                m_mouseWheelDelta.x += event.mouseWheelScroll.delta;
             }
             m_mouseWheelScrolledEvent = true;
             break;
@@ -118,6 +116,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
             break;
         case sf::Event::MouseMoved:
             m_mouseMovedEvent = true;
+            m_previousMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
             break;
         case sf::Event::MouseEntered:
@@ -146,15 +145,17 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
         case sf::Event::TouchBegan:
             m_touchBeganEvent = true;
             m_mousePosition = sf::Vector2i(event.touch.x, event.touch.y);
+            m_previousMousePosition = m_mousePosition; // Set equal to mouse position to have no delta because touch began
             m_isTouchHeld = true;
             break;
         case sf::Event::TouchMoved:
             m_touchMovedEvent = true;
+            m_previousMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.touch.x, event.touch.y);
             break;
         case sf::Event::TouchEnded:
             m_touchEndedEvent = true;
-            m_lastMousePosition = m_mousePosition;
+            m_previousMousePosition = m_mousePosition;
             m_mousePosition = sf::Vector2i(event.touch.x, event.touch.y);
             m_isTouchHeld = false;
             break;
@@ -197,8 +198,7 @@ void InputManager::ResetEvents()
     // Mouse data
     m_eventPressedMouseButtons.clear();
     m_eventReleasedMouseButtons.clear();
-    m_verticalMouseWheelDelta = 0;
-    m_horizontalMouseWheelDelta = 0;
+    m_mouseWheelDelta = sf::Vector2f(0, 0);
     m_mouseMovedEvent = false;
     m_mouseWheelScrolledEvent = false;
 
@@ -435,14 +435,14 @@ float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick:
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
         // Subtract m_joystickDeadZone to the real axis value
-        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / 
+        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
                (maximumJoystickAxisValue - m_joystickDeadZone);
     }
     // If the axis value is negative
     else
     {
         // Add m_joystickDeadZone to the real axis value
-        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) / 
+        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
                (maximumJoystickAxisValue - m_joystickDeadZone);
     }
 }

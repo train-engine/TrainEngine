@@ -37,9 +37,8 @@ private:
     std::vector<sf::Mouse::Button> m_eventPressedMouseButtons;
     std::vector<sf::Mouse::Button> m_eventReleasedMouseButtons;
     sf::Vector2i m_mousePosition;
-    sf::Vector2i m_lastMousePosition;
-    float m_verticalMouseWheelDelta;
-    float m_horizontalMouseWheelDelta;
+    sf::Vector2i m_previousMousePosition;
+    sf::Vector2f m_mouseWheelDelta;
 
     bool m_mouseMovedEvent;
     bool m_mouseWheelScrolledEvent;
@@ -48,11 +47,11 @@ private:
     std::array<std::vector<unsigned int>, sf::Joystick::Count> m_eventPressedJoystickButtons;
     std::array<std::vector<unsigned int>, sf::Joystick::Count> m_eventReleasedJoystickButtons;
     std::array<std::array<float, sf::Joystick::AxisCount>, sf::Joystick::Count> m_joystickAxesPosition;
+    float m_joystickDeadZone;
 
     bool m_joystickMovedEvent;
     bool m_joystickConnectedEvent;
     bool m_joystickDisconnectedEvent;
-    float m_joystickDeadZone;
 
     // Touch data and events
     bool m_isTouchHeld;
@@ -68,7 +67,6 @@ private:
     void UpdateInputStates();
     void PollSfmlEvents(sf::Window& rWindow);
     void ResetEvents();
-    void SetupController(unsigned int id);
 
 #if defined(SFML_SYSTEM_MACOS)
     void MacOsCommandsToUnicode();
@@ -157,9 +155,8 @@ public:
 
     const sf::Vector2i& GetWindowMousePosition() const { return m_mousePosition; }
     sf::Vector2f GetMousePosition(const sf::View& view) const;
-    sf::Vector2i GetMousePositionDelta() const {return m_mousePosition - m_lastMousePosition;}
-    float GetVerticalMouseWheelDelta() const { return m_verticalMouseWheelDelta; }
-    float GetHorizontalMouseWheelDelta() const { return m_horizontalMouseWheelDelta; }
+    sf::Vector2i GetMousePositionDelta() const { return m_mousePosition - m_previousMousePosition; }
+    sf::Vector2f GetMouseWheelDelta() const { return m_mouseWheelDelta; }
 
     bool DetectedMouseButtonPressedEvent() const { return !m_eventPressedMouseButtons.empty(); }
     bool DetectedMouseButtonReleasedEvent() const { return !m_eventReleasedMouseButtons.empty(); }

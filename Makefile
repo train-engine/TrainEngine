@@ -112,7 +112,7 @@ ifeq ($(OS),windows)
 	SFML_AUDIO_LIBS += openal32 flac vorbisenc vorbisfile vorbis ogg
 	SFML_NETWORK_LIBS += ws2_32
 	SFML_SYSTEM_LIBS += winmm
-	
+
 	# 32-bit flags
 	ifeq ($(win32),1)
 		CXXFLAGS += -m32

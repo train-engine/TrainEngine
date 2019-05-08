@@ -64,7 +64,7 @@ bool JoystickAxisUnidirectionalRangeInput::DetectedEvent() const
     }
     else
     {
-        detectedEvent = currentAxisPosition != m_lastAxisPosition && (currentAxisPosition < 0 || m_lastAxisPosition < 0);        
+        detectedEvent = currentAxisPosition != m_lastAxisPosition && (currentAxisPosition < 0 || m_lastAxisPosition < 0);
     }
     m_lastAxisPosition = currentAxisPosition;
     return detectedEvent;
@@ -84,9 +84,9 @@ void JoystickAxisUnidirectionalRangeInput::CallFunction()
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));        
+        valueToBeSent = std::min(0.0f, m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));
     }
-    
+
     (*m_callback)(valueToBeSent);
 }
 
@@ -100,7 +100,7 @@ VerticalMouseWheelBidirectionalRangeInput::VerticalMouseWheelBidirectionalRangeI
 
 bool VerticalMouseWheelBidirectionalRangeInput::DetectedEvent() const
 {
-    float currentVertScroll = m_inputManager.GetVerticalMouseWheelDelta();
+    float currentVertScroll = m_inputManager.GetMouseWheelDelta().y;
     bool detectedEvent = currentVertScroll != m_lastVertScroll;
     m_lastVertScroll = currentVertScroll;
     return detectedEvent;
@@ -108,7 +108,7 @@ bool VerticalMouseWheelBidirectionalRangeInput::DetectedEvent() const
 
 void VerticalMouseWheelBidirectionalRangeInput::CallFunction()
 {
-    (*m_callback)(m_inputManager.GetVerticalMouseWheelDelta());
+    (*m_callback)(m_inputManager.GetMouseWheelDelta().y);
 }
 
 // VerticalMouseWheelUnidirectionalRangeInput
@@ -123,7 +123,7 @@ VerticalMouseWheelUnidirectionalRangeInput::VerticalMouseWheelUnidirectionalRang
 
 bool VerticalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
 {
-    float currentVertScroll = m_inputManager.GetVerticalMouseWheelDelta();
+    float currentVertScroll = m_inputManager.GetMouseWheelDelta().y;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse whell position
@@ -135,7 +135,7 @@ bool VerticalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     }
     else
     {
-        detectedEvent = currentVertScroll != m_lastVertScroll && (currentVertScroll < 0 || m_lastVertScroll < 0);        
+        detectedEvent = currentVertScroll != m_lastVertScroll && (currentVertScroll < 0 || m_lastVertScroll < 0);
     }
     m_lastVertScroll = currentVertScroll;
     return detectedEvent;
@@ -151,13 +151,13 @@ void VerticalMouseWheelUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0.0f, m_inputManager.GetVerticalMouseWheelDelta());
+        valueToBeSent = std::max(0.0f, m_inputManager.GetMouseWheelDelta().y);
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetVerticalMouseWheelDelta());        
+        valueToBeSent = std::min(0.0f, m_inputManager.GetMouseWheelDelta().y);
     }
-    
+
     (*m_callback)(valueToBeSent);
 }
 
@@ -171,7 +171,7 @@ HorizontalMouseWheelBidirectionalRangeInput::HorizontalMouseWheelBidirectionalRa
 
 bool HorizontalMouseWheelBidirectionalRangeInput::DetectedEvent() const
 {
-    float currentHorizScroll = m_inputManager.GetHorizontalMouseWheelDelta();
+    float currentHorizScroll = m_inputManager.GetMouseWheelDelta().x;
     bool detectedEvent = currentHorizScroll != m_lastHorizScroll;
     m_lastHorizScroll = currentHorizScroll;
     return detectedEvent;
@@ -179,7 +179,7 @@ bool HorizontalMouseWheelBidirectionalRangeInput::DetectedEvent() const
 
 void HorizontalMouseWheelBidirectionalRangeInput::CallFunction()
 {
-    (*m_callback)(m_inputManager.GetHorizontalMouseWheelDelta());
+    (*m_callback)(m_inputManager.GetMouseWheelDelta().x);
 }
 
 // HorizontalMouseWheelUnidirectionalRangeInput
@@ -194,7 +194,7 @@ HorizontalMouseWheelUnidirectionalRangeInput::HorizontalMouseWheelUnidirectional
 
 bool HorizontalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
 {
-    float currentHorizScroll = m_inputManager.GetHorizontalMouseWheelDelta();
+    float currentHorizScroll = m_inputManager.GetMouseWheelDelta().x;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse whell position
@@ -206,7 +206,7 @@ bool HorizontalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     }
     else
     {
-        detectedEvent = currentHorizScroll != m_lastHorizScroll && (currentHorizScroll < 0 || m_lastHorizScroll < 0);        
+        detectedEvent = currentHorizScroll != m_lastHorizScroll && (currentHorizScroll < 0 || m_lastHorizScroll < 0);
     }
     m_lastHorizScroll = currentHorizScroll;
     return detectedEvent;
@@ -222,13 +222,13 @@ void HorizontalMouseWheelUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0.0f, m_inputManager.GetHorizontalMouseWheelDelta());
+        valueToBeSent = std::max(0.0f, m_inputManager.GetMouseWheelDelta().x);
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetHorizontalMouseWheelDelta());        
+        valueToBeSent = std::min(0.0f, m_inputManager.GetMouseWheelDelta().x);
     }
-    
+
     (*m_callback)(valueToBeSent);
 }
 
@@ -277,7 +277,7 @@ bool VerticalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     }
     else
     {
-        detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement && (currentVertMouseMovement < 0 || m_lastVertMouseMovement < 0);        
+        detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement && (currentVertMouseMovement < 0 || m_lastVertMouseMovement < 0);
     }
     m_lastVertMouseMovement = currentVertMouseMovement;
     return detectedEvent;
@@ -297,9 +297,9 @@ void VerticalMouseMovementUnidirectionalRangeInput::CallFunction()
     }
     else
     {
-        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().y);        
+        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().y);
     }
-    
+
     (*m_callback)(valueToBeSent);
 }
 
@@ -348,7 +348,7 @@ bool HorizontalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     }
     else
     {
-        detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement && (currentHorizMouseMovement < 0 || m_lastHorizMouseMovement < 0);        
+        detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement && (currentHorizMouseMovement < 0 || m_lastHorizMouseMovement < 0);
     }
     m_lastHorizMouseMovement = currentHorizMouseMovement;
     return detectedEvent;
@@ -368,9 +368,9 @@ void HorizontalMouseMovementUnidirectionalRangeInput::CallFunction()
     }
     else
     {
-        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().x);        
+        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().x);
     }
-    
+
     (*m_callback)(valueToBeSent);
 }
 

@@ -117,7 +117,7 @@ MouseWheelUpActionInput::MouseWheelUpActionInput(const InputManager& inputManage
 
 bool MouseWheelUpActionInput::DetectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetVerticalMouseWheelDelta() > 0;
+    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().y > 0;
 }
 
 // MouseWheelDownActionInput
@@ -129,7 +129,7 @@ MouseWheelDownActionInput::MouseWheelDownActionInput(const InputManager& inputMa
 
 bool MouseWheelDownActionInput::DetectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetVerticalMouseWheelDelta() < 0;
+    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().y < 0;
 }
 
 // MouseWheelLeftActionInput
@@ -141,7 +141,7 @@ MouseWheelLeftActionInput::MouseWheelLeftActionInput(const InputManager& inputMa
 
 bool MouseWheelLeftActionInput::DetectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetHorizontalMouseWheelDelta() < 0;
+    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().x < 0;
 }
 
 // MouseWheelRightActionInput
@@ -153,5 +153,5 @@ MouseWheelRightActionInput::MouseWheelRightActionInput(const InputManager& input
 
 bool MouseWheelRightActionInput::DetectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetHorizontalMouseWheelDelta() > 0;
+    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().x > 0;
 }
