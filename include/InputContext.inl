@@ -316,46 +316,46 @@ inline void InputContext::BindStateToJoystickButton(Object* object, Callable cal
 }
 
 /// Assign a joystick axis position to a function with a bool as a parameter.
-/// The member function will receive a bool representing if the joystick axis passed the treshold.
-/// Note: If the treshold is bigger or equal to zero, the function will receive true if the axis position is bigger than the treshold.
-/// If the treshold is smaller than zero, the function will receive true if the axis position is smaller than the treshold.
+/// The member function will receive a bool representing if the joystick axis passed the threshold.
+/// Note: If the threshold is bigger or equal to zero, the function will receive true if the axis position is bigger than the threshold.
+/// If the threshold is smaller than zero, the function will receive true if the axis position is smaller than the threshold.
 /// \param callback         A member function with a bool as a parameter.
 /// \param joystick         The joystick id.
 /// \param joystickAxis     The joystick axis bound to the callback.
-/// \param treshold         The treshold to be exceeded for the callback to be called.
-/// \param axisPosition     The position of the axis relative to the treshold.
+/// \param threshold         The threshold to be exceeded for the callback to be called.
+/// \param axisPosition     The position of the axis relative to the threshold.
 template<typename Callable>
-void InputContext::BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold,
+void InputContext::BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                            JoystickAxisPosition axisPosition)
 {
     BindStateToJoystickAxisHelper(
         new CallbackFunctor<Callable, bool>(callback),
         joystick,
         axis,
-        treshold,
+        threshold,
         axisPosition
     );
 }
 
 /// Assign a joystick axis position to a function with a bool as a parameter.
-/// The member function will receive a bool representing if the joystick axis passed the treshold.
-/// Note: If the treshold is bigger or equal to zero, the function will receive true if the axis position is bigger than the treshold.
-/// If the treshold is smaller than zero, the function will receive true if the axis position is smaller than the treshold.
+/// The member function will receive a bool representing if the joystick axis passed the threshold.
+/// Note: If the threshold is bigger or equal to zero, the function will receive true if the axis position is bigger than the threshold.
+/// If the threshold is smaller than zero, the function will receive true if the axis position is smaller than the threshold.
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a bool as a parameter.
 /// \param joystick         The joystick id.
 /// \param joystickAxis     The joystick axis bound to the callback.
-/// \param treshold         The treshold to be exceeded for the callback to be called.
-/// \param axisPosition     The position of the axis relative to the treshold.
+/// \param threshold         The threshold to be exceeded for the callback to be called.
+/// \param axisPosition     The position of the axis relative to the threshold.
 template<typename Object, typename Callable>
-void InputContext::BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float treshold,
+void InputContext::BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                            JoystickAxisPosition axisPosition)
 {
     BindStateToJoystickAxisHelper(
         new CallbackMember<Object, Callable, bool>(object, callback),
         joystick,
         axis,
-        treshold,
+        threshold,
         axisPosition
     );
 }
@@ -985,29 +985,29 @@ inline void InputContext::BindActionToMouseWheelScrolledHelper(Callback<>* callb
 }
 
 inline void InputContext::BindStateToJoystickAxisHelper(Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis,
-                                                        float treshold, JoystickAxisPosition axisPosition)
+                                                        float threshold, JoystickAxisPosition axisPosition)
 {
-    if (axisPosition == JoystickAxisPosition::AboveTreshold || axisPosition == JoystickAxisPosition::Any)
+    if (axisPosition == JoystickAxisPosition::AboveThreshold || axisPosition == JoystickAxisPosition::Any)
     {
         m_stateInputs.push_back(
-            new JoystickAxisAboveTresholdStateInput(
+            new JoystickAxisAboveThresholdStateInput(
                 m_inputManager,
                 callback,
                 joystick,
                 axis,
-                treshold
+                threshold
             )
         );
     }
-    if (axisPosition == JoystickAxisPosition::BelowTreshold || axisPosition == JoystickAxisPosition::Any)
+    if (axisPosition == JoystickAxisPosition::BelowThreshold || axisPosition == JoystickAxisPosition::Any)
     {
         m_stateInputs.push_back(
-            new JoystickAxisBelowTresholdStateInput(
+            new JoystickAxisBelowThresholdStateInput(
                 m_inputManager,
                 callback,
                 joystick,
                 axis,
-                treshold
+                threshold
             )
         );
     }

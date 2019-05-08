@@ -72,41 +72,41 @@ private:
     unsigned int m_button;
 };
 
-/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the treshold.
-class JoystickAxisAboveTresholdStateInput final : public StateInput
+/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the threshold.
+class JoystickAxisAboveThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisAboveTresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
-    JoystickAxisAboveTresholdStateInput(const JoystickAxisAboveTresholdStateInput&) = delete;
-    JoystickAxisAboveTresholdStateInput(JoystickAxisAboveTresholdStateInput&&) = delete;
-    JoystickAxisAboveTresholdStateInput& operator=(const JoystickAxisAboveTresholdStateInput&) = delete;
-    JoystickAxisAboveTresholdStateInput& operator=(JoystickAxisAboveTresholdStateInput&&) = delete;
+    JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisAboveThresholdStateInput(const JoystickAxisAboveThresholdStateInput&) = delete;
+    JoystickAxisAboveThresholdStateInput(JoystickAxisAboveThresholdStateInput&&) = delete;
+    JoystickAxisAboveThresholdStateInput& operator=(const JoystickAxisAboveThresholdStateInput&) = delete;
+    JoystickAxisAboveThresholdStateInput& operator=(JoystickAxisAboveThresholdStateInput&&) = delete;
     virtual bool DetectedEvent() const override;
     virtual void CallAction() override;
 
 private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
-    float m_treshold;
+    float m_threshold;
     mutable float m_lastAxisValue; // Remember last axis value to remove useless calls to the callback
 };
 
-/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the treshold.
-class JoystickAxisBelowTresholdStateInput final : public StateInput
+/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the threshold.
+class JoystickAxisBelowThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisBelowTresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float treshold);
-    JoystickAxisBelowTresholdStateInput(const JoystickAxisBelowTresholdStateInput&) = delete;
-    JoystickAxisBelowTresholdStateInput(JoystickAxisBelowTresholdStateInput&&) = delete;
-    JoystickAxisBelowTresholdStateInput& operator=(const JoystickAxisBelowTresholdStateInput&) = delete;
-    JoystickAxisBelowTresholdStateInput& operator=(JoystickAxisBelowTresholdStateInput&&) = delete;
+    JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisBelowThresholdStateInput(const JoystickAxisBelowThresholdStateInput&) = delete;
+    JoystickAxisBelowThresholdStateInput(JoystickAxisBelowThresholdStateInput&&) = delete;
+    JoystickAxisBelowThresholdStateInput& operator=(const JoystickAxisBelowThresholdStateInput&) = delete;
+    JoystickAxisBelowThresholdStateInput& operator=(JoystickAxisBelowThresholdStateInput&&) = delete;
     virtual bool DetectedEvent() const override;
     virtual void CallAction() override;
 
 private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
-    float m_treshold;
+    float m_threshold;
     mutable float m_lastAxisValue; // Remember last axis value to remove useless calls to the callback
 };
 
