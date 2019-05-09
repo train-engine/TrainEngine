@@ -620,7 +620,10 @@ void Entity::Update()
             it->second.SetFrameDuration(100.0 / std::fabs(m_inputDirection.y) * 2.0);
         }
 
-        it->second.SetIsFlipped(!m_isFacingRight);
+        if (m_state != EntityState::Climbing)
+        {
+            it->second.SetFlipped(!m_isFacingRight);
+        }
         it->second.Update();
         it->second.Play();
     }
@@ -642,36 +645,42 @@ void Entity::Interpolate(float lag)
     }
 }
 
-void Entity::AddAnimation(EntityState targetState, const AnimatedSprite& animatedSprite)
+void Entity::SetStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled)
 {
     auto it = m_animatedSprites.find(targetState);
     // If animation is already set to a state, overwrite it
     if (it != m_animatedSprites.end())
     {
         it->second = animatedSprite;
-        return;
+    }
+    else // Otherwise, add it to the map of animations
+    {
+        it = m_animatedSprites.emplace(targetState, animatedSprite).first;
     }
 
-    // Otherwise, add it to the map of animations
-    m_animatedSprites.emplace(targetState, animatedSprite);
-
-    m_animatedSprites.at(targetState).SetPosition(m_position);
+    // Set animation settings
+    it->second.SetFrameDuration(frameDuration);
+    it->second.SetLoopingEnabled(isLoopingEnabled);
+    it->second.SetPosition(m_position);
 }
 
-void Entity::AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite)
+void Entity::SetStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled)
 {
     auto it = m_animatedSprites.find(targetState);
     // If animation is already set to a state, overwrite it
     if (it != m_animatedSprites.end())
     {
-        it->second = std::move(animatedSprite);
-        return;
+        it->second = animatedSprite;
+    }
+    else // Otherwise, add it to the map of animations
+    {
+        it = m_animatedSprites.emplace(targetState, std::move(animatedSprite)).first;
     }
 
-    // Otherwise, add it to the map of animations
-    m_animatedSprites.emplace(targetState, std::move(animatedSprite));
-
-    m_animatedSprites.at(targetState).SetPosition(m_position);
+    // Set animation settings
+    it->second.SetFrameDuration(frameDuration);
+    it->second.SetLoopingEnabled(isLoopingEnabled);
+    it->second.SetPosition(m_position);
 }
 
 void Entity::SetDefaultSpriteTexture(const sf::Texture& texture)

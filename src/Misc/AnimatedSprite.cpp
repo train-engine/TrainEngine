@@ -1,16 +1,14 @@
 #include "Misc/AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount,
-                               float frameDuration, bool isLoopingEnabled, bool isFlippable)
+AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount)
     : m_sprite(texture)
     , m_frameDimensions(frameDimensions)
     , m_spriteSheetDimensions(texture.getSize())
     , m_tickCounter(0)
-    , m_frameDuration(frameDuration)
+    , m_frameDuration(1)
     , m_currentFrameIndex(0)
     , m_totalFrames(frameCount)
-    , m_isLoopingEnabled(isLoopingEnabled)
-    , m_isFlippable(isFlippable)
+    , m_isLoopingEnabled(true)
     , m_isFlipped(false)
     , m_isPlaying(false)
 {
@@ -41,18 +39,6 @@ void AnimatedSprite::SetTextureRect()
 
 void AnimatedSprite::Update()
 {
-    if (m_isFlippable == true)
-    {
-        if (m_isFlipped == true && m_sprite.getScale().x > 0)
-        {
-            m_sprite.setScale(-1, 1);
-        }
-        else if (m_isFlipped == false && m_sprite.getScale().x < 0)
-        {
-            m_sprite.setScale(1, 1);
-        }
-    }
-
     if (m_isPlaying == false)
     {
         return;
@@ -82,6 +68,20 @@ void AnimatedSprite::Update()
     m_tickCounter++;
 }
 
+void AnimatedSprite::Restart()
+{
+    m_isPlaying = true;
+    m_tickCounter = 0;
+    m_currentFrameIndex = 0;
+}
+
+void AnimatedSprite::Stop()
+{
+    m_isPlaying = false;
+    m_tickCounter = 0;
+    m_currentFrameIndex = 0;
+}
+
 void AnimatedSprite::SetPosition(const sf::Vector2f& position)
 {
     m_sprite.setPosition(position);
@@ -97,16 +97,21 @@ void AnimatedSprite::SetFrameDuration(float frameDuration)
     m_frameDuration = frameDuration;
 }
 
-void AnimatedSprite::Restart()
+void AnimatedSprite::SetLoopingEnabled(bool isLoopingEnabled)
 {
-    m_isPlaying = true;
-    m_tickCounter = 0;
-    m_currentFrameIndex = 0;
+    m_isLoopingEnabled = isLoopingEnabled;
 }
 
-void AnimatedSprite::Stop()
+void AnimatedSprite::SetFlipped(bool isFlipped)
 {
-    m_isPlaying = false;
-    m_tickCounter = 0;
-    m_currentFrameIndex = 0;
+    m_isFlipped = isFlipped;
+
+    if (m_isFlipped == true && m_sprite.getScale().x > 0)
+    {
+        m_sprite.setScale(-1, 1);
+    }
+    else if (m_isFlipped == false && m_sprite.getScale().x < 0)
+    {
+        m_sprite.setScale(1, 1);
+    }
 }

@@ -26,21 +26,21 @@ private:
 
 public:
     // Constructor
-    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount, float frameDuration = 5,
-                   bool isLoopingEnabled = true, bool isFlippable = true);
+    AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount);
 
     // Functions
     void Update();
+    void Play() { m_isPlaying = true; }
+    void Pause() { m_isPlaying = false; }
+    void Restart();
+    void Stop();
 
     // Setters
     void SetPosition(const sf::Vector2f& position);
     void SetRotation(float angle);
     void SetFrameDuration(float frameDuration);
-    void SetIsFlipped(bool isFlipped) { m_isFlipped = isFlipped; }
-    void Play() { m_isPlaying = true; }
-    void Pause() { m_isPlaying = false; }
-    void Restart();
-    void Stop();
+    void SetLoopingEnabled(bool isLoopingEnabled);
+    void SetFlipped(bool isFlipped);
 
     // Getters
     bool IsPlaying() const { return m_isPlaying; }

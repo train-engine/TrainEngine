@@ -1,5 +1,6 @@
 #include "Core/InputManager.h"
 #include <algorithm>
+#include <cmath>
 #include <string>
 #include "Core/FileManager.h"
 #if defined(SFML_SYSTEM_WINDOWS)
@@ -29,10 +30,10 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_eventPressedJoystickButtons{}
     , m_eventReleasedJoystickButtons{}
     , m_joystickAxesPosition{}
+    , m_joystickDeadZone(8.0)
     , m_joystickMovedEvent(false)
     , m_joystickConnectedEvent(false)
     , m_joystickDisconnectedEvent(false)
-    , m_joystickDeadZone(8.0)
     , m_isTouchHeld(false)
     , m_touchBeganEvent(false)
     , m_touchMovedEvent(false)
@@ -415,26 +416,19 @@ bool InputManager::IsJoystickButtonAscending(unsigned int joystick, unsigned int
 
 float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
-    // Return 0 if the joystick does not have the specified axis
-    if (sf::Joystick::hasAxis(joystick, axis) == false)
-    {
-        return 0;
-    }
-
     // If joystick value is inside the deadzone, return 0
-    if (m_joystickAxesPosition[joystick][axis] >= -m_joystickDeadZone &&
-        m_joystickAxesPosition[joystick][axis] <= m_joystickDeadZone)
+    if (std::fabs(m_joystickAxesPosition[joystick][axis]) <= m_joystickDeadZone)
     {
         return 0;
     }
 
     // Defined by SFML
-    static constexpr float maximumJoystickAxisValue = 100.0;
+    static const float maximumJoystickAxisValue = 100.0;
 
     // If the axis value is positive
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
-        // Subtract m_joystickDeadZone to the real axis value
+        // Subtract m_joystickDeadZone from the real axis value
         return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
                (maximumJoystickAxisValue - m_joystickDeadZone);
     }

@@ -128,8 +128,8 @@ public:
     virtual void Update();
     virtual void Interpolate(float lag);
 
-    void AddAnimation(EntityState targetState, const AnimatedSprite& animatedSprite);
-    void AddAnimation(EntityState targetState, AnimatedSprite&& animatedSprite);
+    void SetStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
+    void SetStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
 
     // Setters
     void SetDebugBoxVisible(bool isDebugBoxVisible) { m_isDebugBoxVisible = isDebugBoxVisible; }
