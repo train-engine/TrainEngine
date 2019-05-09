@@ -25,8 +25,7 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
     , m_isFacingRight(true)
     , m_isGravityApplied(isGravityApplied)
     , m_isOnGround(false)
-    , m_horizontalDirection(0.0)
-    , m_verticalDirection(0.0)
+    , m_inputDirection(0.0, 0.0)
     , m_isPressingUp(false)
     , m_jumpForce(jumpForce)
     , m_defaultClimbSpeed(8)
@@ -251,8 +250,8 @@ void Entity::LadderTopCollision(const Tile* pTile)
             // but it will be inside the LadderTop in the next tick
             if (m_position.y + m_dimensions.y / 2 <= tilePosition.y && m_position.y + m_dimensions.y / 2 + m_velocity.y > tilePosition.y)
             {
-                // Is not going down
-                if (m_verticalDirection <= 0)
+                // If not going down
+                if (m_inputDirection.y <= 0)
                 {
                     m_position.y = tilePosition.y - m_dimensions.y / 2;
                     m_isOnGround = true;
@@ -264,7 +263,7 @@ void Entity::LadderTopCollision(const Tile* pTile)
                 }
             }
             // Set is on ground
-            else if (m_position.y + m_dimensions.y / 2 == tilePosition.y)
+            else if (m_position.y == tilePosition.y - m_dimensions.y / 2)
             {
                 m_isOnGround = true;
             }
@@ -303,10 +302,10 @@ void Entity::Jump()
 
 void Entity::Climb(float factor)
 {
-    // If going pressing up or down
-    if (m_verticalDirection != 0.0)
+    // If pressing up or down
+    if (m_inputDirection.y != 0.0)
     {
-        SetVertVelocity(m_defaultClimbSpeed * factor * m_verticalDirection / 100.0);
+        SetVertVelocity(m_defaultClimbSpeed * factor * m_inputDirection.y / 100.0);
     }
     else
     {
@@ -381,7 +380,8 @@ void Entity::ApplyGravity()
 // Cap the Entity's velocity
 void Entity::MaxVelocityCap()
 {
-    float maxVelocity = m_maxVelocity.x * m_horizontalDirection / 100.0;
+    // Set max velocity proportional to input activation percentage
+    float maxVelocity = m_maxVelocity.x * m_inputDirection.x / 100.0;
     if (m_velocity.x >= maxVelocity)
     {
         m_velocity.x = maxVelocity;
@@ -515,12 +515,12 @@ void Entity::Update()
 
     // Movement
     ApplyGravity();
-    if (m_horizontalDirection < 0)
+    if (m_inputDirection.x < 0)
     {
         MoveLeft();
         m_isFacingRight = false;
     }
-    else if (m_horizontalDirection > 0)
+    else if (m_inputDirection.x > 0)
     {
         MoveRight();
         m_isFacingRight = true;
@@ -554,7 +554,6 @@ void Entity::Update()
     };
     // clang-format on
 
-
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (std::size_t i = 0; i < tileReactionPoints.size(); i++)
     {
@@ -586,7 +585,7 @@ void Entity::Update()
     // States
     if (m_state != EntityState::Climbing || m_isOnGround == true)
     {
-        if (m_horizontalDirection != 0.0 && m_isOnGround == true)
+        if (m_inputDirection.x != 0.0 && m_isOnGround == true)
         {
             m_state = EntityState::Running;
         }
@@ -611,13 +610,14 @@ void Entity::Update()
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
+        // Set animation speed proportionally to the input magnitude
         if (m_state == EntityState::Running)
         {
-            it->second.SetFrameDuration(100.0 / std::abs(m_horizontalDirection));
+            it->second.SetFrameDuration(100.0 / std::fabs(m_inputDirection.x));
         }
-        if (m_state == EntityState::Climbing && m_verticalDirection != 0)
+        if (m_state == EntityState::Climbing && m_inputDirection.y != 0)
         {
-            it->second.SetFrameDuration(100.0 / std::abs(m_verticalDirection) * 2.0);
+            it->second.SetFrameDuration(100.0 / std::fabs(m_inputDirection.y) * 2.0);
         }
 
         it->second.SetIsFlipped(!m_isFacingRight);

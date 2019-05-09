@@ -28,13 +28,16 @@ private:
     EntityType m_entityType;
     EntityState m_state;
 
+    // Graphics variables
     sf::Sprite m_defaultSprite;
     std::unordered_map<EntityState, AnimatedSprite> m_animatedSprites;
 
+    // Debug information
     sf::RectangleShape m_collisionBox;
     sf::RectangleShape m_tileReactionDot;
     bool m_isDebugBoxVisible;
 
+    // Physics variables
     sf::Vector2f m_position;
     sf::Vector2f m_previousPosition;
     sf::Vector2f m_dimensions;
@@ -52,11 +55,11 @@ private:
     bool m_isGravityApplied;
     bool m_isOnGround;
 
-    float m_horizontalDirection;
-    float m_verticalDirection;
-
+    // Input controls
+    sf::Vector2f m_inputDirection;
     bool m_isPressingUp;
 
+    // Movement settings
     float m_jumpForce;
     float m_defaultClimbSpeed;
     float m_defaultDescentSpeed;
@@ -98,17 +101,16 @@ protected:
     void MapEdgeCollision(bool isHorizCollisionEnabled = true, bool isVertCollisionEnabled = true);
     void PerformCollisions();
 
-
     // Setters
-    void SetHorizontalDirection(float direction) { m_horizontalDirection = direction;}
-    void SetVerticalDirection(float direction) { m_verticalDirection = direction;}
-    void SetIsPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
+    void SetHorizontalInputDirection(float horizInputDirection) { m_inputDirection.x = horizInputDirection; }
+    void SetVerticalInputDirection(float vertInputDirection) { m_inputDirection.y = vertInputDirection; }
+    void SetPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
 
     // Getters
     bool IsOnGround() const { return m_isOnGround; }
 
-    float GetHorizontalDirection() const { return m_horizontalDirection; }
-    float GetVerticalDirection() const { return m_verticalDirection; }
+    float GetHorizontalInputDirection() const { return m_inputDirection.x; }
+    float GetVerticalInputDirection() const { return m_inputDirection.y; }
 
     float GetJumpForce() const { return m_jumpForce; }
     float GetDefaultClimbSpeed() const { return m_defaultClimbSpeed; }
