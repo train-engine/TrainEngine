@@ -24,7 +24,7 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_gainedFocusEvent(false)
     , m_mouseLeftEvent(false)
     , m_mouseEnteredEvent(false)
-    , m_mouseWheelDelta(0, 0)
+    , m_mouseWheelDelta(0.0, 0.0)
     , m_mouseMovedEvent(false)
     , m_mouseWheelScrolledEvent(false)
     , m_eventPressedJoystickButtons{}

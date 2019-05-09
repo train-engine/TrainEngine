@@ -18,8 +18,6 @@ private:
 
     Level m_level;
 
-    InputContext m_inputContext;
-
     // Destructor
     virtual ~PlayState() override;
 
@@ -36,8 +34,6 @@ private:
     virtual void Resume() override;
 
     virtual void OnWindowResize() override;
-
-    void test(bool test);
 
 public:
     // Constructor

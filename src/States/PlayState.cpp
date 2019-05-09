@@ -4,15 +4,12 @@
 #include "Core/FileManager.h"
 #include "States/PauseState.h"
 
-#include <iostream>
-
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame)
     , m_darkness(GetWindowDimensions())
     , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
                    m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
     , m_level(m_rGame.resourceManager, m_rGame.inputManager)
-    , m_inputContext(rGame.inputManager)
 {
     // Content settings
     m_stateSettings.backgroundColor = sf::Color(238, 241, 244);
@@ -25,8 +22,6 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     m_music.play();
 
     m_level.Load(levelDirectory);
-
-    m_inputContext.BindActionToKey(this, &PlayState::PauseStart, sf::Keyboard::Escape, EventType::Descending);
 }
 
 PlayState::~PlayState()
@@ -57,10 +52,9 @@ void PlayState::PauseStart()
 
 void PlayState::HandleInput()
 {
-    m_inputContext.Update();
     m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.inputManager.DetectedLostFocusEvent())
+    if (m_rGame.inputManager.DetectedLostFocusEvent() || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
     {
         PauseStart();
         return;
@@ -125,8 +119,4 @@ void PlayState::OnWindowResize()
     m_muteButton.SetPosition(sf::Vector2f(GetWindowDimensions().x - 48, 48));
 
     m_level.OnWindowResize();
-}
-void PlayState::test(bool test)
-{
-    std::cout << "test: " << test << std::endl;
 }
