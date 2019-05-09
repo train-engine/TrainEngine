@@ -2,14 +2,14 @@
 #define RANGEINPUT_H
 
 #include <SFML/Window.hpp>
-#include "Misc/Callbacks.h"
+#include "Misc/Callables.h"
 #include "InputManager.h"
 
 /// Class representing an input able to make a callback to a function with a float as a parameter when triggered.
 class RangeInput
 {
     public:
-    RangeInput(const InputManager& inputManager, Callback<float>* callback);
+    RangeInput(const InputManager& inputManager, Callable<float>* callback);
     RangeInput(const RangeInput&) = delete;
     RangeInput(RangeInput&&) = delete;
     virtual ~RangeInput();
@@ -21,14 +21,14 @@ class RangeInput
 
 protected:
     const InputManager& m_inputManager;
-    Callback<float>* m_callback;
+    Callable<float>* m_callback;
 };
 
 /// Class representing a joystick axis able to make a callback to a function with a float as a parameter when moved.
 class JoystickAxisBidirectionalRangeInput final : public RangeInput
 {
 public:
-    JoystickAxisBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback,
+    JoystickAxisBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                         unsigned int joystick, sf::Joystick::Axis axis);
     JoystickAxisBidirectionalRangeInput(const JoystickAxisBidirectionalRangeInput&) = delete;
     JoystickAxisBidirectionalRangeInput(JoystickAxisBidirectionalRangeInput&&) = delete;
@@ -47,7 +47,7 @@ private:
 class JoystickAxisUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    JoystickAxisUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, unsigned int joystick,
+    JoystickAxisUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, unsigned int joystick,
                                          sf::Joystick::Axis axis, bool isRestrictedToPositives);
     JoystickAxisUnidirectionalRangeInput(const JoystickAxisUnidirectionalRangeInput&) = delete;
     JoystickAxisUnidirectionalRangeInput(JoystickAxisUnidirectionalRangeInput&&) = delete;
@@ -67,7 +67,7 @@ private:
 class VerticalMouseWheelBidirectionalRangeInput final : public RangeInput
 {
 public:
-    VerticalMouseWheelBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback);
+    VerticalMouseWheelBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback);
     VerticalMouseWheelBidirectionalRangeInput(const VerticalMouseWheelBidirectionalRangeInput&) = delete;
     VerticalMouseWheelBidirectionalRangeInput(VerticalMouseWheelBidirectionalRangeInput&&) = delete;
     VerticalMouseWheelBidirectionalRangeInput& operator=(const VerticalMouseWheelBidirectionalRangeInput&) = delete;
@@ -83,7 +83,7 @@ private:
 class VerticalMouseWheelUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    VerticalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, bool isRestrictedToPositives);
+    VerticalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, bool isRestrictedToPositives);
     VerticalMouseWheelUnidirectionalRangeInput(const VerticalMouseWheelUnidirectionalRangeInput&) = delete;
     VerticalMouseWheelUnidirectionalRangeInput(VerticalMouseWheelUnidirectionalRangeInput&&) = delete;
     VerticalMouseWheelUnidirectionalRangeInput& operator=(const VerticalMouseWheelUnidirectionalRangeInput&) = delete;
@@ -100,7 +100,7 @@ private:
 class HorizontalMouseWheelBidirectionalRangeInput final : public RangeInput
 {
 public:
-    HorizontalMouseWheelBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback);
+    HorizontalMouseWheelBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback);
     HorizontalMouseWheelBidirectionalRangeInput(const HorizontalMouseWheelBidirectionalRangeInput&) = delete;
     HorizontalMouseWheelBidirectionalRangeInput(HorizontalMouseWheelBidirectionalRangeInput&&) = delete;
     HorizontalMouseWheelBidirectionalRangeInput& operator=(const HorizontalMouseWheelBidirectionalRangeInput&) = delete;
@@ -116,7 +116,7 @@ private:
 class HorizontalMouseWheelUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    HorizontalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, bool isRestrictedToPositives);
+    HorizontalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, bool isRestrictedToPositives);
     HorizontalMouseWheelUnidirectionalRangeInput(const HorizontalMouseWheelUnidirectionalRangeInput&) = delete;
     HorizontalMouseWheelUnidirectionalRangeInput(HorizontalMouseWheelUnidirectionalRangeInput&&) = delete;
     HorizontalMouseWheelUnidirectionalRangeInput& operator=(const HorizontalMouseWheelUnidirectionalRangeInput&) = delete;
@@ -133,7 +133,7 @@ private:
 class VerticalMouseMovementBidirectionalRangeInput final : public RangeInput
 {
 public:
-    VerticalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback);
+    VerticalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback);
     VerticalMouseMovementBidirectionalRangeInput(const VerticalMouseMovementBidirectionalRangeInput&) = delete;
     VerticalMouseMovementBidirectionalRangeInput(VerticalMouseMovementBidirectionalRangeInput&&) = delete;
     VerticalMouseMovementBidirectionalRangeInput& operator=(const VerticalMouseMovementBidirectionalRangeInput&) = delete;
@@ -149,7 +149,7 @@ private:
 class VerticalMouseMovementUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    VerticalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, bool isRestrictedToPositives);
+    VerticalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, bool isRestrictedToPositives);
     VerticalMouseMovementUnidirectionalRangeInput(const VerticalMouseMovementUnidirectionalRangeInput&) = delete;
     VerticalMouseMovementUnidirectionalRangeInput(VerticalMouseMovementUnidirectionalRangeInput&&) = delete;
     VerticalMouseMovementUnidirectionalRangeInput& operator=(const VerticalMouseMovementUnidirectionalRangeInput&) = delete;
@@ -166,7 +166,7 @@ private:
 class HorizontalMouseMovementBidirectionalRangeInput final : public RangeInput
 {
 public:
-    HorizontalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback);
+    HorizontalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback);
     HorizontalMouseMovementBidirectionalRangeInput(const HorizontalMouseMovementBidirectionalRangeInput&) = delete;
     HorizontalMouseMovementBidirectionalRangeInput(HorizontalMouseMovementBidirectionalRangeInput&&) = delete;
     HorizontalMouseMovementBidirectionalRangeInput& operator=(const HorizontalMouseMovementBidirectionalRangeInput&) = delete;
@@ -182,7 +182,7 @@ private:
 class HorizontalMouseMovementUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    HorizontalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, bool isRestrictedToPositives);
+    HorizontalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, bool isRestrictedToPositives);
     HorizontalMouseMovementUnidirectionalRangeInput(const HorizontalMouseMovementUnidirectionalRangeInput&) = delete;
     HorizontalMouseMovementUnidirectionalRangeInput(HorizontalMouseMovementUnidirectionalRangeInput&&) = delete;
     HorizontalMouseMovementUnidirectionalRangeInput& operator=(const HorizontalMouseMovementUnidirectionalRangeInput&) = delete;
@@ -199,7 +199,7 @@ private:
 class KeyboardBidirectionalRangeInput final : public RangeInput
 {
 public:
-    KeyboardBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
+    KeyboardBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey);
     KeyboardBidirectionalRangeInput(const KeyboardBidirectionalRangeInput&) = delete;
     KeyboardBidirectionalRangeInput(KeyboardBidirectionalRangeInput&&) = delete;
     KeyboardBidirectionalRangeInput& operator=(const KeyboardBidirectionalRangeInput&) = delete;
@@ -216,7 +216,7 @@ private:
 class KeyboardUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, sf::Keyboard::Key key);
+    KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, sf::Keyboard::Key key);
     KeyboardUnidirectionalRangeInput(const KeyboardUnidirectionalRangeInput&) = delete;
     KeyboardUnidirectionalRangeInput(KeyboardUnidirectionalRangeInput&&) = delete;
     KeyboardUnidirectionalRangeInput& operator=(const KeyboardUnidirectionalRangeInput&) = delete;
@@ -232,7 +232,7 @@ private:
 class JoystickButtonBidirectionalRangeInput final : public RangeInput
 {
 public:
-    JoystickButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, unsigned int joystick,
+    JoystickButtonBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, unsigned int joystick,
                                           unsigned int negativeJoystickButton, unsigned int positiveJoystickButton);
     JoystickButtonBidirectionalRangeInput(const JoystickButtonBidirectionalRangeInput&) = delete;
     JoystickButtonBidirectionalRangeInput(JoystickButtonBidirectionalRangeInput&&) = delete;
@@ -251,7 +251,7 @@ private:
 class JoystickButtonUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    JoystickButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback, unsigned int joystick,
+    JoystickButtonUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback, unsigned int joystick,
                                            unsigned int button);
     JoystickButtonUnidirectionalRangeInput(const JoystickButtonUnidirectionalRangeInput&) = delete;
     JoystickButtonUnidirectionalRangeInput(JoystickButtonUnidirectionalRangeInput&&) = delete;
@@ -269,7 +269,7 @@ private:
 class MouseButtonBidirectionalRangeInput final : public RangeInput
 {
 public:
-    MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback,
+    MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                        sf::Mouse::Button negativeMouseButton, sf::Mouse::Button positiveMouseButton);
     MouseButtonBidirectionalRangeInput(const MouseButtonBidirectionalRangeInput&) = delete;
     MouseButtonBidirectionalRangeInput(MouseButtonBidirectionalRangeInput&&) = delete;
@@ -287,7 +287,7 @@ private:
 class MouseButtonUnidirectionalRangeInput final : public RangeInput
 {
 public:
-    MouseButtonUnidirectionalRangeInput(const InputManager& inputManager, Callback<float>* callback,
+    MouseButtonUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                         sf::Mouse::Button mouseButton);
     MouseButtonUnidirectionalRangeInput(const MouseButtonUnidirectionalRangeInput&) = delete;
     MouseButtonUnidirectionalRangeInput(MouseButtonUnidirectionalRangeInput&&) = delete;

@@ -3,7 +3,7 @@
 
 // StateInput
 
-StateInput::StateInput(const InputManager& inputManager, Callback<bool>* callback)
+StateInput::StateInput(const InputManager& inputManager, Callable<bool>* callback)
     : m_inputManager(inputManager)
     , m_callback(callback)
 {
@@ -16,7 +16,7 @@ StateInput::~StateInput()
 
 // KeyEventStateInput
 
-KeyEventStateInput::KeyEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Keyboard::Key key)
+KeyEventStateInput::KeyEventStateInput(const InputManager& inputManager, Callable<bool>* callback, sf::Keyboard::Key key)
     : StateInput(inputManager, callback)
     , m_key(key)
 {
@@ -34,7 +34,7 @@ void KeyEventStateInput::CallAction()
 
 // MouseButtonEventStateInput
 
-MouseButtonEventStateInput::MouseButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Mouse::Button button)
+MouseButtonEventStateInput::MouseButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback, sf::Mouse::Button button)
     : StateInput(inputManager, callback)
     , m_button(button)
 {
@@ -45,7 +45,7 @@ bool MouseButtonEventStateInput::DetectedEvent() const
     return m_inputManager.IsMouseButtonAscending(m_button) || m_inputManager.IsMouseButtonDescending(m_button);
 }
 
-void MouseButtonEventStateInput::CallAction() 
+void MouseButtonEventStateInput::CallAction()
 {
     bool mouseButtonDescending = m_inputManager.IsMouseButtonAscending(m_button);
     (*m_callback)(mouseButtonDescending);
@@ -53,19 +53,19 @@ void MouseButtonEventStateInput::CallAction()
 
 // JoystickButtonEventStateInput
 
-JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, unsigned int button)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)
 {
 }
 
-bool JoystickButtonEventStateInput::DetectedEvent() const 
+bool JoystickButtonEventStateInput::DetectedEvent() const
 {
     return m_inputManager.IsJoystickButtonAscending(m_joystick, m_button) || m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
 }
 
-void JoystickButtonEventStateInput::CallAction() 
+void JoystickButtonEventStateInput::CallAction()
 {
     bool joystickButtonDescending = m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
     (*m_callback)(joystickButtonDescending);
@@ -80,7 +80,7 @@ void JoystickButtonEventStateInput::CallAction()
 /// \param threshold        The threshold to be exceeded for the callback to be called.
 ///                         If the threshold is negative, the axis value must be lower for the input to be triggered.
 ///                         If the threshold is positive, the axis value must be higher for the input to be triggered.
-JoystickAxisAboveThresholdStateInput::JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback,
+JoystickAxisAboveThresholdStateInput::JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback,
                                                                            unsigned int joystick, sf::Joystick::Axis axis, float threshold)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
@@ -90,11 +90,11 @@ JoystickAxisAboveThresholdStateInput::JoystickAxisAboveThresholdStateInput(const
 {
 }
 
-bool JoystickAxisAboveThresholdStateInput::DetectedEvent() const 
+bool JoystickAxisAboveThresholdStateInput::DetectedEvent() const
 {
     float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
-    bool detectedEvent = (m_lastAxisValue <= m_threshold && currentAxisValue > m_threshold) || 
+    bool detectedEvent = (m_lastAxisValue <= m_threshold && currentAxisValue > m_threshold) ||
                          (m_lastAxisValue > m_threshold && currentAxisValue <= m_threshold);
 
     m_lastAxisValue = currentAxisValue;
@@ -116,7 +116,7 @@ void JoystickAxisAboveThresholdStateInput::CallAction()
 /// \param threshold        The threshold to be exceeded for the callback to be called.
 ///                         If the threshold is negative, the axis value must be lower for the input to be triggered.
 ///                         If the threshold is positive, the axis value must be higher for the input to be triggered.
-JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback,
+JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback,
                                                                          unsigned int joystick, sf::Joystick::Axis axis, float threshold)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
@@ -126,11 +126,11 @@ JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const
 {
 }
 
-bool JoystickAxisBelowThresholdStateInput::DetectedEvent() const 
+bool JoystickAxisBelowThresholdStateInput::DetectedEvent() const
 {
     float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
-    bool detectedEvent = (m_lastAxisValue < m_threshold && currentAxisValue >= m_threshold) || 
+    bool detectedEvent = (m_lastAxisValue < m_threshold && currentAxisValue >= m_threshold) ||
                          (m_lastAxisValue >= m_threshold && currentAxisValue < m_threshold);
 
     m_lastAxisValue = currentAxisValue;

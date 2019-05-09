@@ -30,7 +30,7 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     , m_eventPressedJoystickButtons{}
     , m_eventReleasedJoystickButtons{}
     , m_joystickAxesPosition{}
-    , m_joystickDeadZone(8.0)
+    , m_joystickDeadZone(15.0)
     , m_joystickMovedEvent(false)
     , m_joystickConnectedEvent(false)
     , m_joystickDisconnectedEvent(false)

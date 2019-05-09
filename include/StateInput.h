@@ -2,14 +2,14 @@
 #define STATEINPUT_H
 
 #include <SFML/Window.hpp>
-#include "Misc/Callbacks.h"
+#include "Misc/Callables.h"
 #include "InputManager.h"
 
 /// Class representing an input able to make a callback to a function with a bool as a parameter when triggered.
 class StateInput
 {
 public:
-    StateInput(const InputManager& inputManager, Callback<bool>* callback);
+    StateInput(const InputManager& inputManager, Callable<bool>* callback);
     StateInput(const StateInput&) = delete;
     StateInput(StateInput&&) = delete;
     virtual ~StateInput();
@@ -20,21 +20,21 @@ public:
 
 protected:
     const InputManager& m_inputManager;
-    Callback<bool>* m_callback;
+    Callable<bool>* m_callback;
 };
 
 /// Class representing a keyboard input able to make a callback to a function with a bool as a parameter when triggered.
 class KeyEventStateInput final : public StateInput
 {
 public:
-    KeyEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Keyboard::Key key);
+    KeyEventStateInput(const InputManager& inputManager, Callable<bool>* callback, sf::Keyboard::Key key);
     KeyEventStateInput(const KeyEventStateInput&) = delete;
     KeyEventStateInput(KeyEventStateInput&&) = delete;
     KeyEventStateInput& operator=(const KeyEventStateInput&) = delete;
     KeyEventStateInput& operator=(KeyEventStateInput&&) = delete;
     virtual bool DetectedEvent() const override;
     virtual void CallAction() override;
-    
+
 private:
     sf::Keyboard::Key m_key;
 };
@@ -43,7 +43,7 @@ private:
 class MouseButtonEventStateInput final : public StateInput
 {
 public:
-    MouseButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, sf::Mouse::Button button);
+    MouseButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback, sf::Mouse::Button button);
     MouseButtonEventStateInput(const MouseButtonEventStateInput&) = delete;
     MouseButtonEventStateInput(MouseButtonEventStateInput&&) = delete;
     MouseButtonEventStateInput& operator=(const MouseButtonEventStateInput&) = delete;
@@ -59,7 +59,7 @@ private:
 class JoystickButtonEventStateInput final : public StateInput
 {
 public:
-    JoystickButtonEventStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, unsigned int button);
+    JoystickButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, unsigned int button);
     JoystickButtonEventStateInput(const JoystickButtonEventStateInput&) = delete;
     JoystickButtonEventStateInput(JoystickButtonEventStateInput&&) = delete;
     JoystickButtonEventStateInput& operator=(const JoystickButtonEventStateInput&) = delete;
@@ -76,7 +76,7 @@ private:
 class JoystickAxisAboveThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
     JoystickAxisAboveThresholdStateInput(const JoystickAxisAboveThresholdStateInput&) = delete;
     JoystickAxisAboveThresholdStateInput(JoystickAxisAboveThresholdStateInput&&) = delete;
     JoystickAxisAboveThresholdStateInput& operator=(const JoystickAxisAboveThresholdStateInput&) = delete;
@@ -95,7 +95,7 @@ private:
 class JoystickAxisBelowThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
     JoystickAxisBelowThresholdStateInput(const JoystickAxisBelowThresholdStateInput&) = delete;
     JoystickAxisBelowThresholdStateInput(JoystickAxisBelowThresholdStateInput&&) = delete;
     JoystickAxisBelowThresholdStateInput& operator=(const JoystickAxisBelowThresholdStateInput&) = delete;

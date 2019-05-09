@@ -2,7 +2,7 @@
 
 // ActionInput
 
-ActionInput::ActionInput(const InputManager& inputManager, Callback<>* callback)
+ActionInput::ActionInput(const InputManager& inputManager, Callable<>* callback)
     : m_inputManager(inputManager)
       , m_callback(callback)
 {
@@ -20,7 +20,7 @@ void ActionInput::CallFunction()
 
 // KeyDescendingActionInput
 
-KeyDescendingActionInput::KeyDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key)
+KeyDescendingActionInput::KeyDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key)
     : ActionInput(inputManager, callback)
     , m_key(key)
 {
@@ -32,7 +32,7 @@ bool KeyDescendingActionInput::DetectedEvent() const
 }
 
 // KeyAscendingActionInput
-KeyAscendingActionInput::KeyAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key)
+KeyAscendingActionInput::KeyAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key)
     : ActionInput(inputManager, callback)
     , m_key(key)
 {
@@ -44,7 +44,7 @@ bool KeyAscendingActionInput::DetectedEvent() const
 }
 
 // MouseButtonDescendingActionInput
-MouseButtonDescendingActionInput::MouseButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button)
+MouseButtonDescendingActionInput::MouseButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button)
     : ActionInput(inputManager, callback)
     , m_button(button)
 {
@@ -57,7 +57,7 @@ bool MouseButtonDescendingActionInput::DetectedEvent() const
 
 // MouseButtonAscendingActionInput
 
-MouseButtonAscendingActionInput::MouseButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button)
+MouseButtonAscendingActionInput::MouseButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button)
     : ActionInput(inputManager, callback)
     , m_button(button)
 {
@@ -70,7 +70,7 @@ bool MouseButtonAscendingActionInput::DetectedEvent() const
 
 // JoystickButtonDescendingActionInput
 
-JoystickButtonDescendingActionInput::JoystickButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonDescendingActionInput::JoystickButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button)
     : ActionInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)
@@ -84,7 +84,7 @@ bool JoystickButtonDescendingActionInput::DetectedEvent() const
 
 // JoystickButtonAscendingActionInput
 
-JoystickButtonAscendingActionInput::JoystickButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonAscendingActionInput::JoystickButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button)
     : ActionInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)
@@ -98,7 +98,7 @@ bool JoystickButtonAscendingActionInput::DetectedEvent() const
 
 // MouseMovedActionInput
 
-MouseMovedActionInput::MouseMovedActionInput(const InputManager& inputManager, Callback<>* callback)
+MouseMovedActionInput::MouseMovedActionInput(const InputManager& inputManager, Callable<>* callback)
     : ActionInput(inputManager, callback)
 {
 }
@@ -110,7 +110,7 @@ bool MouseMovedActionInput::DetectedEvent() const
 
 // MouseWheelUpActionInput
 
-MouseWheelUpActionInput::MouseWheelUpActionInput(const InputManager& inputManager, Callback<>* callback)
+MouseWheelUpActionInput::MouseWheelUpActionInput(const InputManager& inputManager, Callable<>* callback)
     : ActionInput(inputManager, callback)
 {
 }
@@ -122,7 +122,7 @@ bool MouseWheelUpActionInput::DetectedEvent() const
 
 // MouseWheelDownActionInput
 
-MouseWheelDownActionInput::MouseWheelDownActionInput(const InputManager& inputManager, Callback<>* callback)
+MouseWheelDownActionInput::MouseWheelDownActionInput(const InputManager& inputManager, Callable<>* callback)
     : ActionInput(inputManager, callback)
 {
 }
@@ -134,7 +134,7 @@ bool MouseWheelDownActionInput::DetectedEvent() const
 
 // MouseWheelLeftActionInput
 
-MouseWheelLeftActionInput::MouseWheelLeftActionInput(const InputManager& inputManager, Callback<>* callback)
+MouseWheelLeftActionInput::MouseWheelLeftActionInput(const InputManager& inputManager, Callable<>* callback)
     : ActionInput(inputManager, callback)
 {
 }
@@ -146,7 +146,7 @@ bool MouseWheelLeftActionInput::DetectedEvent() const
 
 // MouseWheelRightActionInput
 
-MouseWheelRightActionInput::MouseWheelRightActionInput(const InputManager& inputManager, Callback<>* callback)
+MouseWheelRightActionInput::MouseWheelRightActionInput(const InputManager& inputManager, Callable<>* callback)
     : ActionInput(inputManager, callback)
 {
 }

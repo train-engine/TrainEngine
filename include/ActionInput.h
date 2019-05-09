@@ -2,14 +2,14 @@
 #define ACTIONINPUT_H
 
 #include <SFML/Window.hpp>
-#include "Misc/Callbacks.h"
+#include "Misc/Callables.h"
 #include "InputManager.h"
 
 /// Class representing an input able to make a callback to a function with no parameters when triggered.
 class ActionInput
 {
 public:
-    ActionInput(const InputManager& inputManager, Callback<>* callback);
+    ActionInput(const InputManager& inputManager, Callable<>* callback);
     ActionInput(const ActionInput&) = delete;
     ActionInput(ActionInput&&) = delete;
     virtual ~ActionInput();
@@ -22,14 +22,14 @@ protected:
     const InputManager& m_inputManager;
 
 private:
-    Callback<>* m_callback;
+    Callable<>* m_callback;
 };
 
 /// Class representing key descending event able to make a callback to a function with no parameters when triggered.
 class KeyDescendingActionInput final : public ActionInput
 {
 public:
-    KeyDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key);
+    KeyDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key);
     KeyDescendingActionInput(const KeyDescendingActionInput&) = delete;
     KeyDescendingActionInput(KeyDescendingActionInput&&) = delete;
     KeyDescendingActionInput& operator=(const KeyDescendingActionInput&) = delete;
@@ -44,7 +44,7 @@ private:
 class KeyAscendingActionInput final : public ActionInput
 {
 public:
-    KeyAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Keyboard::Key key);
+    KeyAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key);
     KeyAscendingActionInput(const KeyAscendingActionInput&) = delete;
     KeyAscendingActionInput(KeyAscendingActionInput&&) = delete;
     KeyAscendingActionInput& operator=(const KeyAscendingActionInput&) = delete;
@@ -59,7 +59,7 @@ private:
 class MouseButtonDescendingActionInput final : public ActionInput
 {
 public:
-    MouseButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button);
+    MouseButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button);
     MouseButtonDescendingActionInput(const MouseButtonDescendingActionInput&) = delete;
     MouseButtonDescendingActionInput(MouseButtonDescendingActionInput&&) = delete;
     MouseButtonDescendingActionInput& operator=(const MouseButtonDescendingActionInput&) = delete;
@@ -74,7 +74,7 @@ private:
 class MouseButtonAscendingActionInput final : public ActionInput
 {
 public:
-    MouseButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, sf::Mouse::Button button);
+    MouseButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button);
     MouseButtonAscendingActionInput(const MouseButtonAscendingActionInput&) = delete;
     MouseButtonAscendingActionInput(MouseButtonAscendingActionInput&&) = delete;
     MouseButtonAscendingActionInput& operator=(const MouseButtonAscendingActionInput&) = delete;
@@ -89,7 +89,7 @@ private:
 class JoystickButtonDescendingActionInput final : public ActionInput
 {
 public:
-    JoystickButtonDescendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button);
+    JoystickButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button);
     JoystickButtonDescendingActionInput(const JoystickButtonDescendingActionInput&) = delete;
     JoystickButtonDescendingActionInput(JoystickButtonDescendingActionInput&&) = delete;
     JoystickButtonDescendingActionInput& operator=(const JoystickButtonDescendingActionInput&) = delete;
@@ -105,7 +105,7 @@ private:
 class JoystickButtonAscendingActionInput final : public ActionInput
 {
 public:
-    JoystickButtonAscendingActionInput(const InputManager& inputManager, Callback<>* callback, unsigned int joystick, unsigned int button);
+    JoystickButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button);
     JoystickButtonAscendingActionInput(const JoystickButtonAscendingActionInput&) = delete;
     JoystickButtonAscendingActionInput(JoystickButtonAscendingActionInput&&) = delete;
     JoystickButtonAscendingActionInput& operator=(const JoystickButtonAscendingActionInput&) = delete;
@@ -121,7 +121,7 @@ private:
 class MouseMovedActionInput final : public ActionInput
 {
 public:
-    MouseMovedActionInput(const InputManager& inputManager, Callback<>* callback);
+    MouseMovedActionInput(const InputManager& inputManager, Callable<>* callback);
     MouseMovedActionInput(const MouseMovedActionInput&) = delete;
     MouseMovedActionInput(MouseMovedActionInput&&) = delete;
     MouseMovedActionInput& operator=(const MouseMovedActionInput&) = delete;
@@ -133,7 +133,7 @@ public:
 class MouseWheelUpActionInput final : public ActionInput
 {
 public:
-    MouseWheelUpActionInput(const InputManager& inputManager, Callback<>* callback);
+    MouseWheelUpActionInput(const InputManager& inputManager, Callable<>* callback);
     MouseWheelUpActionInput(const MouseWheelUpActionInput&) = delete;
     MouseWheelUpActionInput(MouseWheelUpActionInput&&) = delete;
     MouseWheelUpActionInput& operator=(const MouseWheelUpActionInput&) = delete;
@@ -145,7 +145,7 @@ public:
 class MouseWheelDownActionInput final : public ActionInput
 {
 public:
-    MouseWheelDownActionInput(const InputManager& inputManager, Callback<>* callback);
+    MouseWheelDownActionInput(const InputManager& inputManager, Callable<>* callback);
     MouseWheelDownActionInput(const MouseWheelDownActionInput&) = delete;
     MouseWheelDownActionInput(MouseWheelDownActionInput&&) = delete;
     MouseWheelDownActionInput& operator=(const MouseWheelDownActionInput&) = delete;
@@ -157,7 +157,7 @@ public:
 class MouseWheelLeftActionInput final : public ActionInput
 {
 public:
-    MouseWheelLeftActionInput(const InputManager& inputManager, Callback<>* callback);
+    MouseWheelLeftActionInput(const InputManager& inputManager, Callable<>* callback);
     MouseWheelLeftActionInput(const MouseWheelLeftActionInput&) = delete;
     MouseWheelLeftActionInput(MouseWheelLeftActionInput&&) = delete;
     MouseWheelLeftActionInput& operator=(const MouseWheelLeftActionInput&) = delete;
@@ -169,7 +169,7 @@ public:
 class MouseWheelRightActionInput final : public ActionInput
 {
 public:
-    MouseWheelRightActionInput(const InputManager& inputManager, Callback<>* callback);
+    MouseWheelRightActionInput(const InputManager& inputManager, Callable<>* callback);
     MouseWheelRightActionInput(const MouseWheelRightActionInput&) = delete;
     MouseWheelRightActionInput(MouseWheelRightActionInput&&) = delete;
     MouseWheelRightActionInput& operator=(const MouseWheelRightActionInput&) = delete;

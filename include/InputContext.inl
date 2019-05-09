@@ -1,5 +1,10 @@
-// Not necessary: only for VS Code to not put errors everywhere
-#include "InputContext.h"
+#include "InputContext.h" // Not necessary: only for VS Code to not put errors everywhere
+
+/// Constructor
+inline InputContext::InputContext(const InputManager& inputManager)
+    : m_inputManager(inputManager)
+{
+}
 
 /// Destructor
 inline InputContext::~InputContext()
@@ -20,7 +25,7 @@ inline InputContext::~InputContext()
     }
 }
 
-/// Update function which check if callbacks must be called. This function must be called periodically for the InputContext to work.
+/// Update function which checks if callbacks must be called. This function must be called periodically for the InputContext to work.
 /// The best place to call this function is in a HandleInput function.
 inline void InputContext::Update()
 {
@@ -56,30 +61,32 @@ inline void InputContext::Clear()
     {
         delete input;
     }
-    m_actionInputs.resize(0);
+    m_actionInputs.clear();
 
     for (auto& input : m_stateInputs)
     {
         delete input;
     }
-    m_stateInputs.resize(0);
+    m_stateInputs.clear();
 
     for (auto& input : m_rangeInputs)
     {
         delete input;
     }
-    m_rangeInputs.resize(0);
+    m_rangeInputs.clear();
 }
+
+// ActionInput
 
 /// Assign a key action to a function with no parameters.
 /// \param callback     A function with no parameters.
 /// \param key          The key bound to the action.
 /// \param eventType    The type of event for the action binding.
-template<typename Callable>
-inline void InputContext::BindActionToKey(Callable callback, sf::Keyboard::Key key, EventType eventType)
+template<typename F>
+inline void InputContext::BindActionToKey(F callback, sf::Keyboard::Key key, EventType eventType)
 {
     BindActionToKeyHelper(
-        new CallbackFunctor<Callable>(callback),
+        new Functor<F>(callback),
         key,
         eventType
     );
@@ -90,11 +97,11 @@ inline void InputContext::BindActionToKey(Callable callback, sf::Keyboard::Key k
 /// \param callback     A member function with no parameters.
 /// \param key          The key bound to the action.
 /// \param eventType    The type of event for the action binding.
-template<typename Object, typename Callable>
-inline void InputContext::BindActionToKey(Object* object, Callable callback, sf::Keyboard::Key key, EventType eventType)
+template<typename O, typename F>
+inline void InputContext::BindActionToKey(O* object, F callback, sf::Keyboard::Key key, EventType eventType)
 {
     BindActionToKeyHelper(
-        new CallbackMember<Object, Callable>(object, callback),
+        new Method<O, F>(object, callback),
         key,
         eventType
     );
@@ -104,11 +111,11 @@ inline void InputContext::BindActionToKey(Object* object, Callable callback, sf:
 /// \param callback     A function with no parameters.
 /// \param mouseButton  The mouse button bound to the action.
 /// \param eventType    The type of event for the action binding.
-template<typename Callable>
-inline void InputContext::BindActionToMouseButton(Callable callback, sf::Mouse::Button mouseButton, EventType eventType)
+template<typename F>
+inline void InputContext::BindActionToMouseButton(F callback, sf::Mouse::Button mouseButton, EventType eventType)
 {
     BindActionToMouseButtonHelper(
-        new CallbackFunctor<Callable>(callback),
+        new Functor<F>(callback),
         mouseButton,
         eventType
     );
@@ -119,13 +126,63 @@ inline void InputContext::BindActionToMouseButton(Callable callback, sf::Mouse::
 /// \param callback     A member function with no parameters.
 /// \param mouseButton  The mouse button bound to the action.
 /// \param eventType    The type of event for the action binding.
-template<typename Object, typename Callable>
-inline void InputContext::BindActionToMouseButton(Object* object, Callable callback, sf::Mouse::Button mouseButton, EventType eventType)
+template<typename O, typename F>
+inline void InputContext::BindActionToMouseButton(O* object, F callback, sf::Mouse::Button mouseButton, EventType eventType)
 {
     BindActionToMouseButtonHelper(
-        new CallbackMember<Object, Callable>(object, callback),
+        new Method<O, F>(object, callback),
         mouseButton,
         eventType
+    );
+}
+
+/// Assign the mouse movement to a function with no parameters.
+/// \param callback     A function with no parameters.
+/// \param mouseButton  The joystick button bound to the action.
+template<typename F>
+inline void InputContext::BindActionToMouseMoved(F callback)
+{
+    BindActionToMouseMovedHelper(new Functor<F>(callback));
+}
+
+/// Assign the mouse movement to a member function with no parameters.
+/// \param object       The object on which the member function must be called.
+/// \param callback     A member function with no parameters.
+/// \param mouseButton  The joystick button bound to the action.
+template<typename O, typename F>
+inline void InputContext::BindActionToMouseMoved(O* object, F callback)
+{
+    BindActionToMouseMovedHelper(new Method<O, F>(object, callback));
+}
+
+/// Assign a mouse wheel scrolled to a function with no parameters.
+/// \param callback             A function with no parameters.
+/// \param mouseWheelAxis       The wheel Axis bound to the callback.
+/// \param mouseWheelDirection  The wheelDirection bound to the callback.
+template<typename F>
+inline void InputContext::BindActionToMouseWheelScrolled(F callback, sf::Mouse::Wheel mouseWheelAxis,
+                                                         EventType mouseWheelDirection)
+{
+    BindActionToMouseWheelScrolledHelper(
+        new Functor<F>(callback),
+        mouseWheelAxis,
+        mouseWheelDirection
+    );
+}
+
+/// Assign a mouse wheel scrolled to a function with no parameters.
+/// \param object               The object on which the member function must be called.
+/// \param callback             A member function with no parameters.
+/// \param mouseWheelAxis       The wheel Axis bound to the callback.
+/// \param mouseWheelDirection  The wheelDirection bound to the callback.
+template<typename O, typename F>
+inline void InputContext::BindActionToMouseWheelScrolled(O* object, F callback, sf::Mouse::Wheel mouseWheelAxis,
+                                                         EventType mouseWheelDirection)
+{
+    BindActionToMouseWheelScrolledHelper(
+        new Method<O, F>(object, callback),
+        mouseWheelAxis,
+        mouseWheelDirection
     );
 }
 
@@ -133,11 +190,11 @@ inline void InputContext::BindActionToMouseButton(Object* object, Callable callb
 /// \param callback         A function with no parameters.
 /// \param joystickButton   The joystick button bound to the action.
 /// \param eventType        The type of event for the action binding.
-template<typename Callable>
-inline void InputContext::BindActionToJoystickButton(Callable callback, unsigned int joystick, unsigned int button, EventType eventType)
+template<typename F>
+inline void InputContext::BindActionToJoystickButton(F callback, unsigned int joystick, unsigned int button, EventType eventType)
 {
     BindActionToJoystickButtonHelper(
-        new CallbackFunctor<Callable>(callback),
+        new Functor<F>(callback),
         joystick,
         button,
         eventType
@@ -149,79 +206,31 @@ inline void InputContext::BindActionToJoystickButton(Callable callback, unsigned
 /// \param callback         A member function with no parameters.
 /// \param joystickButton   The joystick button bound to the action.
 /// \param eventType        The type of event for the action binding.
-template<typename Object, typename Callable>
-inline void InputContext::BindActionToJoystickButton(Object* object, Callable callback, unsigned int joystick,
+template<typename O, typename F>
+inline void InputContext::BindActionToJoystickButton(O* object, F callback, unsigned int joystick,
                                                      unsigned int button, EventType eventType)
 {
     BindActionToJoystickButtonHelper(
-        new CallbackMember<Object, Callable>(object, callback),
+        new Method<O, F>(object, callback),
         joystick,
         button,
         eventType
     );
 }
 
-/// Assign the mouse movement to a function with no parameters.
-/// \param callback     A function with no parameters.
-/// \param mouseButton  The joystick button bound to the action.
-template<typename Callable>
-inline void InputContext::BindActionToMouseMoved(Callable callback)
-{
-    BindActionToMouseMovedHelper(new CallbackFunctor<Callable>(callback));
-}
-
-/// Assign the mouse movement to a member function with no parameters.
-/// \param object       The object on which the member function must be called.
-/// \param callback     A member function with no parameters.
-/// \param mouseButton  The joystick button bound to the action.
-template<typename Object, typename Callable>
-inline void InputContext::BindActionToMouseMoved(Object* object, Callable callback)
-{
-    BindActionToMouseMovedHelper(new CallbackMember<Object, Callable>(object, callback));
-}
-
-/// Assign a mouse wheel scrolled to a function with no parameters.
-/// \param callback             A function with no parameters.
-/// \param mouseWheelAxis       The wheel Axis bound to the callback.
-/// \param mouseWheelDirection  The wheelDirection bound to the callback.
-template<typename Callable>
-inline void InputContext::BindActionToMouseWheelScrolled(Callable callback, sf::Mouse::Wheel mouseWheelAxis,
-                                                         EventType mouseWheelDirection)
-{
-    BindActionToMouseWheelScrolledHelper(
-        new CallbackFunctor<Callable>(callback),
-        mouseWheelAxis,
-        mouseWheelDirection
-    );
-}
-
-/// Assign a mouse wheel scrolled to a function with no parameters.
-/// \param object               The object on which the member function must be called.
-/// \param callback             A member function with no parameters.
-/// \param mouseWheelAxis       The wheel Axis bound to the callback.
-/// \param mouseWheelDirection  The wheelDirection bound to the callback.
-template<typename Object, typename Callable>
-inline void InputContext::BindActionToMouseWheelScrolled(Object* object, Callable callback, sf::Mouse::Wheel mouseWheelAxis,
-                                                         EventType mouseWheelDirection)
-{
-    BindActionToMouseWheelScrolledHelper(
-        new CallbackMember<Object, Callable>(object, callback),
-        mouseWheelAxis,
-        mouseWheelDirection
-    );
-}
+// StateInput
 
 /// Assign a key event to a function with a bool as a parameter.
 /// The function will receive a bool representing if the key is pressed.
 /// \param callback     A function with a bool as a parameter.
 /// \param key          The key bound to the callback.
-template<typename Callable>
-inline void InputContext::BindStateToKey(Callable callback, sf::Keyboard::Key key)
+template<typename F>
+inline void InputContext::BindStateToKey(F callback, sf::Keyboard::Key key)
 {
     m_stateInputs.push_back(
         new KeyEventStateInput(
             m_inputManager,
-            new CallbackFunctor<Callable, bool>(callback),
+            new Functor<F, bool>(callback),
             key
         )
     );
@@ -232,13 +241,13 @@ inline void InputContext::BindStateToKey(Callable callback, sf::Keyboard::Key ke
 /// \param object       The object on which the member function must be called.
 /// \param callback     A member function with a bool as a parameter.
 /// \param key          The key bound to the callback.
-template<typename Object, typename Callable>
-inline void InputContext::BindStateToKey(Object* object, Callable callback, sf::Keyboard::Key key)
+template<typename O, typename F>
+inline void InputContext::BindStateToKey(O* object, F callback, sf::Keyboard::Key key)
 {
     m_stateInputs.push_back(
         new KeyEventStateInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, bool>(object, callback),
+            new Method<O, F, bool>(object, callback),
             key
         )
     );
@@ -248,13 +257,13 @@ inline void InputContext::BindStateToKey(Object* object, Callable callback, sf::
 /// The function will receive a bool representing if the mouse button is pressed.
 /// \param callback     A function with a bool as a parameter.
 /// \param button       The mouse button bound to the callback.
-template<typename Callable>
-inline void InputContext::BindStateToMouseButton(Callable callback, sf::Mouse::Button button)
+template<typename F>
+inline void InputContext::BindStateToMouseButton(F callback, sf::Mouse::Button button)
 {
     m_stateInputs.push_back(
         new MouseButtonEventStateInput(
             m_inputManager,
-            new CallbackFunctor<Callable, bool>(callback),
+            new Functor<F, bool>(callback),
             button
         )
     );
@@ -265,13 +274,13 @@ inline void InputContext::BindStateToMouseButton(Callable callback, sf::Mouse::B
 /// \param object       The object on which the member function must be called.
 /// \param callback     A member function with a bool as a parameter.
 /// \param button       The mouse button bound to the callback.
-template<typename Object, typename Callable>
-inline void InputContext::BindStateToMouseButton(Object* object, Callable callback, sf::Mouse::Button button)
+template<typename O, typename F>
+inline void InputContext::BindStateToMouseButton(O* object, F callback, sf::Mouse::Button button)
 {
     m_stateInputs.push_back(
         new MouseButtonEventStateInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, bool>(object, callback),
+            new Method<O, F, bool>(object, callback),
             button
         )
     );
@@ -282,13 +291,13 @@ inline void InputContext::BindStateToMouseButton(Object* object, Callable callba
 /// \param callback         A function with a bool as a parameter.
 /// \param joystick         The joystick id.
 /// \param joystickButton   The joystick button bound to the callback.
-template<typename Callable>
-inline void InputContext::BindStateToJoyStickButton(Callable callback, unsigned int joystick, unsigned int button)
+template<typename F>
+inline void InputContext::BindStateToJoyStickButton(F callback, unsigned int joystick, unsigned int button)
 {
     m_stateInputs.push_back(
         new JoystickButtonEventStateInput(
             m_inputManager,
-            new CallbackFunctor<Callable, bool>(callback),
+            new Functor<F, bool>(callback),
             joystick,
             button
         )
@@ -301,14 +310,14 @@ inline void InputContext::BindStateToJoyStickButton(Callable callback, unsigned 
 /// \param callback         A member function with a bool as a parameter.
 /// \param joystick         The joystick id.
 /// \param joystickButton   The joystick button bound to the callback.
-template<typename Object, typename Callable>
-inline void InputContext::BindStateToJoystickButton(Object* object, Callable callback, unsigned int joystick,
+template<typename O, typename F>
+inline void InputContext::BindStateToJoystickButton(O* object, F callback, unsigned int joystick,
                                                     unsigned int button)
 {
     m_stateInputs.push_back(
         new JoystickButtonEventStateInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, bool>(object, callback),
+            new Method<O, F, bool>(object, callback),
             joystick,
             button
         )
@@ -324,12 +333,12 @@ inline void InputContext::BindStateToJoystickButton(Object* object, Callable cal
 /// \param joystickAxis     The joystick axis bound to the callback.
 /// \param threshold         The threshold to be exceeded for the callback to be called.
 /// \param axisPosition     The position of the axis relative to the threshold.
-template<typename Callable>
-void InputContext::BindStateToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
+template<typename F>
+void InputContext::BindStateToJoystickAxis(F callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                            JoystickAxisPosition axisPosition)
 {
     BindStateToJoystickAxisHelper(
-        new CallbackFunctor<Callable, bool>(callback),
+        new Functor<F, bool>(callback),
         joystick,
         axis,
         threshold,
@@ -347,12 +356,12 @@ void InputContext::BindStateToJoystickAxis(Callable callback, unsigned int joyst
 /// \param joystickAxis     The joystick axis bound to the callback.
 /// \param threshold         The threshold to be exceeded for the callback to be called.
 /// \param axisPosition     The position of the axis relative to the threshold.
-template<typename Object, typename Callable>
-void InputContext::BindStateToJoystickAxis(Object* object, Callable callback,  unsigned int joystick, sf::Joystick::Axis axis, float threshold,
+template<typename O, typename F>
+void InputContext::BindStateToJoystickAxis(O* object, F callback,  unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                            JoystickAxisPosition axisPosition)
 {
     BindStateToJoystickAxisHelper(
-        new CallbackMember<Object, Callable, bool>(object, callback),
+        new Method<O, F, bool>(object, callback),
         joystick,
         axis,
         threshold,
@@ -360,78 +369,277 @@ void InputContext::BindStateToJoystickAxis(Object* object, Callable callback,  u
     );
 }
 
-/// Assign a joystick axis to a function with a float as a parameter.
-/// The function will receive the joystick axis' position as an argument.
-/// Note: The function will receive an argument ranging in [0, 100] or [-100, 0] depending on the rangeRestriction.
+// RangeInput
+
+/// Assign two keys to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument in range [-100, 100]
+/// \param callback     A function with a float as a parameter.
+/// \param negativeKey  The key which sends a negative float to the function.
+/// \param positiveKey  The key which sends a positive float to the function.
+template<typename F>
+inline void InputContext::BindRangeToKeyboard(F callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
+{
+    m_rangeInputs.push_back(
+        new KeyboardBidirectionalRangeInput(
+            m_inputManager,
+            new Functor<F, float>(callback),
+            negativeKey,
+            positiveKey
+        )
+    );
+}
+
+/// Assign two keys to a member function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument in range [-100, 100]
+/// \param object       The object on which the member function must be called.
+/// \param callback     A member function with a float as a parameter.
+/// \param negativeKey  The key which sends a negative float to the member function.
+/// \param positiveKey  The key which sends a positive float to the member function.
+template<typename O, typename F>
+inline void InputContext::BindRangeToKeyboard(O* object, F callback,
+                                              sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
+{
+    m_rangeInputs.push_back(
+        new KeyboardBidirectionalRangeInput(
+            m_inputManager,
+            new Method<O, F, float>(object, callback),
+            negativeKey,
+            positiveKey
+        )
+    );
+}
+
+/// Assign a key to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument in range [0, 100]
 /// \param callback         A function with a float as a parameter.
-/// \param joystick         The joystick id.
-/// \param joystickAxis     The joystick axis bound to the callback.
-/// \param rangeRestriction The restriction of the callback range of the joystick axis.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the axis.
-template<typename Callable>
-inline void InputContext::BindRangeToJoystickAxis(Callable callback, unsigned int joystick, sf::Joystick::Axis axis,
-                                                  RangeRestriction rangeRestriction)
+/// \param key              The key which triggers the function.
+template<typename F>
+inline void InputContext::BindRangeToKeyboard(F callback, sf::Keyboard::Key key)
+{
+    m_rangeInputs.push_back(
+        new KeyboardUnidirectionalRangeInput(
+            m_inputManager,
+            new Functor<F, float>(callback),
+            key
+        )
+    );
+}
+
+/// Assign key to a member function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument in range [0, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param key              The key which triggers the member function.
+template<typename O, typename F>
+inline void InputContext::BindRangeToKeyboard(O* object, F callback, sf::Keyboard::Key key)
+{
+    m_rangeInputs.push_back(
+        new KeyboardUnidirectionalRangeInput(
+            m_inputManager,
+            new Method<O, F, float>(object, callback),
+            key
+        )
+    );
+}
+
+/// Assign two mouse buttons to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument in range [-100, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param negativeButton   The mouse button which sends a negative float to the function.
+/// \param positiveButton   The mouse button which sends a positive float to the function.
+template<typename F>
+inline void InputContext::BindRangeToMouseButtons(F callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonBidirectionalRangeInput(
+            m_inputManager,
+            new Functor<F, float>(callback),
+            negativeButton,
+            positiveButton
+        )
+    );
+}
+
+/// Assign two mouse buttons to a member function with a float as a parameter.
+/// The member function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument in range [-100, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param negativeButton   The mouse button which sends a negative float to the member function.
+/// \param positiveButton   The mouse button which sends a positive float to the member function.
+template<typename O, typename F>
+inline void InputContext::BindRangeToMouseButtons(O* object, F callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonBidirectionalRangeInput(
+            m_inputManager,
+            new Method<O, F, float>(object, callback),
+            negativeButton,
+            positiveButton
+        )
+    );
+}
+
+/// Assign a mouse button to a function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The function will receive an argument in range [0, 100]
+/// \param callback         A function with a float as a parameter.
+/// \param button           The mouse button which triggers the function.
+template<typename F>
+inline void InputContext::BindRangeToMouseButton(F callback, sf::Mouse::Button button)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new Functor<F, float>(callback),
+            button
+        )
+    );
+}
+
+/// Assign a mouse button to a member function with a float as a parameter.
+/// The function will receive the simulated analog input as an argument.
+/// Note: The member function will receive an argument in range [0, 100]
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param button           The mouse button which triggers the member function.
+template<typename O, typename F>
+inline void InputContext::BindRangeToMouseButton(O* object, F callback, sf::Mouse::Button button)
+{
+    m_rangeInputs.push_back(
+        new MouseButtonUnidirectionalRangeInput(
+            m_inputManager,
+            new Method<O, F, float>(object, callback),
+            button
+        )
+    );
+}
+
+/// Assign the horizontal mouse movement to a function with a float as a parameter.
+/// The function will receive the horizontal mouse movement as an argument.
+/// \param callback         A function with a float as a parameter.
+/// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+template<typename F>
+inline void InputContext::BindRangeToHorizontalMouseMovement(F callback, RangeRestriction rangeRestriction)
 {
     // Bidirectional input if no range restriction
     if (rangeRestriction == RangeRestriction::None)
     {
         m_rangeInputs.push_back(
-            new JoystickAxisBidirectionalRangeInput(
+            new HorizontalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, float>(callback),
-                joystick,
-                axis
+                new Functor<F, float>(callback)
             )
         );
     }
     else
     {
         m_rangeInputs.push_back(
-            new JoystickAxisUnidirectionalRangeInput(
+            new HorizontalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackFunctor<Callable, float>(callback),
-                joystick,
-                axis,
+                new Functor<F, float>(callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
     }
 }
 
-/// Assign a joystick axis to a member function with a float as a parameter.
-/// The member function will receive the joystick axis' position as an argument.
-/// Note: The member function will receive an argument ranging in [0, 100] or [-100, 0] depending on the rangeRestriction.
+/// Assign the horizontal mouse movement to a member function with a float as a parameter.
+/// The member function will receive the horizontal mouse movement as an argument.
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
-/// \param joystick         The joystick id.
-/// \param joystickAxis     The joystick axis bound to the callback.
-/// \param rangeRestriction The restriction of the callback range of the joystick axis.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the axis.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToJoystickAxis(Object* object, Callable callback, unsigned int joystick, sf::Joystick::Axis axis,
-                                                  RangeRestriction rangeRestriction)
+/// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+template<typename O, typename F>
+inline void InputContext::BindRangeToHorizontalMouseMovement(O* object, F callback, RangeRestriction rangeRestriction)
 {
+    // Bidirectional input if no range restriction
     if (rangeRestriction == RangeRestriction::None)
     {
         m_rangeInputs.push_back(
-            new JoystickAxisBidirectionalRangeInput(
+            new HorizontalMouseMovementBidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback),
-                joystick,
-                axis
+                new Method<O, F, float>(object, callback)
             )
         );
     }
     else
     {
         m_rangeInputs.push_back(
-            new JoystickAxisUnidirectionalRangeInput(
+            new HorizontalMouseMovementUnidirectionalRangeInput(
                 m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback),
-                joystick,
-                axis,
+                new Method<O, F, float>(object, callback),
+                rangeRestriction == RangeRestriction::PositiveOnly
+            )
+        );
+    }
+}
+
+/// Assign the vertical mouse movement to a function with a float as a parameter.
+/// The function will receive the vertical mouse movement as an argument.
+/// \param callback         A function with a float as a parameter.
+/// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+template<typename F>
+inline void InputContext::BindRangeToVerticalMouseMovement(F callback, RangeRestriction rangeRestriction)
+{
+    // Bidirectional input if no range restriction
+    if (rangeRestriction == RangeRestriction::None)
+    {
+        m_rangeInputs.push_back(
+            new VerticalMouseMovementBidirectionalRangeInput(
+                m_inputManager,
+                new Functor<F, float>(callback)
+            )
+        );
+    }
+    else
+    {
+        m_rangeInputs.push_back(
+            new VerticalMouseMovementUnidirectionalRangeInput(
+                m_inputManager,
+                new Functor<F, float>(callback),
+                rangeRestriction == RangeRestriction::PositiveOnly
+            )
+        );
+    }
+}
+
+/// Assign the vertical mouse movement to a member function with a float as a parameter.
+/// The member function will receive the vertical mouse movement as an argument.
+/// \param object           The object on which the member function must be called.
+/// \param callback         A member function with a float as a parameter.
+/// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+template<typename O, typename F>
+inline void InputContext::BindRangeToVerticalMouseMovement(O* object, F callback, RangeRestriction rangeRestriction)
+{
+    // Bidirectional input if no range restriction
+    if (rangeRestriction == RangeRestriction::None)
+    {
+        m_rangeInputs.push_back(
+            new VerticalMouseMovementBidirectionalRangeInput(
+                m_inputManager,
+                new Method<O, F, float>(object, callback)
+            )
+        );
+    }
+    else
+    {
+        m_rangeInputs.push_back(
+            new VerticalMouseMovementUnidirectionalRangeInput(
+                m_inputManager,
+                new Method<O, F, float>(object, callback),
                 rangeRestriction == RangeRestriction::PositiveOnly
             )
         );
@@ -445,21 +653,21 @@ inline void InputContext::BindRangeToJoystickAxis(Object* object, Callable callb
 /// \param rangeRestriction The restriction of the callback range of the mouse scoll.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll
 ///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll
-template<typename Callable>
-inline void InputContext::BindRangeToMouseScroll(Callable callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
+template<typename F>
+inline void InputContext::BindRangeToMouseWheelScroll(F callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
     // Bidirectional input if no range restriction
     if (rangeRestriction == RangeRestriction::None)
     {
-        BindRangeToMouseScrollHelper(
-            new CallbackFunctor<Callable, float>(callback),
+        BindRangeToMouseWheelScrollHelper(
+            new Functor<F, float>(callback),
             wheelAxis
         );
     }
     else
     {
-        BindRangeToMouseScrollHelper(
-            new CallbackFunctor<Callable, float>(callback),
+        BindRangeToMouseWheelScrollHelper(
+            new Functor<F, float>(callback),
             wheelAxis,
             rangeRestriction
         );
@@ -474,242 +682,41 @@ inline void InputContext::BindRangeToMouseScroll(Callable callback, sf::Mouse::W
 /// \param rangeRestriction The restriction of the callback range of the mouse scoll.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll
 ///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToMouseScroll(Object* object, Callable callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
+template<typename O, typename F>
+inline void InputContext::BindRangeToMouseWheelScroll(O* object, F callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
     // Bidirectional input if no range restriction
     if (rangeRestriction == RangeRestriction::None)
     {
-        BindRangeToMouseScrollHelper(
-            new CallbackMember<Object, Callable, float>(object, callback),
+        BindRangeToMouseWheelScrollHelper(
+            new Method<O, F, float>(object, callback),
             wheelAxis
         );
     }
     else
     {
-        BindRangeToMouseScrollHelper(
-            new CallbackMember<Object, Callable, float>(object, callback),
+        BindRangeToMouseWheelScrollHelper(
+            new Method<O, F, float>(object, callback),
             wheelAxis,
             rangeRestriction
         );
     }
 }
 
-/// Assign the horizontal mouse movement to a function with a float as a parameter.
-/// The function will receive the horizontal mouse movement as an argument.
-/// \param callback         A function with a float as a parameter.
-/// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement 
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
-template<typename Callable>
-inline void InputContext::BindRangeToHorizontalMouseMovement(Callable callback, RangeRestriction rangeRestriction)
-{
-    // Bidirectional input if no range restriction
-    if (rangeRestriction == RangeRestriction::None)
-    {
-        m_rangeInputs.push_back(
-            new HorizontalMouseMovementBidirectionalRangeInput(
-                m_inputManager,
-                new CallbackFunctor<Callable, float>(callback)
-            )
-        );
-    }
-    else
-    {
-        m_rangeInputs.push_back(
-            new HorizontalMouseMovementUnidirectionalRangeInput(
-                m_inputManager,
-                new CallbackFunctor<Callable, float>(callback),
-                rangeRestriction == RangeRestriction::PositiveOnly
-            )
-        );
-    }
-}
-
-/// Assign the horizontal mouse movement to a member function with a float as a parameter.
-/// The member function will receive the horizontal mouse movement as an argument.
-/// \param object           The object on which the member function must be called.
-/// \param callback         A member function with a float as a parameter.
-/// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToHorizontalMouseMovement(Object* object, Callable callback, RangeRestriction rangeRestriction)
-{
-    // Bidirectional input if no range restriction
-    if (rangeRestriction == RangeRestriction::None)
-    {
-        m_rangeInputs.push_back(
-            new HorizontalMouseMovementBidirectionalRangeInput(
-                m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback)
-            )
-        );
-    }
-    else
-    {
-        m_rangeInputs.push_back(
-            new HorizontalMouseMovementUnidirectionalRangeInput(
-                m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback),
-                rangeRestriction == RangeRestriction::PositiveOnly
-            )
-        );
-    }
-}
-
-/// Assign the vertical mouse movement to a function with a float as a parameter.
-/// The function will receive the vertical mouse movement as an argument.
-/// \param callback         A function with a float as a parameter.
-/// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement 
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
-template<typename Callable>
-inline void InputContext::BindRangeToVerticalMouseMovement(Callable callback, RangeRestriction rangeRestriction)
-{
-    // Bidirectional input if no range restriction
-    if (rangeRestriction == RangeRestriction::None)
-    {
-        m_rangeInputs.push_back(
-            new VerticalMouseMovementBidirectionalRangeInput(
-                m_inputManager,
-                new CallbackFunctor<Callable, float>(callback)
-            )
-        );
-    }
-    else
-    {
-        m_rangeInputs.push_back(
-            new VerticalMouseMovementUnidirectionalRangeInput(
-                m_inputManager,
-                new CallbackFunctor<Callable, float>(callback),
-                rangeRestriction == RangeRestriction::PositiveOnly
-            )
-        );
-    }
-}
-
-/// Assign the vertical mouse movement to a member function with a float as a parameter.
-/// The member function will receive the vertical mouse movement as an argument.
-/// \param object           The object on which the member function must be called.
-/// \param callback         A member function with a float as a parameter.
-/// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement 
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToVerticalMouseMovement(Object* object, Callable callback, RangeRestriction rangeRestriction)
-{
-    // Bidirectional input if no range restriction
-    if (rangeRestriction == RangeRestriction::None)
-    {
-        m_rangeInputs.push_back(
-            new VerticalMouseMovementBidirectionalRangeInput(
-                m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback)
-            )
-        );
-    }
-    else
-    {
-        m_rangeInputs.push_back(
-            new VerticalMouseMovementUnidirectionalRangeInput(
-                m_inputManager,
-                new CallbackMember<Object, Callable, float>(object, callback),
-                rangeRestriction == RangeRestriction::PositiveOnly
-            )
-        );
-    }
-}
-
-/// Assign two keys to a function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [-100, 100]
-/// \param callback     A function with a float as a parameter.
-/// \param negativeKey  The key which sends a negative float to the function.
-/// \param positiveKey  The key which sends a positive float to the function.
-template<typename Callable>
-inline void InputContext::BindRangeToKeyboard(Callable callback, sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
-{
-    m_rangeInputs.push_back(
-        new KeyboardBidirectionalRangeInput(
-            m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
-            negativeKey,
-            positiveKey
-        )
-    );
-}
-
-/// Assign two keys to a member function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [-100, 100]
-/// \param object       The object on which the member function must be called.
-/// \param callback     A member function with a float as a parameter.
-/// \param negativeKey  The key which sends a negative float to the member function.
-/// \param positiveKey  The key which sends a positive float to the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback,
-                                              sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
-{
-    m_rangeInputs.push_back(
-        new KeyboardBidirectionalRangeInput(
-            m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
-            negativeKey,
-            positiveKey
-        )
-    );
-}
-
-/// Assign a key to a function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [0, 100]
-/// \param callback         A function with a float as a parameter.
-/// \param key              The key which triggers the function.
-template<typename Callable>
-inline void InputContext::BindRangeToKeyboard(Callable callback, sf::Keyboard::Key key)
-{
-    m_rangeInputs.push_back(
-        new KeyboardUnidirectionalRangeInput(
-            m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
-            key
-        )
-    );
-}
-
-/// Assign key to a member function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [0, 100]
-/// \param object           The object on which the member function must be called.
-/// \param callback         A member function with a float as a parameter.
-/// \param key              The key which triggers the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToKeyboard(Object* object, Callable callback, sf::Keyboard::Key key)
-{
-    m_rangeInputs.push_back(
-        new KeyboardUnidirectionalRangeInput(
-            m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
-            key
-        )
-    );
-}
-
 /// Assign two joystick buttons to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [-100, 100]
+/// Note: The function will receive an argument in range [-100, 100]
 /// \param callback         A function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param negativeButton   The joystick button which sends a negative float to the function.
 /// \param positiveButton   The joystick button which sends a positive float to the function.
-template<typename Callable>
-inline void InputContext::BindRangeToJoystickButtons(Callable callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton)
+template<typename F>
+inline void InputContext::BindRangeToJoystickButtons(F callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton)
 {
     m_rangeInputs.push_back(
         new JoystickButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
+            new Functor<F, float>(callback),
             joystick,
             negativeButton,
             positiveButton
@@ -719,20 +726,20 @@ inline void InputContext::BindRangeToJoystickButtons(Callable callback, unsigned
 
 /// Assign two joystick buttons to a member function with a float as a parameter.
 /// The member function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [-100, 100]
+/// Note: The member function will receive an argument in range [-100, 100]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param negativeButton   The joystick button which sends a negative float to the member function.
 /// \param positiveButton   The joystick button which sends a positive float to the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToJoystickButtons(Object* object, Callable callback, unsigned int joystick, unsigned int positiveButton,
+template<typename O, typename F>
+inline void InputContext::BindRangeToJoystickButtons(O* object, F callback, unsigned int joystick, unsigned int positiveButton,
                                                     unsigned int negativeButton)
 {
     m_rangeInputs.push_back(
         new JoystickButtonBidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
+            new Method<O, F, float>(object, callback),
             joystick,
             positiveButton,
             negativeButton
@@ -742,17 +749,17 @@ inline void InputContext::BindRangeToJoystickButtons(Object* object, Callable ca
 
 /// Assign a joystick button to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [0, 100]
+/// Note: The function will receive an argument in range [0, 100]
 /// \param callback         A function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param button           The joystick button which triggers the function.
-template<typename Callable>
-inline void InputContext::BindRangeToJoystickButton(Callable callback, unsigned int joystick, unsigned int button)
+template<typename F>
+inline void InputContext::BindRangeToJoystickButton(F callback, unsigned int joystick, unsigned int button)
 {
     m_rangeInputs.push_back(
         new JoystickButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
+            new Functor<F, float>(callback),
             joystick,
             button
         )
@@ -761,99 +768,105 @@ inline void InputContext::BindRangeToJoystickButton(Callable callback, unsigned 
 
 /// Assign a joystick button to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [0, 100]
+/// Note: The member function will receive an argument in range [0, 100]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param button           The joystick button which triggers the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToJoystickButton(Object* object, Callable callback, unsigned int joystick, unsigned int button)
+template<typename O, typename F>
+inline void InputContext::BindRangeToJoystickButton(O* object, F callback, unsigned int joystick, unsigned int button)
 {
     m_rangeInputs.push_back(
         new JoystickButtonUnidirectionalRangeInput(
             m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
+            new Method<O, F, float>(object, callback),
             joystick,
             button
         )
     );
 }
 
-/// Assign two mouse buttons to a function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [-100, 100]
+/// Assign a joystick axis to a function with a float as a parameter.
+/// The function will receive the joystick axis' position as an argument.
+/// Note: The function will receive an argument in range [0, 100] or [-100, 0] depending on the rangeRestriction.
 /// \param callback         A function with a float as a parameter.
-/// \param negativeButton   The mouse button which sends a negative float to the function.
-/// \param positiveButton   The mouse button which sends a positive float to the function.
-template<typename Callable>
-inline void InputContext::BindRangeToMouseButtons(Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+/// \param joystick         The joystick id.
+/// \param joystickAxis     The joystick axis bound to the callback.
+/// \param rangeRestriction The restriction of the callback range of the joystick axis.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the axis.
+template<typename F>
+inline void InputContext::BindRangeToJoystickAxis(F callback, unsigned int joystick, sf::Joystick::Axis axis,
+                                                  RangeRestriction rangeRestriction)
 {
-    m_rangeInputs.push_back(
-        new MouseButtonBidirectionalRangeInput(
-            m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
-            negativeButton,
-            positiveButton
-        )
-    );
+    // Bidirectional input if no range restriction
+    if (rangeRestriction == RangeRestriction::None)
+    {
+        m_rangeInputs.push_back(
+            new JoystickAxisBidirectionalRangeInput(
+                m_inputManager,
+                new Functor<F, float>(callback),
+                joystick,
+                axis
+            )
+        );
+    }
+    else
+    {
+        m_rangeInputs.push_back(
+            new JoystickAxisUnidirectionalRangeInput(
+                m_inputManager,
+                new Functor<F, float>(callback),
+                joystick,
+                axis,
+                rangeRestriction == RangeRestriction::PositiveOnly
+            )
+        );
+    }
 }
 
-/// Assign two mouse buttons to a member function with a float as a parameter.
-/// The member function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [-100, 100]
+/// Assign a joystick axis to a member function with a float as a parameter.
+/// The member function will receive the joystick axis' position as an argument.
+/// Note: The member function will receive an argument in range [0, 100] or [-100, 0] depending on the rangeRestriction.
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
-/// \param negativeButton   The mouse button which sends a negative float to the member function.
-/// \param positiveButton   The mouse button which sends a positive float to the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToMouseButtons(Object* object, Callable callback, sf::Mouse::Button negativeButton, sf::Mouse::Button positiveButton)
+/// \param joystick         The joystick id.
+/// \param joystickAxis     The joystick axis bound to the callback.
+/// \param rangeRestriction The restriction of the callback range of the joystick axis.
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the axis.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the axis.
+template<typename O, typename F>
+inline void InputContext::BindRangeToJoystickAxis(O* object, F callback, unsigned int joystick, sf::Joystick::Axis axis,
+                                                  RangeRestriction rangeRestriction)
 {
-    m_rangeInputs.push_back(
-        new MouseButtonBidirectionalRangeInput(
-            m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
-            negativeButton,
-            positiveButton
-        )
-    );
+    if (rangeRestriction == RangeRestriction::None)
+    {
+        m_rangeInputs.push_back(
+            new JoystickAxisBidirectionalRangeInput(
+                m_inputManager,
+                new Method<O, F, float>(object, callback),
+                joystick,
+                axis
+            )
+        );
+    }
+    else
+    {
+        m_rangeInputs.push_back(
+            new JoystickAxisUnidirectionalRangeInput(
+                m_inputManager,
+                new Method<O, F, float>(object, callback),
+                joystick,
+                axis,
+                rangeRestriction == RangeRestriction::PositiveOnly
+            )
+        );
+    }
 }
 
-/// Assign a mouse button to a function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument ranging in [0, 100]
-/// \param callback         A function with a float as a parameter.
-/// \param button           The mouse button which triggers the function.
-template<typename Callable>
-inline void InputContext::BindRangeToMouseButton(Callable callback, sf::Mouse::Button button)
-{
-    m_rangeInputs.push_back(
-        new MouseButtonUnidirectionalRangeInput(
-            m_inputManager,
-            new CallbackFunctor<Callable, float>(callback),
-            button
-        )
-    );
-}
+// Helpers
 
-/// Assign a mouse button to a member function with a float as a parameter.
-/// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument ranging in [0, 100]
-/// \param object           The object on which the member function must be called.
-/// \param callback         A member function with a float as a parameter.
-/// \param button           The mouse button which triggers the member function.
-template<typename Object, typename Callable>
-inline void InputContext::BindRangeToMouseButton(Object* object, Callable callback, sf::Mouse::Button button)
-{
-    m_rangeInputs.push_back(
-        new MouseButtonUnidirectionalRangeInput(
-            m_inputManager,
-            new CallbackMember<Object, Callable, float>(object, callback),
-            button
-        )
-    );
-}
-
-inline void InputContext::BindActionToKeyHelper(Callback<>* callback, sf::Keyboard::Key key, EventType eventType)
+inline void InputContext::BindActionToKeyHelper(Callable<>* callback, sf::Keyboard::Key key, EventType eventType)
 {
     if (eventType == EventType::Ascending || eventType == EventType::Any)
     {
@@ -877,7 +890,7 @@ inline void InputContext::BindActionToKeyHelper(Callback<>* callback, sf::Keyboa
     }
 }
 
-inline void InputContext::BindActionToMouseButtonHelper(Callback<>* callback, sf::Mouse::Button mouseButton, EventType eventType)
+inline void InputContext::BindActionToMouseButtonHelper(Callable<>* callback, sf::Mouse::Button mouseButton, EventType eventType)
 {
     if (eventType == EventType::Ascending || eventType == EventType::Any)
     {
@@ -901,7 +914,7 @@ inline void InputContext::BindActionToMouseButtonHelper(Callback<>* callback, sf
     }
 }
 
-inline void InputContext::BindActionToJoystickButtonHelper(Callback<>* callback, unsigned int joystick, unsigned int button, EventType eventType)
+inline void InputContext::BindActionToJoystickButtonHelper(Callable<>* callback, unsigned int joystick, unsigned int button, EventType eventType)
 {
     if (eventType == EventType::Ascending || eventType == EventType::Any)
     {
@@ -927,17 +940,17 @@ inline void InputContext::BindActionToJoystickButtonHelper(Callback<>* callback,
     }
 }
 
-inline void InputContext::BindActionToMouseMovedHelper(Callback<>* callback)
+inline void InputContext::BindActionToMouseMovedHelper(Callable<>* callback)
 {
     m_actionInputs.push_back(
         new MouseMovedActionInput(
             m_inputManager,
             callback
         )
-        );
+    );
 }
 
-inline void InputContext::BindActionToMouseWheelScrolledHelper(Callback<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection)
+inline void InputContext::BindActionToMouseWheelScrolledHelper(Callable<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection)
 {
     switch (mouseWheelAxis)
     {
@@ -984,7 +997,7 @@ inline void InputContext::BindActionToMouseWheelScrolledHelper(Callback<>* callb
     }
 }
 
-inline void InputContext::BindStateToJoystickAxisHelper(Callback<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis,
+inline void InputContext::BindStateToJoystickAxisHelper(Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis,
                                                         float threshold, JoystickAxisPosition axisPosition)
 {
     if (axisPosition == JoystickAxisPosition::AboveThreshold || axisPosition == JoystickAxisPosition::Any)
@@ -1013,7 +1026,7 @@ inline void InputContext::BindStateToJoystickAxisHelper(Callback<bool>* callback
     }
 }
 
-inline void InputContext::BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis)
+inline void InputContext::BindRangeToMouseWheelScrollHelper(Callable<float>* callback, sf::Mouse::Wheel wheelAxis)
 {
     switch (wheelAxis)
     {
@@ -1036,7 +1049,7 @@ inline void InputContext::BindRangeToMouseScrollHelper(Callback<float>* callback
     }
 }
 
-inline void InputContext::BindRangeToMouseScrollHelper(Callback<float>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
+inline void InputContext::BindRangeToMouseWheelScrollHelper(Callable<float>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
     switch (wheelAxis)
     {
