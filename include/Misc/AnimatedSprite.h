@@ -16,7 +16,6 @@ private:
     unsigned int m_currentFrameIndex;
     unsigned int m_totalFrames;
     bool m_isLoopingEnabled;
-    bool m_isFlippable;
     bool m_isFlipped;
     bool m_isPlaying;
 
