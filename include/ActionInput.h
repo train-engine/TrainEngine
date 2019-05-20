@@ -178,4 +178,4 @@ public:
 };
 
 
-#endif //ACTIONINPUT_H
+#endif // ACTIONINPUT_H

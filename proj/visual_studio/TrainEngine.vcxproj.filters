@@ -8,191 +8,223 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{b28190b1-91f6-4180-90fd-75ec61371100}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\States">
-      <UniqueIdentifier>{465d5b4e-ecb9-4cf9-af05-cbf7a1dd1590}</UniqueIdentifier>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{6f69f420-bf21-4356-830f-0bc8bb196e6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Misc">
-      <UniqueIdentifier>{3eb4cfd2-0a14-4746-a373-cb812628e4d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Level">
-      <UniqueIdentifier>{6392294a-5b96-43f3-8f57-cbd385ff4336}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Level\Map">
-      <UniqueIdentifier>{21045583-ec16-4897-8c59-826aeb032545}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Level\Entities">
-      <UniqueIdentifier>{b4286b5d-5ad1-46a9-9e7c-12c255d30b19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GameEngine">
-      <UniqueIdentifier>{9f71ae43-5c66-4da4-b459-4fc43a1994ed}</UniqueIdentifier>
+    <Filter Include="Source Files\Core\Input">
+      <UniqueIdentifier>{8f0d730f-976b-4b33-b6c0-1ffe4bda6a62}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Gui">
-      <UniqueIdentifier>{fd0df3c3-61e3-4bd4-8c61-5504c42cdabd}</UniqueIdentifier>
+      <UniqueIdentifier>{498a37a7-af1a-4eae-b209-0b1efc8375dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level">
+      <UniqueIdentifier>{05d31de7-ff84-4967-84ce-1cc9a98ff12b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc">
+      <UniqueIdentifier>{27aea860-4b7f-408b-a87d-058b56e8c93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\States">
+      <UniqueIdentifier>{b4c5501d-9b6e-4a3d-9def-c077f671169f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Utility.cpp">
-      <Filter>Source Files\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\AnimatedSprite.cpp">
-      <Filter>Source Files\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\FileManager.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\GameEngine.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\InputManager.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ResourceManager.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LoopDebugOverlay.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\CreatorState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LoadPlayState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\MainMenuState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\MenuOptionsState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\PauseState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\PlayState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SplashScreenState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\State.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Gui.cpp">
-      <Filter>Source Files\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\TextBox.cpp">
-      <Filter>Source Files\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Camera.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\EntityTracker.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Level.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Map.cpp">
-      <Filter>Source Files\Level\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Tile.cpp">
-      <Filter>Source Files\Level\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Entity.cpp">
-      <Filter>Source Files\Level\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Player.cpp">
-      <Filter>Source Files\Level\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ParallaxSprite.cpp">
-      <Filter>Source Files\Level</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\Utility.h">
-      <Filter>Source Files\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\AnimatedSprite.h">
-      <Filter>Source Files\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\GameEngine.h">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\InputManager.h">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ResourceManager.h">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\FileManager.h">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\CreatorState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\Input\InputManager.h">
+      <Filter>Source Files\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LoadPlayState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\Input\RangeInput.h">
+      <Filter>Source Files\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\MainMenuState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\Input\StateInput.h">
+      <Filter>Source Files\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\MenuOptionsState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\Input\ActionInput.h">
+      <Filter>Source Files\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\SplashScreenState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\Input\InputContext.h">
+      <Filter>Source Files\Core\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\PlayState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\FileManager.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\PauseState.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\GameEngine.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\State.h">
-      <Filter>Source Files\States</Filter>
+    <ClInclude Include="..\..\include\Core\LoopDebugOverlay.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\LoopDebugOverlay.h">
-      <Filter>Source Files\GameEngine</Filter>
+    <ClInclude Include="..\..\include\Core\ResourceManager.h">
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Gui.h">
+    <ClInclude Include="..\..\include\Gui\Gui.h">
       <Filter>Source Files\Gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\TextBox.h">
+    <ClInclude Include="..\..\include\Gui\TextBox.h">
       <Filter>Source Files\Gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Camera.h">
+    <ClInclude Include="..\..\include\Level\EntityTracker.h">
       <Filter>Source Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\EntityTracker.h">
+    <ClInclude Include="..\..\include\Level\Level.h">
       <Filter>Source Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Level.h">
+    <ClInclude Include="..\..\include\Level\Map.h">
       <Filter>Source Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Map.h">
-      <Filter>Source Files\Level\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Tile.h">
-      <Filter>Source Files\Level\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Entity.h">
-      <Filter>Source Files\Level\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Player.h">
-      <Filter>Source Files\Level\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\ParallaxSprite.h">
+    <ClInclude Include="..\..\include\Level\ParallaxSprite.h">
       <Filter>Source Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Level\Player.h">
+      <Filter>Source Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Level\Tile.h">
+      <Filter>Source Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Level\Camera.h">
+      <Filter>Source Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Level\Entity.h">
+      <Filter>Source Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Misc\AnimatedSprite.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Misc\Callbacks.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Misc\MacClipboard.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Misc\Utility.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Misc\AndroidCout.h">
+      <Filter>Source Files\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\MainMenuState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\MenuOptionsState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\PauseState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\PlayState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\SplashScreenState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\State.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\CreatorState.h">
+      <Filter>Source Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\States\LoadPlayState.h">
+      <Filter>Source Files\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TrainEngine.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\Core\Input\InputContext.inl">
+      <Filter>Source Files\Core\Input</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Core\Input\InputManager.cpp">
+      <Filter>Source Files\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\Input\RangeInput.cpp">
+      <Filter>Source Files\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\Input\StateInput.cpp">
+      <Filter>Source Files\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\Input\ActionInput.cpp">
+      <Filter>Source Files\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\GameEngine.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\LoopDebugOverlay.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\main.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\ResourceManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Core\FileManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gui\Gui.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Gui\TextBox.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Camera.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Entity.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\EntityTracker.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Level.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Map.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\ParallaxSprite.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Player.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Level\Tile.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Misc\AnimatedSprite.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Misc\Utility.cpp">
+      <Filter>Source Files\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\MainMenuState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\MenuOptionsState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\PauseState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\PlayState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\SplashScreenState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\State.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\CreatorState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\States\LoadPlayState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

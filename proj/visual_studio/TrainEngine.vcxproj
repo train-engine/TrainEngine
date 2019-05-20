@@ -19,95 +19,108 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\AnimatedSprite.cpp" />
-    <ClCompile Include="..\..\src\Camera.cpp" />
-    <ClCompile Include="..\..\src\CreatorState.cpp" />
-    <ClCompile Include="..\..\src\Entity.cpp" />
-    <ClCompile Include="..\..\src\EntityTracker.cpp" />
-    <ClCompile Include="..\..\src\FileManager.cpp" />
-    <ClCompile Include="..\..\src\GameEngine.cpp" />
-    <ClCompile Include="..\..\src\Gui.cpp" />
-    <ClCompile Include="..\..\src\InputManager.cpp" />
-    <ClCompile Include="..\..\src\Level.cpp" />
-    <ClCompile Include="..\..\src\LoadPlayState.cpp" />
-    <ClCompile Include="..\..\src\LoopDebugOverlay.cpp" />
-    <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\MainMenuState.cpp" />
-    <ClCompile Include="..\..\src\Map.cpp" />
-    <ClCompile Include="..\..\src\MenuOptionsState.cpp" />
-    <ClCompile Include="..\..\src\ParallaxSprite.cpp" />
-    <ClCompile Include="..\..\src\PauseState.cpp" />
-    <ClCompile Include="..\..\src\Player.cpp" />
-    <ClCompile Include="..\..\src\PlayState.cpp" />
-    <ClCompile Include="..\..\src\ResourceManager.cpp" />
-    <ClCompile Include="..\..\src\SplashScreenState.cpp" />
-    <ClCompile Include="..\..\src\State.cpp" />
-    <ClCompile Include="..\..\src\TextBox.cpp" />
-    <ClCompile Include="..\..\src\Tile.cpp" />
-    <ClCompile Include="..\..\src\Utility.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\AnimatedSprite.h" />
-    <ClInclude Include="..\..\include\Camera.h" />
-    <ClInclude Include="..\..\include\CreatorState.h" />
-    <ClInclude Include="..\..\include\Entity.h" />
-    <ClInclude Include="..\..\include\EntityTracker.h" />
-    <ClInclude Include="..\..\include\FileManager.h" />
-    <ClInclude Include="..\..\include\GameEngine.h" />
-    <ClInclude Include="..\..\include\Gui.h" />
-    <ClInclude Include="..\..\include\InputManager.h" />
-    <ClInclude Include="..\..\include\Level.h" />
-    <ClInclude Include="..\..\include\LoadPlayState.h" />
-    <ClInclude Include="..\..\include\LoopDebugOverlay.h" />
-    <ClInclude Include="..\..\include\MainMenuState.h" />
-    <ClInclude Include="..\..\include\Map.h" />
-    <ClInclude Include="..\..\include\MenuOptionsState.h" />
-    <ClInclude Include="..\..\include\ParallaxSprite.h" />
-    <ClInclude Include="..\..\include\PauseState.h" />
-    <ClInclude Include="..\..\include\Player.h" />
-    <ClInclude Include="..\..\include\PlayState.h" />
-    <ClInclude Include="..\..\include\ResourceManager.h" />
-    <ClInclude Include="..\..\include\SplashScreenState.h" />
-    <ClInclude Include="..\..\include\State.h" />
-    <ClInclude Include="..\..\include\TextBox.h" />
-    <ClInclude Include="..\..\include\Tile.h" />
-    <ClInclude Include="..\..\include\Utility.h" />
+    <ClInclude Include="..\..\include\Core\FileManager.h" />
+    <ClInclude Include="..\..\include\Core\GameEngine.h" />
+    <ClInclude Include="..\..\include\Core\Input\ActionInput.h" />
+    <ClInclude Include="..\..\include\Core\Input\InputContext.h" />
+    <ClInclude Include="..\..\include\Core\Input\InputManager.h" />
+    <ClInclude Include="..\..\include\Core\Input\RangeInput.h" />
+    <ClInclude Include="..\..\include\Core\Input\StateInput.h" />
+    <ClInclude Include="..\..\include\Core\LoopDebugOverlay.h" />
+    <ClInclude Include="..\..\include\Core\ResourceManager.h" />
+    <ClInclude Include="..\..\include\Gui\Gui.h" />
+    <ClInclude Include="..\..\include\Gui\TextBox.h" />
+    <ClInclude Include="..\..\include\Level\Camera.h" />
+    <ClInclude Include="..\..\include\Level\Entity.h" />
+    <ClInclude Include="..\..\include\Level\EntityTracker.h" />
+    <ClInclude Include="..\..\include\Level\Level.h" />
+    <ClInclude Include="..\..\include\Level\Map.h" />
+    <ClInclude Include="..\..\include\Level\ParallaxSprite.h" />
+    <ClInclude Include="..\..\include\Level\Player.h" />
+    <ClInclude Include="..\..\include\Level\Tile.h" />
+    <ClInclude Include="..\..\include\Misc\AndroidCout.h" />
+    <ClInclude Include="..\..\include\Misc\AnimatedSprite.h" />
+    <ClInclude Include="..\..\include\Misc\Callbacks.h" />
+    <ClInclude Include="..\..\include\Misc\MacClipboard.h" />
+    <ClInclude Include="..\..\include\Misc\Utility.h" />
+    <ClInclude Include="..\..\include\States\CreatorState.h" />
+    <ClInclude Include="..\..\include\States\LoadPlayState.h" />
+    <ClInclude Include="..\..\include\States\MainMenuState.h" />
+    <ClInclude Include="..\..\include\States\MenuOptionsState.h" />
+    <ClInclude Include="..\..\include\States\PauseState.h" />
+    <ClInclude Include="..\..\include\States\PlayState.h" />
+    <ClInclude Include="..\..\include\States\SplashScreenState.h" />
+    <ClInclude Include="..\..\include\States\State.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TrainEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\Core\Input\InputContext.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Core\FileManager.cpp" />
+    <ClCompile Include="..\..\src\Core\GameEngine.cpp" />
+    <ClCompile Include="..\..\src\Core\Input\ActionInput.cpp" />
+    <ClCompile Include="..\..\src\Core\Input\InputManager.cpp" />
+    <ClCompile Include="..\..\src\Core\Input\RangeInput.cpp" />
+    <ClCompile Include="..\..\src\Core\Input\StateInput.cpp" />
+    <ClCompile Include="..\..\src\Core\LoopDebugOverlay.cpp" />
+    <ClCompile Include="..\..\src\Core\main.cpp" />
+    <ClCompile Include="..\..\src\Core\ResourceManager.cpp" />
+    <ClCompile Include="..\..\src\Gui\Gui.cpp" />
+    <ClCompile Include="..\..\src\Gui\TextBox.cpp" />
+    <ClCompile Include="..\..\src\Level\Camera.cpp" />
+    <ClCompile Include="..\..\src\Level\Entity.cpp" />
+    <ClCompile Include="..\..\src\Level\EntityTracker.cpp" />
+    <ClCompile Include="..\..\src\Level\Level.cpp" />
+    <ClCompile Include="..\..\src\Level\Map.cpp" />
+    <ClCompile Include="..\..\src\Level\ParallaxSprite.cpp" />
+    <ClCompile Include="..\..\src\Level\Player.cpp" />
+    <ClCompile Include="..\..\src\Level\Tile.cpp" />
+    <ClCompile Include="..\..\src\Misc\AnimatedSprite.cpp" />
+    <ClCompile Include="..\..\src\Misc\Utility.cpp" />
+    <ClCompile Include="..\..\src\States\CreatorState.cpp" />
+    <ClCompile Include="..\..\src\States\LoadPlayState.cpp" />
+    <ClCompile Include="..\..\src\States\MainMenuState.cpp" />
+    <ClCompile Include="..\..\src\States\MenuOptionsState.cpp" />
+    <ClCompile Include="..\..\src\States\PauseState.cpp" />
+    <ClCompile Include="..\..\src\States\PlayState.cpp" />
+    <ClCompile Include="..\..\src\States\SplashScreenState.cpp" />
+    <ClCompile Include="..\..\src\States\State.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{C9DF87E7-77F6-4DB1-A78A-2865DC0D0372}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TrainEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

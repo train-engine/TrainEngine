@@ -300,4 +300,4 @@ private:
     sf::Mouse::Button m_mouseButton;
 };
 
-#endif //RANGEINPUT_H
+#endif // RANGEINPUT_H
