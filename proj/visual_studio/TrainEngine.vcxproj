@@ -38,10 +38,8 @@
     <ClInclude Include="..\..\include\Level\ParallaxSprite.h" />
     <ClInclude Include="..\..\include\Level\Player.h" />
     <ClInclude Include="..\..\include\Level\Tile.h" />
-    <ClInclude Include="..\..\include\Misc\AndroidCout.h" />
     <ClInclude Include="..\..\include\Misc\AnimatedSprite.h" />
-    <ClInclude Include="..\..\include\Misc\Callbacks.h" />
-    <ClInclude Include="..\..\include\Misc\MacClipboard.h" />
+    <ClInclude Include="..\..\include\Misc\Callables.h" />
     <ClInclude Include="..\..\include\Misc\Utility.h" />
     <ClInclude Include="..\..\include\States\CreatorState.h" />
     <ClInclude Include="..\..\include\States\LoadPlayState.h" />
