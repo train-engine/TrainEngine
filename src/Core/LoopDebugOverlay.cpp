@@ -34,7 +34,7 @@ LoopDebugOverlay::LoopDebugOverlay(const sf::Font& font)
     m_drawStrainText.setOutlineColor(sf::Color(50, 50, 50));
     m_drawStrainText.setOutlineThickness(1);
 
-    OnWindowResize();
+    onWindowResize();
 }
 
 void LoopDebugOverlay::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
@@ -48,7 +48,7 @@ void LoopDebugOverlay::draw(sf::RenderTarget& rTarget, sf::RenderStates states) 
     }
 }
 
-void LoopDebugOverlay::RecordUpdate(sf::Time lastUpdateTime)
+void LoopDebugOverlay::recordUpdate(sf::Time lastUpdateTime)
 {
     m_updateCounter++;
     m_sampledUpdateTime += lastUpdateTime;
@@ -70,7 +70,7 @@ void LoopDebugOverlay::RecordUpdate(sf::Time lastUpdateTime)
     }
 }
 
-void LoopDebugOverlay::RecordDraw(sf::Time lastDrawTime)
+void LoopDebugOverlay::recordDraw(sf::Time lastDrawTime)
 {
     m_drawCounter++;
     m_sampledDrawTime += lastDrawTime;
@@ -92,7 +92,7 @@ void LoopDebugOverlay::RecordDraw(sf::Time lastDrawTime)
     }
 }
 
-void LoopDebugOverlay::OnWindowResize()
+void LoopDebugOverlay::onWindowResize()
 {
     m_upsText.setPosition(5, 5);
     m_updateStrainText.setPosition(m_upsText.getPosition().x,

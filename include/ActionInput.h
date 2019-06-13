@@ -15,8 +15,8 @@ public:
     virtual ~ActionInput();
     ActionInput& operator=(const ActionInput&) = delete;
     ActionInput& operator=(ActionInput&&) = delete;
-    virtual bool DetectedEvent() const = 0;
-    virtual void CallFunction();
+    virtual bool detectedEvent() const = 0;
+    virtual void callFunction();
 
 protected:
     const InputManager& m_inputManager;
@@ -34,7 +34,7 @@ public:
     KeyDescendingActionInput(KeyDescendingActionInput&&) = delete;
     KeyDescendingActionInput& operator=(const KeyDescendingActionInput&) = delete;
     KeyDescendingActionInput& operator=(KeyDescendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -49,7 +49,7 @@ public:
     KeyAscendingActionInput(KeyAscendingActionInput&&) = delete;
     KeyAscendingActionInput& operator=(const KeyAscendingActionInput&) = delete;
     KeyAscendingActionInput& operator=(KeyAscendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -64,7 +64,7 @@ public:
     MouseButtonDescendingActionInput(MouseButtonDescendingActionInput&&) = delete;
     MouseButtonDescendingActionInput& operator=(const MouseButtonDescendingActionInput&) = delete;
     MouseButtonDescendingActionInput& operator=(MouseButtonDescendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     sf::Mouse::Button m_button;
@@ -79,7 +79,7 @@ public:
     MouseButtonAscendingActionInput(MouseButtonAscendingActionInput&&) = delete;
     MouseButtonAscendingActionInput& operator=(const MouseButtonAscendingActionInput&) = delete;
     MouseButtonAscendingActionInput& operator=(MouseButtonAscendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     sf::Mouse::Button m_button;
@@ -94,7 +94,7 @@ public:
     JoystickButtonDescendingActionInput(JoystickButtonDescendingActionInput&&) = delete;
     JoystickButtonDescendingActionInput& operator=(const JoystickButtonDescendingActionInput&) = delete;
     JoystickButtonDescendingActionInput& operator=(JoystickButtonDescendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     unsigned int m_joystick;
@@ -110,7 +110,7 @@ public:
     JoystickButtonAscendingActionInput(JoystickButtonAscendingActionInput&&) = delete;
     JoystickButtonAscendingActionInput& operator=(const JoystickButtonAscendingActionInput&) = delete;
     JoystickButtonAscendingActionInput& operator=(JoystickButtonAscendingActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 
 private:
     unsigned int m_joystick;
@@ -126,7 +126,7 @@ public:
     MouseMovedActionInput(MouseMovedActionInput&&) = delete;
     MouseMovedActionInput& operator=(const MouseMovedActionInput&) = delete;
     MouseMovedActionInput& operator=(MouseMovedActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 };
 
 /// Class representing mouse wheel up event able to make a callback to a function with no parameters when triggered.
@@ -138,7 +138,7 @@ public:
     MouseWheelUpActionInput(MouseWheelUpActionInput&&) = delete;
     MouseWheelUpActionInput& operator=(const MouseWheelUpActionInput&) = delete;
     MouseWheelUpActionInput& operator=(MouseWheelUpActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 };
 
 /// Class representing mouse wheel down event able to make a callback to a function with no parameters when triggered.
@@ -150,7 +150,7 @@ public:
     MouseWheelDownActionInput(MouseWheelDownActionInput&&) = delete;
     MouseWheelDownActionInput& operator=(const MouseWheelDownActionInput&) = delete;
     MouseWheelDownActionInput& operator=(MouseWheelDownActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 };
 
 /// Class representing mouse wheel left event able to make a callback to a function with no parameters when triggered.
@@ -162,7 +162,7 @@ public:
     MouseWheelLeftActionInput(MouseWheelLeftActionInput&&) = delete;
     MouseWheelLeftActionInput& operator=(const MouseWheelLeftActionInput&) = delete;
     MouseWheelLeftActionInput& operator=(MouseWheelLeftActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 };
 
 /// Class representing mouse wheel right event able to make a callback to a function with no parameters when triggered.
@@ -174,7 +174,7 @@ public:
     MouseWheelRightActionInput(MouseWheelRightActionInput&&) = delete;
     MouseWheelRightActionInput& operator=(const MouseWheelRightActionInput&) = delete;
     MouseWheelRightActionInput& operator=(MouseWheelRightActionInput&&) = delete;
-    virtual bool DetectedEvent() const override;
+    virtual bool detectedEvent() const override;
 };
 
 

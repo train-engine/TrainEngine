@@ -5,11 +5,11 @@
 
 namespace Utility
 {
-    float GetScaleToFill(const sf::Vector2f& initialDimensions, const sf::Vector2f& fillDimensions);
-    float GetScaleToFit(const sf::Vector2f& initialDimensions, const sf::Vector2f& fitDimensions);
+    float getScaleToFill(const sf::Vector2f& initialDimensions, const sf::Vector2f& fillDimensions);
+    float getScaleToFit(const sf::Vector2f& initialDimensions, const sf::Vector2f& fitDimensions);
 
-    void SetSpriteScaleToFill(sf::Sprite& rSprite, const sf::Vector2f& fillDimensions);
-    void SetSpriteScaleToFit(sf::Sprite& rSprite, const sf::Vector2f& fitDimensions);
+    void setSpriteScaleToFill(sf::Sprite& rSprite, const sf::Vector2f& fillDimensions);
+    void setSpriteScaleToFit(sf::Sprite& rSprite, const sf::Vector2f& fitDimensions);
 } // namespace Utility
 
 #endif // UTILITY_H

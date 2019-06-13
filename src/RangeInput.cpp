@@ -25,17 +25,17 @@ JoystickAxisBidirectionalRangeInput::JoystickAxisBidirectionalRangeInput(const I
 {
 }
 
-bool JoystickAxisBidirectionalRangeInput::DetectedEvent() const
+bool JoystickAxisBidirectionalRangeInput::detectedEvent() const
 {
-    float currentAxisPosition = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisPosition = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     bool detectedEvent = currentAxisPosition != m_lastAxisPosition;
     m_lastAxisPosition = currentAxisPosition;
     return detectedEvent;
 }
 
-void JoystickAxisBidirectionalRangeInput::CallFunction()
+void JoystickAxisBidirectionalRangeInput::callFunction()
 {
-    (*m_callback)(m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));
+    (*m_callback)(m_inputManager.getJoystickAxisPosition(m_joystick, m_axis));
 }
 
 // JoystickAxisUnidirectionalRangeInput
@@ -50,9 +50,9 @@ JoystickAxisUnidirectionalRangeInput::JoystickAxisUnidirectionalRangeInput(const
 {
 }
 
-bool JoystickAxisUnidirectionalRangeInput::DetectedEvent() const
+bool JoystickAxisUnidirectionalRangeInput::detectedEvent() const
 {
-    float currentAxisPosition = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisPosition = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous axis position
@@ -70,7 +70,7 @@ bool JoystickAxisUnidirectionalRangeInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void JoystickAxisUnidirectionalRangeInput::CallFunction()
+void JoystickAxisUnidirectionalRangeInput::callFunction()
 {
     // The reason for this code:
     // If a certain tick, the joystick axis value is positive
@@ -80,11 +80,11 @@ void JoystickAxisUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0.0f, m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));
+        valueToBeSent = std::max(0.0f, m_inputManager.getJoystickAxisPosition(m_joystick, m_axis));
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis));
+        valueToBeSent = std::min(0.0f, m_inputManager.getJoystickAxisPosition(m_joystick, m_axis));
     }
 
     (*m_callback)(valueToBeSent);
@@ -98,17 +98,17 @@ VerticalMouseWheelBidirectionalRangeInput::VerticalMouseWheelBidirectionalRangeI
 {
 }
 
-bool VerticalMouseWheelBidirectionalRangeInput::DetectedEvent() const
+bool VerticalMouseWheelBidirectionalRangeInput::detectedEvent() const
 {
-    float currentVertScroll = m_inputManager.GetMouseWheelDelta().y;
+    float currentVertScroll = m_inputManager.getMouseWheelDelta().y;
     bool detectedEvent = currentVertScroll != m_lastVertScroll;
     m_lastVertScroll = currentVertScroll;
     return detectedEvent;
 }
 
-void VerticalMouseWheelBidirectionalRangeInput::CallFunction()
+void VerticalMouseWheelBidirectionalRangeInput::callFunction()
 {
-    (*m_callback)(m_inputManager.GetMouseWheelDelta().y);
+    (*m_callback)(m_inputManager.getMouseWheelDelta().y);
 }
 
 // VerticalMouseWheelUnidirectionalRangeInput
@@ -121,9 +121,9 @@ VerticalMouseWheelUnidirectionalRangeInput::VerticalMouseWheelUnidirectionalRang
 {
 }
 
-bool VerticalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
+bool VerticalMouseWheelUnidirectionalRangeInput::detectedEvent() const
 {
-    float currentVertScroll = m_inputManager.GetMouseWheelDelta().y;
+    float currentVertScroll = m_inputManager.getMouseWheelDelta().y;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse wheel position
@@ -141,7 +141,7 @@ bool VerticalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void VerticalMouseWheelUnidirectionalRangeInput::CallFunction()
+void VerticalMouseWheelUnidirectionalRangeInput::callFunction()
 {
     // The reason for this code:
     // If a certain tick, the mouse wheel delta is positive
@@ -151,11 +151,11 @@ void VerticalMouseWheelUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0.0f, m_inputManager.GetMouseWheelDelta().y);
+        valueToBeSent = std::max(0.0f, m_inputManager.getMouseWheelDelta().y);
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetMouseWheelDelta().y);
+        valueToBeSent = std::min(0.0f, m_inputManager.getMouseWheelDelta().y);
     }
 
     (*m_callback)(valueToBeSent);
@@ -169,17 +169,17 @@ HorizontalMouseWheelBidirectionalRangeInput::HorizontalMouseWheelBidirectionalRa
 {
 }
 
-bool HorizontalMouseWheelBidirectionalRangeInput::DetectedEvent() const
+bool HorizontalMouseWheelBidirectionalRangeInput::detectedEvent() const
 {
-    float currentHorizScroll = m_inputManager.GetMouseWheelDelta().x;
+    float currentHorizScroll = m_inputManager.getMouseWheelDelta().x;
     bool detectedEvent = currentHorizScroll != m_lastHorizScroll;
     m_lastHorizScroll = currentHorizScroll;
     return detectedEvent;
 }
 
-void HorizontalMouseWheelBidirectionalRangeInput::CallFunction()
+void HorizontalMouseWheelBidirectionalRangeInput::callFunction()
 {
-    (*m_callback)(m_inputManager.GetMouseWheelDelta().x);
+    (*m_callback)(m_inputManager.getMouseWheelDelta().x);
 }
 
 // HorizontalMouseWheelUnidirectionalRangeInput
@@ -192,9 +192,9 @@ HorizontalMouseWheelUnidirectionalRangeInput::HorizontalMouseWheelUnidirectional
 {
 }
 
-bool HorizontalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
+bool HorizontalMouseWheelUnidirectionalRangeInput::detectedEvent() const
 {
-    float currentHorizScroll = m_inputManager.GetMouseWheelDelta().x;
+    float currentHorizScroll = m_inputManager.getMouseWheelDelta().x;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse wheel position
@@ -212,7 +212,7 @@ bool HorizontalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void HorizontalMouseWheelUnidirectionalRangeInput::CallFunction()
+void HorizontalMouseWheelUnidirectionalRangeInput::callFunction()
 {
     // The reason for this code:
     // If a certain tick, the mouse wheel delta is positive
@@ -222,11 +222,11 @@ void HorizontalMouseWheelUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0.0f, m_inputManager.GetMouseWheelDelta().x);
+        valueToBeSent = std::max(0.0f, m_inputManager.getMouseWheelDelta().x);
     }
     else
     {
-        valueToBeSent = std::min(0.0f, m_inputManager.GetMouseWheelDelta().x);
+        valueToBeSent = std::min(0.0f, m_inputManager.getMouseWheelDelta().x);
     }
 
     (*m_callback)(valueToBeSent);
@@ -240,17 +240,17 @@ VerticalMouseMovementBidirectionalRangeInput::VerticalMouseMovementBidirectional
 {
 }
 
-bool VerticalMouseMovementBidirectionalRangeInput::DetectedEvent() const
+bool VerticalMouseMovementBidirectionalRangeInput::detectedEvent() const
 {
-    float currentVertMouseMovement = m_inputManager.GetMousePositionDelta().y;
+    float currentVertMouseMovement = m_inputManager.getMousePositionDelta().y;
     bool detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement;
     m_lastVertMouseMovement = currentVertMouseMovement;
     return detectedEvent;
 }
 
-void VerticalMouseMovementBidirectionalRangeInput::CallFunction()
+void VerticalMouseMovementBidirectionalRangeInput::callFunction()
 {
-    (*m_callback)(m_inputManager.GetMousePositionDelta().y);
+    (*m_callback)(m_inputManager.getMousePositionDelta().y);
 }
 
 // VerticalMouseMovementUnidirectionalRangeInput
@@ -263,9 +263,9 @@ VerticalMouseMovementUnidirectionalRangeInput::VerticalMouseMovementUnidirection
 {
 }
 
-bool VerticalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
+bool VerticalMouseMovementUnidirectionalRangeInput::detectedEvent() const
 {
-    float currentVertMouseMovement = m_inputManager.GetMousePositionDelta().y;
+    float currentVertMouseMovement = m_inputManager.getMousePositionDelta().y;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse wheel position
@@ -283,7 +283,7 @@ bool VerticalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void VerticalMouseMovementUnidirectionalRangeInput::CallFunction()
+void VerticalMouseMovementUnidirectionalRangeInput::callFunction()
 {
     // The reason for this code:
     // If a certain tick, the mouse movement is positive
@@ -293,11 +293,11 @@ void VerticalMouseMovementUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0, m_inputManager.GetMousePositionDelta().y);
+        valueToBeSent = std::max(0, m_inputManager.getMousePositionDelta().y);
     }
     else
     {
-        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().y);
+        valueToBeSent = std::min(0, m_inputManager.getMousePositionDelta().y);
     }
 
     (*m_callback)(valueToBeSent);
@@ -311,17 +311,17 @@ HorizontalMouseMovementBidirectionalRangeInput::HorizontalMouseMovementBidirecti
 {
 }
 
-bool HorizontalMouseMovementBidirectionalRangeInput::DetectedEvent() const
+bool HorizontalMouseMovementBidirectionalRangeInput::detectedEvent() const
 {
-    float currentHorizMouseMovement = m_inputManager.GetMousePositionDelta().y;
+    float currentHorizMouseMovement = m_inputManager.getMousePositionDelta().y;
     bool detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement;
     m_lastHorizMouseMovement = currentHorizMouseMovement;
     return detectedEvent;
 }
 
-void HorizontalMouseMovementBidirectionalRangeInput::CallFunction()
+void HorizontalMouseMovementBidirectionalRangeInput::callFunction()
 {
-    (*m_callback)(m_inputManager.GetMousePositionDelta().x);
+    (*m_callback)(m_inputManager.getMousePositionDelta().x);
 }
 
 // HorizontalMouseMovementUnidirectionalRangeInput
@@ -334,9 +334,9 @@ HorizontalMouseMovementUnidirectionalRangeInput::HorizontalMouseMovementUnidirec
 {
 }
 
-bool HorizontalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
+bool HorizontalMouseMovementUnidirectionalRangeInput::detectedEvent() const
 {
-    float currentHorizMouseMovement = m_inputManager.GetMousePositionDelta().x;
+    float currentHorizMouseMovement = m_inputManager.getMousePositionDelta().x;
 
     // The logic for detected event depends on the direction
     // This prevents useless callbacks to be made if both current and previous mouse wheel position
@@ -354,7 +354,7 @@ bool HorizontalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void HorizontalMouseMovementUnidirectionalRangeInput::CallFunction()
+void HorizontalMouseMovementUnidirectionalRangeInput::callFunction()
 {
     // The reason for this code:
     // If a certain tick, the mouse movement is positive
@@ -364,11 +364,11 @@ void HorizontalMouseMovementUnidirectionalRangeInput::CallFunction()
     float valueToBeSent;
     if (m_isRestrictedToPositives)
     {
-        valueToBeSent = std::max(0, m_inputManager.GetMousePositionDelta().x);
+        valueToBeSent = std::max(0, m_inputManager.getMousePositionDelta().x);
     }
     else
     {
-        valueToBeSent = std::min(0, m_inputManager.GetMousePositionDelta().x);
+        valueToBeSent = std::min(0, m_inputManager.getMousePositionDelta().x);
     }
 
     (*m_callback)(valueToBeSent);
@@ -389,16 +389,16 @@ KeyboardBidirectionalRangeInput::KeyboardBidirectionalRangeInput(const InputMana
 {
 }
 
-bool KeyboardBidirectionalRangeInput::DetectedEvent() const
+bool KeyboardBidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsKeyAscending(m_negativeKey) || m_inputManager.IsKeyAscending(m_positiveKey) ||
-           m_inputManager.IsKeyDescending(m_negativeKey) || m_inputManager.IsKeyDescending(m_positiveKey);
+    return m_inputManager.isKeyAscending(m_negativeKey) || m_inputManager.isKeyAscending(m_positiveKey) ||
+           m_inputManager.isKeyDescending(m_negativeKey) || m_inputManager.isKeyDescending(m_positiveKey);
 }
 
-void KeyboardBidirectionalRangeInput::CallFunction()
+void KeyboardBidirectionalRangeInput::callFunction()
 {
-    bool isNegativeKeyHeld = m_inputManager.IsKeyHeld(m_negativeKey);
-    bool isPositiveKeyHeld = m_inputManager.IsKeyHeld(m_positiveKey);
+    bool isNegativeKeyHeld = m_inputManager.isKeyHeld(m_negativeKey);
+    bool isPositiveKeyHeld = m_inputManager.isKeyHeld(m_positiveKey);
 
     // If only negative key is held, and the key is not ascending
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
@@ -431,14 +431,14 @@ KeyboardUnidirectionalRangeInput::KeyboardUnidirectionalRangeInput(const InputMa
 {
 }
 
-bool KeyboardUnidirectionalRangeInput::DetectedEvent() const
+bool KeyboardUnidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsKeyDescending(m_key) || m_inputManager.IsKeyAscending(m_key);
+    return m_inputManager.isKeyDescending(m_key) || m_inputManager.isKeyAscending(m_key);
 }
 
-void KeyboardUnidirectionalRangeInput::CallFunction()
+void KeyboardUnidirectionalRangeInput::callFunction()
 {
-    if (m_inputManager.IsKeyHeld(m_key))
+    if (m_inputManager.isKeyHeld(m_key))
     {
         (*m_callback)(100.0f);
     }
@@ -458,18 +458,18 @@ JoystickButtonBidirectionalRangeInput::JoystickButtonBidirectionalRangeInput(con
 {
 }
 
-bool JoystickButtonBidirectionalRangeInput::DetectedEvent() const
+bool JoystickButtonBidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsJoystickButtonDescending(m_joystick, m_negativeJoystickButton) ||
-           m_inputManager.IsJoystickButtonDescending(m_joystick, m_positiveJoystickButton) ||
-           m_inputManager.IsJoystickButtonAscending(m_joystick, m_negativeJoystickButton) ||
-           m_inputManager.IsJoystickButtonAscending(m_joystick, m_positiveJoystickButton);
+    return m_inputManager.isJoystickButtonDescending(m_joystick, m_negativeJoystickButton) ||
+           m_inputManager.isJoystickButtonDescending(m_joystick, m_positiveJoystickButton) ||
+           m_inputManager.isJoystickButtonAscending(m_joystick, m_negativeJoystickButton) ||
+           m_inputManager.isJoystickButtonAscending(m_joystick, m_positiveJoystickButton);
 }
 
-void JoystickButtonBidirectionalRangeInput::CallFunction()
+void JoystickButtonBidirectionalRangeInput::callFunction()
 {
-    bool isNegativeButtonHeld = m_inputManager.IsJoystickButtonHeld(m_joystick, m_negativeJoystickButton);
-    bool isPositiveButtonHeld = m_inputManager.IsJoystickButtonHeld(m_joystick, m_positiveJoystickButton);
+    bool isNegativeButtonHeld = m_inputManager.isJoystickButtonHeld(m_joystick, m_negativeJoystickButton);
+    bool isPositiveButtonHeld = m_inputManager.isJoystickButtonHeld(m_joystick, m_positiveJoystickButton);
 
     // If only negative key is held, and the key is not ascending
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
@@ -498,15 +498,15 @@ JoystickButtonUnidirectionalRangeInput::JoystickButtonUnidirectionalRangeInput(c
 {
 }
 
-bool JoystickButtonUnidirectionalRangeInput::DetectedEvent() const
+bool JoystickButtonUnidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsJoystickButtonDescending(m_joystick, m_button) ||
-           m_inputManager.IsJoystickButtonAscending(m_joystick, m_button);
+    return m_inputManager.isJoystickButtonDescending(m_joystick, m_button) ||
+           m_inputManager.isJoystickButtonAscending(m_joystick, m_button);
 }
 
-void JoystickButtonUnidirectionalRangeInput::CallFunction()
+void JoystickButtonUnidirectionalRangeInput::callFunction()
 {
-    if (m_inputManager.IsJoystickButtonHeld(m_joystick, m_button))
+    if (m_inputManager.isJoystickButtonHeld(m_joystick, m_button))
     {
         (*m_callback)(100.0f);
     }
@@ -526,16 +526,16 @@ MouseButtonBidirectionalRangeInput::MouseButtonBidirectionalRangeInput(const Inp
 {
 }
 
-bool MouseButtonBidirectionalRangeInput::DetectedEvent() const
+bool MouseButtonBidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsMouseButtonAscending(m_negativeMouseButton) || m_inputManager.IsMouseButtonAscending(m_positiveMouseButton) ||
-           m_inputManager.IsMouseButtonDescending(m_negativeMouseButton) || m_inputManager.IsMouseButtonDescending(m_positiveMouseButton);
+    return m_inputManager.isMouseButtonAscending(m_negativeMouseButton) || m_inputManager.isMouseButtonAscending(m_positiveMouseButton) ||
+           m_inputManager.isMouseButtonDescending(m_negativeMouseButton) || m_inputManager.isMouseButtonDescending(m_positiveMouseButton);
 }
 
-void MouseButtonBidirectionalRangeInput::CallFunction()
+void MouseButtonBidirectionalRangeInput::callFunction()
 {
-    bool isNegativeButtonHeld = m_inputManager.IsMouseButtonHeld(m_negativeMouseButton);
-    bool isPositiveButtonHeld = m_inputManager.IsMouseButtonHeld(m_positiveMouseButton);
+    bool isNegativeButtonHeld = m_inputManager.isMouseButtonHeld(m_negativeMouseButton);
+    bool isPositiveButtonHeld = m_inputManager.isMouseButtonHeld(m_positiveMouseButton);
 
     // If only negative key is held, and the key is not ascending
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
@@ -565,14 +565,14 @@ MouseButtonUnidirectionalRangeInput::MouseButtonUnidirectionalRangeInput(const I
 {
 }
 
-bool MouseButtonUnidirectionalRangeInput::DetectedEvent() const
+bool MouseButtonUnidirectionalRangeInput::detectedEvent() const
 {
-    return m_inputManager.IsMouseButtonAscending(m_mouseButton) || m_inputManager.IsMouseButtonDescending(m_mouseButton);
+    return m_inputManager.isMouseButtonAscending(m_mouseButton) || m_inputManager.isMouseButtonDescending(m_mouseButton);
 }
 
-void MouseButtonUnidirectionalRangeInput::CallFunction()
+void MouseButtonUnidirectionalRangeInput::callFunction()
 {
-    if (m_inputManager.IsMouseButtonHeld(m_mouseButton))
+    if (m_inputManager.isMouseButtonHeld(m_mouseButton))
     {
         (*m_callback)(100.0f);
     }

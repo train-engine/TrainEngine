@@ -18,20 +18,20 @@ private:
     sf::Color m_backgroundColor;
 
     // Static functions
-    static void ResizeLayout(const sf::Vector2f& windowDimensions); // Private because State is friends with GameEngine
+    static void resizeLayout(const sf::Vector2f& windowDimensions); // Private because State is friends with GameEngine
 
     // Base functions
-    void BaseHandleInput();
+    void baseHandleInput();
 
     // State functions
-    virtual void HandleInput() = 0;
-    virtual void Update() = 0;
-    virtual void Draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
+    virtual void handleInput() = 0;
+    virtual void update() = 0;
+    virtual void draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
 
-    virtual void Pause() {} ///< Called automatically before a new State is added above (ceases to be the topmost State)
-    virtual void Resume() {} ///< Called automatically after the State above is removed (becomes the topmost State again)
+    virtual void pause() {} ///< Called automatically before a new State is added above (ceases to be the topmost State)
+    virtual void resume() {} ///< Called automatically after the State above is removed (becomes the topmost State again)
 
-    virtual void OnWindowResize() {} ///< Called automatically on State creation and on window resizing
+    virtual void onWindowResize() {} ///< Called automatically on State creation and on window resizing
 
 protected:
     GameEngine& m_rGame;
@@ -48,14 +48,14 @@ protected:
     virtual ~State() {}
 
     // Functions
-    void DrawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
+    void drawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
 
     // Getters
-    static const sf::Vector2f& GetWindowDimensions() { return s_windowDimensions; }
-    static const sf::Vector2f& GetWindowMousePosition() { return s_windowMousePosition; }
+    static const sf::Vector2f& getWindowDimensions() { return s_windowDimensions; }
+    static const sf::Vector2f& getWindowMousePosition() { return s_windowMousePosition; }
 
     // Utility functions
-    sf::Vector2f GetAbsolutePosition(float xRatio, float yRatio) const;
+    sf::Vector2f getAbsolutePosition(float xRatio, float yRatio) const;
 };
 
 #endif // STATE_H

@@ -49,14 +49,14 @@ InputManager::InputManager(sf::RenderWindow& rWindow)
     sf::Mouse::setPosition(sf::Mouse::getPosition() + sf::Vector2i(1, 1));
 }
 
-void InputManager::UpdateInputStates()
+void InputManager::updateInputStates()
 {
     m_previousKeyStates = m_keyStates;
     m_previousMouseButtonStates = m_mouseButtonStates;
     m_previousJoystickButtonStates = m_joystickButtonStates;
 }
 
-void InputManager::PollSfmlEvents(sf::Window& rWindow)
+void InputManager::pollSfmlEvents(sf::Window& rWindow)
 {
     sf::Event event;
     while (rWindow.pollEvent(event))
@@ -181,7 +181,7 @@ void InputManager::PollSfmlEvents(sf::Window& rWindow)
 #endif
 }
 
-void InputManager::ResetEvents()
+void InputManager::resetEvents()
 {
     // Window data
     m_closedEvent = false;
@@ -275,16 +275,38 @@ std::string InputManager::MacExec(const char* cmd)
 }
 #endif
 
-void InputManager::Update()
+void InputManager::update()
 {
-    UpdateInputStates();
-    ResetEvents();
-    PollSfmlEvents(m_rWindow);
+    updateInputStates();
+    resetEvents();
+    pollSfmlEvents(m_rWindow);
+}
+
+// Window getters
+
+const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const
+{
+    return m_rWindow.mapPixelToCoords(point, view);
+}
+
+const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point) const
+{
+    return m_rWindow.mapPixelToCoords(point);
+}
+
+const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const
+{
+    return m_rWindow.mapCoordsToPixel(position, view);
+}
+
+const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position) const
+{
+    return m_rWindow.mapCoordsToPixel(position);
 }
 
 // Keyboard getters
 
-bool InputManager::IsKeyHeld(sf::Keyboard::Key key) const
+bool InputManager::isKeyHeld(sf::Keyboard::Key key) const
 {
     if (m_isWindowFocused == false)
     {
@@ -294,7 +316,7 @@ bool InputManager::IsKeyHeld(sf::Keyboard::Key key) const
     return m_keyStates[static_cast<int>(key)];
 }
 
-bool InputManager::IsKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) const
+bool InputManager::isKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) const
 {
     if (m_isWindowFocused == false)
     {
@@ -309,33 +331,93 @@ bool InputManager::IsKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) 
     return (std::find(m_eventPressedKeys.cbegin(), m_eventPressedKeys.cend(), key) != m_eventPressedKeys.cend());
 }
 
-bool InputManager::IsKeyAscending(sf::Keyboard::Key key) const
+bool InputManager::isKeyAscending(sf::Keyboard::Key key) const
 {
     return (std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key) != m_eventReleasedKeys.cend());
 }
 
-bool InputManager::IsModifierKeyHeld() const
+bool InputManager::isShiftKeyHeld() const
+{
+    return (isKeyHeld(sf::Keyboard::LShift) || isKeyHeld(sf::Keyboard::RShift));
+}
+
+bool InputManager::isShiftKeyDescending(bool isRepeatEnabled) const
+{
+    return (isKeyDescending(sf::Keyboard::LShift, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RShift, isRepeatEnabled));
+}
+
+bool InputManager::isShiftKeyAscending() const
+{
+    return (isKeyAscending(sf::Keyboard::LShift) || isKeyAscending(sf::Keyboard::RShift));
+}
+
+bool InputManager::isControlKeyHeld() const
+{
+    return (isKeyHeld(sf::Keyboard::LControl) || isKeyHeld(sf::Keyboard::RControl));
+}
+
+bool InputManager::isControlKeyDescending(bool isRepeatEnabled) const
+{
+    return (isKeyDescending(sf::Keyboard::LControl, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RControl, isRepeatEnabled));
+}
+
+bool InputManager::isControlKeyAscending() const
+{
+    return (isKeyAscending(sf::Keyboard::LControl) || isKeyAscending(sf::Keyboard::RControl));
+}
+
+bool InputManager::isAltKeyHeld() const
+{
+    return (isKeyHeld(sf::Keyboard::LAlt) || isKeyHeld(sf::Keyboard::RAlt));
+}
+
+bool InputManager::isAltKeyDescending(bool isRepeatEnabled) const
+{
+    return (isKeyDescending(sf::Keyboard::LAlt, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RAlt, isRepeatEnabled));
+}
+
+bool InputManager::isAltKeyAscending() const
+{
+    return (isKeyAscending(sf::Keyboard::LAlt) || isKeyAscending(sf::Keyboard::RAlt));
+}
+
+bool InputManager::isSystemKeyHeld() const
+{
+    return (isKeyHeld(sf::Keyboard::LSystem) || isKeyHeld(sf::Keyboard::RSystem));
+}
+
+bool InputManager::isSystemKeyDescending(bool isRepeatEnabled) const
+{
+    return (isKeyDescending(sf::Keyboard::LSystem, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RSystem, isRepeatEnabled));
+}
+
+bool InputManager::isSystemKeyAscending() const
+{
+    return (isKeyAscending(sf::Keyboard::LSystem) || isKeyAscending(sf::Keyboard::RSystem));
+}
+
+bool InputManager::isModifierKeyHeld() const
 {
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-    return IsControlKeyHeld();
+    return isControlKeyHeld();
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
     return IsSystemKeyHeld();
 #endif
 }
 
-bool InputManager::IsModifierKeyDescending(bool isRepeatEnabled) const
+bool InputManager::isModifierKeyDescending(bool isRepeatEnabled) const
 {
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-    return IsControlKeyDescending(isRepeatEnabled);
+    return isControlKeyDescending(isRepeatEnabled);
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
     return IsSystemKeyDescending(isRepeatEnabled);
 #endif
 }
 
-bool InputManager::IsModifierKeyAscending() const
+bool InputManager::isModifierKeyAscending() const
 {
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
-    return IsControlKeyAscending();
+    return isControlKeyAscending();
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
     return IsSystemKeyAscending();
 #endif
@@ -343,17 +425,17 @@ bool InputManager::IsModifierKeyAscending() const
 
 // Mouse getters
 
-bool InputManager::IsMouseButtonHeld(sf::Mouse::Button button) const
+bool InputManager::isMouseButtonHeld(sf::Mouse::Button button) const
 {
     if (m_isWindowFocused == false)
     {
         return false;
     }
 
-    return (m_mouseButtonStates[static_cast<int>(button)] || IsMouseButtonDescending(button));
+    return (m_mouseButtonStates[static_cast<int>(button)] || isMouseButtonDescending(button));
 }
 
-bool InputManager::IsMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled) const
+bool InputManager::isMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled) const
 {
     if (m_isWindowFocused == false)
     {
@@ -368,31 +450,31 @@ bool InputManager::IsMouseButtonDescending(sf::Mouse::Button button, bool isRepe
     return (std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button) != m_eventPressedMouseButtons.cend());
 }
 
-bool InputManager::IsMouseButtonAscending(sf::Mouse::Button button) const
+bool InputManager::isMouseButtonAscending(sf::Mouse::Button button) const
 {
     return (std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button) !=
             m_eventReleasedMouseButtons.cend());
 }
 
 // Return the mouse position relative to a given view
-sf::Vector2f InputManager::GetMousePosition(const sf::View& view) const
+sf::Vector2f InputManager::getMousePosition(const sf::View& view) const
 {
     return m_rWindow.mapPixelToCoords(m_mousePosition, view);
 }
 
 // Joystick getters
 
-bool InputManager::IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const
+bool InputManager::isJoystickButtonHeld(unsigned int joystick, unsigned int button) const
 {
     if (m_isWindowFocused == false)
     {
         return false;
     }
 
-    return (m_joystickButtonStates[joystick][button] || IsJoystickButtonDescending(joystick, button));
+    return (m_joystickButtonStates[joystick][button] || isJoystickButtonDescending(joystick, button));
 }
 
-bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
+bool InputManager::isJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
 {
     if (m_isWindowFocused == false)
     {
@@ -408,13 +490,23 @@ bool InputManager::IsJoystickButtonDescending(unsigned int joystick, unsigned in
             m_eventPressedJoystickButtons[joystick].cend());
 }
 
-bool InputManager::IsJoystickButtonAscending(unsigned int joystick, unsigned int button) const
+bool InputManager::isJoystickButtonAscending(unsigned int joystick, unsigned int button) const
 {
     return (std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button) !=
             m_eventReleasedJoystickButtons[joystick].cend());
 }
 
-float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
+bool InputManager::isJoystickConnected(unsigned joystick) const
+{
+    return sf::Joystick::isConnected(joystick);
+}
+
+sf::Joystick::Identification InputManager::getJoystickIdentification(unsigned joystick) const
+{
+    return sf::Joystick::getIdentification(joystick);
+}
+
+float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
     // If joystick value is inside the deadzone, return 0
     if (std::fabs(m_joystickAxesPosition[joystick][axis]) <= m_joystickDeadZone)
@@ -443,7 +535,7 @@ float InputManager::GetJoystickAxisPosition(unsigned int joystick, sf::Joystick:
 
 // Clipboard
 
-void InputManager::SetClipboardText(const sf::String& text)
+void InputManager::setClipboardText(const sf::String& text)
 {
 #if defined(SFML_SYSTEM_WINDOWS)
     HWND handle = m_rWindow.getSystemHandle();
@@ -456,8 +548,7 @@ void InputManager::SetClipboardText(const sf::String& text)
 
         hClipboardData = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t) * (wcslen(wcharCString) + 1));
 
-        wchar_t* buffer;
-        buffer = (wchar_t*)GlobalLock(hClipboardData);
+        wchar_t* buffer = reinterpret_cast<wchar_t*>(GlobalLock(hClipboardData));
 
         wcscpy(buffer, wcharCString);
         GlobalUnlock(hClipboardData);
@@ -470,7 +561,7 @@ void InputManager::SetClipboardText(const sf::String& text)
 #endif
 }
 
-sf::String InputManager::GetClipboardText() const
+sf::String InputManager::getClipboardText() const
 {
 #if defined(SFML_SYSTEM_WINDOWS)
     HWND handle = m_rWindow.getSystemHandle();

@@ -47,11 +47,11 @@ private:
     LoopDebugOverlay m_loopDebugOverlay;
 
     // Functions
-    void Push();
-    void Pop();
-    void HandleRequests();
-    void OnWindowResize();
-    void ResetWindowView();
+    void push();
+    void pop();
+    void handleRequests();
+    void onWindowResize();
+    void resetWindowView();
 
 public:
     InputManager inputManager;
@@ -61,29 +61,29 @@ public:
     ~GameEngine();
 
     // Main game loop
-    void GameLoop();
+    void startGameLoop();
 
     // Functions to request handling of States
-    void RequestPush(State* pState);
-    void RequestPop(unsigned int statesToPop = 1);
-    void RequestSwap(State* pState);
+    void requestPush(State* pState);
+    void requestPop(unsigned int statesToPop = 1);
+    void requestSwap(State* pState);
 
     // Draw the State under the current State
-    void DrawPreviousState(const State* pCurrentState);
+    void drawPreviousState(const State* pCurrentState);
 
     // Loop clock functions
-    void SetTargetUps(unsigned int updatesPerSecond);
-    void SetTargetFps(unsigned int drawsPerSecond);
-    double GetTargetUps() const;
-    double GetTargetFps() const;
-    double GetRecordedUps() const { return m_loopDebugOverlay.GetRecordedUps(); }
-    double GetRecordedFps() const { return m_loopDebugOverlay.GetRecordedFps(); }
+    void setTargetUps(unsigned int updatesPerSecond);
+    void setTargetFps(unsigned int drawsPerSecond);
+    double getTargetUps() const;
+    double getTargetFps() const;
+    double getRecordedUps() const { return m_loopDebugOverlay.getRecordedUps(); }
+    double getRecordedFps() const { return m_loopDebugOverlay.getRecordedFps(); }
 
     // Loop debug overlay functions
-    void ToggleDebugOverlay() { m_loopDebugOverlay.ToggleVisible(); }
+    void toggleDebugOverlay() { m_loopDebugOverlay.toggleVisible(); }
 
     // Quit game
-    void Quit();
+    void quit();
 };
 
 #endif // GAMEENGINE_H

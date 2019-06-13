@@ -39,18 +39,18 @@ private:
     virtual ~CreatorState() override;
 
     // Functions
-    void SetMusic();
-    void PauseStart();
-    sf::Vector2u GetBrushTopLeftIndex(const sf::Vector2f& mousePosition);
-    void ClearPreviewMap();
-    bool CheckMouseChangedTile();
+    void setMusic();
+    void pauseStart();
+    sf::Vector2u getBrushTopLeftIndex(const sf::Vector2f& mousePosition);
+    void clearPreviewMap();
+    bool checkMouseChangedTile();
 
     // State functions
-    virtual void HandleInput() override;
-    virtual void Update() override;
-    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void handleInput() override;
+    virtual void update() override;
+    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
 
-    virtual void OnWindowResize() override;
+    virtual void onWindowResize() override;
 
 public:
     // Constructors

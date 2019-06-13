@@ -22,14 +22,14 @@ KeyEventStateInput::KeyEventStateInput(const InputManager& inputManager, Callabl
 {
 }
 
-bool KeyEventStateInput::DetectedEvent() const
+bool KeyEventStateInput::detectedEvent() const
 {
-    return m_inputManager.IsKeyAscending(m_key) || m_inputManager.IsKeyDescending(m_key);
+    return m_inputManager.isKeyAscending(m_key) || m_inputManager.isKeyDescending(m_key);
 }
 
-void KeyEventStateInput::CallAction()
+void KeyEventStateInput::callAction()
 {
-    (*m_callback)(m_inputManager.IsKeyHeld(m_key));
+    (*m_callback)(m_inputManager.isKeyHeld(m_key));
 }
 
 // MouseButtonEventStateInput
@@ -40,14 +40,14 @@ MouseButtonEventStateInput::MouseButtonEventStateInput(const InputManager& input
 {
 }
 
-bool MouseButtonEventStateInput::DetectedEvent() const
+bool MouseButtonEventStateInput::detectedEvent() const
 {
-    return m_inputManager.IsMouseButtonAscending(m_button) || m_inputManager.IsMouseButtonDescending(m_button);
+    return m_inputManager.isMouseButtonAscending(m_button) || m_inputManager.isMouseButtonDescending(m_button);
 }
 
-void MouseButtonEventStateInput::CallAction()
+void MouseButtonEventStateInput::callAction()
 {
-    bool mouseButtonDescending = m_inputManager.IsMouseButtonAscending(m_button);
+    bool mouseButtonDescending = m_inputManager.isMouseButtonAscending(m_button);
     (*m_callback)(mouseButtonDescending);
 }
 
@@ -60,14 +60,14 @@ JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager&
 {
 }
 
-bool JoystickButtonEventStateInput::DetectedEvent() const
+bool JoystickButtonEventStateInput::detectedEvent() const
 {
-    return m_inputManager.IsJoystickButtonAscending(m_joystick, m_button) || m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
+    return m_inputManager.isJoystickButtonAscending(m_joystick, m_button) || m_inputManager.isJoystickButtonDescending(m_joystick, m_button);
 }
 
-void JoystickButtonEventStateInput::CallAction()
+void JoystickButtonEventStateInput::callAction()
 {
-    bool joystickButtonDescending = m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
+    bool joystickButtonDescending = m_inputManager.isJoystickButtonDescending(m_joystick, m_button);
     (*m_callback)(joystickButtonDescending);
 }
 
@@ -90,9 +90,9 @@ JoystickAxisAboveThresholdStateInput::JoystickAxisAboveThresholdStateInput(const
 {
 }
 
-bool JoystickAxisAboveThresholdStateInput::DetectedEvent() const
+bool JoystickAxisAboveThresholdStateInput::detectedEvent() const
 {
-    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
     bool detectedEvent = (m_lastAxisValue <= m_threshold && currentAxisValue > m_threshold) ||
                          (m_lastAxisValue > m_threshold && currentAxisValue <= m_threshold);
@@ -101,9 +101,9 @@ bool JoystickAxisAboveThresholdStateInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void JoystickAxisAboveThresholdStateInput::CallAction()
+void JoystickAxisAboveThresholdStateInput::callAction()
 {
-    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     (*m_callback)(currentAxisValue > m_threshold);
 }
 
@@ -126,9 +126,9 @@ JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const
 {
 }
 
-bool JoystickAxisBelowThresholdStateInput::DetectedEvent() const
+bool JoystickAxisBelowThresholdStateInput::detectedEvent() const
 {
-    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
     bool detectedEvent = (m_lastAxisValue < m_threshold && currentAxisValue >= m_threshold) ||
                          (m_lastAxisValue >= m_threshold && currentAxisValue < m_threshold);
@@ -137,8 +137,8 @@ bool JoystickAxisBelowThresholdStateInput::DetectedEvent() const
     return detectedEvent;
 }
 
-void JoystickAxisBelowThresholdStateInput::CallAction()
+void JoystickAxisBelowThresholdStateInput::callAction()
 {
-    float currentAxisValue = m_inputManager.GetJoystickAxisPosition(m_joystick, m_axis);
+    float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     (*m_callback)(currentAxisValue < m_threshold);
 }

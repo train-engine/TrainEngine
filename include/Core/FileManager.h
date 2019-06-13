@@ -8,16 +8,16 @@
 namespace FileManager
 {
 #if defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-    std::string ResourcePath();
+    std::string resourcePath();
 #else
-    inline std::string ResourcePath() { return ""; }
+    inline std::string resourcePath() { return ""; }
 #endif
 
-    int GetFileCount(const std::string& directory);
-    std::vector<std::string> GetFilenamesInDirectory(const std::string& directory);
+    int getFileCount(const std::string& directory);
+    std::vector<std::string> getFilenamesInDirectory(const std::string& directory);
 
 #if defined(SFML_SYSTEM_ANDROID)
-    std::string ReadTxtFromAssets(const std::string& filename);
+    std::string readTxtFromAssets(const std::string& filename);
 #endif
 } // namespace FileManager
 

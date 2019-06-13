@@ -12,7 +12,7 @@ AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& f
     , m_isFlipped(false)
     , m_isPlaying(false)
 {
-    SetTextureRect();
+    setTextureRect();
     m_sprite.setOrigin(static_cast<sf::Vector2f>(m_frameDimensions) / 2.0f);
 }
 
@@ -21,7 +21,7 @@ void AnimatedSprite::draw(sf::RenderTarget& rTarget, sf::RenderStates states) co
     rTarget.draw(m_sprite, states);
 }
 
-void AnimatedSprite::SetTextureRect()
+void AnimatedSprite::setTextureRect()
 {
     unsigned int framesPerRow = m_spriteSheetDimensions.x / m_frameDimensions.x;
     if (framesPerRow == 0) // If the Texture's dimensions are too small for the requested frame dimensions
@@ -37,7 +37,7 @@ void AnimatedSprite::SetTextureRect()
                                         m_frameDimensions.y));
 }
 
-void AnimatedSprite::Update()
+void AnimatedSprite::update()
 {
     if (m_isPlaying == false)
     {
@@ -50,14 +50,14 @@ void AnimatedSprite::Update()
         if (m_currentFrameIndex < m_totalFrames - 1)
         {
             m_currentFrameIndex++;
-            SetTextureRect();
+            setTextureRect();
         }
         else if (m_currentFrameIndex == m_totalFrames - 1)
         {
             if (m_isLoopingEnabled == true)
             {
                 m_currentFrameIndex = 0;
-                SetTextureRect();
+                setTextureRect();
             }
             else
             {
@@ -68,41 +68,41 @@ void AnimatedSprite::Update()
     m_tickCounter++;
 }
 
-void AnimatedSprite::Restart()
+void AnimatedSprite::restart()
 {
     m_isPlaying = true;
     m_tickCounter = 0;
     m_currentFrameIndex = 0;
 }
 
-void AnimatedSprite::Stop()
+void AnimatedSprite::stop()
 {
     m_isPlaying = false;
     m_tickCounter = 0;
     m_currentFrameIndex = 0;
 }
 
-void AnimatedSprite::SetPosition(const sf::Vector2f& position)
+void AnimatedSprite::setPosition(const sf::Vector2f& position)
 {
     m_sprite.setPosition(position);
 }
 
-void AnimatedSprite::SetRotation(float angle)
+void AnimatedSprite::setRotation(float angle)
 {
     m_sprite.setRotation(angle);
 }
 
-void AnimatedSprite::SetFrameDuration(float frameDuration)
+void AnimatedSprite::setFrameDuration(float frameDuration)
 {
     m_frameDuration = frameDuration;
 }
 
-void AnimatedSprite::SetLoopingEnabled(bool isLoopingEnabled)
+void AnimatedSprite::setLoopingEnabled(bool isLoopingEnabled)
 {
     m_isLoopingEnabled = isLoopingEnabled;
 }
 
-void AnimatedSprite::SetFlipped(bool isFlipped)
+void AnimatedSprite::setFlipped(bool isFlipped)
 {
     m_isFlipped = isFlipped;
 

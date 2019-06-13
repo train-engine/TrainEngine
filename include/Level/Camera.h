@@ -48,42 +48,42 @@ private:
     unsigned int m_ticksTotal;
 
     // Functions
-    void ResizeToFitMinDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& minDimensions);
-    void ResizeToFitMaxDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& maxDimensions);
-    void BoundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimensions);
+    void resizeToFitMinDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& minDimensions);
+    void resizeToFitMaxDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& maxDimensions);
+    void boundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimensions);
 
 public:
     // Constructor
     Camera();
 
     // Functions
-    void Update();
-    void Interpolate(float lag);
-    void SetPosition(const sf::Vector2f& position);
-    void Move(const sf::Vector2f& offset);
-    void SetFollow(const Entity& followedEntity, bool snapOnSet = false);
-    void SetTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration,
+    void update();
+    void interpolate(float lag);
+    void setPosition(const sf::Vector2f& position);
+    void move(const sf::Vector2f& offset);
+    void setFollow(const Entity& followedEntity, bool snapOnSet = false);
+    void setTranslate(const sf::Vector2f& startPosition, const sf::Vector2f& endPosition, unsigned int tickDuration,
                       bool isSlowDownSmooth = false);
 
     // Setters
-    void SetBoundless(bool isBoundless) { m_isBoundless = isBoundless; }
-    void SetBounds(const sf::Vector2f& bounds);
-    void SetDimensions(const sf::Vector2f& dimensions);
-    void SetMinDimensions(const sf::Vector2f& minDimensions);
-    void SetMaxDimensions(const sf::Vector2f& maxDimensions);
-    void Zoom(float zoom);
-    void SetZoom(float absoluteZoom);
-    void SetZoomLerp(float zoomLerp) { m_zoomLerp = zoomLerp; }
-    void SetFollowLerp(float followLerp) { m_followLerp = followLerp; }
-    void SetRotation(float angle) { m_view.setRotation(angle); }
+    void setBoundless(bool isBoundless) { m_isBoundless = isBoundless; }
+    void setBounds(const sf::Vector2f& bounds);
+    void setDimensions(const sf::Vector2f& dimensions);
+    void setMinDimensions(const sf::Vector2f& minDimensions);
+    void setMaxDimensions(const sf::Vector2f& maxDimensions);
+    void zoom(float zoom);
+    void setZoom(float absoluteZoom);
+    void setZoomLerp(float zoomLerp) { m_zoomLerp = zoomLerp; }
+    void setFollowLerp(float followLerp) { m_followLerp = followLerp; }
+    void setRotation(float angle) { m_view.setRotation(angle); }
 
     // Getters
-    const sf::View& GetView() const { return m_view; }
-    CameraMode GetMode() const { return m_mode; }
-    bool IsBoundless() const { return m_isBoundless; }
-    const sf::Vector2f& GetPosition() const { return m_view.getCenter(); }
-    const sf::Vector2f& GetDimensions() const { return m_view.getSize(); }
-    float GetZoom() const { return m_zoom; }
+    const sf::View& getView() const { return m_view; }
+    CameraMode getMode() const { return m_mode; }
+    bool isBoundless() const { return m_isBoundless; }
+    const sf::Vector2f& getPosition() const { return m_view.getCenter(); }
+    const sf::Vector2f& getDimensions() const { return m_view.getSize(); }
+    float getZoom() const { return m_zoom; }
 };
 
 #endif // CAMERA_H

@@ -16,8 +16,8 @@ class RangeInput
     RangeInput& operator=(const RangeInput&) = delete;
     RangeInput& operator=(RangeInput&&) = delete;
 
-    virtual bool DetectedEvent() const = 0;
-    virtual void CallFunction() = 0;
+    virtual bool detectedEvent() const = 0;
+    virtual void callFunction() = 0;
 
 protected:
     const InputManager& m_inputManager;
@@ -34,8 +34,8 @@ public:
     JoystickAxisBidirectionalRangeInput(JoystickAxisBidirectionalRangeInput&&) = delete;
     JoystickAxisBidirectionalRangeInput& operator=(const JoystickAxisBidirectionalRangeInput&) = delete;
     JoystickAxisBidirectionalRangeInput& operator=(JoystickAxisBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     unsigned int m_joystick;
@@ -53,8 +53,8 @@ public:
     JoystickAxisUnidirectionalRangeInput(JoystickAxisUnidirectionalRangeInput&&) = delete;
     JoystickAxisUnidirectionalRangeInput& operator=(const JoystickAxisUnidirectionalRangeInput&) = delete;
     JoystickAxisUnidirectionalRangeInput& operator=(JoystickAxisUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     unsigned int m_joystick;
@@ -72,8 +72,8 @@ public:
     VerticalMouseWheelBidirectionalRangeInput(VerticalMouseWheelBidirectionalRangeInput&&) = delete;
     VerticalMouseWheelBidirectionalRangeInput& operator=(const VerticalMouseWheelBidirectionalRangeInput&) = delete;
     VerticalMouseWheelBidirectionalRangeInput& operator=(VerticalMouseWheelBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     mutable float m_lastVertScroll;
@@ -88,8 +88,8 @@ public:
     VerticalMouseWheelUnidirectionalRangeInput(VerticalMouseWheelUnidirectionalRangeInput&&) = delete;
     VerticalMouseWheelUnidirectionalRangeInput& operator=(const VerticalMouseWheelUnidirectionalRangeInput&) = delete;
     VerticalMouseWheelUnidirectionalRangeInput& operator=(VerticalMouseWheelUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     bool m_isRestrictedToPositives;
@@ -105,8 +105,8 @@ public:
     HorizontalMouseWheelBidirectionalRangeInput(HorizontalMouseWheelBidirectionalRangeInput&&) = delete;
     HorizontalMouseWheelBidirectionalRangeInput& operator=(const HorizontalMouseWheelBidirectionalRangeInput&) = delete;
     HorizontalMouseWheelBidirectionalRangeInput& operator=(HorizontalMouseWheelBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     mutable float m_lastHorizScroll;
@@ -121,8 +121,8 @@ public:
     HorizontalMouseWheelUnidirectionalRangeInput(HorizontalMouseWheelUnidirectionalRangeInput&&) = delete;
     HorizontalMouseWheelUnidirectionalRangeInput& operator=(const HorizontalMouseWheelUnidirectionalRangeInput&) = delete;
     HorizontalMouseWheelUnidirectionalRangeInput& operator=(HorizontalMouseWheelUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     bool m_isRestrictedToPositives;
@@ -138,8 +138,8 @@ public:
     VerticalMouseMovementBidirectionalRangeInput(VerticalMouseMovementBidirectionalRangeInput&&) = delete;
     VerticalMouseMovementBidirectionalRangeInput& operator=(const VerticalMouseMovementBidirectionalRangeInput&) = delete;
     VerticalMouseMovementBidirectionalRangeInput& operator=(VerticalMouseMovementBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     mutable float m_lastVertMouseMovement;
@@ -154,8 +154,8 @@ public:
     VerticalMouseMovementUnidirectionalRangeInput(VerticalMouseMovementUnidirectionalRangeInput&&) = delete;
     VerticalMouseMovementUnidirectionalRangeInput& operator=(const VerticalMouseMovementUnidirectionalRangeInput&) = delete;
     VerticalMouseMovementUnidirectionalRangeInput& operator=(VerticalMouseMovementUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     bool m_isRestrictedToPositives;
@@ -171,8 +171,8 @@ public:
     HorizontalMouseMovementBidirectionalRangeInput(HorizontalMouseMovementBidirectionalRangeInput&&) = delete;
     HorizontalMouseMovementBidirectionalRangeInput& operator=(const HorizontalMouseMovementBidirectionalRangeInput&) = delete;
     HorizontalMouseMovementBidirectionalRangeInput& operator=(HorizontalMouseMovementBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     mutable float m_lastHorizMouseMovement;
@@ -187,8 +187,8 @@ public:
     HorizontalMouseMovementUnidirectionalRangeInput(HorizontalMouseMovementUnidirectionalRangeInput&&) = delete;
     HorizontalMouseMovementUnidirectionalRangeInput& operator=(const HorizontalMouseMovementUnidirectionalRangeInput&) = delete;
     HorizontalMouseMovementUnidirectionalRangeInput& operator=(HorizontalMouseMovementUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     bool m_isRestrictedToPositives;
@@ -204,8 +204,8 @@ public:
     KeyboardBidirectionalRangeInput(KeyboardBidirectionalRangeInput&&) = delete;
     KeyboardBidirectionalRangeInput& operator=(const KeyboardBidirectionalRangeInput&) = delete;
     KeyboardBidirectionalRangeInput& operator=(KeyboardBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     sf::Keyboard::Key m_negativeKey;
@@ -221,8 +221,8 @@ public:
     KeyboardUnidirectionalRangeInput(KeyboardUnidirectionalRangeInput&&) = delete;
     KeyboardUnidirectionalRangeInput& operator=(const KeyboardUnidirectionalRangeInput&) = delete;
     KeyboardUnidirectionalRangeInput& operator=(KeyboardUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -238,8 +238,8 @@ public:
     JoystickButtonBidirectionalRangeInput(JoystickButtonBidirectionalRangeInput&&) = delete;
     JoystickButtonBidirectionalRangeInput& operator=(const JoystickButtonBidirectionalRangeInput&) = delete;
     JoystickButtonBidirectionalRangeInput& operator=(JoystickButtonBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     unsigned int m_joystick;
@@ -257,8 +257,8 @@ public:
     JoystickButtonUnidirectionalRangeInput(JoystickButtonUnidirectionalRangeInput&&) = delete;
     JoystickButtonUnidirectionalRangeInput& operator=(const JoystickButtonUnidirectionalRangeInput&) = delete;
     JoystickButtonUnidirectionalRangeInput& operator=(JoystickButtonUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     unsigned int m_joystick;
@@ -275,8 +275,8 @@ public:
     MouseButtonBidirectionalRangeInput(MouseButtonBidirectionalRangeInput&&) = delete;
     MouseButtonBidirectionalRangeInput& operator=(const MouseButtonBidirectionalRangeInput&) = delete;
     MouseButtonBidirectionalRangeInput& operator=(MouseButtonBidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     sf::Mouse::Button m_negativeMouseButton;
@@ -293,8 +293,8 @@ public:
     MouseButtonUnidirectionalRangeInput(MouseButtonUnidirectionalRangeInput&&) = delete;
     MouseButtonUnidirectionalRangeInput& operator=(const MouseButtonUnidirectionalRangeInput&) = delete;
     MouseButtonUnidirectionalRangeInput& operator=(MouseButtonUnidirectionalRangeInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallFunction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callFunction() override;
 
 private:
     sf::Mouse::Button m_mouseButton;

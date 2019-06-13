@@ -37,24 +37,24 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override = 0;
-    virtual bool CheckMousePosition(const sf::Vector2f& mousePosition) const = 0;
+    virtual bool checkMousePosition(const sf::Vector2f& mousePosition) const = 0;
 
 public:
     // Destructor
     virtual ~InteractiveGui() {}
 
     // Functions
-    virtual bool OnMouseHover(const sf::Vector2f& mousePosition) = 0;
-    virtual bool OnMouseClick(const sf::Vector2f& mousePosition) = 0;
-    virtual bool OnMouseUnclick(const sf::Vector2f& mousePosition) = 0;
+    virtual bool onMouseHover(const sf::Vector2f& mousePosition) = 0;
+    virtual bool onMouseClick(const sf::Vector2f& mousePosition) = 0;
+    virtual bool onMouseUnclick(const sf::Vector2f& mousePosition) = 0;
 
     // Setters
-    virtual void SetPosition(const sf::Vector2f& position) { m_position = position; }
-    virtual void SetState(GuiState state) { m_state = state; }
+    virtual void setPosition(const sf::Vector2f& position) { m_position = position; }
+    virtual void setState(GuiState state) { m_state = state; }
 
     // Getters
-    const sf::Vector2f& GetPosition() const { return m_position; }
-    virtual GuiState GetState() const { return m_state; }
+    const sf::Vector2f& getPosition() const { return m_position; }
+    virtual GuiState getState() const { return m_state; }
 };
 
 // GuiRectButton
@@ -82,42 +82,42 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    bool CheckMousePosition(const sf::Vector2f& mousePosition) const override;
+    bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
 
 public:
     // Constructor
     GuiRectButton(const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions, float borderThickness,
-                  int textPadding, const std::string& text, GuiStyle style);
+                  float textPadding, const std::string& text, GuiStyle style);
 
     // Functions
-    virtual bool OnMouseHover(const sf::Vector2f& mousePosition) override;
-    virtual bool OnMouseClick(const sf::Vector2f& mousePosition) override;
-    virtual bool OnMouseUnclick(const sf::Vector2f& mousePosition) override;
+    virtual bool onMouseHover(const sf::Vector2f& mousePosition) override;
+    virtual bool onMouseClick(const sf::Vector2f& mousePosition) override;
+    virtual bool onMouseUnclick(const sf::Vector2f& mousePosition) override;
 
     // Setters
-    virtual void SetPosition(const sf::Vector2f& position) override;
-    virtual void SetDimensions(const sf::Vector2f& dimensions);
-    virtual void SetStyle(GuiStyle style);
-    virtual void SetState(GuiState state) override;
-    virtual void SetFont(const sf::Font& font) { m_text.setFont(font); }
-    void SetText(const std::string& text);
+    virtual void setPosition(const sf::Vector2f& position) override;
+    virtual void setDimensions(const sf::Vector2f& dimensions);
+    virtual void setStyle(GuiStyle style);
+    virtual void setState(GuiState state) override;
+    virtual void setFont(const sf::Font& font) { m_text.setFont(font); }
+    void setText(const std::string& text);
 
-    void SetBorderThickness(float borderThickness) { m_borderThickness = borderThickness; }
-    void SetTextPadding(float textPadding) { m_textPadding = textPadding; }
+    void setBorderThickness(float borderThickness) { m_borderThickness = borderThickness; }
+    void setTextPadding(float textPadding) { m_textPadding = textPadding; }
 
-    void SetBodyColor(sf::Color color) { m_bodyColor = color; }
-    void SetBodyColorHovered(sf::Color color) { m_bodyColorHovered = color; }
-    void SetBodyColorClicked(sf::Color color) { m_bodyColorClicked = color; }
-    void SetBorderColor(sf::Color color) { m_borderColor = color; }
-    void SetBorderColorHovered(sf::Color color) { m_borderColorHovered = color; }
-    void SetBorderColorClicked(sf::Color color) { m_borderColorClicked = color; }
-    void SetTextColor(sf::Color color) { m_textColor = color; }
-    void SetTextColorHovered(sf::Color color) { m_textColorHovered = color; }
-    void SetTextColorClicked(sf::Color color) { m_textColorClicked = color; }
+    void setBodyColor(sf::Color color) { m_bodyColor = color; }
+    void setBodyColorHovered(sf::Color color) { m_bodyColorHovered = color; }
+    void setBodyColorClicked(sf::Color color) { m_bodyColorClicked = color; }
+    void setBorderColor(sf::Color color) { m_borderColor = color; }
+    void setBorderColorHovered(sf::Color color) { m_borderColorHovered = color; }
+    void setBorderColorClicked(sf::Color color) { m_borderColorClicked = color; }
+    void setTextColor(sf::Color color) { m_textColor = color; }
+    void setTextColorHovered(sf::Color color) { m_textColorHovered = color; }
+    void setTextColorClicked(sf::Color color) { m_textColorClicked = color; }
 
     // Getters
-    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
-    std::string GetText() const { return m_text.getString(); }
+    const sf::Vector2f& getDimensions() const { return m_dimensions; }
+    std::string getText() const { return m_text.getString(); }
 };
 
 // GuiRectSoundButton
@@ -132,8 +132,8 @@ public:
                        const sf::Vector2f& dimensions, float borderThickness, int textPadding, const std::string& text, GuiStyle style);
 
     // Setters
-    void SetState(GuiState state) override;
-    void SetVolume(float volume) { m_sound.setVolume(volume); }
+    void setState(GuiState state) override;
+    void setVolume(float volume) { m_sound.setVolume(volume); }
 };
 
 // GuiSpriteButton
@@ -149,7 +149,7 @@ private:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    bool CheckMousePosition(const sf::Vector2f& mousePosition) const override;
+    bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
 
 public:
     // Constructor
@@ -157,21 +157,21 @@ public:
                     const sf::Vector2f& position, const sf::Vector2f& dimensions);
 
     // Functions
-    bool OnMouseHover(const sf::Vector2f& mousePosition) override;
-    bool OnMouseClick(const sf::Vector2f& mousePosition) override;
-    bool OnMouseUnclick(const sf::Vector2f& mousePosition) override;
+    bool onMouseHover(const sf::Vector2f& mousePosition) override;
+    bool onMouseClick(const sf::Vector2f& mousePosition) override;
+    bool onMouseUnclick(const sf::Vector2f& mousePosition) override;
 
     // Setters
-    void SetPosition(const sf::Vector2f& position) override;
-    void SetDimensions(const sf::Vector2f& dimensions);
-    void SetState(GuiState state) override;
+    void setPosition(const sf::Vector2f& position) override;
+    void setDimensions(const sf::Vector2f& dimensions);
+    void setState(GuiState state) override;
 
-    void SetTexture(const sf::Texture& texture) { m_texture = texture; }
-    void SetTextureHovered(const sf::Texture& texture) { m_textureHovered = texture; }
-    void SetTextureClicked(const sf::Texture& texture) { m_textureClicked = texture; }
+    void setTexture(const sf::Texture& texture) { m_texture = texture; }
+    void setTextureHovered(const sf::Texture& texture) { m_textureHovered = texture; }
+    void setTextureClicked(const sf::Texture& texture) { m_textureClicked = texture; }
 
     // Getters
-    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
+    const sf::Vector2f& getDimensions() const { return m_dimensions; }
 };
 
 // GuiScrollbar
@@ -198,10 +198,10 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    bool CheckMousePosition(const sf::Vector2f& mousePosition) const override;
-    bool CheckMousePositionOnSlider(const sf::Vector2f& mousePosition) const;
-    virtual void MoveSlider(const sf::Vector2f& position);
-    void CheckSliderCollision();
+    bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
+    bool checkMousePositionOnSlider(const sf::Vector2f& mousePosition) const;
+    virtual void moveSlider(const sf::Vector2f& position);
+    void checkSliderCollision();
 
 public:
     // Constructor
@@ -209,32 +209,32 @@ public:
                  double value = 0);
 
     // Functions
-    bool OnMouseHover(const sf::Vector2f& mousePosition) override;
-    bool OnMouseClick(const sf::Vector2f& mousePosition) override;
-    bool OnMouseUnclick(const sf::Vector2f& mousePosition) override;
-    bool OnMouseScroll(float scrollAmount);
+    bool onMouseHover(const sf::Vector2f& mousePosition) override;
+    bool onMouseClick(const sf::Vector2f& mousePosition) override;
+    bool onMouseUnclick(const sf::Vector2f& mousePosition) override;
+    bool onMouseScroll(float scrollAmount);
 
     // Setters
-    virtual void SetPosition(const sf::Vector2f& position) override;
-    virtual void SetDimensions(const sf::Vector2f& dimensions, float sliderWidth);
-    void SetSliderWidth(float sliderWidth);
-    void SetState(GuiState state) override;
-    virtual void SetStyle(GuiStyle style);
+    virtual void setPosition(const sf::Vector2f& position) override;
+    virtual void setDimensions(const sf::Vector2f& dimensions, float sliderWidth);
+    void setSliderWidth(float sliderWidth);
+    void setState(GuiState state) override;
+    virtual void setStyle(GuiStyle style);
 
-    void SetBorderThickness(float borderThickness) { m_borderThickness = borderThickness; }
+    void setBorderThickness(float borderThickness) { m_borderThickness = borderThickness; }
 
-    void SetBodyColor(sf::Color color) { m_bodyColor = color; }
-    void SetSliderColor(sf::Color color) { m_sliderColor = color; }
-    void SetSliderColorHovered(sf::Color color) { m_sliderColorHovered = color; }
-    void SetBorderColor(sf::Color color) { m_borderColor = color; }
+    void setBodyColor(sf::Color color) { m_bodyColor = color; }
+    void setSliderColor(sf::Color color) { m_sliderColor = color; }
+    void setSliderColorHovered(sf::Color color) { m_sliderColorHovered = color; }
+    void setBorderColor(sf::Color color) { m_borderColor = color; }
 
-    virtual void SetValue(double value);
+    virtual void setValue(double value);
 
     // Getters
-    double GetValue() const { return m_value; }
-    const sf::Vector2f& GetSliderPosition() const { return m_sliderPosition; }
-    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
-    const sf::Vector2f& GetSliderDimensions() const { return m_sliderDimensions; }
+    double getValue() const { return m_value; }
+    const sf::Vector2f& getSliderPosition() const { return m_sliderPosition; }
+    const sf::Vector2f& getDimensions() const { return m_dimensions; }
+    const sf::Vector2f& getSliderDimensions() const { return m_sliderDimensions; }
 };
 
 // GuiSlider
@@ -244,21 +244,18 @@ protected:
     double m_maxValue;
 
     // Functions
-    virtual void MoveSlider(const sf::Vector2f& position) override;
+    virtual void moveSlider(const sf::Vector2f& position) override;
 
 public:
     // Constructor
     GuiSlider(const sf::Vector2f& position, const sf::Vector2f& dimensions, GuiStyle style, float sliderWidth, float borderThickness = -3,
               double maxValue = 100, double value = 0);
 
-    bool OnMouseScroll(int scrollAmount) = delete;
+    bool onMouseScroll(int scrollAmount) = delete;
 
     // Setters
-    virtual void SetPosition(const sf::Vector2f& position) override;
-    virtual void SetValue(double value) override;
-
-    // Getters
-    double GetValue() const { return m_value; }
+    virtual void setPosition(const sf::Vector2f& position) override;
+    virtual void setValue(double value) override;
 };
 
 // GuiTextSlider
@@ -272,7 +269,7 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    virtual void MoveSlider(const sf::Vector2f& position) override;
+    virtual void moveSlider(const sf::Vector2f& position) override;
 
 public:
     // Constructor
@@ -281,14 +278,14 @@ public:
                   double value = 0);
 
     // Setters
-    virtual void SetPosition(const sf::Vector2f& position) override;
-    virtual void SetDimensions(const sf::Vector2f& dimensions, float sliderWidth) override;
-    virtual void SetStyle(GuiStyle style) override;
-    virtual void SetValue(double value) override;
-    void SetFont(const sf::Font& font) { m_text.setFont(font); }
-    void SetText(const std::string& text);
-    void SetTextPadding(float textPadding) { m_textPadding = textPadding; }
-    void SetTextColor(sf::Color color) { m_textColor = color; }
+    virtual void setPosition(const sf::Vector2f& position) override;
+    virtual void setDimensions(const sf::Vector2f& dimensions, float sliderWidth) override;
+    virtual void setStyle(GuiStyle style) override;
+    virtual void setValue(double value) override;
+    void setFont(const sf::Font& font) { m_text.setFont(font); }
+    void setText(const std::string& text);
+    void setTextPadding(float textPadding) { m_textPadding = textPadding; }
+    void setTextColor(sf::Color color) { m_textColor = color; }
 };
 
 // ProgressBar
@@ -304,9 +301,9 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void CalculateFraction();
-    void CalculateProgress();
-    void UpdateProgressBarPosition();
+    void calculateFraction();
+    void calculateProgress();
+    void updateProgressBarPosition();
 
 public:
     // Constructor
@@ -314,22 +311,22 @@ public:
                 sf::Color progressBarColor, int borderThickness, double fraction);
 
     // Setters
-    void SetPosition(const sf::Vector2f& position);
-    void SetDimensions(const sf::Vector2f& dimensions);
-    void SetBorderThickness(float borderThickness);
-    void SetBackgroundColor(sf::Color backgroundColor) { m_box.setFillColor(backgroundColor); }
-    void SetBorderColor(sf::Color borderColor) { m_box.setOutlineColor(borderColor); }
-    void SetProgressBarColor(sf::Color progressBarColor) { m_progressBar.setFillColor(progressBarColor); }
-    void SetProgress(unsigned int progress);
-    void SetTotal(unsigned int total);
-    void SetFraction(double fraction);
+    void setPosition(const sf::Vector2f& position);
+    void setDimensions(const sf::Vector2f& dimensions);
+    void setBorderThickness(float borderThickness);
+    void setBackgroundColor(sf::Color backgroundColor) { m_box.setFillColor(backgroundColor); }
+    void setBorderColor(sf::Color borderColor) { m_box.setOutlineColor(borderColor); }
+    void setProgressBarColor(sf::Color progressBarColor) { m_progressBar.setFillColor(progressBarColor); }
+    void setProgress(unsigned int progress);
+    void setTotal(unsigned int total);
+    void setFraction(double fraction);
 
     // Getters
-    const sf::Vector2f& GetPosition() const { return m_box.getPosition(); }
-    const sf::Vector2f& GetDimensions() const { return m_box.getSize(); }
-    unsigned int GetProgress() const { return m_progress; }
-    unsigned int GetTotal() const { return m_total; }
-    double GetFraction() const { return m_fraction; }
+    const sf::Vector2f& getPosition() const { return m_box.getPosition(); }
+    const sf::Vector2f& getDimensions() const { return m_box.getSize(); }
+    unsigned int getProgress() const { return m_progress; }
+    unsigned int getTotal() const { return m_total; }
+    double getFraction() const { return m_fraction; }
 };
 
 #endif // GUI_H

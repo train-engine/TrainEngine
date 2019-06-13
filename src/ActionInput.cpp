@@ -13,7 +13,7 @@ ActionInput::~ActionInput()
     delete m_callback;
 }
 
-void ActionInput::CallFunction()
+void ActionInput::callFunction()
 {
     (*m_callback)();
 }
@@ -26,9 +26,9 @@ KeyDescendingActionInput::KeyDescendingActionInput(const InputManager& inputMana
 {
 }
 
-bool KeyDescendingActionInput::DetectedEvent() const
+bool KeyDescendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsKeyDescending(m_key);
+    return m_inputManager.isKeyDescending(m_key);
 }
 
 // KeyAscendingActionInput
@@ -38,9 +38,9 @@ KeyAscendingActionInput::KeyAscendingActionInput(const InputManager& inputManage
 {
 }
 
-bool KeyAscendingActionInput::DetectedEvent() const
+bool KeyAscendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsKeyAscending(m_key);
+    return m_inputManager.isKeyAscending(m_key);
 }
 
 // MouseButtonDescendingActionInput
@@ -50,9 +50,9 @@ MouseButtonDescendingActionInput::MouseButtonDescendingActionInput(const InputMa
 {
 }
 
-bool MouseButtonDescendingActionInput::DetectedEvent() const
+bool MouseButtonDescendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsMouseButtonDescending(m_button);
+    return m_inputManager.isMouseButtonDescending(m_button);
 }
 
 // MouseButtonAscendingActionInput
@@ -63,9 +63,9 @@ MouseButtonAscendingActionInput::MouseButtonAscendingActionInput(const InputMana
 {
 }
 
-bool MouseButtonAscendingActionInput::DetectedEvent() const
+bool MouseButtonAscendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsMouseButtonAscending(m_button);
+    return m_inputManager.isMouseButtonAscending(m_button);
 }
 
 // JoystickButtonDescendingActionInput
@@ -77,9 +77,9 @@ JoystickButtonDescendingActionInput::JoystickButtonDescendingActionInput(const I
 {
 }
 
-bool JoystickButtonDescendingActionInput::DetectedEvent() const
+bool JoystickButtonDescendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsJoystickButtonDescending(m_joystick, m_button);
+    return m_inputManager.isJoystickButtonDescending(m_joystick, m_button);
 }
 
 // JoystickButtonAscendingActionInput
@@ -91,9 +91,9 @@ JoystickButtonAscendingActionInput::JoystickButtonAscendingActionInput(const Inp
 {
 }
 
-bool JoystickButtonAscendingActionInput::DetectedEvent() const
+bool JoystickButtonAscendingActionInput::detectedEvent() const
 {
-    return m_inputManager.IsJoystickButtonAscending(m_joystick, m_button);
+    return m_inputManager.isJoystickButtonAscending(m_joystick, m_button);
 }
 
 // MouseMovedActionInput
@@ -103,9 +103,9 @@ MouseMovedActionInput::MouseMovedActionInput(const InputManager& inputManager, C
 {
 }
 
-bool MouseMovedActionInput::DetectedEvent() const
+bool MouseMovedActionInput::detectedEvent() const
 {
-    return m_inputManager.DetectedMouseMovedEvent();
+    return m_inputManager.detectedMouseMovedEvent();
 }
 
 // MouseWheelUpActionInput
@@ -115,9 +115,9 @@ MouseWheelUpActionInput::MouseWheelUpActionInput(const InputManager& inputManage
 {
 }
 
-bool MouseWheelUpActionInput::DetectedEvent() const
+bool MouseWheelUpActionInput::detectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().y > 0;
+    return m_inputManager.detectedMouseWheelScrolledEvent() && m_inputManager.getMouseWheelDelta().y > 0;
 }
 
 // MouseWheelDownActionInput
@@ -127,9 +127,9 @@ MouseWheelDownActionInput::MouseWheelDownActionInput(const InputManager& inputMa
 {
 }
 
-bool MouseWheelDownActionInput::DetectedEvent() const
+bool MouseWheelDownActionInput::detectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().y < 0;
+    return m_inputManager.detectedMouseWheelScrolledEvent() && m_inputManager.getMouseWheelDelta().y < 0;
 }
 
 // MouseWheelLeftActionInput
@@ -139,9 +139,9 @@ MouseWheelLeftActionInput::MouseWheelLeftActionInput(const InputManager& inputMa
 {
 }
 
-bool MouseWheelLeftActionInput::DetectedEvent() const
+bool MouseWheelLeftActionInput::detectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().x < 0;
+    return m_inputManager.detectedMouseWheelScrolledEvent() && m_inputManager.getMouseWheelDelta().x < 0;
 }
 
 // MouseWheelRightActionInput
@@ -151,7 +151,7 @@ MouseWheelRightActionInput::MouseWheelRightActionInput(const InputManager& input
 {
 }
 
-bool MouseWheelRightActionInput::DetectedEvent() const
+bool MouseWheelRightActionInput::detectedEvent() const
 {
-    return m_inputManager.DetectedMouseWheelScrolledEvent() && m_inputManager.GetMouseWheelDelta().x > 0;
+    return m_inputManager.detectedMouseWheelScrolledEvent() && m_inputManager.getMouseWheelDelta().x > 0;
 }

@@ -3,7 +3,7 @@
 
 #include <SFML/System.hpp>
 
-void SetMacClipboardText(const sf::String& text);
-sf::String GetMacClipboardText();
+void setMacClipboardText(const sf::String& text);
+sf::String getMacClipboardText();
 
 #endif // MACCLIPBOARD_H

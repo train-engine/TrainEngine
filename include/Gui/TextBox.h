@@ -52,34 +52,31 @@ private:
     // Functions
 
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void DrawTexture();
-    bool CheckMousePosition() const;
-    void CenterText();
+    void drawTexture();
+    bool checkMousePosition() const;
+    void centerText();
 
-    void SetDisplayText(const sf::String& text);
+    void setDisplayText(const sf::String& text);
 
     // Cursor
-    void UpdateCursor();
-    void SetCursorPosition();
-    void MoveCursorRight();
-    void MoveCursorLeft();
-    void ControlCursorArrow();
-    void ControlCursorMouse();
-    void DragCursor();
+    void updateCursor();
+    void setCursorPosition();
+    void moveCursorRight();
+    void moveCursorLeft();
+    void controlCursorArrow();
+    void controlCursorMouse();
+    void dragCursor();
     // Text
-    void UpdateText();
-    static bool IsCharacterAccepted(sf::Uint32 enteredChar);
-    void SetTextPosition();
-    void AddText(sf::String enteredText);
-    void DeleteSelection();
+    void updateText();
+    static bool isCharacterAccepted(sf::Uint32 enteredChar);
+    void setTextPosition();
+    void addText(const sf::String &enteredText);
+    void deleteSelection();
     // Selection
-    void ResetSelection();
-    void SetSelectionBounds();
-    void MoveCursorToPreviousSpace();
-    void MoveCursorToNextSpace();
-
-    // Box
-    void SetTextSprite();
+    void resetSelection();
+    void setSelectionBounds();
+    void moveCursorToPreviousSpace();
+    void moveCursorToNextSpace();
 
 public:
     // Constructor and destructor
@@ -88,42 +85,42 @@ public:
     ~TextBox();
 
     // Functions
-    void Update();
-    void HandleInput();
+    void update();
+    void handleInput();
 
     // Setters
 
-    void SetMaxTextLength(unsigned int maxTextLength) { m_maxTextLength = maxTextLength; }
+    void setMaxTextLength(unsigned int maxTextLength) { m_maxTextLength = maxTextLength; }
     // Position & dimensions
-    void SetPosition(const sf::Vector2f& position);
-    void SetDimensions(const sf::Vector2f& dimensions);
-    void SetPaddingSize(const sf::Vector2i& padding);
-    void SetOutlineThickness(float outlineThickness) { m_box.setOutlineThickness(outlineThickness); }
-    void SetCharacterSize(int characterSize);
-    void SetCursorThickness(float thickness) { m_cursor.setSize(sf::Vector2f(thickness, m_cursor.getSize().y)); }
+    void setPosition(const sf::Vector2f& position);
+    void setDimensions(const sf::Vector2f& dimensions);
+    void setPaddingSize(const sf::Vector2i& padding);
+    void setOutlineThickness(float outlineThickness) { m_box.setOutlineThickness(outlineThickness); }
+    void setCharacterSize(int characterSize);
+    void setCursorThickness(float thickness) { m_cursor.setSize(sf::Vector2f(thickness, m_cursor.getSize().y)); }
     // Color
-    void SetBackgroundColor(sf::Color backgroundColor);
-    void SetOutlineColorFocused(sf::Color outlineColorFocused) { m_outlineColorFocused = outlineColorFocused; }
-    void SetOutlineColor(sf::Color outlineColor) { m_outlineColor = outlineColor; }
-    void SetTextColor(sf::Color textColor) { m_displayText.setFillColor(textColor); }
-    void SetCursorColor(sf::Color cursorColor) { m_cursor.setFillColor(cursorColor); }
-    void SetSelectionColor(sf::Color selectionColor) { m_selection.setFillColor(selectionColor); }
-    void SetBackgroundTextColor(sf::Color textColor) { m_backgroundText.setFillColor(textColor); }
+    void setBackgroundColor(sf::Color backgroundColor);
+    void setOutlineColorFocused(sf::Color outlineColorFocused) { m_outlineColorFocused = outlineColorFocused; }
+    void setOutlineColor(sf::Color outlineColor) { m_outlineColor = outlineColor; }
+    void setTextColor(sf::Color textColor) { m_displayText.setFillColor(textColor); }
+    void setCursorColor(sf::Color cursorColor) { m_cursor.setFillColor(cursorColor); }
+    void setSelectionColor(sf::Color selectionColor) { m_selection.setFillColor(selectionColor); }
+    void setBackgroundTextColor(sf::Color textColor) { m_backgroundText.setFillColor(textColor); }
     // Font
-    void SetFont(const sf::Font& font);
+    void setFont(const sf::Font& font);
 
-    void SetText(const sf::String& text);
-    void SetBackgroundText(const std::string& backgroundText) { m_backgroundText.setString(backgroundText); }
-    void SetFocus(bool hasFocus);
-    void SetReadOnly(bool isReadOnly) { m_isReadOnly = isReadOnly; }
-    void SetDigitsOnly(bool isDigitsOnly) { m_isDigitsOnly = isDigitsOnly; }
-    void SetPasswordModeEnabled(bool isPasswordModeEnabled);
+    void setText(const sf::String& text);
+    void setPlaceholderText(const std::string& backgroundText) { m_backgroundText.setString(backgroundText); }
+    void setFocus(bool hasFocus);
+    void setReadOnly(bool isReadOnly) { m_isReadOnly = isReadOnly; }
+    void setDigitsOnly(bool isDigitsOnly) { m_isDigitsOnly = isDigitsOnly; }
+    void setPasswordModeEnabled(bool isPasswordModeEnabled);
 
     // Getters
-    const sf::Vector2f& GetPosition() const { return m_box.getPosition(); }
-    const sf::Vector2f& GetDimensions() const { return m_box.getSize(); }
-    bool HasFocus() const { return m_hasFocus; }
-    sf::String GetText() const { return m_text; }
+    const sf::Vector2f& getPosition() const { return m_box.getPosition(); }
+    const sf::Vector2f& getDimensions() const { return m_box.getSize(); }
+    bool hasFocus() const { return m_hasFocus; }
+    sf::String getText() const { return m_text; }
 };
 
 #endif // TEXTBOX_H

@@ -21,28 +21,28 @@ private:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void SetTextureRect();
+    void setTextureRect();
 
 public:
     // Constructor
     AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& frameDimensions, unsigned int frameCount);
 
     // Functions
-    void Update();
-    void Play() { m_isPlaying = true; }
-    void Pause() { m_isPlaying = false; }
-    void Restart();
-    void Stop();
+    void update();
+    void play() { m_isPlaying = true; }
+    void pause() { m_isPlaying = false; }
+    void restart();
+    void stop();
 
     // Setters
-    void SetPosition(const sf::Vector2f& position);
-    void SetRotation(float angle);
-    void SetFrameDuration(float frameDuration);
-    void SetLoopingEnabled(bool isLoopingEnabled);
-    void SetFlipped(bool isFlipped);
+    void setPosition(const sf::Vector2f& position);
+    void setRotation(float angle);
+    void setFrameDuration(float frameDuration);
+    void setLoopingEnabled(bool isLoopingEnabled);
+    void setFlipped(bool isFlipped);
 
     // Getters
-    bool IsPlaying() const { return m_isPlaying; }
+    bool isPlaying() const { return m_isPlaying; }
 };
 
 #endif // ANIMATEDSPRITE_H

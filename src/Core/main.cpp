@@ -18,8 +18,8 @@ int main()
 
     GameEngine trainEngine;
 
-    trainEngine.RequestPush(new SplashScreenState(trainEngine));
-    trainEngine.GameLoop();
+    trainEngine.requestPush(new SplashScreenState(trainEngine));
+    trainEngine.startGameLoop();
 
 #if defined(SFML_SYSTEM_ANDROID)
     std::cout.rdbuf(nullptr);

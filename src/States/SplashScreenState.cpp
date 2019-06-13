@@ -4,9 +4,9 @@
 
 SplashScreenState::SplashScreenState(GameEngine& rGame)
     : State(rGame)
-    , m_splash(m_rGame.resourceManager.LoadTexture("splash", "res/images/backgrounds/engine_splash.png"))
-    , m_mask(m_rGame.resourceManager.LoadTexture("mask", "res/images/backgrounds/mask.png"))
-    , m_sound(m_rGame.resourceManager.LoadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav"))
+    , m_splash(m_rGame.resourceManager.loadTexture("splash", "res/images/backgrounds/engine_splash.png"))
+    , m_mask(m_rGame.resourceManager.loadTexture("mask", "res/images/backgrounds/mask.png"))
+    , m_sound(m_rGame.resourceManager.loadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav"))
     , m_alpha(255)
 {
     // Content settings
@@ -21,26 +21,26 @@ SplashScreenState::SplashScreenState(GameEngine& rGame)
 SplashScreenState::~SplashScreenState()
 {
     // Unload resources
-    m_rGame.resourceManager.UnloadTexture("splash");
-    m_rGame.resourceManager.UnloadTexture("mask");
-    m_rGame.resourceManager.UnloadSoundBuffer("splashScreenSound");
+    m_rGame.resourceManager.unloadTexture("splash");
+    m_rGame.resourceManager.unloadTexture("mask");
+    m_rGame.resourceManager.unloadSoundBuffer("splashScreenSound");
 }
 
-void SplashScreenState::MainMenuStart()
+void SplashScreenState::mainMenuStart()
 {
-    m_rGame.RequestSwap(new MainMenuState(m_rGame));
+    m_rGame.requestSwap(new MainMenuState(m_rGame));
 }
 
-void SplashScreenState::HandleInput()
+void SplashScreenState::handleInput()
 {
-    if (m_rGame.inputManager.DetectedKeyPressedEvent() || m_rGame.inputManager.DetectedMouseButtonReleasedEvent())
+    if (m_rGame.inputManager.detectedKeyPressedEvent() || m_rGame.inputManager.detectedMouseButtonReleasedEvent())
     {
         // Go to main menu
-        MainMenuStart();
+        mainMenuStart();
     }
 }
 
-void SplashScreenState::Update()
+void SplashScreenState::update()
 {
     if (m_alpha > 0)
     {
@@ -50,21 +50,21 @@ void SplashScreenState::Update()
     }
     else
     {
-        MainMenuStart();
+        mainMenuStart();
         return;
     }
 }
 
-void SplashScreenState::Draw(sf::RenderTarget& rTarget, float lag)
+void SplashScreenState::draw(sf::RenderTarget& rTarget, float lag)
 {
     rTarget.draw(m_mask);
     rTarget.draw(m_splash);
 }
 
-void SplashScreenState::OnWindowResize()
+void SplashScreenState::onWindowResize()
 {
-    m_splash.setPosition(GetAbsolutePosition(0.5, 0.5));
+    m_splash.setPosition(getAbsolutePosition(0.5, 0.5));
 
-    m_mask.setPosition(GetAbsolutePosition(0.5, 0.5));
-    Utility::SetSpriteScaleToFit(m_mask, GetWindowDimensions());
+    m_mask.setPosition(getAbsolutePosition(0.5, 0.5));
+    Utility::setSpriteScaleToFit(m_mask, getWindowDimensions());
 }

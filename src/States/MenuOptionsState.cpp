@@ -6,10 +6,10 @@
 
 MenuOptionsState::MenuOptionsState(GameEngine& rGame)
     : State(rGame)
-    , m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground"))
-    , m_titleText("Options", m_rGame.resourceManager.GetFont("mainFont"), 48)
-    , m_soundSliderText("Music Volume", m_rGame.resourceManager.GetFont("mainFont"), 32)
-    , m_soundSlider(m_rGame.resourceManager.GetFont("mainFont"), GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
+    , m_backgroundSprite(m_rGame.resourceManager.getTexture("menuBackground"))
+    , m_titleText("Options", m_rGame.resourceManager.getFont("mainFont"), 48)
+    , m_soundSliderText("Music Volume", m_rGame.resourceManager.getFont("mainFont"), 32)
+    , m_soundSlider(m_rGame.resourceManager.getFont("mainFont"), getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
                     sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100)
     , m_mustUpdateSoundSettings(false)
 {
@@ -25,14 +25,14 @@ MenuOptionsState::MenuOptionsState(GameEngine& rGame)
                                 m_soundSliderText.getLocalBounds().top + m_soundSliderText.getLocalBounds().height / 2);
 
     // Music settings
-    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    std::ifstream inputFile(FileManager::resourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
         bool isMuted = false;
         inputFile >> isMuted;
         unsigned int volume = 50;
         inputFile >> volume;
-        m_soundSlider.SetValue(volume);
+        m_soundSlider.setValue(volume);
         std::cout << "Successfully read sound settings.\n";
     }
     else
@@ -45,38 +45,38 @@ MenuOptionsState::~MenuOptionsState()
 {
 }
 
-void MenuOptionsState::HandleInput()
+void MenuOptionsState::handleInput()
 {
-    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        m_rGame.RequestPop();
+        m_rGame.requestPop();
         return;
     }
-    if (m_rGame.inputManager.DetectedMouseMovedEvent())
+    if (m_rGame.inputManager.detectedMouseMovedEvent())
     {
-        m_soundSlider.OnMouseHover(GetWindowMousePosition());
+        m_soundSlider.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left))
+    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
-        m_soundSlider.OnMouseClick(GetWindowMousePosition());
+        m_soundSlider.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left))
+    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
-        if (m_soundSlider.OnMouseUnclick(GetWindowMousePosition()))
+        if (m_soundSlider.onMouseUnclick(getWindowMousePosition()))
         {
             m_mustUpdateSoundSettings = true;
         }
     }
 }
 
-void MenuOptionsState::Update()
+void MenuOptionsState::update()
 {
     if (m_mustUpdateSoundSettings == true)
     {
-        std::ofstream outputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+        std::ofstream outputFile(FileManager::resourcePath() + "data/settings/sound_settings.txt");
         if (outputFile)
         {
-            if (m_soundSlider.GetValue() == 0)
+            if (m_soundSlider.getValue() == 0)
             {
                 outputFile << "1 ";
             }
@@ -84,7 +84,7 @@ void MenuOptionsState::Update()
             {
                 outputFile << "0 ";
             }
-            unsigned int volume = m_soundSlider.GetValue();
+            unsigned int volume = m_soundSlider.getValue();
             outputFile << volume;
             m_mustUpdateSoundSettings = false;
             std::cout << "Successfully wrote sound settings.\n";
@@ -96,7 +96,7 @@ void MenuOptionsState::Update()
     }
 }
 
-void MenuOptionsState::Draw(sf::RenderTarget& rTarget, float lag)
+void MenuOptionsState::draw(sf::RenderTarget& rTarget, float lag)
 {
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_titleText);
@@ -105,11 +105,11 @@ void MenuOptionsState::Draw(sf::RenderTarget& rTarget, float lag)
     rTarget.draw(m_soundSlider);
 }
 
-void MenuOptionsState::OnWindowResize()
+void MenuOptionsState::onWindowResize()
 {
-    m_backgroundSprite.setPosition(GetWindowDimensions() / 2.0f);
-    Utility::SetSpriteScaleToFill(m_backgroundSprite, GetWindowDimensions());
-    m_titleText.setPosition(GetAbsolutePosition(0.5, 0.2));
-    m_soundSlider.SetPosition(GetAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0));
-    m_soundSliderText.setPosition(m_soundSlider.GetPosition() + sf::Vector2f(-m_soundSlider.GetDimensions().x / 2 - 50, 0));
+    m_backgroundSprite.setPosition(getWindowDimensions() / 2.0f);
+    Utility::setSpriteScaleToFill(m_backgroundSprite, getWindowDimensions());
+    m_titleText.setPosition(getAbsolutePosition(0.5, 0.2));
+    m_soundSlider.setPosition(getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0));
+    m_soundSliderText.setPosition(m_soundSlider.getPosition() + sf::Vector2f(-m_soundSlider.getDimensions().x / 2 - 50, 0));
 }

@@ -35,7 +35,7 @@ private:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const;
+    void drawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const;
 
 public:
     // Constructor and destructor
@@ -43,40 +43,40 @@ public:
     ~Map();
 
     // Functions
-    void Update();
-    bool Load(const std::string& filename);
-    bool Save(const std::string& filename) const;
+    void update();
+    bool load(const std::string& filename);
+    bool save(const std::string& filename) const;
 
-    sf::Vector2u CoordsToTileIndex(const sf::Vector2f& position) const;
-    sf::Vector2f TileIndexToCoords(const sf::Vector2u& position) const;
+    sf::Vector2u coordsToTileIndex(const sf::Vector2f& position) const;
+    sf::Vector2f tileIndexToCoords(const sf::Vector2u& position) const;
 
     // Tile functions
-    void UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer);
+    void updateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer);
 
-    void AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
-    void AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer,
+    void addTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
+    void addTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer,
                       bool updateTextures = false);
-    void RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
-    void RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false);
+    void removeTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures = false);
+    void removeTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures = false);
 
-    void Resize(const sf::Vector2u& indexDimensions);
-    void Clear();
-    void ClearLayer(MapLayer layer);
+    void resize(const sf::Vector2u& indexDimensions);
+    void clear();
+    void clearLayer(MapLayer layer);
 
     // Setters
-    void SetLayerColor(sf::Color color, MapLayer layer);
-    void SetGridVisible(bool isGridVisible) { m_isGridVisible = isGridVisible; }
+    void setLayerColor(sf::Color color, MapLayer layer);
+    void setGridVisible(bool isGridVisible) { m_isGridVisible = isGridVisible; }
 
     // Getters
-    const sf::Vector2u& GetIndexDimensions() const { return m_indexDimensions; }
-    unsigned int GetLayerCount() const { return m_layerCount; }
+    const sf::Vector2u& getIndexDimensions() const { return m_indexDimensions; }
+    unsigned int getLayerCount() const { return m_layerCount; }
 
-    unsigned int GetTileSize() const { return m_tileSize; }
-    sf::Vector2u GetBounds() const;
-    bool IsNull() const;
+    unsigned int getTileSize() const { return m_tileSize; }
+    sf::Vector2u getBounds() const;
+    bool isNull() const;
 
-    const Tile* GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const;
-    Tile* GetTilePtr(const sf::Vector2u& index, MapLayer layer) const;
+    const Tile* getKTilePtr(const sf::Vector2u& index, MapLayer layer) const;
+    Tile* getTilePtr(const sf::Vector2u& index, MapLayer layer) const;
 };
 
 #endif // MAP_H

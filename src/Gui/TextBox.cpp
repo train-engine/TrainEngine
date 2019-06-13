@@ -35,12 +35,12 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
     , m_hideBoxRight(sf::TriangleStrip, 6)
 {
     // Background color
-    SetBackgroundColor(sf::Color::White);
+    setBackgroundColor(sf::Color::White);
 
     // Outline settings
-    SetOutlineThickness(1);
-    SetOutlineColor(sf::Color(90, 90, 90));
-    SetOutlineColorFocused(sf::Color(36, 109, 226));
+    setOutlineThickness(1);
+    setOutlineColor(sf::Color(90, 90, 90));
+    setOutlineColorFocused(sf::Color(36, 109, 226));
     if (m_hasFocus == true)
     {
         m_box.setOutlineColor(m_outlineColorFocused);
@@ -51,22 +51,22 @@ TextBox::TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Ve
     }
 
     // Text settings
-    SetText("");
-    SetBackgroundText("");
-    SetFont(font);
-    SetTextColor(sf::Color::Black);
-    SetBackgroundTextColor(sf::Color(90, 90, 90));
-    SetCharacterSize(30);
+    setText("");
+    setPlaceholderText("");
+    setFont(font);
+    setTextColor(sf::Color::Black);
+    setBackgroundTextColor(sf::Color(90, 90, 90));
+    setCharacterSize(30);
 
     // Cursor settings
-    SetCursorColor(sf::Color::Black);
-    SetCursorThickness(1);
+    setCursorColor(sf::Color::Black);
+    setCursorThickness(1);
 
     // Selection settings
-    SetSelectionColor(sf::Color(36, 109, 226, 150));
+    setSelectionColor(sf::Color(36, 109, 226, 150));
 
-    SetDimensions(dimensions);
-    SetPosition(m_position);
+    setDimensions(dimensions);
+    setPosition(m_position);
 
     m_renderTexture.clear();
 }
@@ -95,7 +95,7 @@ void TextBox::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     }
 }
 
-void TextBox::DrawTexture()
+void TextBox::drawTexture()
 {
     m_renderTexture.clear(sf::Color::Transparent);
     m_renderTexture.draw(m_displayText);
@@ -103,14 +103,14 @@ void TextBox::DrawTexture()
 }
 
 // Check if the mouse is inside the box
-bool TextBox::CheckMousePosition() const
+bool TextBox::checkMousePosition() const
 {
-    sf::Vector2f mousePos = static_cast<sf::Vector2f>(m_rInputManager.GetWindowMousePosition());
+    sf::Vector2f mousePos = static_cast<sf::Vector2f>(m_rInputManager.getWindowMousePosition());
     return (mousePos.x > m_box.getPosition().x && mousePos.x < m_box.getPosition().x + m_box.getSize().x &&
             mousePos.y > m_box.getPosition().y && mousePos.y < m_box.getPosition().y + m_box.getSize().y);
 }
 
-void TextBox::CenterText()
+void TextBox::centerText()
 {
     m_displayText.setPosition(m_displayText.getPosition().x,
                               std::round(m_position.y +
@@ -119,7 +119,7 @@ void TextBox::CenterText()
     m_backgroundText.setPosition(m_box.getPosition().x + m_padding.x, m_displayText.getPosition().y);
 }
 
-void TextBox::SetDisplayText(const sf::String& text)
+void TextBox::setDisplayText(const sf::String& text)
 {
     m_text = text;
     if (m_isPasswordModeEnabled == true)
@@ -137,52 +137,52 @@ void TextBox::SetDisplayText(const sf::String& text)
     }
 }
 
-void TextBox::UpdateCursor()
+void TextBox::updateCursor()
 {
     // If the left or right arrows are pressed
-    if (m_rInputManager.IsKeyDescending(sf::Keyboard::Left, true) || m_rInputManager.IsKeyDescending(sf::Keyboard::Right, true))
+    if (m_rInputManager.isKeyDescending(sf::Keyboard::Left, true) || m_rInputManager.isKeyDescending(sf::Keyboard::Right, true))
     {
-        ControlCursorArrow();
-        SetTextPosition();
-        DrawTexture();
-        SetCursorPosition();
+        controlCursorArrow();
+        setTextPosition();
+        drawTexture();
+        setCursorPosition();
         if (m_selectionStartIndex != m_cursorIndex)
         {
-            SetSelectionBounds();
+            setSelectionBounds();
         }
     }
-    if (m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) || m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
+    if (m_rInputManager.isMouseButtonHeld(sf::Mouse::Left) || m_rInputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
-        if (m_rInputManager.GetWindowMousePosition().x > m_box.getPosition().x &&
-            m_rInputManager.GetWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
+        if (m_rInputManager.getWindowMousePosition().x > m_box.getPosition().x &&
+            m_rInputManager.getWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
         {
-            if ((m_rInputManager.IsMouseButtonHeld(sf::Mouse::Left) && m_rInputManager.DetectedMouseMovedEvent()) ||
-                m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
+            if ((m_rInputManager.isMouseButtonHeld(sf::Mouse::Left) && m_rInputManager.detectedMouseMovedEvent()) ||
+                m_rInputManager.isMouseButtonDescending(sf::Mouse::Left))
             {
-                ControlCursorMouse();
+                controlCursorMouse();
             }
         }
         else
         {
-            DragCursor();
+            dragCursor();
         }
-        SetTextPosition();
-        DrawTexture();
-        SetCursorPosition();
+        setTextPosition();
+        drawTexture();
+        setCursorPosition();
         // Reset selection on mouse click
-        if (m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
+        if (m_rInputManager.isMouseButtonDescending(sf::Mouse::Left))
         {
-            ResetSelection();
+            resetSelection();
         }
         else
         {
-            SetSelectionBounds();
+            setSelectionBounds();
         }
     }
 }
 
 // Set the position of the cursor at its character position
-void TextBox::SetCursorPosition()
+void TextBox::setCursorPosition()
 {
     if (m_displayText.getString().isEmpty())
     {
@@ -194,14 +194,14 @@ void TextBox::SetCursorPosition()
     }
 }
 
-void TextBox::MoveCursorRight()
+void TextBox::moveCursorRight()
 {
     m_cursorIndex++;
     m_isCursorVisible = true;
     m_cursorTickCount = 0;
 }
 
-void TextBox::MoveCursorLeft()
+void TextBox::moveCursorLeft()
 {
     m_cursorIndex--;
     m_isCursorVisible = true;
@@ -210,13 +210,13 @@ void TextBox::MoveCursorLeft()
 
 // Control left and right arrows
 // Shift selection is supported
-void TextBox::ControlCursorArrow()
+void TextBox::controlCursorArrow()
 {
     // If left arrow key is pressed
-    if (m_rInputManager.IsKeyDescending(sf::Keyboard::Left, true))
+    if (m_rInputManager.isKeyDescending(sf::Keyboard::Left, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.isShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -233,26 +233,26 @@ void TextBox::ControlCursorArrow()
         else if (m_cursorIndex > 0)
         {
             // Modifier key
-            if (m_rInputManager.IsModifierKeyHeld())
+            if (m_rInputManager.isModifierKeyHeld())
             {
                 // Loop through text
-                MoveCursorToPreviousSpace();
+                moveCursorToPreviousSpace();
             }
             else
             {
-                MoveCursorLeft();
+                moveCursorLeft();
             }
-            if (!m_rInputManager.IsShiftKeyHeld())
+            if (!m_rInputManager.isShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
         }
     }
     // If the right arrow key is pressed
-    else if (m_rInputManager.IsKeyDescending(sf::Keyboard::Right, true))
+    else if (m_rInputManager.isKeyDescending(sf::Keyboard::Right, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.IsShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_rInputManager.isShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -269,15 +269,15 @@ void TextBox::ControlCursorArrow()
         else if (m_cursorIndex < m_displayText.getString().getSize())
         {
             // Modifier key
-            if (m_rInputManager.IsModifierKeyHeld())
+            if (m_rInputManager.isModifierKeyHeld())
             {
-                MoveCursorToNextSpace();
+                moveCursorToNextSpace();
             }
             else
             {
-                MoveCursorRight();
+                moveCursorRight();
             }
-            if (!m_rInputManager.IsShiftKeyHeld())
+            if (!m_rInputManager.isShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
@@ -286,12 +286,12 @@ void TextBox::ControlCursorArrow()
 }
 
 // Control the cursor with the mouse
-void TextBox::ControlCursorMouse()
+void TextBox::controlCursorMouse()
 {
     m_cursorTickCount = 0;
     m_isCursorVisible = true;
 
-    sf::Vector2f mousePosition = static_cast<sf::Vector2f>(m_rInputManager.GetWindowMousePosition());
+    sf::Vector2f mousePosition = static_cast<sf::Vector2f>(m_rInputManager.getWindowMousePosition());
     sf::Vector2f cursorPosition = m_cursor.getPosition();
     if (mousePosition.x >= m_displayText.getPosition().x + m_displayText.getLocalBounds().width)
     {
@@ -330,19 +330,19 @@ void TextBox::ControlCursorMouse()
     }
 }
 
-void TextBox::DragCursor()
+void TextBox::dragCursor()
 {
     float mouseDistance = 0;
-    if (m_rInputManager.GetWindowMousePosition().x <= m_box.getPosition().x)
+    if (m_rInputManager.getWindowMousePosition().x <= m_box.getPosition().x)
     {
         if (m_cursorIndex > 0)
         {
-            mouseDistance = m_rInputManager.GetWindowMousePosition().x - m_box.getPosition().x;
+            mouseDistance = m_rInputManager.getWindowMousePosition().x - m_box.getPosition().x;
         }
     }
     else if (m_cursorIndex < m_displayText.getString().getSize())
     {
-        mouseDistance = m_rInputManager.GetWindowMousePosition().x - (m_box.getSize().x + m_box.getPosition().x);
+        mouseDistance = m_rInputManager.getWindowMousePosition().x - (m_box.getSize().x + m_box.getPosition().x);
     }
 
     m_dragCursorProgress += mouseDistance / m_dragCursorSpeedDivider;
@@ -351,35 +351,35 @@ void TextBox::DragCursor()
     while (m_dragCursorProgress <= -1 && m_cursorIndex > 0)
     {
         m_dragCursorProgress++;
-        MoveCursorLeft();
+        moveCursorLeft();
         cursorMoved = true;
     }
     while (m_dragCursorProgress >= 1 && m_cursorIndex < m_displayText.getString().getSize())
     {
         m_dragCursorProgress--;
-        MoveCursorRight();
+        moveCursorRight();
         cursorMoved = true;
     }
 
     if (cursorMoved == true)
     {
-        SetTextPosition();
-        DrawTexture();
-        SetCursorPosition();
-        SetSelectionBounds();
+        setTextPosition();
+        drawTexture();
+        setCursorPosition();
+        setSelectionBounds();
     }
 }
 
-void TextBox::UpdateText()
+void TextBox::updateText()
 {
-    if (m_rInputManager.DetectedTextEnteredEvent() || m_rInputManager.IsKeyDescending(sf::Keyboard::Delete, true))
+    if (m_rInputManager.detectedTextEnteredEvent() || m_rInputManager.isKeyDescending(sf::Keyboard::Delete, true))
     {
         m_isCursorVisible = true;
         m_cursorTickCount = 0;
-        for (const auto& enteredChar : m_rInputManager.GetEnteredText())
+        for (const auto& enteredChar : m_rInputManager.getEnteredText())
         {
             // If the text entered is not an undesirable character
-            if ((m_isDigitsOnly == false && (IsCharacterAccepted(enteredChar) || // Valid char
+            if ((m_isDigitsOnly == false && (isCharacterAccepted(enteredChar) || // Valid char
                                              enteredChar == 3 || // CTRL + C
                                              enteredChar == 22 || // CTRL + V
                                              enteredChar == 24)) || // CTRL + X
@@ -400,10 +400,10 @@ void TextBox::UpdateText()
                         {
                             selectedText = m_text.substring(m_cursorIndex, m_selectionStartIndex - m_cursorIndex);
                         }
-                        m_rInputManager.SetClipboardText(selectedText);
+                        m_rInputManager.setClipboardText(selectedText);
                         if (enteredChar == 24)
                         {
-                            DeleteSelection();
+                            deleteSelection();
                             if (m_cursorIndex > m_selectionStartIndex)
                             {
                                 m_cursorIndex = m_selectionStartIndex;
@@ -413,17 +413,17 @@ void TextBox::UpdateText()
                                 m_selectionStartIndex = m_cursorIndex;
                             }
 
-                            SetSelectionBounds();
+                            setSelectionBounds();
                         }
                     }
                 }
                 else if (enteredChar == 22) // CTRL + V
                 {
                     // Add all clipboard characters
-                    for (const auto& clipboardChar : m_rInputManager.GetClipboardText())
+                    for (const auto& clipboardChar : m_rInputManager.getClipboardText())
                     {
                         sf::String pastedText;
-                        if (IsCharacterAccepted(clipboardChar) || clipboardChar == '\n')
+                        if (isCharacterAccepted(clipboardChar) || clipboardChar == '\n')
                         {
                             if (clipboardChar == '\n')
                             {
@@ -433,7 +433,7 @@ void TextBox::UpdateText()
                             {
                                 pastedText += clipboardChar;
                             }
-                            AddText(pastedText);
+                            addText(pastedText);
                             m_selectionStartIndex = m_cursorIndex;
                         }
                     }
@@ -444,7 +444,7 @@ void TextBox::UpdateText()
                     if (m_selectionStartIndex != m_cursorIndex && enteredChar != 3 && enteredChar != 24)
                     {
                         // Delete the selection before adding a character
-                        DeleteSelection();
+                        deleteSelection();
 
                         if (m_cursorIndex > m_selectionStartIndex)
                         {
@@ -455,21 +455,21 @@ void TextBox::UpdateText()
                             m_selectionStartIndex = m_cursorIndex;
                         }
 
-                        SetSelectionBounds();
+                        setSelectionBounds();
                     }
-                    AddText(enteredChar);
+                    addText(enteredChar);
                     if (m_textCanExceedBox == false &&
                         m_displayText.getLocalBounds().left + m_displayText.getLocalBounds().width > m_box.getSize().x - m_padding.x * 2)
                     {
                         sf::String text = m_displayText.getString();
                         text.erase(m_cursorIndex - 1);
                         m_cursorIndex--;
-                        SetDisplayText(text);
+                        setDisplayText(text);
                     }
                 }
-                SetTextPosition();
-                DrawTexture();
-                SetCursorPosition();
+                setTextPosition();
+                drawTexture();
+                setCursorPosition();
                 if (enteredChar != 3)
                 {
                     m_selectionStartIndex = m_cursorIndex;
@@ -480,22 +480,22 @@ void TextBox::UpdateText()
             {
                 if (m_displayText.getString().getSize() > 0)
                 {
-                    if (m_rInputManager.IsModifierKeyHeld())
+                    if (m_rInputManager.isModifierKeyHeld())
                     {
                         // If CTRL + backspace, delete whole section
                         if (enteredChar == '\b')
                         {
-                            MoveCursorToPreviousSpace();
+                            moveCursorToPreviousSpace();
                         }
                         else
                         {
-                            MoveCursorToNextSpace();
+                            moveCursorToNextSpace();
                         }
                     }
                     // If there is a selection
                     if (m_selectionStartIndex != m_cursorIndex)
                     {
-                        DeleteSelection();
+                        deleteSelection();
 
                         if (m_cursorIndex > m_selectionStartIndex)
                         {
@@ -506,7 +506,7 @@ void TextBox::UpdateText()
                             m_selectionStartIndex = m_cursorIndex;
                         }
 
-                        SetSelectionBounds();
+                        setSelectionBounds();
                     }
                     else
                     {
@@ -515,28 +515,28 @@ void TextBox::UpdateText()
                         {
                             if (m_cursorIndex > 0)
                             {
-                                if (m_rInputManager.IsShiftKeyHeld())
+                                if (m_rInputManager.isShiftKeyHeld())
                                 {
                                     m_cursorIndex = 0;
-                                    DeleteSelection();
+                                    deleteSelection();
                                 }
                                 else
                                 {
                                     text.erase(m_cursorIndex - 1);
                                     m_cursorIndex--;
-                                    SetDisplayText(text);
+                                    setDisplayText(text);
                                 }
                             }
                         }
                         else if (enteredChar == 127)
                         {
-                            MoveCursorToPreviousSpace();
-                            DeleteSelection();
+                            moveCursorToPreviousSpace();
+                            deleteSelection();
                         }
                     }
-                    SetTextPosition();
-                    DrawTexture();
-                    SetCursorPosition();
+                    setTextPosition();
+                    drawTexture();
+                    setCursorPosition();
                 }
                 m_selectionStartIndex = m_cursorIndex;
             }
@@ -544,44 +544,44 @@ void TextBox::UpdateText()
             {
                 m_selectionStartIndex = 0;
                 m_cursorIndex = static_cast<unsigned int>(m_displayText.getString().getSize());
-                SetTextPosition();
-                DrawTexture();
-                SetSelectionBounds();
-                SetCursorPosition();
+                setTextPosition();
+                drawTexture();
+                setSelectionBounds();
+                setCursorPosition();
             }
         }
-        if (m_rInputManager.IsKeyDescending(sf::Keyboard::Delete, true))
+        if (m_rInputManager.isKeyDescending(sf::Keyboard::Delete, true))
         {
             if (m_cursorIndex < m_displayText.getString().getSize())
             {
                 sf::String text = m_displayText.getString();
-                if (m_rInputManager.IsModifierKeyHeld())
+                if (m_rInputManager.isModifierKeyHeld())
                 {
-                    MoveCursorToNextSpace();
-                    DeleteSelection();
+                    moveCursorToNextSpace();
+                    deleteSelection();
                     m_selectionStartIndex = m_cursorIndex;
-                    SetTextPosition();
-                    SetCursorPosition();
+                    setTextPosition();
+                    setCursorPosition();
                 }
                 else
                 {
                     text.erase(m_cursorIndex);
-                    SetDisplayText(text);
-                    SetTextPosition();
+                    setDisplayText(text);
+                    setTextPosition();
                 }
-                DrawTexture();
+                drawTexture();
             }
         }
     }
 }
 
-bool TextBox::IsCharacterAccepted(sf::Uint32 enteredChar)
+bool TextBox::isCharacterAccepted(sf::Uint32 enteredChar)
 {
     return ((enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160);
 }
 
 // Set the position of the text
-void TextBox::SetTextPosition()
+void TextBox::setTextPosition()
 {
     // If the text is bigger than the box
     if (m_displayText.getLocalBounds().left + m_displayText.getLocalBounds().width >= m_box.getSize().x - 2 * m_padding.x)
@@ -616,7 +616,7 @@ void TextBox::SetTextPosition()
     }
 }
 
-void TextBox::AddText(sf::String enteredText)
+void TextBox::addText(const sf::String& enteredText)
 {
     // Check if text is too big
     if (m_displayText.getString().getSize() < m_maxTextLength || m_maxTextLength == 0)
@@ -636,12 +636,12 @@ void TextBox::AddText(sf::String enteredText)
             }
         }
         text.insert(m_cursorIndex, enteredText);
-        SetDisplayText(text);
+        setDisplayText(text);
         m_cursorIndex++;
     }
 }
 
-void TextBox::DeleteSelection()
+void TextBox::deleteSelection()
 {
     sf::String text = m_displayText.getString();
     if (m_cursorIndex < m_selectionStartIndex)
@@ -653,20 +653,20 @@ void TextBox::DeleteSelection()
         text.erase(m_selectionStartIndex, m_cursorIndex - m_selectionStartIndex);
         m_cursorIndex -= (m_cursorIndex - m_selectionStartIndex);
     }
-    SetText(text);
+    setText(text);
 }
 
-void TextBox::ResetSelection()
+void TextBox::resetSelection()
 {
     m_selectionStartIndex = m_cursorIndex;
     if (m_selection.getSize().x > 0)
     {
-        SetSelectionBounds();
+        setSelectionBounds();
     }
 }
 
 // Set the position and size of the selection box
-void TextBox::SetSelectionBounds()
+void TextBox::setSelectionBounds()
 {
     sf::Vector2f position = sf::Vector2f(m_displayText.findCharacterPos(m_selectionStartIndex).x, m_selection.getPosition().y);
     sf::Vector2f dimensions =
@@ -692,12 +692,12 @@ void TextBox::SetSelectionBounds()
     m_selection.setSize(dimensions);
 }
 
-void TextBox::MoveCursorToPreviousSpace()
+void TextBox::moveCursorToPreviousSpace()
 {
     while (m_cursorIndex > 0)
     {
         // Move cursor
-        MoveCursorLeft();
+        moveCursorLeft();
         // Until there is a space
         if (m_cursorIndex > 1 && m_displayText.getString()[m_cursorIndex - 1] == ' ')
         {
@@ -706,12 +706,12 @@ void TextBox::MoveCursorToPreviousSpace()
     }
 }
 
-void TextBox::MoveCursorToNextSpace()
+void TextBox::moveCursorToNextSpace()
 {
     while (m_cursorIndex < m_displayText.getString().getSize())
     {
         // Move the cursor
-        MoveCursorRight();
+        moveCursorRight();
         // Until there is a space
         if (m_cursorIndex < m_displayText.getString().getSize() && m_displayText.getString()[m_cursorIndex] == ' ')
         {
@@ -720,7 +720,7 @@ void TextBox::MoveCursorToNextSpace()
     }
 }
 
-void TextBox::Update()
+void TextBox::update()
 {
     if (m_isReadOnly == false)
     {
@@ -734,59 +734,59 @@ void TextBox::Update()
     }
 }
 
-void TextBox::HandleInput()
+void TextBox::handleInput()
 {
     if (m_isReadOnly == false)
     {
         if (m_hasFocus == true)
         {
-            UpdateText();
-            UpdateCursor();
+            updateText();
+            updateCursor();
         }
 
         // Check if there is a mouse press
-        if (m_rInputManager.IsMouseButtonDescending(sf::Mouse::Left))
+        if (m_rInputManager.isMouseButtonDescending(sf::Mouse::Left))
         {
-            bool isMouseInsideBox = CheckMousePosition();
+            bool isMouseInsideBox = checkMousePosition();
             if (isMouseInsideBox == true && m_hasFocus == false)
             {
                 m_hasFocus = true;
-                ControlCursorMouse();
-                SetCursorPosition();
+                controlCursorMouse();
+                setCursorPosition();
                 m_box.setOutlineColor(m_outlineColorFocused);
-                ResetSelection();
+                resetSelection();
             }
             else if (isMouseInsideBox == false && m_hasFocus == true)
             {
                 m_hasFocus = false;
                 m_box.setOutlineColor(m_outlineColor);
-                ResetSelection();
+                resetSelection();
             }
         }
 
         // Check if the window lost focus
-        if (m_rInputManager.DetectedLostFocusEvent())
+        if (m_rInputManager.detectedLostFocusEvent())
         {
             m_hasFocus = false;
             m_box.setOutlineColor(m_outlineColor);
-            ResetSelection();
+            resetSelection();
         }
     }
 }
 
-void TextBox::SetPosition(const sf::Vector2f& position)
+void TextBox::setPosition(const sf::Vector2f& position)
 {
     m_position = position;
     m_box.setPosition(position);
-    CenterText();
+    centerText();
     m_cursor.setPosition(position.x + m_padding.x, m_displayText.getPosition().y);
     m_selection.setPosition({position.x, m_cursor.getPosition().y});
     m_renderTexture.setView(sf::View(sf::FloatRect(position.x, position.y, m_box.getSize().x, m_box.getSize().y)));
     m_renderSprite.setPosition(position);
-    SetPaddingSize(m_padding);
+    setPaddingSize(m_padding);
 }
 
-void TextBox::SetDimensions(const sf::Vector2f& dimensions)
+void TextBox::setDimensions(const sf::Vector2f& dimensions)
 {
     if (dimensions.x == 0 || dimensions.y == 0)
     {
@@ -794,18 +794,18 @@ void TextBox::SetDimensions(const sf::Vector2f& dimensions)
     }
 
     m_box.setSize(dimensions);
-    CenterText();
+    centerText();
     m_cursor.setPosition(m_position.x + m_padding.x, m_displayText.getPosition().y);
     m_selection.setPosition({m_box.getPosition().x, m_cursor.getPosition().y});
-    SetPaddingSize(m_padding);
+    setPaddingSize(m_padding);
     m_renderTexture.create(dimensions.x, dimensions.y);
     m_renderTexture.setView(sf::View(sf::FloatRect(m_box.getPosition().x, m_box.getPosition().y, dimensions.x, dimensions.y)));
     m_renderSprite.setTexture(m_renderTexture.getTexture(), true);
-    SetPaddingSize(m_padding);
-    DrawTexture();
+    setPaddingSize(m_padding);
+    drawTexture();
 }
 
-void TextBox::SetPaddingSize(const sf::Vector2i& padding)
+void TextBox::setPaddingSize(const sf::Vector2i& padding)
 {
     m_padding = padding;
     m_hideBoxLeft[0].position = m_position;
@@ -823,16 +823,16 @@ void TextBox::SetPaddingSize(const sf::Vector2i& padding)
     m_hideBoxRight[5].position = m_position + sf::Vector2f(m_box.getSize().x - (m_padding.x), m_box.getSize().y);
 }
 
-void TextBox::SetCharacterSize(int characterSize)
+void TextBox::setCharacterSize(int characterSize)
 {
     m_displayText.setCharacterSize(characterSize);
     m_backgroundText.setCharacterSize(characterSize);
     m_cursor.setSize(sf::Vector2f(m_cursor.getSize().x, m_displayText.getFont()->getLineSpacing(m_displayText.getCharacterSize())));
     m_selection.setSize({m_selection.getSize().x, m_cursor.getSize().y});
-    CenterText();
+    centerText();
 }
 
-void TextBox::SetBackgroundColor(sf::Color backgroundColor)
+void TextBox::setBackgroundColor(sf::Color backgroundColor)
 {
     m_box.setFillColor(backgroundColor);
     sf::Color boxColorFade = backgroundColor;
@@ -852,23 +852,23 @@ void TextBox::SetBackgroundColor(sf::Color backgroundColor)
     m_hideBoxRight[5].color = boxColorFade;
 }
 
-void TextBox::SetFont(const sf::Font& font)
+void TextBox::setFont(const sf::Font& font)
 {
     m_displayText.setFont(font);
     m_backgroundText.setFont(font);
-    CenterText();
+    centerText();
 }
 
-void TextBox::SetText(const sf::String& text)
+void TextBox::setText(const sf::String& text)
 {
-    SetDisplayText(text);
-    SetTextPosition();
+    setDisplayText(text);
+    setTextPosition();
     m_selectionStartIndex = m_cursorIndex;
-    SetCursorPosition();
-    DrawTexture();
+    setCursorPosition();
+    drawTexture();
 }
 
-void TextBox::SetFocus(bool hasFocus)
+void TextBox::setFocus(bool hasFocus)
 {
     if (m_hasFocus != hasFocus)
     {
@@ -884,8 +884,8 @@ void TextBox::SetFocus(bool hasFocus)
     }
 }
 
-void TextBox::SetPasswordModeEnabled(bool isPasswordModeEnabled)
+void TextBox::setPasswordModeEnabled(bool isPasswordModeEnabled)
 {
     m_isPasswordModeEnabled = isPasswordModeEnabled;
-    SetDisplayText(m_text);
+    setDisplayText(m_text);
 }

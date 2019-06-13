@@ -2,7 +2,7 @@
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
 
-void SetMacClipboardText(const sf::String& text)
+void setMacClipboardText(const sf::String& text)
 {
     NSPasteboard* pb = [NSPasteboard generalPasteboard];
     [pb clearContents];
@@ -15,7 +15,7 @@ void SetMacClipboardText(const sf::String& text)
     [pbData release];
 }
 
-sf::String GetMacClipboardText()
+sf::String getMacClipboardText()
 {
     NSPasteboard* pb = [NSPasteboard generalPasteboard];
     NSString* pbData = [pb stringForType:NSPasteboardTypeString];

@@ -14,15 +14,15 @@ InteractiveGui::InteractiveGui()
 // GuiRectButton
 
 GuiRectButton::GuiRectButton(const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions, float borderThickness,
-                             int textPadding, const std::string& text, GuiStyle style)
+                             float textPadding, const std::string& text, GuiStyle style)
     : m_borderThickness(borderThickness)
     , m_textPadding(textPadding)
 {
-    SetStyle(style);
-    SetFont(font);
-    SetText(text);
-    SetDimensions(dimensions);
-    SetPosition(position);
+    setStyle(style);
+    setFont(font);
+    setText(text);
+    setDimensions(dimensions);
+    setPosition(position);
     m_shape.setOutlineThickness(m_borderThickness);
     m_shape.setFillColor(m_bodyColor);
     m_shape.setOutlineColor(m_borderColor);
@@ -35,33 +35,33 @@ void GuiRectButton::draw(sf::RenderTarget& rTarget, sf::RenderStates states) con
     rTarget.draw(m_text, states);
 }
 
-bool GuiRectButton::CheckMousePosition(const sf::Vector2f& mousePosition) const
+bool GuiRectButton::checkMousePosition(const sf::Vector2f& mousePosition) const
 {
     return (mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
             mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2);
 }
 
-bool GuiRectButton::OnMouseHover(const sf::Vector2f& mousePosition)
+bool GuiRectButton::onMouseHover(const sf::Vector2f& mousePosition)
 {
-    if (CheckMousePosition(mousePosition) == true)
+    if (checkMousePosition(mousePosition) == true)
     {
         if (m_isClicked == false)
         {
-            SetState(GuiState::Hovered);
+            setState(GuiState::Hovered);
         }
         return true;
     }
 
-    SetState(GuiState::Normal);
+    setState(GuiState::Normal);
     m_isClicked = false;
     return false;
 }
 
-bool GuiRectButton::OnMouseClick(const sf::Vector2f& mousePosition)
+bool GuiRectButton::onMouseClick(const sf::Vector2f& mousePosition)
 {
-    if (CheckMousePosition(mousePosition) == true)
+    if (checkMousePosition(mousePosition) == true)
     {
-        SetState(GuiState::Clicked);
+        setState(GuiState::Clicked);
         m_isClicked = true;
         return true;
     }
@@ -69,11 +69,11 @@ bool GuiRectButton::OnMouseClick(const sf::Vector2f& mousePosition)
     return false;
 }
 
-bool GuiRectButton::OnMouseUnclick(const sf::Vector2f& mousePosition)
+bool GuiRectButton::onMouseUnclick(const sf::Vector2f& mousePosition)
 {
-    if (CheckMousePosition(mousePosition) == true && m_isClicked == true)
+    if (checkMousePosition(mousePosition) == true && m_isClicked == true)
     {
-        SetState(GuiState::Hovered);
+        setState(GuiState::Hovered);
         m_isClicked = false;
         return true;
     }
@@ -81,14 +81,14 @@ bool GuiRectButton::OnMouseUnclick(const sf::Vector2f& mousePosition)
     return false;
 }
 
-void GuiRectButton::SetPosition(const sf::Vector2f& position)
+void GuiRectButton::setPosition(const sf::Vector2f& position)
 {
     m_position = position;
     m_shape.setPosition(m_position);
     m_text.setPosition(m_position);
 }
 
-void GuiRectButton::SetDimensions(const sf::Vector2f& dimensions)
+void GuiRectButton::setDimensions(const sf::Vector2f& dimensions)
 {
     m_dimensions = dimensions;
     m_shape.setSize(m_dimensions);
@@ -98,7 +98,7 @@ void GuiRectButton::SetDimensions(const sf::Vector2f& dimensions)
                      m_text.getFont()->getLineSpacing(m_text.getCharacterSize()) / 2);
 }
 
-void GuiRectButton::SetStyle(GuiStyle style)
+void GuiRectButton::setStyle(GuiStyle style)
 {
     m_style = style;
     switch (m_style)
@@ -151,7 +151,7 @@ void GuiRectButton::SetStyle(GuiStyle style)
     }
 }
 
-void GuiRectButton::SetState(GuiState state)
+void GuiRectButton::setState(GuiState state)
 {
     if (m_state != state)
     {
@@ -177,7 +177,7 @@ void GuiRectButton::SetState(GuiState state)
     }
 }
 
-void GuiRectButton::SetText(const std::string& text)
+void GuiRectButton::setText(const std::string& text)
 {
     m_text.setString(text);
     m_text.setOrigin(m_text.getLocalBounds().left + m_text.getLocalBounds().width / 2,
@@ -195,11 +195,11 @@ GuiRectSoundButton::GuiRectSoundButton(const sf::Font& font, const sf::SoundBuff
 {
 }
 
-void GuiRectSoundButton::SetState(GuiState state)
+void GuiRectSoundButton::setState(GuiState state)
 {
     if (m_state != state)
     {
-        GuiRectButton::SetState(state);
+        GuiRectButton::setState(state);
         switch (m_state)
         {
         case GuiState::Hovered:
@@ -219,8 +219,8 @@ GuiSpriteButton::GuiSpriteButton(const sf::Texture& texture, const sf::Texture& 
     , m_textureHovered(textureHovered)
     , m_textureClicked(textureClicked)
 {
-    SetDimensions(dimensions);
-    SetPosition(position);
+    setDimensions(dimensions);
+    setPosition(position);
     m_shape.setTexture(&m_texture);
 }
 
@@ -229,33 +229,33 @@ void GuiSpriteButton::draw(sf::RenderTarget& rTarget, sf::RenderStates states) c
     rTarget.draw(m_shape, states);
 }
 
-bool GuiSpriteButton::CheckMousePosition(const sf::Vector2f& mousePosition) const // REPETITIVE
+bool GuiSpriteButton::checkMousePosition(const sf::Vector2f& mousePosition) const // REPETITIVE
 {
     return (mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
             mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2);
 }
 
-bool GuiSpriteButton::OnMouseHover(const sf::Vector2f& mousePosition) // REPETITIVE
+bool GuiSpriteButton::onMouseHover(const sf::Vector2f& mousePosition) // REPETITIVE
 {
-    if (CheckMousePosition(mousePosition) == true)
+    if (checkMousePosition(mousePosition) == true)
     {
         if (m_isClicked == false)
         {
-            SetState(GuiState::Hovered);
+            setState(GuiState::Hovered);
         }
         return true;
     }
 
-    SetState(GuiState::Normal);
+    setState(GuiState::Normal);
     m_isClicked = false;
     return false;
 }
 
-bool GuiSpriteButton::OnMouseClick(const sf::Vector2f& mousePosition) // REPETITIVE
+bool GuiSpriteButton::onMouseClick(const sf::Vector2f& mousePosition) // REPETITIVE
 {
-    if (CheckMousePosition(mousePosition) == true)
+    if (checkMousePosition(mousePosition) == true)
     {
-        SetState(GuiState::Clicked);
+        setState(GuiState::Clicked);
         m_isClicked = true;
         return true;
     }
@@ -263,11 +263,11 @@ bool GuiSpriteButton::OnMouseClick(const sf::Vector2f& mousePosition) // REPETIT
     return false;
 }
 
-bool GuiSpriteButton::OnMouseUnclick(const sf::Vector2f& mousePosition) // REPETITIVE
+bool GuiSpriteButton::onMouseUnclick(const sf::Vector2f& mousePosition) // REPETITIVE
 {
-    if (CheckMousePosition(mousePosition) == true && m_isClicked == true)
+    if (checkMousePosition(mousePosition) == true && m_isClicked == true)
     {
-        SetState(GuiState::Hovered);
+        setState(GuiState::Hovered);
         m_isClicked = false;
         return true;
     }
@@ -275,20 +275,20 @@ bool GuiSpriteButton::OnMouseUnclick(const sf::Vector2f& mousePosition) // REPET
     return false;
 }
 
-void GuiSpriteButton::SetPosition(const sf::Vector2f& position) // REPETITIVE
+void GuiSpriteButton::setPosition(const sf::Vector2f& position) // REPETITIVE
 {
     m_position = position;
     m_shape.setPosition(m_position);
 }
 
-void GuiSpriteButton::SetDimensions(const sf::Vector2f& dimensions) // REPETITIVE
+void GuiSpriteButton::setDimensions(const sf::Vector2f& dimensions) // REPETITIVE
 {
     m_dimensions = dimensions;
     m_shape.setSize(m_dimensions);
     m_shape.setOrigin(m_dimensions / 2.0f);
 }
 
-void GuiSpriteButton::SetState(GuiState state)
+void GuiSpriteButton::setState(GuiState state)
 {
     if (m_state != state)
     {
@@ -315,9 +315,9 @@ GuiScrollbar::GuiScrollbar(const sf::Vector2f& position, const sf::Vector2f& dim
     : m_borderThickness(borderThickness)
     , m_value(value)
 {
-    SetStyle(style);
-    SetDimensions(dimensions, sliderWidth);
-    SetPosition(position);
+    setStyle(style);
+    setDimensions(dimensions, sliderWidth);
+    setPosition(position);
     m_shape.setOutlineThickness(m_borderThickness);
     m_shape.setFillColor(m_bodyColor);
     m_shape.setOutlineColor(m_borderColor);
@@ -330,7 +330,7 @@ void GuiScrollbar::draw(sf::RenderTarget& rTarget, sf::RenderStates states) cons
     rTarget.draw(m_slider, states);
 }
 
-bool GuiScrollbar::CheckMousePosition(const sf::Vector2f& mousePosition) const
+bool GuiScrollbar::checkMousePosition(const sf::Vector2f& mousePosition) const
 {
     return (mousePosition.x >= m_position.x - m_dimensions.x / 2 - m_borderThickness &&
             mousePosition.x <= m_position.x + m_dimensions.x / 2 + m_borderThickness &&
@@ -338,7 +338,7 @@ bool GuiScrollbar::CheckMousePosition(const sf::Vector2f& mousePosition) const
             mousePosition.y <= m_position.y + m_dimensions.y / 2 + m_borderThickness);
 }
 
-bool GuiScrollbar::CheckMousePositionOnSlider(const sf::Vector2f& mousePosition) const
+bool GuiScrollbar::checkMousePositionOnSlider(const sf::Vector2f& mousePosition) const
 {
     return (mousePosition.x >= m_sliderPosition.x - m_sliderDimensions.x / 2 &&
             mousePosition.x <= m_sliderPosition.x + m_sliderDimensions.x / 2 &&
@@ -346,7 +346,7 @@ bool GuiScrollbar::CheckMousePositionOnSlider(const sf::Vector2f& mousePosition)
             mousePosition.y <= m_sliderPosition.y + m_sliderDimensions.y / 2);
 }
 
-void GuiScrollbar::MoveSlider(const sf::Vector2f& position)
+void GuiScrollbar::moveSlider(const sf::Vector2f& position)
 {
     if (m_isVertical)
     {
@@ -355,7 +355,7 @@ void GuiScrollbar::MoveSlider(const sf::Vector2f& position)
         {
             m_sliderPosition.y = position.y;
 
-            CheckSliderCollision();
+            checkSliderCollision();
 
             // m_dimensions.y - m_sliderDimensions.y + m_borderThickness * 2 : width the slider can travel
             m_value = (m_sliderPosition.y - m_sliderDimensions.y / 2 - m_position.y + m_dimensions.y / 2 + m_borderThickness) /
@@ -369,7 +369,7 @@ void GuiScrollbar::MoveSlider(const sf::Vector2f& position)
         {
             m_sliderPosition.x = position.x;
 
-            CheckSliderCollision();
+            checkSliderCollision();
 
             // m_dimensions.x - m_sliderDimensions.x + m_borderThickness * 2 : width the slider can travel
             m_value = (m_sliderPosition.x - m_sliderDimensions.x / 2 - m_position.x + m_dimensions.x / 2 + m_borderThickness) /
@@ -378,7 +378,7 @@ void GuiScrollbar::MoveSlider(const sf::Vector2f& position)
     }
 }
 
-void GuiScrollbar::CheckSliderCollision()
+void GuiScrollbar::checkSliderCollision()
 {
     if (m_isVertical)
     {
@@ -408,50 +408,50 @@ void GuiScrollbar::CheckSliderCollision()
     m_slider.setPosition(m_sliderPosition);
 }
 
-bool GuiScrollbar::OnMouseHover(const sf::Vector2f& mousePosition)
+bool GuiScrollbar::onMouseHover(const sf::Vector2f& mousePosition)
 {
     if (m_isClicked == true)
     {
-        MoveSlider(mousePosition);
+        moveSlider(mousePosition);
         return true;
     }
 
     // If m_isClicked is false
-    if (CheckMousePositionOnSlider(mousePosition) == true)
+    if (checkMousePositionOnSlider(mousePosition) == true)
     {
-        SetState(GuiState::Hovered);
+        setState(GuiState::Hovered);
         return true;
     }
 
-    SetState(GuiState::Normal);
+    setState(GuiState::Normal);
     m_isClicked = false;
     return false;
 }
 
-bool GuiScrollbar::OnMouseClick(const sf::Vector2f& mousePosition)
+bool GuiScrollbar::onMouseClick(const sf::Vector2f& mousePosition)
 {
-    if (CheckMousePosition(mousePosition) == true)
+    if (checkMousePosition(mousePosition) == true)
     {
-        SetState(GuiState::Clicked);
+        setState(GuiState::Clicked);
         m_isClicked = true;
-        MoveSlider(mousePosition);
+        moveSlider(mousePosition);
         return true;
     }
 
     return false;
 }
 
-bool GuiScrollbar::OnMouseUnclick(const sf::Vector2f& mousePosition)
+bool GuiScrollbar::onMouseUnclick(const sf::Vector2f& mousePosition)
 {
     if (m_isClicked == true)
     {
-        if (CheckMousePosition(mousePosition) == true)
+        if (checkMousePosition(mousePosition) == true)
         {
-            SetState(GuiState::Hovered);
+            setState(GuiState::Hovered);
         }
         else
         {
-            SetState(GuiState::Normal);
+            setState(GuiState::Normal);
         }
         m_isClicked = false;
         return true;
@@ -460,20 +460,20 @@ bool GuiScrollbar::OnMouseUnclick(const sf::Vector2f& mousePosition)
     return false;
 }
 
-bool GuiScrollbar::OnMouseScroll(float scrollAmount)
+bool GuiScrollbar::onMouseScroll(float scrollAmount)
 {
     if (scrollAmount != 0)
     {
         if (m_isVertical)
         {
             // Move slider relative to current position, taller sliders move more than shorter ones
-            MoveSlider(
+            moveSlider(
                 sf::Vector2f(0, m_sliderPosition.y - 40 * scrollAmount * m_sliderDimensions.y / (m_dimensions.y - m_borderThickness * 2)));
         }
         else
         {
             // Move slider relative to current position, wider sliders move more than thinner ones
-            MoveSlider(
+            moveSlider(
                 sf::Vector2f(m_sliderPosition.x - 40 * scrollAmount * m_sliderDimensions.x / (m_dimensions.x - m_borderThickness * 2), 0));
         }
 
@@ -483,7 +483,7 @@ bool GuiScrollbar::OnMouseScroll(float scrollAmount)
     return false;
 }
 
-void GuiScrollbar::SetPosition(const sf::Vector2f& position)
+void GuiScrollbar::setPosition(const sf::Vector2f& position)
 {
     m_position = position;
     m_shape.setPosition(m_position);
@@ -502,7 +502,7 @@ void GuiScrollbar::SetPosition(const sf::Vector2f& position)
     m_slider.setPosition(m_sliderPosition);
 }
 
-void GuiScrollbar::SetDimensions(const sf::Vector2f& dimensions, float sliderWidth)
+void GuiScrollbar::setDimensions(const sf::Vector2f& dimensions, float sliderWidth)
 {
     m_dimensions = dimensions;
     m_shape.setSize(m_dimensions);
@@ -517,10 +517,10 @@ void GuiScrollbar::SetDimensions(const sf::Vector2f& dimensions, float sliderWid
         m_isVertical = false;
     }
 
-    SetSliderWidth(sliderWidth);
+    setSliderWidth(sliderWidth);
 }
 
-void GuiScrollbar::SetSliderWidth(float sliderWidth)
+void GuiScrollbar::setSliderWidth(float sliderWidth)
 {
     if (m_isVertical == true)
     {
@@ -542,7 +542,7 @@ void GuiScrollbar::SetSliderWidth(float sliderWidth)
     m_slider.setOrigin(m_sliderDimensions / 2.0f);
 }
 
-void GuiScrollbar::SetStyle(GuiStyle style)
+void GuiScrollbar::setStyle(GuiStyle style)
 {
     m_style = style;
     switch (m_style)
@@ -575,7 +575,7 @@ void GuiScrollbar::SetStyle(GuiStyle style)
     }
 }
 
-void GuiScrollbar::SetState(GuiState state)
+void GuiScrollbar::setState(GuiState state)
 {
     if (m_state != state)
     {
@@ -595,7 +595,7 @@ void GuiScrollbar::SetState(GuiState state)
     }
 }
 
-void GuiScrollbar::SetValue(double value)
+void GuiScrollbar::setValue(double value)
 {
     if (value > 1.0)
     {
@@ -616,7 +616,7 @@ void GuiScrollbar::SetValue(double value)
                              (m_dimensions.x - m_sliderDimensions.x + m_borderThickness * 2) * m_value;
     }
 
-    CheckSliderCollision();
+    checkSliderCollision();
 }
 
 // GuiSlider
@@ -626,10 +626,10 @@ GuiSlider::GuiSlider(const sf::Vector2f& position, const sf::Vector2f& dimension
     : GuiScrollbar(position, dimensions, style, sliderWidth, borderThickness)
     , m_maxValue(maxValue)
 {
-    SetValue(value);
+    setValue(value);
 }
 
-void GuiSlider::MoveSlider(const sf::Vector2f& position)
+void GuiSlider::moveSlider(const sf::Vector2f& position)
 {
     if (m_isVertical == true)
     {
@@ -641,7 +641,7 @@ void GuiSlider::MoveSlider(const sf::Vector2f& position)
                 std::round((position.y - (m_position.y - m_dimensions.y / 2 - m_borderThickness + m_sliderDimensions.y / 2)) /
                            ((m_dimensions.y + 2 * m_borderThickness - m_sliderDimensions.y) / m_maxValue));
 
-        CheckSliderCollision();
+        checkSliderCollision();
 
         // m_dimensions.y - m_sliderDimensions.y + m_borderThickness * 2 : width the slider can travel
         m_value = (m_sliderPosition.y - m_sliderDimensions.y / 2 - m_position.y + m_dimensions.y / 2 + m_borderThickness) /
@@ -657,7 +657,7 @@ void GuiSlider::MoveSlider(const sf::Vector2f& position)
                 std::round((position.x - (m_position.x - m_dimensions.x / 2 - m_borderThickness + m_sliderDimensions.x / 2)) /
                            ((m_dimensions.x + 2 * m_borderThickness - m_sliderDimensions.x) / m_maxValue));
 
-        CheckSliderCollision();
+        checkSliderCollision();
 
         // m_dimensions.x - m_sliderDimensions.x + m_borderThickness * 2 : width the slider can travel
         m_value = (m_sliderPosition.x - m_sliderDimensions.x / 2 - m_position.x + m_dimensions.x / 2 + m_borderThickness) /
@@ -665,7 +665,7 @@ void GuiSlider::MoveSlider(const sf::Vector2f& position)
     }
 }
 
-void GuiSlider::SetPosition(const sf::Vector2f& position)
+void GuiSlider::setPosition(const sf::Vector2f& position)
 {
     m_position = position;
     m_shape.setPosition(position);
@@ -686,7 +686,7 @@ void GuiSlider::SetPosition(const sf::Vector2f& position)
     m_slider.setPosition(m_sliderPosition);
 }
 
-void GuiSlider::SetValue(double value)
+void GuiSlider::setValue(double value)
 {
     if (value > m_maxValue)
     {
@@ -707,7 +707,7 @@ void GuiSlider::SetValue(double value)
                              ((m_dimensions.x + 2 * m_borderThickness - m_sliderDimensions.x) / m_maxValue) * m_value;
     }
 
-    CheckSliderCollision();
+    checkSliderCollision();
     m_slider.setPosition(m_sliderPosition);
 }
 
@@ -719,8 +719,8 @@ GuiTextSlider::GuiTextSlider(const sf::Font& font, const sf::Vector2f& position,
     : GuiSlider(position, dimensions, style, sliderWidth, borderThickness, maxValue, value)
     , m_textPadding(textPadding)
 {
-    SetFont(font);
-    SetText(text);
+    setFont(font);
+    setText(text);
     m_text.setFillColor(m_textColor);
 }
 
@@ -730,21 +730,21 @@ void GuiTextSlider::draw(sf::RenderTarget& rTarget, sf::RenderStates states) con
     rTarget.draw(m_text, states);
 }
 
-void GuiTextSlider::MoveSlider(const sf::Vector2f& position)
+void GuiTextSlider::moveSlider(const sf::Vector2f& position)
 {
-    GuiSlider::MoveSlider(position);
-    SetText(m_baseString);
+    GuiSlider::moveSlider(position);
+    setText(m_baseString);
 }
 
-void GuiTextSlider::SetPosition(const sf::Vector2f& position)
+void GuiTextSlider::setPosition(const sf::Vector2f& position)
 {
-    GuiSlider::SetPosition(position);
+    GuiSlider::setPosition(position);
     m_text.setPosition(m_position);
 }
 
-void GuiTextSlider::SetDimensions(const sf::Vector2f& dimensions, float sliderWidth)
+void GuiTextSlider::setDimensions(const sf::Vector2f& dimensions, float sliderWidth)
 {
-    GuiScrollbar::SetDimensions(dimensions, sliderWidth);
+    GuiScrollbar::setDimensions(dimensions, sliderWidth);
 
     if (m_isVertical)
     {
@@ -760,9 +760,9 @@ void GuiTextSlider::SetDimensions(const sf::Vector2f& dimensions, float sliderWi
                      m_text.getLocalBounds().top + m_text.getLocalBounds().height / 2);
 }
 
-void GuiTextSlider::SetStyle(GuiStyle style)
+void GuiTextSlider::setStyle(GuiStyle style)
 {
-    GuiScrollbar::SetStyle(style);
+    GuiScrollbar::setStyle(style);
 
     switch (m_style)
     {
@@ -782,13 +782,13 @@ void GuiTextSlider::SetStyle(GuiStyle style)
     }
 }
 
-void GuiTextSlider::SetValue(double value)
+void GuiTextSlider::setValue(double value)
 {
-    GuiSlider::SetValue(value);
-    SetText(m_baseString);
+    GuiSlider::setValue(value);
+    setText(m_baseString);
 }
 
-void GuiTextSlider::SetText(const std::string& text)
+void GuiTextSlider::setText(const std::string& text)
 {
     m_baseString = text;
 
@@ -804,13 +804,13 @@ void GuiTextSlider::SetText(const std::string& text)
 ProgressBar::ProgressBar(const sf::Vector2f& position, const sf::Vector2f& boxDimensions, sf::Color backgroundColor, sf::Color borderColor,
                          sf::Color progressBarColor, int borderThickness, double fraction)
 {
-    SetDimensions(boxDimensions);
-    SetBackgroundColor(backgroundColor);
-    SetBorderColor(borderColor);
-    SetProgressBarColor(progressBarColor);
-    SetBorderThickness(borderThickness);
-    SetFraction(fraction);
-    SetPosition(position);
+    setDimensions(boxDimensions);
+    setBackgroundColor(backgroundColor);
+    setBorderColor(borderColor);
+    setProgressBarColor(progressBarColor);
+    setBorderThickness(borderThickness);
+    setFraction(fraction);
+    setPosition(position);
 }
 
 void ProgressBar::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
@@ -819,63 +819,63 @@ void ProgressBar::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     rTarget.draw(m_progressBar, states);
 }
 
-void ProgressBar::CalculateFraction()
+void ProgressBar::calculateFraction()
 {
     m_fraction = static_cast<double>(m_progress / m_total);
 }
 
-void ProgressBar::CalculateProgress()
+void ProgressBar::calculateProgress()
 {
     m_progress = static_cast<unsigned int>(m_fraction * m_total);
 }
 
-void ProgressBar::UpdateProgressBarPosition()
+void ProgressBar::updateProgressBarPosition()
 {
     m_progressBar.setPosition(m_box.getPosition().x - m_box.getSize().x / 2 + m_progressBar.getSize().x / 2 - m_box.getOutlineThickness(),
                               m_box.getPosition().y);
 }
 
-void ProgressBar::SetPosition(const sf::Vector2f& position)
+void ProgressBar::setPosition(const sf::Vector2f& position)
 {
     m_box.setPosition(position);
-    UpdateProgressBarPosition();
+    updateProgressBarPosition();
 }
 
-void ProgressBar::SetDimensions(const sf::Vector2f& dimensions)
+void ProgressBar::setDimensions(const sf::Vector2f& dimensions)
 {
     m_box.setSize(dimensions);
     m_box.setOrigin(dimensions / 2.0f);
-    UpdateProgressBarPosition();
-    SetFraction(m_fraction);
+    updateProgressBarPosition();
+    setFraction(m_fraction);
 }
 
-void ProgressBar::SetBorderThickness(float borderThickness)
+void ProgressBar::setBorderThickness(float borderThickness)
 {
     m_box.setOutlineThickness(borderThickness);
-    UpdateProgressBarPosition();
-    SetFraction(m_fraction);
+    updateProgressBarPosition();
+    setFraction(m_fraction);
 }
 
-void ProgressBar::SetProgress(unsigned int progress)
+void ProgressBar::setProgress(unsigned int progress)
 {
     m_progress = progress;
-    CalculateFraction();
-    SetFraction(m_fraction);
+    calculateFraction();
+    setFraction(m_fraction);
 }
 
-void ProgressBar::SetTotal(unsigned int total)
+void ProgressBar::setTotal(unsigned int total)
 {
     m_total = total;
-    CalculateFraction();
-    SetFraction(m_fraction);
+    calculateFraction();
+    setFraction(m_fraction);
 }
 
-void ProgressBar::SetFraction(double fraction)
+void ProgressBar::setFraction(double fraction)
 {
     m_fraction = fraction;
-    CalculateProgress();
+    calculateProgress();
     m_progressBar.setSize(sf::Vector2f((m_box.getSize().x + 2 * m_box.getOutlineThickness()) * m_fraction,
                                        m_box.getSize().y + 2 * m_box.getOutlineThickness()));
     m_progressBar.setOrigin(m_progressBar.getSize() / 2.0f);
-    UpdateProgressBarPosition();
+    updateProgressBarPosition();
 }

@@ -64,9 +64,9 @@ private:
     bool m_sensorChangedEvent;
 
     // Functions
-    void UpdateInputStates();
-    void PollSfmlEvents(sf::Window& rWindow);
-    void ResetEvents();
+    void updateInputStates();
+    void pollSfmlEvents(sf::Window& rWindow);
+    void resetEvents();
 
 #if defined(SFML_SYSTEM_MACOS)
     void MacOsCommandsToUnicode();
@@ -78,122 +78,102 @@ public:
     explicit InputManager(sf::RenderWindow& rWindow);
 
     // Functions
-    void Update();
+    void update();
 
     // Window getters
-    sf::Vector2u GetWindowDimensions() const { return m_rWindow.getSize(); }
-    bool IsWindowFocused() const { return m_isWindowFocused; }
+    sf::Vector2u getWindowDimensions() const { return m_rWindow.getSize(); }
+    bool isWindowFocused() const { return m_isWindowFocused; }
 
-    const sf::Vector2f MapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const
-    {
-        return m_rWindow.mapPixelToCoords(point, view);
-    }
-    const sf::Vector2f MapPixelToCoords(const sf::Vector2i& point) const { return m_rWindow.mapPixelToCoords(point); }
-    const sf::Vector2i MapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const
-    {
-        return m_rWindow.mapCoordsToPixel(position, view);
-    }
-    const sf::Vector2i MapCoordsToPixel(const sf::Vector2f& position) const { return m_rWindow.mapCoordsToPixel(position); }
+    const sf::Vector2f mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const;
+    const sf::Vector2f mapPixelToCoords(const sf::Vector2i& point) const;
 
-    bool DetectedClosedEvent() const { return m_closedEvent; }
-    bool DetectedResizedEvent() const { return m_resizedEvent; }
-    bool DetectedLostFocusEvent() const { return m_lostFocusEvent; }
-    bool DetectedGainedFocusEvent() const { return m_gainedFocusEvent; }
-    bool DetectedMouseLeftEvent() const { return m_mouseLeftEvent; }
-    bool DetectedMouseEnteredEvent() const { return m_mouseEnteredEvent; }
+    const sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const;
+    const sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position) const;
+
+    bool detectedClosedEvent() const { return m_closedEvent; }
+    bool detectedResizedEvent() const { return m_resizedEvent; }
+    bool detectedLostFocusEvent() const { return m_lostFocusEvent; }
+    bool detectedGainedFocusEvent() const { return m_gainedFocusEvent; }
+    bool detectedMouseLeftEvent() const { return m_mouseLeftEvent; }
+    bool detectedMouseEnteredEvent() const { return m_mouseEnteredEvent; }
 
     // Keyboard setters
-    void SetVirtualKeyboardVisible(bool isVisible) const { sf::Keyboard::setVirtualKeyboardVisible(isVisible); }
+    void setVirtualKeyboardVisible(bool isVisible) { sf::Keyboard::setVirtualKeyboardVisible(isVisible); }
 
     // Keyboard getters
-    bool IsKeyHeld(sf::Keyboard::Key key) const;
-    bool IsKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled = false) const;
-    bool IsKeyAscending(sf::Keyboard::Key key) const;
+    bool isKeyHeld(sf::Keyboard::Key key) const;
+    bool isKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled = false) const;
+    bool isKeyAscending(sf::Keyboard::Key key) const;
 
-    bool IsShiftKeyHeld() const { return (IsKeyHeld(sf::Keyboard::LShift) || IsKeyHeld(sf::Keyboard::RShift)); }
-    bool IsShiftKeyDescending(bool isRepeatEnabled = false) const
-    {
-        return (IsKeyDescending(sf::Keyboard::LShift, isRepeatEnabled) || IsKeyDescending(sf::Keyboard::RShift, isRepeatEnabled));
-    }
-    bool IsShiftKeyAscending() const { return (IsKeyAscending(sf::Keyboard::LShift) || IsKeyAscending(sf::Keyboard::RShift)); }
+    bool isShiftKeyHeld() const;
+    bool isShiftKeyDescending(bool isRepeatEnabled = false) const;
+    bool isShiftKeyAscending() const;
 
-    bool IsControlKeyHeld() const { return (IsKeyHeld(sf::Keyboard::LControl) || IsKeyHeld(sf::Keyboard::RControl)); }
-    bool IsControlKeyDescending(bool isRepeatEnabled = false) const
-    {
-        return (IsKeyDescending(sf::Keyboard::LControl, isRepeatEnabled) || IsKeyDescending(sf::Keyboard::RControl, isRepeatEnabled));
-    }
-    bool IsControlKeyAscending() const { return (IsKeyAscending(sf::Keyboard::LControl) || IsKeyAscending(sf::Keyboard::RControl)); }
+    bool isControlKeyHeld() const;
+    bool isControlKeyDescending(bool isRepeatEnabled = false) const;
+    bool isControlKeyAscending() const;
 
-    bool IsAltKeyHeld() const { return (IsKeyHeld(sf::Keyboard::LAlt) || IsKeyHeld(sf::Keyboard::RAlt)); }
-    bool IsAltKeyDescending(bool isRepeatEnabled = false) const
-    {
-        return (IsKeyDescending(sf::Keyboard::LAlt, isRepeatEnabled) || IsKeyDescending(sf::Keyboard::RAlt, isRepeatEnabled));
-    }
-    bool IsAltKeyAscending() const { return (IsKeyAscending(sf::Keyboard::LAlt) || IsKeyAscending(sf::Keyboard::RAlt)); }
+    bool isAltKeyHeld() const;
+    bool isAltKeyDescending(bool isRepeatEnabled = false) const;
+    bool isAltKeyAscending() const;
 
-    bool IsSystemKeyHeld() const { return (IsKeyHeld(sf::Keyboard::LSystem) || IsKeyHeld(sf::Keyboard::RSystem)); }
-    bool IsSystemKeyDescending(bool isRepeatEnabled = false) const
-    {
-        return (IsKeyDescending(sf::Keyboard::LSystem, isRepeatEnabled) || IsKeyDescending(sf::Keyboard::RSystem, isRepeatEnabled));
-    }
-    bool IsSystemKeyAscending() const { return (IsKeyAscending(sf::Keyboard::LSystem) || IsKeyAscending(sf::Keyboard::RSystem)); }
+    bool isSystemKeyHeld() const;
+    bool isSystemKeyDescending(bool isRepeatEnabled = false) const;
+    bool isSystemKeyAscending() const;
 
-    bool IsModifierKeyHeld() const;
-    bool IsModifierKeyDescending(bool isRepeatEnabled = false) const;
-    bool IsModifierKeyAscending() const;
+    bool isModifierKeyHeld() const;
+    bool isModifierKeyDescending(bool isRepeatEnabled = false) const;
+    bool isModifierKeyAscending() const;
 
-    const sf::String& GetEnteredText() const { return m_enteredText; }
+    const sf::String& getEnteredText() const { return m_enteredText; }
 
-    bool DetectedTextEnteredEvent() const { return !m_enteredText.isEmpty(); }
-    bool DetectedKeyPressedEvent() const { return !m_eventPressedKeys.empty(); }
-    bool DetectedKeyReleasedEvent() const { return !m_eventReleasedKeys.empty(); }
+    bool detectedTextEnteredEvent() const { return !m_enteredText.isEmpty(); }
+    bool detectedKeyPressedEvent() const { return !m_eventPressedKeys.empty(); }
+    bool detectedKeyReleasedEvent() const { return !m_eventReleasedKeys.empty(); }
 
     // Mouse getters
-    bool IsMouseButtonHeld(sf::Mouse::Button button) const;
-    bool IsMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled = false) const;
-    bool IsMouseButtonAscending(sf::Mouse::Button button) const;
+    bool isMouseButtonHeld(sf::Mouse::Button button) const;
+    bool isMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled = false) const;
+    bool isMouseButtonAscending(sf::Mouse::Button button) const;
 
-    const sf::Vector2i& GetWindowMousePosition() const { return m_mousePosition; }
-    sf::Vector2f GetMousePosition(const sf::View& view) const;
-    sf::Vector2i GetMousePositionDelta() const { return m_mousePosition - m_previousMousePosition; }
-    sf::Vector2f GetMouseWheelDelta() const { return m_mouseWheelDelta; }
+    const sf::Vector2i& getWindowMousePosition() const { return m_mousePosition; }
+    sf::Vector2f getMousePosition(const sf::View& view) const;
+    sf::Vector2i getMousePositionDelta() const { return m_mousePosition - m_previousMousePosition; }
+    sf::Vector2f getMouseWheelDelta() const { return m_mouseWheelDelta; }
 
-    bool DetectedMouseButtonPressedEvent() const { return !m_eventPressedMouseButtons.empty(); }
-    bool DetectedMouseButtonReleasedEvent() const { return !m_eventReleasedMouseButtons.empty(); }
-    bool DetectedMouseMovedEvent() const { return m_mouseMovedEvent; }
-    bool DetectedMouseWheelScrolledEvent() const { return m_mouseWheelScrolledEvent; }
+    bool detectedMouseButtonPressedEvent() const { return !m_eventPressedMouseButtons.empty(); }
+    bool detectedMouseButtonReleasedEvent() const { return !m_eventReleasedMouseButtons.empty(); }
+    bool detectedMouseMovedEvent() const { return m_mouseMovedEvent; }
+    bool detectedMouseWheelScrolledEvent() const { return m_mouseWheelScrolledEvent; }
 
     // Joystick getters
-    bool IsJoystickButtonHeld(unsigned int joystick, unsigned int button) const;
-    bool IsJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled = false) const;
-    bool IsJoystickButtonAscending(unsigned int joystick, unsigned int button) const;
+    bool isJoystickButtonHeld(unsigned int joystick, unsigned int button) const;
+    bool isJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled = false) const;
+    bool isJoystickButtonAscending(unsigned int joystick, unsigned int button) const;
 
-    bool IsJoystickConnected(unsigned int joystick) const { return sf::Joystick::isConnected(joystick); }
-    sf::Joystick::Identification GetJoystickIdentification(unsigned int joystick) const
-    {
-        return sf::Joystick::getIdentification(joystick);
-    }
-    float GetJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const;
+    bool isJoystickConnected(unsigned int joystick) const;
+    sf::Joystick::Identification getJoystickIdentification(unsigned int joystick) const;
+    float getJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const;
 
-    bool DetectedJoystickButtonPressedEvent() const { return !m_eventPressedJoystickButtons.empty(); }
-    bool DetectedJoystickButtonReleasedEvent() const { return !m_eventReleasedJoystickButtons.empty(); }
-    bool DetectedJoystickMovedEvent() const { return m_joystickMovedEvent; }
-    bool DetectedJoystickConnectedEvent() const { return m_joystickConnectedEvent; }
-    bool DetectedJoystickDisconnectedEvent() const { return m_joystickDisconnectedEvent; }
+    bool detectedJoystickButtonPressedEvent() const { return !m_eventPressedJoystickButtons.empty(); }
+    bool detectedJoystickButtonReleasedEvent() const { return !m_eventReleasedJoystickButtons.empty(); }
+    bool detectedJoystickMovedEvent() const { return m_joystickMovedEvent; }
+    bool detectedJoystickConnectedEvent() const { return m_joystickConnectedEvent; }
+    bool detectedJoystickDisconnectedEvent() const { return m_joystickDisconnectedEvent; }
 
     // Touch getters
-    bool IsTouchHeld() const { return m_isTouchHeld; }
+    bool isTouchHeld() const { return m_isTouchHeld; }
 
-    bool DetectedTouchBeganEvent() const { return m_touchBeganEvent; }
-    bool DetectedTouchMovedEvent() const { return m_touchMovedEvent; }
-    bool DetectedTouchEndedEvent() const { return m_touchEndedEvent; }
+    bool detectedTouchBeganEvent() const { return m_touchBeganEvent; }
+    bool detectedTouchMovedEvent() const { return m_touchMovedEvent; }
+    bool detectedTouchEndedEvent() const { return m_touchEndedEvent; }
 
     // Sensor getters
-    bool DetectedSensorChangedEvent() const { return m_sensorChangedEvent; }
+    bool detectedSensorChangedEvent() const { return m_sensorChangedEvent; }
 
     // Clipboard
-    void SetClipboardText(const sf::String& text);
-    sf::String GetClipboardText() const;
+    void setClipboardText(const sf::String& text);
+    sf::String getClipboardText() const;
 };
 
 #endif // INPUTMANAGER_H

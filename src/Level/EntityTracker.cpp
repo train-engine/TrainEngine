@@ -30,10 +30,10 @@ EntityTracker::EntityTracker(const sf::Font& font)
     m_displacementText.setFillColor(sf::Color::Black);
     m_positionsCountText.setFillColor(sf::Color::Black);
 
-    UpdateInfoBox();
+    updateInfoBox();
 }
 
-void EntityTracker::UpdateInfoBox()
+void EntityTracker::updateInfoBox()
 {
     sf::Vector2f lastPosition;
     if (m_positions.empty())
@@ -65,11 +65,11 @@ void EntityTracker::UpdateInfoBox()
     tempString2.erase(tempString2.end() - 3, tempString2.end());
     m_lastVelocityText.setString("Last velocity: (" + tempString1 + ", " + tempString2 + ")");
 
-    tempString1 = std::to_string(GetDistanceTraveled());
+    tempString1 = std::to_string(getDistanceTraveled());
     tempString1.erase(tempString1.end() - 3, tempString1.end());
     m_distanceTraveledText.setString("Distance traveled: " + tempString1);
 
-    tempString1 = std::to_string(GetDisplacement());
+    tempString1 = std::to_string(getDisplacement());
     tempString1.erase(tempString1.end() - 3, tempString1.end());
     m_displacementText.setString("Displacement: " + tempString1);
 
@@ -100,15 +100,15 @@ void EntityTracker::UpdateInfoBox()
     m_textContainer.setPosition(m_lastPositionText.getGlobalBounds().left - padding, m_lastPositionText.getGlobalBounds().top - padding);
 }
 
-void EntityTracker::Update()
+void EntityTracker::update()
 {
     if (m_pTrackedEntity != nullptr)
     {
         // Verify if the position is not the same as the previous one,
         // to avoid useless duplicate positions in the vector
-        if (m_positions.empty() || m_positions.back() != m_pTrackedEntity->GetPosition())
+        if (m_positions.empty() || m_positions.back() != m_pTrackedEntity->getPosition())
         {
-            m_positions.push_back(m_pTrackedEntity->GetPosition());
+            m_positions.push_back(m_pTrackedEntity->getPosition());
             if (m_positions.size() > 1)
             {
                 m_totalDistanceTraveled +=
@@ -118,7 +118,7 @@ void EntityTracker::Update()
 
         if (m_isInfoBoxVisible == true)
         {
-            UpdateInfoBox();
+            updateInfoBox();
         }
     }
 }
@@ -150,19 +150,19 @@ void EntityTracker::draw(sf::RenderTarget& rTarget, sf::RenderStates states) con
     }
 }
 
-void EntityTracker::ResetTracking()
+void EntityTracker::resetTracking()
 {
     m_positions.clear();
     m_totalDistanceTraveled = 0;
-    UpdateInfoBox();
+    updateInfoBox();
 }
 
-void EntityTracker::StopTracking()
+void EntityTracker::stopTracking()
 {
     m_pTrackedEntity = nullptr;
 }
 
-void EntityTracker::OutputToExcel() const
+void EntityTracker::outputToExcel() const
 {
     std::time_t t = std::time(nullptr);
     std::tm* pTime = std::localtime(&t);
@@ -170,7 +170,7 @@ void EntityTracker::OutputToExcel() const
     filenameStream << 1900 + pTime->tm_year << 1 + pTime->tm_mon << pTime->tm_mday << 1 + pTime->tm_hour - pTime->tm_isdst
                    << 1 + pTime->tm_min << 1 + pTime->tm_sec;
 
-    std::ofstream outputFile(FileManager::ResourcePath() + "logs/tracker_" + filenameStream.str() + ".csv");
+    std::ofstream outputFile(FileManager::resourcePath() + "logs/tracker_" + filenameStream.str() + ".csv");
     if (outputFile)
     {
         for (const auto& position : m_positions)
@@ -186,7 +186,7 @@ void EntityTracker::OutputToExcel() const
     }
 }
 
-float EntityTracker::GetDisplacement() const
+float EntityTracker::getDisplacement() const
 {
     if (m_positions.size() > 1)
     {

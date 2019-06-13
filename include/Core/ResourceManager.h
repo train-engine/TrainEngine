@@ -15,7 +15,7 @@ private:
     std::unordered_map<std::string, sf::Shader> m_shaders;
 
     // Functions
-    bool LoadInitialResources();
+    bool loadInitialResources();
 
 public:
     // Constructor and destructor
@@ -25,26 +25,26 @@ public:
     // Functions
 
     // Texture functions
-    const sf::Texture& LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect = {});
-    void UnloadTexture(const std::string& name);
-    const sf::Texture& GetTexture(const std::string& name) const;
-    void SetTextureRepeated(const std::string& name, bool isRepeated);
-    void SetTextureSmooth(const std::string& name, bool isSmooth);
+    const sf::Texture& loadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect = {});
+    void unloadTexture(const std::string& name);
+    const sf::Texture& getTexture(const std::string& name) const;
+    void setTextureRepeated(const std::string& name, bool isRepeated);
+    void setTextureSmooth(const std::string& name, bool isSmooth);
 
     // Font functions
-    const sf::Font& LoadFont(const std::string& name, const std::string& filename);
-    void UnloadFont(const std::string& name);
-    const sf::Font& GetFont(const std::string& name) const;
+    const sf::Font& loadFont(const std::string& name, const std::string& filename);
+    void unloadFont(const std::string& name);
+    const sf::Font& getFont(const std::string& name) const;
 
     // SoundBuffer functions
-    const sf::SoundBuffer& LoadSoundBuffer(const std::string& name, const std::string& filename);
-    void UnloadSoundBuffer(const std::string& name);
-    const sf::SoundBuffer& GetSoundBuffer(const std::string& name) const;
+    const sf::SoundBuffer& loadSoundBuffer(const std::string& name, const std::string& filename);
+    void unloadSoundBuffer(const std::string& name);
+    const sf::SoundBuffer& getSoundBuffer(const std::string& name) const;
 
     // Shader functions
-    const sf::Shader& LoadShader(const std::string& name, const std::string& filename, sf::Shader::Type type);
-    void UnloadShader(const std::string& name);
-    const sf::Shader& GetShader(const std::string& name) const;
+    const sf::Shader& loadShader(const std::string& name, const std::string& filename, sf::Shader::Type type);
+    void unloadShader(const std::string& name);
+    const sf::Shader& getShader(const std::string& name) const;
 };
 
 #endif // RESOURCEMANAGER_H

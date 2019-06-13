@@ -13,7 +13,7 @@ void Tile::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
     rTarget.draw(m_sprite, states);
 }
 
-std::string Tile::GetTileTypeString(TileType tileType)
+std::string Tile::getTileTypeString(TileType tileType)
 {
     static const std::unordered_map<TileType, std::string> tileTypeStrings = {{TileType::Grass4Sides, "Grass"},
                                                                               {TileType::Wood, "Wood"},
@@ -31,7 +31,7 @@ std::string Tile::GetTileTypeString(TileType tileType)
     return "Unknown TileType";
 }
 
-std::string Tile::GetTextureName(TileType tileType)
+std::string Tile::getTextureName(TileType tileType)
 {
     static const std::unordered_map<TileType, std::string> tileTextures = {{TileType::GrassTopLeftSides, "grassTopLeftSides"},
                                                                            {TileType::GrassTopSide, "grassTopSide"},
@@ -87,18 +87,18 @@ std::string Tile::GetTextureName(TileType tileType)
     return "";
 }
 
-void Tile::SetPosition(const sf::Vector2f& position)
+void Tile::setPosition(const sf::Vector2f& position)
 {
     m_position = position;
     m_sprite.setPosition(m_position);
 }
 
-void Tile::SetDimensions(const sf::Vector2f& dimensions)
+void Tile::setDimensions(const sf::Vector2f& dimensions)
 {
     m_dimensions = dimensions;
 }
 
-void Tile::SetTexture(const sf::Texture& texture)
+void Tile::setTexture(const sf::Texture& texture)
 {
     m_sprite.setTexture(texture);
 }

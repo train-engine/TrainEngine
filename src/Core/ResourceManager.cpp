@@ -13,11 +13,11 @@ ResourceManager::ResourceManager()
     // an active window, which is the case here when loading textures before the window has been created
     sf::Context context;
 
-    LoadTexture("missingTexture", "res/images/missing_texture.png");
-    LoadFont("fallbackFont", "res/fonts/roboto_mono/RobotoMono-Regular.ttf");
-    LoadSoundBuffer("error", "res/sounds/error.ogg");
+    loadTexture("missingTexture", "res/images/missing_texture.png");
+    loadFont("fallbackFont", "res/fonts/roboto_mono/RobotoMono-Regular.ttf");
+    loadSoundBuffer("error", "res/sounds/error.ogg");
 
-    LoadInitialResources();
+    loadInitialResources();
 }
 
 ResourceManager::~ResourceManager()
@@ -25,13 +25,13 @@ ResourceManager::~ResourceManager()
 }
 
 // Load resources loaded on startup
-bool ResourceManager::LoadInitialResources()
+bool ResourceManager::loadInitialResources()
 {
     static const std::string initialResourcesFilename = "data/initial_resources.txt";
 #if defined(SFML_SYSTEM_ANDROID)
     std::istringstream inputFile(FileManager::ReadTxtFromAssets(initialResourcesFilename));
 #else
-    std::ifstream inputFile(FileManager::ResourcePath() + initialResourcesFilename);
+    std::ifstream inputFile(FileManager::resourcePath() + initialResourcesFilename);
 #endif
 
     if (inputFile)
@@ -57,15 +57,15 @@ bool ResourceManager::LoadInitialResources()
             // Load resource
             if (filename.find("images") != std::string::npos)
             {
-                LoadTexture(name, filename);
+                loadTexture(name, filename);
             }
             else if (filename.find("fonts") != std::string::npos)
             {
-                LoadFont(name, filename);
+                loadFont(name, filename);
             }
             else if (filename.find("sounds") != std::string::npos)
             {
-                LoadSoundBuffer(name, filename);
+                loadSoundBuffer(name, filename);
             }
             else
             {
@@ -86,7 +86,7 @@ bool ResourceManager::LoadInitialResources()
 // Texture functions
 
 // Load a texture and bind it to the map if the key is available, and return a reference to the const loaded texture
-const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect)
+const sf::Texture& ResourceManager::loadTexture(const std::string& name, const std::string& filename, const sf::IntRect& textureRect)
 {
     // If a texture is already loaded at the specified key, return the existing texture
     auto it = m_textures.find(name);
@@ -97,7 +97,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
 
     // Otherwise, load the texture
     sf::Texture texture;
-    if (!texture.loadFromFile(FileManager::ResourcePath() + filename, textureRect))
+    if (!texture.loadFromFile(FileManager::resourcePath() + filename, textureRect))
     {
         std::cerr << "ResourceManager error: Failed to load texture \"" << name << "\" from file \"" << filename << "\".\n";
         return m_textures.at("missingTexture");
@@ -107,7 +107,7 @@ const sf::Texture& ResourceManager::LoadTexture(const std::string& name, const s
 }
 
 // Remove a texture from the texture map
-void ResourceManager::UnloadTexture(const std::string& name)
+void ResourceManager::unloadTexture(const std::string& name)
 {
     auto it = m_textures.find(name);
     if (it != m_textures.cend())
@@ -116,12 +116,12 @@ void ResourceManager::UnloadTexture(const std::string& name)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or nonexistent texture \"" << name << "\".\n";
     }
 }
 
 // Return a reference to a const loaded texture
-const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
+const sf::Texture& ResourceManager::getTexture(const std::string& name) const
 {
     auto it = m_textures.find(name);
     if (it != m_textures.cend())
@@ -130,12 +130,12 @@ const sf::Texture& ResourceManager::GetTexture(const std::string& name) const
     }
 
     // If the texture is not found, return the default texture
-    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent texture \"" << name << "\".\n";
     return m_textures.at("missingTexture");
 }
 
 // Set a texture's isRepeated value
-void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeated)
+void ResourceManager::setTextureRepeated(const std::string& name, bool isRepeated)
 {
     auto it = m_textures.find(name);
     if (it != m_textures.end())
@@ -144,12 +144,12 @@ void ResourceManager::SetTextureRepeated(const std::string& name, bool isRepeate
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent texture \"" << name << "\".\n";
     }
 }
 
 // Set a texture's isSmooth value
-void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
+void ResourceManager::setTextureSmooth(const std::string& name, bool isSmooth)
 {
     auto it = m_textures.find(name);
     if (it != m_textures.end())
@@ -158,14 +158,14 @@ void ResourceManager::SetTextureSmooth(const std::string& name, bool isSmooth)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent texture \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent texture \"" << name << "\".\n";
     }
 }
 
 // Font functions
 
 // Load a font and bind it to the map if the key is available, and return a reference to the const loaded font
-const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::string& filename)
+const sf::Font& ResourceManager::loadFont(const std::string& name, const std::string& filename)
 {
     // If a font is already loaded at the specified key, return the existing font
     auto it = m_fonts.find(name);
@@ -176,7 +176,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
 
     // Otherwise, load the font
     sf::Font font;
-    if (!font.loadFromFile(FileManager::ResourcePath() + filename))
+    if (!font.loadFromFile(FileManager::resourcePath() + filename))
     {
         std::cerr << "ResourceManager error: Failed to load font \"" << name << "\" from file \"" << filename << "\".\n";
         return m_fonts.at("fallbackFont");
@@ -186,7 +186,7 @@ const sf::Font& ResourceManager::LoadFont(const std::string& name, const std::st
 }
 
 // Remove a font from the font map
-void ResourceManager::UnloadFont(const std::string& name)
+void ResourceManager::unloadFont(const std::string& name)
 {
     auto it = m_fonts.find(name);
     if (it != m_fonts.cend())
@@ -195,12 +195,12 @@ void ResourceManager::UnloadFont(const std::string& name)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent font \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or nonexistent font \"" << name << "\".\n";
     }
 }
 
 // Return a reference to a const loaded font
-const sf::Font& ResourceManager::GetFont(const std::string& name) const
+const sf::Font& ResourceManager::getFont(const std::string& name) const
 {
     auto it = m_fonts.find(name);
     if (it != m_fonts.cend())
@@ -209,14 +209,14 @@ const sf::Font& ResourceManager::GetFont(const std::string& name) const
     }
 
     // If the font is not found, return the default font
-    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent font \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent font \"" << name << "\".\n";
     return m_fonts.at("fallbackFont");
 }
 
 // SoundBuffer functions
 
 // Load a sound buffer and bind it to the map if the key is available, and return a reference to the const loaded sound buffer
-const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name, const std::string& filename)
+const sf::SoundBuffer& ResourceManager::loadSoundBuffer(const std::string& name, const std::string& filename)
 {
     // If a sound buffer is already loaded at the specified key, return the existing sound buffer
     auto it = m_soundBuffers.find(name);
@@ -227,7 +227,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
 
     // Otherwise, load the sound buffer
     sf::SoundBuffer soundBuffer;
-    if (!soundBuffer.loadFromFile(FileManager::ResourcePath() + filename))
+    if (!soundBuffer.loadFromFile(FileManager::resourcePath() + filename))
     {
         std::cerr << "ResourceManager error: Failed to load sound buffer \"" << name << "\" from file \"" << filename << "\".\n";
         return m_soundBuffers.at("error");
@@ -237,7 +237,7 @@ const sf::SoundBuffer& ResourceManager::LoadSoundBuffer(const std::string& name,
 }
 
 // Remove a sound buffer from the sound buffer map
-void ResourceManager::UnloadSoundBuffer(const std::string& name)
+void ResourceManager::unloadSoundBuffer(const std::string& name)
 {
     auto it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
@@ -246,12 +246,12 @@ void ResourceManager::UnloadSoundBuffer(const std::string& name)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent sound buffer \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or nonexistent sound buffer \"" << name << "\".\n";
     }
 }
 
 // Return a reference to a const loaded sound buffer
-const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) const
+const sf::SoundBuffer& ResourceManager::getSoundBuffer(const std::string& name) const
 {
     auto it = m_soundBuffers.find(name);
     if (it != m_soundBuffers.cend())
@@ -260,14 +260,14 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& name) 
     }
 
     // If the sound buffer is not found, return the default sound buffer
-    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent sound buffer \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent sound buffer \"" << name << "\".\n";
     return m_soundBuffers.at("error");
 }
 
 // Shader functions
 
 // Load a shader and bind it to the map if the key is available, and return a reference to the const loaded shader
-const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std::string& filename, sf::Shader::Type type)
+const sf::Shader& ResourceManager::loadShader(const std::string& name, const std::string& filename, sf::Shader::Type type)
 {
     // If a shader is already loaded at the specified key, return the existing shader
     auto it = m_shaders.find(name);
@@ -278,7 +278,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
 
     // Otherwise, load the shader
     m_shaders[name];
-    if (!m_shaders.at(name).loadFromFile(FileManager::ResourcePath() + filename, type))
+    if (!m_shaders.at(name).loadFromFile(FileManager::resourcePath() + filename, type))
     {
         std::cerr << "ResourceManager error: Failed to load shader \"" << name << "\" from file \"" << filename << "\".\n";
         m_shaders.erase(name);
@@ -288,7 +288,7 @@ const sf::Shader& ResourceManager::LoadShader(const std::string& name, const std
 }
 
 // Remove a Shader from the shader map
-void ResourceManager::UnloadShader(const std::string& name)
+void ResourceManager::unloadShader(const std::string& name)
 {
     auto it = m_shaders.find(name);
     if (it != m_shaders.cend())
@@ -297,12 +297,12 @@ void ResourceManager::UnloadShader(const std::string& name)
     }
     else
     {
-        std::cerr << "ResourceManager error: Tried unloading already unloaded or inexistent shader \"" << name << "\".\n";
+        std::cerr << "ResourceManager error: Tried unloading already unloaded or nonexistent shader \"" << name << "\".\n";
     }
 }
 
 // Return a reference to a const loaded shader
-const sf::Shader& ResourceManager::GetShader(const std::string& name) const
+const sf::Shader& ResourceManager::getShader(const std::string& name) const
 {
     auto it = m_shaders.find(name);
     if (it != m_shaders.cend())
@@ -311,6 +311,6 @@ const sf::Shader& ResourceManager::GetShader(const std::string& name) const
     }
 
     // If the shader is not found, return the default shader
-    std::cerr << "ResourceManager error: Tried accessing unloaded or inexistent shader \"" << name << "\".\n";
+    std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent shader \"" << name << "\".\n";
     return m_shaders.at("ADDDEFAULTSHADER");
 }

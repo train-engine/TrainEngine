@@ -6,9 +6,9 @@
 
 PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     : State(rGame)
-    , m_darkness(GetWindowDimensions())
-    , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
-                   m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+    , m_darkness(getWindowDimensions())
+    , m_muteButton(m_rGame.resourceManager.getTexture("muteNormal"), m_rGame.resourceManager.getTexture("muteHovered"),
+                   m_rGame.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
     , m_level(m_rGame.resourceManager, m_rGame.inputManager)
 {
     // Content settings
@@ -16,21 +16,21 @@ PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
     m_darkness.setFillColor(sf::Color(0, 0, 0, 20));
 
     // Music
-    m_music.openFromFile(FileManager::ResourcePath() + "res/music/theme_song_8_bit.wav");
-    ReadMusicSettings();
+    m_music.openFromFile(FileManager::resourcePath() + "res/music/theme_song_8_bit.wav");
+    readMusicSettings();
     m_music.setLoop(true);
     m_music.play();
 
-    m_level.Load(levelDirectory);
+    m_level.load(levelDirectory);
 }
 
 PlayState::~PlayState()
 {
 }
 
-void PlayState::ReadMusicSettings()
+void PlayState::readMusicSettings()
 {
-    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    std::ifstream inputFile(FileManager::resourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
         bool isMuted = false;
@@ -45,34 +45,34 @@ void PlayState::ReadMusicSettings()
     std::cout << "Failed to read sound settings.\n";
 }
 
-void PlayState::PauseStart()
+void PlayState::pauseStart()
 {
-    m_rGame.RequestPush(new PauseState(m_rGame));
+    m_rGame.requestPush(new PauseState(m_rGame));
 }
 
-void PlayState::HandleInput()
+void PlayState::handleInput()
 {
-    m_level.SetFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
+    m_level.setFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.inputManager.DetectedLostFocusEvent() || m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.detectedLostFocusEvent() || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        PauseStart();
+        pauseStart();
         return;
     }
 
-    if (m_rGame.inputManager.DetectedMouseMovedEvent())
+    if (m_rGame.inputManager.detectedMouseMovedEvent())
     {
-        m_muteButton.OnMouseHover(GetWindowMousePosition());
+        m_muteButton.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left))
+    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
-        m_muteButton.OnMouseClick(GetWindowMousePosition());
+        m_muteButton.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left))
+    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
-        if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)
+        if (m_muteButton.onMouseUnclick(getWindowMousePosition()) == true)
         {
-            m_level.SetFocus(false);
+            m_level.setFocus(false);
             if (m_music.getStatus() == sf::SoundSource::Status::Playing)
             {
                 m_music.pause();
@@ -84,39 +84,39 @@ void PlayState::HandleInput()
         }
     }
 
-    m_level.HandleInput();
+    m_level.handleInput();
 }
 
-void PlayState::Update()
+void PlayState::update()
 {
-    m_level.Update();
+    m_level.update();
 }
 
-void PlayState::Draw(sf::RenderTarget& rTarget, float lag)
+void PlayState::draw(sf::RenderTarget& rTarget, float lag)
 {
-    DrawBackgroundColor(rTarget);
+    drawBackgroundColor(rTarget);
 
-    m_level.Draw(rTarget, sf::RenderStates::Default, lag);
+    m_level.draw(rTarget, sf::RenderStates::Default, lag);
 
     rTarget.draw(m_darkness);
     rTarget.draw(m_muteButton);
 }
 
-void PlayState::Pause()
+void PlayState::pause()
 {
     m_music.pause();
 }
 
-void PlayState::Resume()
+void PlayState::resume()
 {
     m_music.play();
 }
 
-void PlayState::OnWindowResize()
+void PlayState::onWindowResize()
 {
     m_darkness.setPosition(0, 0);
-    m_darkness.setSize(GetWindowDimensions());
-    m_muteButton.SetPosition(sf::Vector2f(GetWindowDimensions().x - 48, 48));
+    m_darkness.setSize(getWindowDimensions());
+    m_muteButton.setPosition(sf::Vector2f(getWindowDimensions().x - 48, 48));
 
-    m_level.OnWindowResize();
+    m_level.onWindowResize();
 }

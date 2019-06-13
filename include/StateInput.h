@@ -15,8 +15,8 @@ public:
     virtual ~StateInput();
     StateInput& operator=(const StateInput&) = delete;
     StateInput& operator=(StateInput&&) = delete;
-    virtual bool DetectedEvent() const = 0;
-    virtual void CallAction() = 0;
+    virtual bool detectedEvent() const = 0;
+    virtual void callAction() = 0;
 
 protected:
     const InputManager& m_inputManager;
@@ -32,8 +32,8 @@ public:
     KeyEventStateInput(KeyEventStateInput&&) = delete;
     KeyEventStateInput& operator=(const KeyEventStateInput&) = delete;
     KeyEventStateInput& operator=(KeyEventStateInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallAction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callAction() override;
 
 private:
     sf::Keyboard::Key m_key;
@@ -48,8 +48,8 @@ public:
     MouseButtonEventStateInput(MouseButtonEventStateInput&&) = delete;
     MouseButtonEventStateInput& operator=(const MouseButtonEventStateInput&) = delete;
     MouseButtonEventStateInput& operator=(MouseButtonEventStateInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallAction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callAction() override;
 
 private:
     sf::Mouse::Button m_button;
@@ -64,8 +64,8 @@ public:
     JoystickButtonEventStateInput(JoystickButtonEventStateInput&&) = delete;
     JoystickButtonEventStateInput& operator=(const JoystickButtonEventStateInput&) = delete;
     JoystickButtonEventStateInput& operator=(JoystickButtonEventStateInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallAction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callAction() override;
 
 private:
     unsigned int m_joystick;
@@ -81,8 +81,8 @@ public:
     JoystickAxisAboveThresholdStateInput(JoystickAxisAboveThresholdStateInput&&) = delete;
     JoystickAxisAboveThresholdStateInput& operator=(const JoystickAxisAboveThresholdStateInput&) = delete;
     JoystickAxisAboveThresholdStateInput& operator=(JoystickAxisAboveThresholdStateInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallAction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callAction() override;
 
 private:
     unsigned int m_joystick;
@@ -100,8 +100,8 @@ public:
     JoystickAxisBelowThresholdStateInput(JoystickAxisBelowThresholdStateInput&&) = delete;
     JoystickAxisBelowThresholdStateInput& operator=(const JoystickAxisBelowThresholdStateInput&) = delete;
     JoystickAxisBelowThresholdStateInput& operator=(JoystickAxisBelowThresholdStateInput&&) = delete;
-    virtual bool DetectedEvent() const override;
-    virtual void CallAction() override;
+    virtual bool detectedEvent() const override;
+    virtual void callAction() override;
 
 private:
     unsigned int m_joystick;

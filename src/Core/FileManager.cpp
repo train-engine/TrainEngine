@@ -10,7 +10,7 @@
 #include <android/native_activity.h>
 #endif
 
-int FileManager::GetFileCount(const std::string& directory)
+int FileManager::getFileCount(const std::string& directory)
 {
 #if !defined(SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
     DIR* pDirectoryStream = opendir(directory.c_str());
@@ -35,7 +35,7 @@ int FileManager::GetFileCount(const std::string& directory)
 #endif
 }
 
-std::vector<std::string> FileManager::GetFilenamesInDirectory(const std::string& directory)
+std::vector<std::string> FileManager::getFilenamesInDirectory(const std::string& directory)
 {
 #if !defined(SFML_SYSTEM_WINDOWS) // MSVC does not support dirent.h
     std::vector<std::string> filenames;
@@ -62,7 +62,7 @@ std::vector<std::string> FileManager::GetFilenamesInDirectory(const std::string&
 
 #if defined(SFML_SYSTEM_ANDROID)
 /// Read a given compressed text file from the assets directory on Android
-std::string FileManager::ReadTxtFromAssets(const std::string& filename)
+std::string FileManager::readTxtFromAssets(const std::string& filename)
 {
     ANativeActivity* pNativeActivity = sf::getNativeActivity();
     AAssetManager* pAssetManager = pNativeActivity->assetManager;

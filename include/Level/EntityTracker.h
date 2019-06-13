@@ -27,32 +27,32 @@ private:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void UpdateInfoBox();
+    void updateInfoBox();
 
 public:
     // Constructor
     explicit EntityTracker(const sf::Font& font);
 
     // Functions
-    void Update();
+    void update();
 
-    void ResetTracking();
-    void StopTracking();
+    void resetTracking();
+    void stopTracking();
 
-    void OutputToExcel() const;
+    void outputToExcel() const;
 
     // Setters
-    void SetDotRadius(float radius) { m_dot.setRadius(radius); }
-    void SetDotColor(sf::Color color) { m_dot.setFillColor(color); }
-    void Track(const Entity& trackedEntity) { m_pTrackedEntity = &trackedEntity; }
-    void ToggleDotPathVisible() { m_isDotPathVisible = !m_isDotPathVisible; }
-    void ToggleInfoBoxVisible() { m_isInfoBoxVisible = !m_isInfoBoxVisible; }
+    void setDotRadius(float radius) { m_dot.setRadius(radius); }
+    void setDotColor(sf::Color color) { m_dot.setFillColor(color); }
+    void track(const Entity& trackedEntity) { m_pTrackedEntity = &trackedEntity; }
+    void toggleDotPathVisible() { m_isDotPathVisible = !m_isDotPathVisible; }
+    void toggleInfoBoxVisible() { m_isInfoBoxVisible = !m_isInfoBoxVisible; }
 
     // Getters
-    const sf::Vector2f& GetLastPosition() const { return m_positions.back(); }
-    float GetDistanceTraveled() const { return m_totalDistanceTraveled; }
-    float GetDisplacement() const;
-    bool IsTracking() const { return m_pTrackedEntity != nullptr; }
+    const sf::Vector2f& getLastPosition() const { return m_positions.back(); }
+    float getDistanceTraveled() const { return m_totalDistanceTraveled; }
+    float getDisplacement() const;
+    bool isTracking() const { return m_pTrackedEntity != nullptr; }
 };
 
 #endif // ENTITYTRACKER_H

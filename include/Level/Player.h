@@ -15,7 +15,7 @@ public:
     Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& inputManager, const sf::Vector2f& position);
 
     // Functions
-    virtual void HandleInput() override;
+    virtual void handleInput() override;
 };
 
 #endif // PLAYER_H

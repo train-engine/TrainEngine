@@ -18,15 +18,14 @@ private:
     virtual ~SplashScreenState() override;
 
     // Functions
-    void MainMenuStart();
-    void LoadResources();
+    void mainMenuStart();
 
     // State functions
-    virtual void HandleInput() override;
-    virtual void Update() override;
-    virtual void Draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void handleInput() override;
+    virtual void update() override;
+    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
 
-    virtual void OnWindowResize() override;
+    virtual void onWindowResize() override;
 
 public:
     // Constructor

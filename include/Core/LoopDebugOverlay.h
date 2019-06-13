@@ -36,16 +36,16 @@ public:
     explicit LoopDebugOverlay(const sf::Font& font);
 
     // Functions
-    void RecordUpdate(sf::Time lastUpdateTime);
-    void RecordDraw(sf::Time lastDrawTime);
-    void OnWindowResize();
+    void recordUpdate(sf::Time lastUpdateTime);
+    void recordDraw(sf::Time lastDrawTime);
+    void onWindowResize();
 
     // Setters
-    void ToggleVisible() { m_isVisible = !m_isVisible; }
+    void toggleVisible() { m_isVisible = !m_isVisible; }
 
     // Getters
-    double GetRecordedUps() const { return m_recordedUps; }
-    double GetRecordedFps() const { return m_recordedFps; }
+    double getRecordedUps() const { return m_recordedUps; }
+    double getRecordedFps() const { return m_recordedFps; }
 };
 
 #endif // LOOPDEBUGOVERLAY_H

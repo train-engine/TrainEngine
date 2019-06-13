@@ -28,7 +28,7 @@ Map::Map(const ResourceManager& resourceManager)
 
 Map::~Map()
 {
-    Clear();
+    clear();
 }
 
 void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
@@ -76,12 +76,12 @@ void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 
     if (m_isGridVisible == true)
     {
-        DrawGrid(rTarget, states);
+        drawGrid(rTarget, states);
     }
 }
 
 // Draw grid lines around Tiles
-void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void Map::drawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
 {
     sf::Vector2f viewPosition = rTarget.getView().getCenter();
     sf::Vector2f viewDimensions = rTarget.getView().getSize();
@@ -101,9 +101,9 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
     {
         m_horizGridLine.setPosition(0, m_horizGridLine.getPosition().y);
     }
-    if (m_horizGridLine.getPosition().x + m_horizGridLine.getSize().x > GetBounds().x)
+    if (m_horizGridLine.getPosition().x + m_horizGridLine.getSize().x > getBounds().x)
     {
-        m_horizGridLine.setSize(sf::Vector2f(GetBounds().x - m_horizGridLine.getPosition().x, 2));
+        m_horizGridLine.setSize(sf::Vector2f(getBounds().x - m_horizGridLine.getPosition().x, 2));
     }
 
     // Set initial vertical grid line position
@@ -118,35 +118,35 @@ void Map::DrawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
     {
         m_vertGridLine.setPosition(m_vertGridLine.getPosition().x, 0);
     }
-    if (m_vertGridLine.getPosition().y + m_vertGridLine.getSize().y > GetBounds().y)
+    if (m_vertGridLine.getPosition().y + m_vertGridLine.getSize().y > getBounds().y)
     {
-        m_vertGridLine.setSize(sf::Vector2f(2, GetBounds().y - m_vertGridLine.getPosition().y));
+        m_vertGridLine.setSize(sf::Vector2f(2, getBounds().y - m_vertGridLine.getPosition().y));
     }
 
     // Draw and move grid lines incrementally from their starting position
-    while (m_horizGridLine.getPosition().y <= viewPosition.y + viewDimensions.y / 2 && m_horizGridLine.getPosition().y <= GetBounds().y)
+    while (m_horizGridLine.getPosition().y <= viewPosition.y + viewDimensions.y / 2 && m_horizGridLine.getPosition().y <= getBounds().y)
     {
         rTarget.draw(m_horizGridLine, states);
         m_horizGridLine.setPosition(m_horizGridLine.getPosition() + sf::Vector2f(0, m_tileSize));
     }
-    while (m_vertGridLine.getPosition().x <= viewPosition.x + viewDimensions.x / 2 && m_vertGridLine.getPosition().x <= GetBounds().x)
+    while (m_vertGridLine.getPosition().x <= viewPosition.x + viewDimensions.x / 2 && m_vertGridLine.getPosition().x <= getBounds().x)
     {
         rTarget.draw(m_vertGridLine, states);
         m_vertGridLine.setPosition(m_vertGridLine.getPosition() + sf::Vector2f(m_tileSize, 0));
     }
 }
 
-void Map::Update()
+void Map::update()
 {
 }
 
 // Load the Map from a save file
-bool Map::Load(const std::string& filename)
+bool Map::load(const std::string& filename)
 {
     // First delete all elements of the vector (necessary when changing level)
-    Clear();
+    clear();
 
-    std::ifstream inputFile(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::resourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading Map...\n";
@@ -211,7 +211,7 @@ bool Map::Load(const std::string& filename)
                             }
 
                             int type = std::stoi(input);
-                            AddTile(static_cast<TileType>(type), sf::Vector2u(x, y), static_cast<MapLayer>(z), false);
+                            addTile(static_cast<TileType>(type), sf::Vector2u(x, y), static_cast<MapLayer>(z), false);
                         }
                     }
                     // If a semicolon has been reached (possibly in this exact loop), set this index to a null pointer
@@ -222,7 +222,7 @@ bool Map::Load(const std::string& filename)
 
                     if (m_tiles[z][y][x] != nullptr)
                     {
-                        std::cout << static_cast<int>(m_tiles[z][y][x]->GetTileType()) << ' ';
+                        std::cout << static_cast<int>(m_tiles[z][y][x]->getTileType()) << ' ';
                     }
                     else
                     {
@@ -243,9 +243,9 @@ bool Map::Load(const std::string& filename)
 }
 
 // Save the Map to a save file
-bool Map::Save(const std::string& filename) const
+bool Map::save(const std::string& filename) const
 {
-    std::ofstream outputFile(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::resourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving Map...\n";
@@ -270,7 +270,7 @@ bool Map::Save(const std::string& filename) const
                         }
                         else
                         {
-                            layerOutput += std::to_string(static_cast<int>(m_tiles[z][y][x]->GetTileType()));
+                            layerOutput += std::to_string(static_cast<int>(m_tiles[z][y][x]->getTileType()));
                             isEmptyLayer = false;
                         }
                         if (x + 1 < m_indexDimensions.x)
@@ -302,19 +302,19 @@ bool Map::Save(const std::string& filename) const
 }
 
 // Convert world coordinates to a Tile index
-sf::Vector2u Map::CoordsToTileIndex(const sf::Vector2f& position) const
+sf::Vector2u Map::coordsToTileIndex(const sf::Vector2f& position) const
 {
     return sf::Vector2u(position.x / m_tileSize, position.y / m_tileSize);
 }
 
 // Convert a Tile index to world coordinates
-sf::Vector2f Map::TileIndexToCoords(const sf::Vector2u& position) const
+sf::Vector2f Map::tileIndexToCoords(const sf::Vector2u& position) const
 {
     return sf::Vector2f(position.x * m_tileSize, position.y * m_tileSize);
 }
 
 // Update a Tile's texture according to surrounding Tiles
-void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
+void Map::updateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 {
     if (layer == MapLayer::Count)
     {
@@ -332,8 +332,8 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
     }
 
     // If Grass-like Tile
-    if (m_tiles[z][y][x] != nullptr && m_tiles[z][y][x]->GetTileType() >= TileType::GrassTopLeftSides &&
-        m_tiles[z][y][x]->GetTileType() <= TileType::GrassNoSidesCorners23)
+    if (m_tiles[z][y][x] != nullptr && m_tiles[z][y][x]->getTileType() >= TileType::GrassTopLeftSides &&
+        m_tiles[z][y][x]->getTileType() <= TileType::GrassNoSidesCorners23)
     {
         bool isTopLeftEmpty = true;
         bool isTopEmpty = true;
@@ -348,7 +348,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
         {
             if (y > 0)
             {
-                isTopLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->IsSolid() == false);
+                isTopLeftEmpty = (m_tiles[z][y - 1][x - 1] == nullptr || m_tiles[z][y - 1][x - 1]->isSolid() == false);
             }
             else
             {
@@ -357,14 +357,14 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
             if (y < m_indexDimensions.y - 1)
             {
-                isBottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->IsSolid() == false);
+                isBottomLeftEmpty = (m_tiles[z][y + 1][x - 1] == nullptr || m_tiles[z][y + 1][x - 1]->isSolid() == false);
             }
             else
             {
                 isBottomLeftEmpty = false;
             }
 
-            isLeftEmpty = (m_tiles[z][y][x - 1] == nullptr || m_tiles[z][y][x - 1]->IsSolid() == false);
+            isLeftEmpty = (m_tiles[z][y][x - 1] == nullptr || m_tiles[z][y][x - 1]->isSolid() == false);
         }
         else
         {
@@ -377,7 +377,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
         {
             if (y > 0)
             {
-                isTopRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->IsSolid() == false);
+                isTopRightEmpty = (m_tiles[z][y - 1][x + 1] == nullptr || m_tiles[z][y - 1][x + 1]->isSolid() == false);
             }
             else
             {
@@ -386,14 +386,14 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
             if (y < m_indexDimensions.y - 1)
             {
-                isBottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->IsSolid() == false);
+                isBottomRightEmpty = (m_tiles[z][y + 1][x + 1] == nullptr || m_tiles[z][y + 1][x + 1]->isSolid() == false);
             }
             else
             {
                 isBottomRightEmpty = false;
             }
 
-            isRightEmpty = (m_tiles[z][y][x + 1] == nullptr || m_tiles[z][y][x + 1]->IsSolid() == false);
+            isRightEmpty = (m_tiles[z][y][x + 1] == nullptr || m_tiles[z][y][x + 1]->isSolid() == false);
         }
         else
         {
@@ -404,7 +404,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
         if (y > 0)
         {
-            isTopEmpty = (m_tiles[z][y - 1][x] == nullptr || m_tiles[z][y - 1][x]->IsSolid() == false);
+            isTopEmpty = (m_tiles[z][y - 1][x] == nullptr || m_tiles[z][y - 1][x]->isSolid() == false);
         }
         else
         {
@@ -413,7 +413,7 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
         if (y < m_indexDimensions.y - 1)
         {
-            isBottomEmpty = (m_tiles[z][y + 1][x] == nullptr || m_tiles[z][y + 1][x]->IsSolid() == false);
+            isBottomEmpty = (m_tiles[z][y + 1][x] == nullptr || m_tiles[z][y + 1][x]->isSolid() == false);
         }
         else
         {
@@ -422,185 +422,185 @@ void Map::UpdateTileTexture(const sf::Vector2u& tileIndex, MapLayer layer)
 
         if (isTopEmpty == true && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassTopLeftSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopLeftSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == false && isBottomEmpty == false &&
                  ((isBottomRightEmpty == false && isBottomLeftEmpty == false) || (isBottomLeftEmpty == true && isBottomRightEmpty == true)))
         {
-            AddTile(TileType::GrassTopSide, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopSide, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == true && isBottomLeftEmpty == false && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassTopRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false &&
                  ((isTopRightEmpty == false && isBottomRightEmpty == false) || (isTopRightEmpty == true && isBottomRightEmpty == true)) &&
                  isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassLeftSide, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassLeftSide, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == true &&
                  isRightEmpty == false && isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSides, sf::Vector2u(x, y), layer);
         }
         else if (((isTopLeftEmpty == false && isBottomLeftEmpty == false) || (isTopLeftEmpty == true && isBottomLeftEmpty == true)) &&
                  isTopEmpty == false && isLeftEmpty == false && isRightEmpty == true && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassRightSide, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassRightSide, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotLeftSide, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotLeftSide, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false &&
                  ((isTopRightEmpty == false && isTopLeftEmpty == false) || (isTopRightEmpty == true && isTopLeftEmpty == true)) &&
                  isLeftEmpty == false && isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotSide, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotSide, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isLeftEmpty == false && isRightEmpty == true && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == true && isRightEmpty == true && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassTopLeftRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopLeftRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isLeftEmpty == true && isRightEmpty == true && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassLeftRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassLeftRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isLeftEmpty == true && isRightEmpty == true && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotLeftRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotLeftRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassTopBotLeftSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopBotLeftSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassTopBotSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopBotSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == true && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassTopBotRightSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopBotRightSides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == true && isRightEmpty == true && isBottomEmpty == true)
         {
-            AddTile(TileType::Grass4Sides, sf::Vector2u(x, y), layer);
+            addTile(TileType::Grass4Sides, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassTopLeftSidesCorner3, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopLeftSidesCorner3, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == false && isBottomLeftEmpty == false &&
                  isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassTopSideCorner3, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopSideCorner3, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == false && isBottomLeftEmpty == true &&
                  isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassTopSideCorner4, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopSideCorner4, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == true && isLeftEmpty == false && isRightEmpty == true && isBottomLeftEmpty == true && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassTopRightSidesCorner4, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassTopRightSidesCorner4, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == true && isRightEmpty == false &&
                  isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassLeftSideCorner3, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassLeftSideCorner3, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassNoSidesCorner3, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorner3, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSidesCorner4, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorner4, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isLeftEmpty == false && isRightEmpty == true &&
                  isBottomLeftEmpty == true && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassRightSideCorner4, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassRightSideCorner4, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == false &&
                  isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassLeftSideCorner2, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassLeftSideCorner2, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomRightEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSidesCorner2, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorner2, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSidesCorner1, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorner1, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isLeftEmpty == false && isRightEmpty == true &&
                  isBottomLeftEmpty == false && isBottomEmpty == false)
         {
-            AddTile(TileType::GrassRightSideCorner1, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassRightSideCorner1, sf::Vector2u(x, y), layer);
         }
         else if (isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == true && isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotLeftSidesCorner2, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotLeftSidesCorner2, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotSideCorner2, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotSideCorner2, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotSideCorner1, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotSideCorner1, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isLeftEmpty == false && isRightEmpty == true && isBottomEmpty == true)
         {
-            AddTile(TileType::GrassBotRightSidesCorner1, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassBotRightSidesCorner1, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassNoSides4Corners, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSides4Corners, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSidesCorners12, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorners12, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassNoSidesCorners34, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorners34, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == true && isTopEmpty == false && isTopRightEmpty == false && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == true && isBottomEmpty == false && isBottomRightEmpty == false)
         {
-            AddTile(TileType::GrassNoSidesCorners14, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorners14, sf::Vector2u(x, y), layer);
         }
         else if (isTopLeftEmpty == false && isTopEmpty == false && isTopRightEmpty == true && isLeftEmpty == false &&
                  isRightEmpty == false && isBottomLeftEmpty == false && isBottomEmpty == false && isBottomRightEmpty == true)
         {
-            AddTile(TileType::GrassNoSidesCorners23, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSidesCorners23, sf::Vector2u(x, y), layer);
         }
         else
         {
-            AddTile(TileType::GrassNoSides, sf::Vector2u(x, y), layer);
+            addTile(TileType::GrassNoSides, sf::Vector2u(x, y), layer);
         }
     }
 }
 
 // Create a new Tile at the specified index
-void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
+void Map::addTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
     {
@@ -626,133 +626,133 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
     switch (tileType)
     {
     case TileType::GrassTopLeftSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopLeftSides"), tileType);
         break;
     case TileType::GrassTopSide:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSide"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopSide"), tileType);
         break;
     case TileType::GrassTopRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopRightSides"), tileType);
         break;
     case TileType::GrassLeftSide:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSide"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassLeftSide"), tileType);
         break;
     case TileType::GrassNoSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSides"), tileType);
         break;
     case TileType::GrassRightSide:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSide"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassRightSide"), tileType);
         break;
     case TileType::GrassBotLeftSide:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotLeftSides"), tileType);
         break;
     case TileType::GrassBotSide:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSide"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotSide"), tileType);
         break;
     case TileType::GrassBotRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotRightSides"), tileType);
         break;
     case TileType::GrassTopLeftRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopLeftRightSides"), tileType);
         break;
     case TileType::GrassLeftRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassLeftRightSides"), tileType);
         break;
     case TileType::GrassBotLeftRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotLeftRightSides"), tileType);
         break;
     case TileType::GrassTopBotLeftSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotLeftSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopBotLeftSides"), tileType);
         break;
     case TileType::GrassTopBotSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopBotSides"), tileType);
         break;
     case TileType::GrassTopBotRightSides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopBotRightSides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopBotRightSides"), tileType);
         break;
     case TileType::Grass4Sides:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grass4Sides"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grass4Sides"), tileType);
         break;
     case TileType::GrassTopLeftSidesCorner3:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopLeftSidesCorner3"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopLeftSidesCorner3"), tileType);
         break;
     case TileType::GrassTopSideCorner3:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSideCorner3"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopSideCorner3"), tileType);
         break;
     case TileType::GrassTopSideCorner4:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopSideCorner4"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopSideCorner4"), tileType);
         break;
     case TileType::GrassTopRightSidesCorner4:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassTopRightSidesCorner4"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassTopRightSidesCorner4"), tileType);
         break;
     case TileType::GrassLeftSideCorner3:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSideCorner3"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassLeftSideCorner3"), tileType);
         break;
     case TileType::GrassNoSidesCorner3:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner3"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorner3"), tileType);
         break;
     case TileType::GrassNoSidesCorner4:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner4"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorner4"), tileType);
         break;
     case TileType::GrassRightSideCorner4:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSideCorner4"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassRightSideCorner4"), tileType);
         break;
     case TileType::GrassLeftSideCorner2:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassLeftSideCorner2"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassLeftSideCorner2"), tileType);
         break;
     case TileType::GrassNoSidesCorner2:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner2"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorner2"), tileType);
         break;
     case TileType::GrassNoSidesCorner1:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorner1"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorner1"), tileType);
         break;
     case TileType::GrassRightSideCorner1:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassRightSideCorner1"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassRightSideCorner1"), tileType);
         break;
     case TileType::GrassBotLeftSidesCorner2:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotLeftSidesCorner2"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotLeftSidesCorner2"), tileType);
         break;
     case TileType::GrassBotSideCorner2:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSideCorner2"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotSideCorner2"), tileType);
         break;
     case TileType::GrassBotSideCorner1:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotSideCorner1"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotSideCorner1"), tileType);
         break;
     case TileType::GrassBotRightSidesCorner1:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassBotRightSidesCorner1"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassBotRightSidesCorner1"), tileType);
         break;
     case TileType::GrassNoSides4Corners:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSides4Corners"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSides4Corners"), tileType);
         break;
     case TileType::GrassNoSidesCorners12:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners12"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorners12"), tileType);
         break;
     case TileType::GrassNoSidesCorners34:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners34"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorners34"), tileType);
         break;
     case TileType::GrassNoSidesCorners14:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners14"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorners14"), tileType);
         break;
     case TileType::GrassNoSidesCorners23:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("grassNoSidesCorners23"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("grassNoSidesCorners23"), tileType);
         break;
     case TileType::Wood:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("wood"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("wood"), tileType);
         break;
     case TileType::Ladder:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("ladder"), tileType);
-        m_tiles[z][y][x]->SetSolid(false);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("ladder"), tileType);
+        m_tiles[z][y][x]->setSolid(false);
         break;
     case TileType::LadderTop:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("ladder"), tileType);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("ladder"), tileType);
         break;
     case TileType::Vine:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("vine"), tileType);
-        m_tiles[z][y][x]->SetSolid(false);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("vine"), tileType);
+        m_tiles[z][y][x]->setSolid(false);
         break;
     case TileType::Post:
-        m_tiles[z][y][x] = new Tile(m_resourceManager.GetTexture("post"), tileType);
-        m_tiles[z][y][x]->SetSolid(false);
+        m_tiles[z][y][x] = new Tile(m_resourceManager.getTexture("post"), tileType);
+        m_tiles[z][y][x]->setSolid(false);
         break;
     default:
         m_tiles[z][y][x] = nullptr;
@@ -761,9 +761,9 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
 
     if (m_tiles[z][y][x] != nullptr)
     {
-        m_tiles[z][y][x]->SetPosition(sf::Vector2f(tileIndex.x * m_tileSize, tileIndex.y * m_tileSize));
-        m_tiles[z][y][x]->SetDimensions(sf::Vector2f(m_tileSize, m_tileSize));
-        m_tiles[z][y][x]->SetColor(m_layerColors[z]);
+        m_tiles[z][y][x]->setPosition(sf::Vector2f(tileIndex.x * m_tileSize, tileIndex.y * m_tileSize));
+        m_tiles[z][y][x]->setDimensions(sf::Vector2f(m_tileSize, m_tileSize));
+        m_tiles[z][y][x]->setColor(m_layerColors[z]);
     }
 
     if (updateTextures == true)
@@ -772,14 +772,14 @@ void Map::AddTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer lay
         {
             for (int j = -1; j <= 1; j++)
             {
-                UpdateTileTexture(sf::Vector2u(x + i, y + j), layer);
+                updateTileTexture(sf::Vector2u(x + i, y + j), layer);
             }
         }
     }
 }
 
 // Create a new range of Tiles at the specified index
-void Map::AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
+void Map::addTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
     {
@@ -790,7 +790,7 @@ void Map::AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const s
     {
         for (unsigned int x = 0; x < range.x; x++)
         {
-            AddTile(tileType, tileIndex + sf::Vector2u(x, y), layer);
+            addTile(tileType, tileIndex + sf::Vector2u(x, y), layer);
         }
     }
 
@@ -800,14 +800,14 @@ void Map::AddTileRange(TileType tileType, const sf::Vector2u& tileIndex, const s
         {
             for (int x = -1; x <= static_cast<int>(range.x); x++)
             {
-                UpdateTileTexture(sf::Vector2u(tileIndex.x + x, tileIndex.y + y), layer);
+                updateTileTexture(sf::Vector2u(tileIndex.x + x, tileIndex.y + y), layer);
             }
         }
     }
 }
 
 // Delete the Tile at the specified index
-void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
+void Map::removeTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
     {
@@ -837,14 +837,14 @@ void Map::RemoveTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateT
         {
             for (int j = -1; j <= 1; j++)
             {
-                UpdateTileTexture(sf::Vector2u(x + i, y + j), layer);
+                updateTileTexture(sf::Vector2u(x + i, y + j), layer);
             }
         }
     }
 }
 
 // Delete the range of Tiles at the specified index
-void Map::RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
+void Map::removeTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
 {
     if (layer == MapLayer::Count)
     {
@@ -855,7 +855,7 @@ void Map::RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& ran
     {
         for (unsigned int x = 0; x < range.x; x++)
         {
-            RemoveTile(tileIndex + sf::Vector2u(x, y), layer);
+            removeTile(tileIndex + sf::Vector2u(x, y), layer);
         }
     }
 
@@ -865,14 +865,14 @@ void Map::RemoveTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& ran
         {
             for (int x = -1; x <= static_cast<int>(range.x); x++)
             {
-                UpdateTileTexture(sf::Vector2u(tileIndex.x + x, tileIndex.y + y), layer);
+                updateTileTexture(sf::Vector2u(tileIndex.x + x, tileIndex.y + y), layer);
             }
         }
     }
 }
 
 // Resize the Map to the specified index dimensions
-void Map::Resize(const sf::Vector2u& indexDimensions)
+void Map::resize(const sf::Vector2u& indexDimensions)
 {
     if (indexDimensions.x == 0 || indexDimensions.y == 0)
     {
@@ -927,7 +927,7 @@ void Map::Resize(const sf::Vector2u& indexDimensions)
 }
 
 // Remove all Tiles by deleting them and setting them to nullptr, but conserve the Map's index dimensions
-void Map::Clear()
+void Map::clear()
 {
     for (unsigned int z = 0; z < m_layerCount; z++)
     {
@@ -943,7 +943,7 @@ void Map::Clear()
 }
 
 // Remove all Tiles on a Layer by deleting them and setting them to nullptr
-void Map::ClearLayer(MapLayer layer)
+void Map::clearLayer(MapLayer layer)
 {
     if (layer == MapLayer::Count)
     {
@@ -961,7 +961,7 @@ void Map::ClearLayer(MapLayer layer)
 }
 
 // Set a layer's Tiles' color
-void Map::SetLayerColor(sf::Color color, MapLayer layer)
+void Map::setLayerColor(sf::Color color, MapLayer layer)
 {
     if (layer == MapLayer::Count)
     {
@@ -978,26 +978,26 @@ void Map::SetLayerColor(sf::Color color, MapLayer layer)
         {
             if (m_tiles[z][y][x] != nullptr)
             {
-                m_tiles[z][y][x]->SetColor(m_layerColors[z]);
+                m_tiles[z][y][x]->setColor(m_layerColors[z]);
             }
         }
     }
 }
 
 // Return Map dimensions, in world coords
-sf::Vector2u Map::GetBounds() const
+sf::Vector2u Map::getBounds() const
 {
     return sf::Vector2u(m_indexDimensions.x * m_tileSize, m_indexDimensions.y * m_tileSize);
 }
 
 // Return true if the Map is 0x0
-bool Map::IsNull() const
+bool Map::isNull() const
 {
     return (m_indexDimensions == sf::Vector2u(0, 0));
 }
 
 // Return a pointer to a const Tile at given coords
-const Tile* Map::GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const
+const Tile* Map::getKTilePtr(const sf::Vector2u& index, MapLayer layer) const
 {
     if (layer == MapLayer::Count || index.x >= m_indexDimensions.x || index.y >= m_indexDimensions.y)
     {
@@ -1008,7 +1008,7 @@ const Tile* Map::GetKTilePtr(const sf::Vector2u& index, MapLayer layer) const
 }
 
 // Return a pointer to a Tile at given coords
-Tile* Map::GetTilePtr(const sf::Vector2u& index, MapLayer layer) const
+Tile* Map::getTilePtr(const sf::Vector2u& index, MapLayer layer) const
 {
     if (layer == MapLayer::Count || index.x >= m_indexDimensions.x || index.y >= m_indexDimensions.y)
     {

@@ -43,35 +43,35 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
 }
 
 // Apply collision with a pointer to a const Tile
-void Entity::TileCollision(const Tile* pTile)
+void Entity::tileCollision(const Tile* pTile)
 {
     if (pTile == nullptr)
     {
         return;
     }
 
-    if (pTile->IsSolid())
+    if (pTile->isSolid())
     {
-        switch (pTile->GetTileType())
+        switch (pTile->getTileType())
         {
         default:
-            StandardCollision(pTile);
+            standardCollision(pTile);
             break;
         case TileType::LadderTop:
-            LadderTopCollision(pTile);
+            ladderTopCollision(pTile);
             break;
         }
     }
 }
 
 // Apply collision with a pointer to a const Entity
-void Entity::EntityCollision(const Entity* pEntity)
+void Entity::entityCollision(const Entity* pEntity)
 {
     // TODO
 }
 
 // Perform reactions with a pointer to a Tile
-void Entity::TileReaction(Tile* pTile)
+void Entity::tileReaction(Tile* pTile)
 {
     if (pTile == nullptr)
     {
@@ -79,14 +79,14 @@ void Entity::TileReaction(Tile* pTile)
         return;
     }
 
-    switch (pTile->GetTileType())
+    switch (pTile->getTileType())
     {
     case TileType::Ladder:
     case TileType::LadderTop:
-        Climb();
+        climb();
         break;
     case TileType::Vine:
-        Climb(0.75);
+        climb(0.75);
         break;
     default:
         m_state = EntityState::Still;
@@ -95,12 +95,12 @@ void Entity::TileReaction(Tile* pTile)
 }
 
 // Perform reactions with a pointer to an Entity
-void Entity::EntityReaction(Entity* pEntity)
+void Entity::entityReaction(Entity* pEntity)
 {
-    switch (pEntity->GetEntityType())
+    switch (pEntity->getEntityType())
     {
     case EntityType::Player:
-        PlayerReaction(pEntity);
+        playerReaction(pEntity);
         break;
     default:
         break;
@@ -108,10 +108,10 @@ void Entity::EntityReaction(Entity* pEntity)
 }
 
 // Collision used for Tiles that have collision for all four sides
-void Entity::StandardCollision(const Tile* pTile)
+void Entity::standardCollision(const Tile* pTile)
 {
-    sf::Vector2f tilePosition = pTile->GetPosition();
-    sf::Vector2f tileDimensions = pTile->GetDimensions();
+    sf::Vector2f tilePosition = pTile->getPosition();
+    sf::Vector2f tileDimensions = pTile->getDimensions();
     // Check for Y-axis overlap
     if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= tilePosition.y &&
         m_position.y - m_dimensions.y / 2 + m_velocity.y < tilePosition.y + tileDimensions.y)
@@ -236,10 +236,10 @@ void Entity::StandardCollision(const Tile* pTile)
 }
 
 // Collision used for LadderTop Tiles that have collision for all four sides
-void Entity::LadderTopCollision(const Tile* pTile)
+void Entity::ladderTopCollision(const Tile* pTile)
 {
-    sf::Vector2f tilePosition = pTile->GetPosition();
-    sf::Vector2f tileDimensions = pTile->GetDimensions();
+    sf::Vector2f tilePosition = pTile->getPosition();
+    sf::Vector2f tileDimensions = pTile->getDimensions();
     // If Entity is going downwards
     if (m_velocity.y >= 0)
     {
@@ -271,45 +271,45 @@ void Entity::LadderTopCollision(const Tile* pTile)
     }
 }
 
-void Entity::MoveLeft()
+void Entity::moveLeft()
 {
-    if (GetVelocity().x > 0)
+    if (getVelocity().x > 0)
     {
-        SetHorizVelocity(GetVelocity().x - m_deceleration);
+        setHorizVelocity(getVelocity().x - m_deceleration);
     }
     else
     {
-        SetHorizVelocity(GetVelocity().x - m_acceleration);
+        setHorizVelocity(getVelocity().x - m_acceleration);
     }
 }
 
-void Entity::MoveRight()
+void Entity::moveRight()
 {
-    if (GetVelocity().x < 0)
+    if (getVelocity().x < 0)
     {
-        SetHorizVelocity(GetVelocity().x + m_deceleration);
+        setHorizVelocity(getVelocity().x + m_deceleration);
     }
     else
     {
-        SetHorizVelocity(GetVelocity().x + m_acceleration);
+        setHorizVelocity(getVelocity().x + m_acceleration);
     }
 }
 
-void Entity::Jump()
+void Entity::jump()
 {
-    SetVertVelocity(-m_jumpForce);
+    setVertVelocity(-m_jumpForce);
 }
 
-void Entity::Climb(float factor)
+void Entity::climb(float factor)
 {
     // If pressing up or down
     if (m_inputDirection.y != 0.0)
     {
-        SetVertVelocity(m_defaultClimbSpeed * factor * m_inputDirection.y / 100.0);
+        setVertVelocity(m_defaultClimbSpeed * factor * m_inputDirection.y / 100.0);
     }
     else
     {
-        SetVertVelocity(0);
+        setVertVelocity(0);
     }
 
     if (m_isOnGround == false)
@@ -321,13 +321,13 @@ void Entity::Climb(float factor)
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
-        if (GetVelocity().y == 0 && m_state == EntityState::Climbing)
+        if (getVelocity().y == 0 && m_state == EntityState::Climbing)
         {
-            it->second.Pause();
+            it->second.pause();
         }
         else
         {
-            it->second.Play();
+            it->second.play();
         }
     }
 }
@@ -352,7 +352,7 @@ void Entity::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 }
 
 // Apply deceleration
-void Entity::ApplyDeceleration()
+void Entity::applyDeceleration()
 {
     if (m_velocity.x >= m_deceleration)
     {
@@ -369,7 +369,7 @@ void Entity::ApplyDeceleration()
 }
 
 // Apply gravity to the Entity
-void Entity::ApplyGravity()
+void Entity::applyGravity()
 {
     if (m_isGravityApplied == true)
     {
@@ -378,7 +378,7 @@ void Entity::ApplyGravity()
 }
 
 // Cap the Entity's velocity
-void Entity::MaxVelocityCap()
+void Entity::maxVelocityCap()
 {
     // Set max velocity proportional to input activation percentage
     float maxVelocity = m_maxVelocity.x * m_inputDirection.x / 100.0;
@@ -402,9 +402,9 @@ void Entity::MaxVelocityCap()
 }
 
 // Apply collision with the edges of the Map
-void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollisionEnabled)
+void Entity::mapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollisionEnabled)
 {
-    if (m_rMap.IsNull())
+    if (m_rMap.isNull())
     {
         return;
     }
@@ -416,9 +416,9 @@ void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
             m_position.x = 0 + m_dimensions.x / 2;
             m_velocity.x = 0;
         }
-        else if (m_position.x + m_dimensions.x / 2 + m_velocity.x >= m_rMap.GetBounds().x)
+        else if (m_position.x + m_dimensions.x / 2 + m_velocity.x >= m_rMap.getBounds().x)
         {
-            m_position.x = m_rMap.GetBounds().x - m_dimensions.x / 2;
+            m_position.x = m_rMap.getBounds().x - m_dimensions.x / 2;
             m_velocity.x = 0;
         }
     }
@@ -430,9 +430,9 @@ void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
             m_velocity.y = 0;
             m_isOnGround = false;
         }
-        else if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= m_rMap.GetBounds().y)
+        else if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= m_rMap.getBounds().y)
         {
-            m_position.y = m_rMap.GetBounds().y - m_dimensions.y / 2;
+            m_position.y = m_rMap.getBounds().y - m_dimensions.y / 2;
             m_velocity.y = 0;
             m_isOnGround = true;
         }
@@ -440,18 +440,18 @@ void Entity::MapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
 }
 
 // Perform collision checks and resolutions with Tiles, Map edge, and Entities
-void Entity::PerformCollisions()
+void Entity::performCollisions()
 {
     // Determine the range of positions where the Entity could be in the next tick
     float biggestAxis = std::fmax(m_dimensions.x, m_dimensions.y);
     float highestVelocity = std::fmax(m_velocity.x, m_velocity.y);
-    float range = (biggestAxis + highestVelocity) / m_rMap.GetTileSize();
+    float range = (biggestAxis + highestVelocity) / m_rMap.getTileSize();
 
     // Collision with Tiles
     if (m_isTileCollideable == true)
     {
         // Loop through Tiles in the same direction as the Entity's velocity to fix collision problems
-        sf::Vector2u positionIndex = m_rMap.CoordsToTileIndex(m_position);
+        sf::Vector2u positionIndex = m_rMap.coordsToTileIndex(m_position);
         if (m_velocity.x >= 0)
         {
             for (int i = -range - 1; i <= range + 1; i++)
@@ -460,14 +460,14 @@ void Entity::PerformCollisions()
                 {
                     for (int j = -range - 1; j <= range + 1; j++)
                     {
-                        TileCollision(m_rMap.GetKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
                 else
                 {
                     for (int j = range + 1; j >= -range - 1; j--)
                     {
-                        TileCollision(m_rMap.GetKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
             }
@@ -480,21 +480,21 @@ void Entity::PerformCollisions()
                 {
                     for (int j = -range - 1; j <= range + 1; j++)
                     {
-                        TileCollision(m_rMap.GetKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
                 else
                 {
                     for (int j = range + 1; j >= -range - 1; j--)
                     {
-                        TileCollision(m_rMap.GetKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
             }
         }
     }
 
-    MapEdgeCollision();
+    mapEdgeCollision();
 
     // Collision with Entities
     if (m_isEntityCollideable == true)
@@ -503,64 +503,64 @@ void Entity::PerformCollisions()
         {
             if (rEntity != this)
             {
-                EntityCollision(rEntity);
+                entityCollision(rEntity);
             }
         }
     }
 }
 
-void Entity::Update()
+void Entity::update()
 {
     m_previousPosition = m_position;
 
     // Movement
-    ApplyGravity();
+    applyGravity();
     if (m_inputDirection.x < 0)
     {
-        MoveLeft();
+        moveLeft();
         m_isFacingRight = false;
     }
     else if (m_inputDirection.x > 0)
     {
-        MoveRight();
+        moveRight();
         m_isFacingRight = true;
     }
     else
     {
-        ApplyDeceleration();
+        applyDeceleration();
     }
 
     if (m_isPressingUp && m_isOnGround == true)
     {
-        Jump();
+        jump();
     }
 
     // Max velocity
-    MaxVelocityCap();
+    maxVelocityCap();
 
     // Reactions with Tiles
     // clang-format off
     std::array<sf::Vector2f, 5> tileReactionPoints = {
         // Center
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetVelocity().y),
+        sf::Vector2f(getPosition().x + getVelocity().x, getPosition().y + getVelocity().y),
         // Near bottom
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y + GetDimensions().y / 2.75 + GetVelocity().y),
+        sf::Vector2f(getPosition().x + getVelocity().x, getPosition().y + getDimensions().y / 2.75 + getVelocity().y),
         // Near top
-        sf::Vector2f(GetPosition().x + GetVelocity().x, GetPosition().y - GetDimensions().y / 2.75 - GetVelocity().y),
+        sf::Vector2f(getPosition().x + getVelocity().x, getPosition().y - getDimensions().y / 2.75 - getVelocity().y),
         // Near left
-        sf::Vector2f(GetPosition().x - GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y),
+        sf::Vector2f(getPosition().x - getDimensions().x / 2.75 + getVelocity().x, getPosition().y + getVelocity().y),
         // Near right
-        sf::Vector2f(GetPosition().x + GetDimensions().x / 2.75 + GetVelocity().x, GetPosition().y + GetVelocity().y)
+        sf::Vector2f(getPosition().x + getDimensions().x / 2.75 + getVelocity().x, getPosition().y + getVelocity().y)
     };
     // clang-format on
 
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (std::size_t i = 0; i < tileReactionPoints.size(); i++)
     {
-        Tile* pTile = m_rMap.GetTilePtr(m_rMap.CoordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
+        Tile* pTile = m_rMap.getTilePtr(m_rMap.coordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
         if (pTile != nullptr)
         {
-            TileReaction(pTile);
+            tileReaction(pTile);
             m_tileReactionDot.setPosition(tileReactionPoints[i]);
             break;
         }
@@ -569,7 +569,7 @@ void Entity::Update()
         if (i == tileReactionPoints.size() - 1)
         {
             m_tileReactionDot.setPosition(tileReactionPoints.front());
-            TileReaction(nullptr);
+            tileReaction(nullptr);
         }
     }
 
@@ -578,9 +578,9 @@ void Entity::Update()
 
     // Collisions
     m_isOnGround = false;
-    PerformCollisions();
+    performCollisions();
 
-    SetPosition(GetPosition() + GetVelocity());
+    setPosition(getPosition() + getVelocity());
 
     // States
     if (m_state != EntityState::Climbing || m_isOnGround == true)
@@ -591,7 +591,7 @@ void Entity::Update()
         }
         else if (m_isOnGround == false)
         {
-            if (GetVelocity().y >= 0)
+            if (getVelocity().y >= 0)
             {
                 m_state = EntityState::Falling;
             }
@@ -613,31 +613,31 @@ void Entity::Update()
         // Set animation speed proportionally to the input magnitude
         if (m_state == EntityState::Running)
         {
-            it->second.SetFrameDuration(100.0 / std::fabs(m_inputDirection.x));
+            it->second.setFrameDuration(100.0 / std::fabs(m_inputDirection.x));
         }
         if (m_state == EntityState::Climbing && m_inputDirection.y != 0)
         {
-            it->second.SetFrameDuration(100.0 / std::fabs(m_inputDirection.y) * 2.0);
+            it->second.setFrameDuration(100.0 / std::fabs(m_inputDirection.y) * 2.0);
         }
 
         if (m_state != EntityState::Climbing)
         {
-            it->second.SetFlipped(!m_isFacingRight);
+            it->second.setFlipped(!m_isFacingRight);
         }
-        it->second.Update();
-        it->second.Play();
+        it->second.update();
+        it->second.play();
     }
 
-    m_collisionBox.setPosition(GetPosition());
+    m_collisionBox.setPosition(getPosition());
 }
 
-void Entity::Interpolate(float lag)
+void Entity::interpolate(float lag)
 {
     sf::Vector2f position = m_previousPosition + (m_position - m_previousPosition) * lag;
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
-        it->second.SetPosition(position);
+        it->second.setPosition(position);
     }
     else
     {
@@ -645,7 +645,7 @@ void Entity::Interpolate(float lag)
     }
 }
 
-void Entity::SetStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled)
+void Entity::setStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled)
 {
     auto it = m_animatedSprites.find(targetState);
     // If animation is already set to a state, overwrite it
@@ -659,12 +659,12 @@ void Entity::SetStateAnimation(EntityState targetState, const AnimatedSprite& an
     }
 
     // Set animation settings
-    it->second.SetFrameDuration(frameDuration);
-    it->second.SetLoopingEnabled(isLoopingEnabled);
-    it->second.SetPosition(m_position);
+    it->second.setFrameDuration(frameDuration);
+    it->second.setLoopingEnabled(isLoopingEnabled);
+    it->second.setPosition(m_position);
 }
 
-void Entity::SetStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled)
+void Entity::setStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled)
 {
     auto it = m_animatedSprites.find(targetState);
     // If animation is already set to a state, overwrite it
@@ -678,19 +678,19 @@ void Entity::SetStateAnimation(EntityState targetState, AnimatedSprite&& animate
     }
 
     // Set animation settings
-    it->second.SetFrameDuration(frameDuration);
-    it->second.SetLoopingEnabled(isLoopingEnabled);
-    it->second.SetPosition(m_position);
+    it->second.setFrameDuration(frameDuration);
+    it->second.setLoopingEnabled(isLoopingEnabled);
+    it->second.setPosition(m_position);
 }
 
-void Entity::SetDefaultSpriteTexture(const sf::Texture& texture)
+void Entity::setDefaultSpriteTexture(const sf::Texture& texture)
 {
     m_defaultSprite.setTexture(texture);
     m_defaultSprite.setOrigin(static_cast<sf::Vector2f>(texture.getSize()) / 2.0f);
     m_defaultSprite.setPosition(m_position);
 }
 
-std::string Entity::GetEntityTypeString(EntityType entityType)
+std::string Entity::getEntityTypeString(EntityType entityType)
 {
     static const std::unordered_map<EntityType, std::string> entityTypeStrings = {{EntityType::Player, "Player"}};
 
@@ -703,7 +703,7 @@ std::string Entity::GetEntityTypeString(EntityType entityType)
     return "Unknown EntityType";
 }
 
-std::vector<std::string> Entity::GetTextureNames(EntityType entityType)
+std::vector<std::string> Entity::getTextureNames(EntityType entityType)
 {
     static const std::unordered_map<EntityType, std::vector<std::string>> entityTextures = {
         {EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}};
@@ -719,22 +719,22 @@ std::vector<std::string> Entity::GetTextureNames(EntityType entityType)
 
 // Functions used for getting Entity's pixel position bounds
 
-float Entity::GetLeftPixelPosition() const
+float Entity::getLeftPixelPosition() const
 {
     return m_position.x - m_dimensions.x / 2;
 }
 
-float Entity::GetRightPixelPosition() const
+float Entity::getRightPixelPosition() const
 {
     return m_position.x + m_dimensions.x / 2 - 1; // Solve off-by-one error caused by pixel width
 }
 
-float Entity::GetTopPixelPosition() const
+float Entity::getTopPixelPosition() const
 {
     return m_position.y - m_dimensions.y / 2;
 }
 
-float Entity::GetBottomPixelPosition() const
+float Entity::getBottomPixelPosition() const
 {
     return m_position.y + m_dimensions.y / 2 - 1; // Solve off-by-one error caused by pixel width
 }

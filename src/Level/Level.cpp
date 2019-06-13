@@ -6,6 +6,7 @@
 #include <sstream>
 #include <unordered_map>
 #include "Core/FileManager.h"
+#include "Level/Player.h"
 #include "Misc/Utility.h"
 
 Level::Level(const ResourceManager& resourceManager, const InputManager& inputManager)
@@ -16,11 +17,11 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
     , m_isCreatorModeEnabled(false)
     , m_isEntityDebugBoxVisible(false)
 {
-    m_map.SetLayerColor(sf::Color(112, 112, 112, 255), MapLayer::Background);
-    m_map.SetLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
+    m_map.setLayerColor(sf::Color(112, 112, 112, 255), MapLayer::Background);
+    m_map.setLayerColor(sf::Color(255, 255, 255, 192), MapLayer::Overlay);
 
-    m_camera.SetFollowLerp(0.2);
-    m_camera.SetBoundless(false);
+    m_camera.setFollowLerp(0.2);
+    m_camera.setBoundless(false);
 }
 
 Level::~Level()
@@ -32,12 +33,12 @@ Level::~Level()
 }
 
 // Load the background from a save file
-bool Level::LoadBackground(const std::string& filename)
+bool Level::loadBackground(const std::string& filename)
 {
     // Remove all ParallaxSprites (necessary when changing level)
     m_parallaxSprites.clear();
 
-    std::ifstream inputFile(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::resourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading background...\n";
@@ -61,8 +62,8 @@ bool Level::LoadBackground(const std::string& filename)
                 return false;
             }
 
-            m_parallaxSprites.emplace_back(m_resourceManager.GetTexture(resourceName), parallaxValue);
-            m_parallaxSprites.back().SetResourceName(resourceName);
+            m_parallaxSprites.emplace_back(m_resourceManager.getTexture(resourceName), parallaxValue);
+            m_parallaxSprites.back().setResourceName(resourceName);
 
             std::string pair;
             while (lineStream >> pair)
@@ -80,125 +81,125 @@ bool Level::LoadBackground(const std::string& filename)
 
                 if (key == "positionMode")
                 {
-                    m_parallaxSprites.back().SetPositionModeString(value);
+                    m_parallaxSprites.back().setPositionModeString(value);
                 }
                 else if (key == "repeatTexture")
                 {
-                    m_parallaxSprites.back().SetRepeatTextureString(value);
+                    m_parallaxSprites.back().setRepeatTextureString(value);
                 }
                 else if (key == "scale")
                 {
-                    m_parallaxSprites.back().SetScaleString(value);
+                    m_parallaxSprites.back().setScaleString(value);
                 }
                 else if (key == "offset")
                 {
-                    m_parallaxSprites.back().SetOffsetString(value);
+                    m_parallaxSprites.back().setOffsetString(value);
                 }
             }
 
             // Position mode
-            std::string positionModeString = m_parallaxSprites.back().GetPositionModeString();
+            std::string positionModeString = m_parallaxSprites.back().getPositionModeString();
             if (!positionModeString.empty())
             {
                 if (positionModeString == "TL")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({0, 0});
-                    m_parallaxSprites.back().SetPosition({0, 0});
+                    m_parallaxSprites.back().setRelativeOrigin({0, 0});
+                    m_parallaxSprites.back().setPosition({0, 0});
                 }
                 else if (positionModeString == "TM")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({0.5, 0});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, 0));
+                    m_parallaxSprites.back().setRelativeOrigin({0.5, 0});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, 0));
                 }
                 else if (positionModeString == "TR")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({1, 0});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, 0));
+                    m_parallaxSprites.back().setRelativeOrigin({1, 0});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, 0));
                 }
                 else if (positionModeString == "ML")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({0, 0.5});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(0, m_map.GetBounds().y / 2.0f));
+                    m_parallaxSprites.back().setRelativeOrigin({0, 0.5});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(0, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MM")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({0.5, 0.5});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, m_map.GetBounds().y / 2.0f));
+                    m_parallaxSprites.back().setRelativeOrigin({0.5, 0.5});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MR")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({1, 0.5});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, m_map.GetBounds().y / 2.0f));
+                    m_parallaxSprites.back().setRelativeOrigin({1, 0.5});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "BL")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({1, 1});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(0, m_map.GetBounds().y));
+                    m_parallaxSprites.back().setRelativeOrigin({1, 1});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(0, m_map.getBounds().y));
                 }
                 else if (positionModeString == "BM")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({0.5, 1});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x / 2.0f, m_map.GetBounds().y));
+                    m_parallaxSprites.back().setRelativeOrigin({0.5, 1});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, m_map.getBounds().y));
                 }
                 else if (positionModeString == "BR")
                 {
-                    m_parallaxSprites.back().SetRelativeOrigin({1, 1});
-                    m_parallaxSprites.back().SetPosition(sf::Vector2f(m_map.GetBounds().x, m_map.GetBounds().y));
+                    m_parallaxSprites.back().setRelativeOrigin({1, 1});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, m_map.getBounds().y));
                 }
             }
 
             // Repeat texture
-            std::string repeatTextureString = m_parallaxSprites.back().GetRepeatTextureString();
+            std::string repeatTextureString = m_parallaxSprites.back().getRepeatTextureString();
             if (!repeatTextureString.empty())
             {
                 if (repeatTextureString == "XY")
                 {
-                    m_parallaxSprites.back().SetTextureRect(static_cast<sf::Vector2f>(m_map.GetBounds()));
+                    m_parallaxSprites.back().setTextureRect(static_cast<sf::Vector2f>(m_map.getBounds()));
                 }
                 else if (repeatTextureString == "X")
                 {
-                    m_parallaxSprites.back().SetTextureRect(
-                        sf::Vector2f(m_map.GetBounds().x, m_parallaxSprites.back().GetTexture()->getSize().y));
+                    m_parallaxSprites.back().setTextureRect(
+                        sf::Vector2f(m_map.getBounds().x, m_parallaxSprites.back().getTexture()->getSize().y));
                 }
                 else if (repeatTextureString == "Y")
                 {
-                    m_parallaxSprites.back().SetTextureRect(
-                        sf::Vector2f(m_parallaxSprites.back().GetTexture()->getSize().x, m_map.GetBounds().y));
+                    m_parallaxSprites.back().setTextureRect(
+                        sf::Vector2f(m_parallaxSprites.back().getTexture()->getSize().x, m_map.getBounds().y));
                 }
             }
 
             // Scale
-            std::string scaleString = m_parallaxSprites.back().GetScaleString();
+            std::string scaleString = m_parallaxSprites.back().getScaleString();
             if (!scaleString.empty())
             {
                 if (scaleString == "map")
                 {
-                    float scale = Utility::GetScaleToFill(static_cast<sf::Vector2f>(m_parallaxSprites.back().GetTexture()->getSize()),
-                                                          static_cast<sf::Vector2f>(m_map.GetBounds()));
-                    m_parallaxSprites.back().SetScale({scale, scale});
+                    float scale = Utility::getScaleToFill(static_cast<sf::Vector2f>(m_parallaxSprites.back().getTexture()->getSize()),
+                                                          static_cast<sf::Vector2f>(m_map.getBounds()));
+                    m_parallaxSprites.back().setScale({scale, scale});
                 }
                 else
                 {
                     std::size_t commaPos = scaleString.find(',');
                     float x = std::stof(scaleString.substr(0, commaPos));
                     float y = std::stof(scaleString.substr(commaPos + 1));
-                    m_parallaxSprites.back().SetScale({x, y});
+                    m_parallaxSprites.back().setScale({x, y});
                 }
             }
 
             // Offset
-            std::string offsetString = m_parallaxSprites.back().GetOffsetString();
+            std::string offsetString = m_parallaxSprites.back().getOffsetString();
             if (!offsetString.empty())
             {
                 std::size_t commaPos = offsetString.find(',');
                 float x = std::stof(offsetString.substr(0, commaPos));
                 float y = std::stof(offsetString.substr(commaPos + 1));
-                m_parallaxSprites.back().SetPosition(m_parallaxSprites.back().GetPosition() + sf::Vector2f(x, y));
+                m_parallaxSprites.back().setPosition(m_parallaxSprites.back().getPosition() + sf::Vector2f(x, y));
             }
         }
 
         std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
-            return a.GetParallax() > b.GetParallax();
+            return a.getParallax() > b.getParallax();
         });
 
         std::cout << "Background successfully loaded.\n\n";
@@ -211,9 +212,9 @@ bool Level::LoadBackground(const std::string& filename)
 }
 
 // Save the background to a save file
-bool Level::SaveBackground(const std::string& filename) const
+bool Level::saveBackground(const std::string& filename) const
 {
-    std::ofstream outputFile(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::resourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving background...\n";
@@ -223,7 +224,7 @@ bool Level::SaveBackground(const std::string& filename) const
 
         std::vector<ParallaxSprite> sortedParallaxSprites(m_parallaxSprites);
         std::sort(sortedParallaxSprites.begin(), sortedParallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
-            return a.GetParallax() > b.GetParallax();
+            return a.getParallax() > b.getParallax();
         });
 
         std::cout << "Number of parallax sprites: " << m_parallaxSprites.size() << '\n';
@@ -231,24 +232,24 @@ bool Level::SaveBackground(const std::string& filename) const
         std::cout << "Parallax sprites:\n";
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
-            outputFile << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax()
-                       << " positionMode:" << parallaxSprite.GetPositionModeString();
-            if (!parallaxSprite.GetRepeatTextureString().empty())
+            outputFile << parallaxSprite.getResourceName() << ' ' << parallaxSprite.getParallax()
+                       << " positionMode:" << parallaxSprite.getPositionModeString();
+            if (!parallaxSprite.getRepeatTextureString().empty())
             {
-                outputFile << " repeatTexture:" << parallaxSprite.GetRepeatTextureString();
+                outputFile << " repeatTexture:" << parallaxSprite.getRepeatTextureString();
             }
-            if (!parallaxSprite.GetScaleString().empty())
+            if (!parallaxSprite.getScaleString().empty())
             {
-                outputFile << " scale:" << parallaxSprite.GetScaleString();
+                outputFile << " scale:" << parallaxSprite.getScaleString();
             }
-            if (!parallaxSprite.GetOffsetString().empty())
+            if (!parallaxSprite.getOffsetString().empty())
             {
-                outputFile << " offset:" << parallaxSprite.GetOffsetString();
+                outputFile << " offset:" << parallaxSprite.getOffsetString();
             }
             outputFile << '\n';
 
-            std::cout << parallaxSprite.GetResourceName() << ' ' << parallaxSprite.GetParallax()
-                      << " positionMode:" << parallaxSprite.GetPositionModeString() << '\n';
+            std::cout << parallaxSprite.getResourceName() << ' ' << parallaxSprite.getParallax()
+                      << " positionMode:" << parallaxSprite.getPositionModeString() << '\n';
         }
 
         std::cout << "Background successfully saved.\n\n";
@@ -261,7 +262,7 @@ bool Level::SaveBackground(const std::string& filename) const
 }
 
 // Load the Entities from a save file
-bool Level::LoadEntities(const std::string& filename)
+bool Level::loadEntities(const std::string& filename)
 {
     // Remove all Entities (necessary when changing level)
     for (const auto& pEntity : m_entities)
@@ -269,7 +270,7 @@ bool Level::LoadEntities(const std::string& filename)
         delete pEntity;
     }
 
-    std::ifstream inputFile(FileManager::ResourcePath() + filename);
+    std::ifstream inputFile(FileManager::resourcePath() + filename);
     if (inputFile)
     {
         std::cout << "Loading Entities...\n";
@@ -289,23 +290,23 @@ bool Level::LoadEntities(const std::string& filename)
             {
             case EntityType::Player:
                 rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f(xPosition, yPosition));
-                rpEntity->SetStateAnimation(EntityState::Still,
-                                            AnimatedSprite(m_resourceManager.GetTexture("characterStill"), sf::Vector2u(54, 82), 22), 3);
-                rpEntity->SetStateAnimation(EntityState::Running,
-                                            AnimatedSprite(m_resourceManager.GetTexture("characterRunning"), sf::Vector2u(82, 82), 27), 1);
-                rpEntity->SetStateAnimation(EntityState::Climbing,
-                                            AnimatedSprite(m_resourceManager.GetTexture("characterClimbing"), sf::Vector2u(70, 82), 8), 2);
-                rpEntity->SetStateAnimation(EntityState::Jumping,
-                                            AnimatedSprite(m_resourceManager.GetTexture("characterJumping"), sf::Vector2u(66, 82), 3), 2);
-                rpEntity->SetStateAnimation(EntityState::Falling,
-                                            AnimatedSprite(m_resourceManager.GetTexture("characterFalling"), sf::Vector2u(72, 82), 3), 2);
-                rpEntity->SetPosition({xPosition, yPosition});
+                rpEntity->setStateAnimation(EntityState::Still,
+                                            AnimatedSprite(m_resourceManager.getTexture("characterStill"), sf::Vector2u(54, 82), 22), 3);
+                rpEntity->setStateAnimation(EntityState::Running,
+                                            AnimatedSprite(m_resourceManager.getTexture("characterRunning"), sf::Vector2u(82, 82), 27), 1);
+                rpEntity->setStateAnimation(EntityState::Climbing,
+                                            AnimatedSprite(m_resourceManager.getTexture("characterClimbing"), sf::Vector2u(70, 82), 8), 2);
+                rpEntity->setStateAnimation(EntityState::Jumping,
+                                            AnimatedSprite(m_resourceManager.getTexture("characterJumping"), sf::Vector2u(66, 82), 3), 2);
+                rpEntity->setStateAnimation(EntityState::Falling,
+                                            AnimatedSprite(m_resourceManager.getTexture("characterFalling"), sf::Vector2u(72, 82), 3), 2);
+                rpEntity->setPosition({xPosition, yPosition});
                 break;
             default:
                 break;
             }
-            std::cout << Entity::GetEntityTypeString(rpEntity->GetEntityType()) << " at (" << rpEntity->GetPosition().x << ", "
-                      << rpEntity->GetPosition().y << ")\n";
+            std::cout << Entity::getEntityTypeString(rpEntity->getEntityType()) << " at (" << rpEntity->getPosition().x << ", "
+                      << rpEntity->getPosition().y << ")\n";
         }
 
         std::cout << "Entities successfully loaded.\n\n";
@@ -318,9 +319,9 @@ bool Level::LoadEntities(const std::string& filename)
 }
 
 // Save the Entities to a save file
-bool Level::SaveEntities(const std::string& filename) const
+bool Level::saveEntities(const std::string& filename) const
 {
-    std::ofstream outputFile(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::resourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving Entities...\n";
@@ -330,10 +331,10 @@ bool Level::SaveEntities(const std::string& filename) const
         std::cout << "Entities:\n";
         for (const auto& pEntity : m_entities)
         {
-            outputFile << static_cast<int>(pEntity->GetEntityType()) << ' ' << pEntity->GetPosition().x << ' ' << pEntity->GetPosition().y
+            outputFile << static_cast<int>(pEntity->getEntityType()) << ' ' << pEntity->getPosition().x << ' ' << pEntity->getPosition().y
                        << "\n";
-            std::cout << Entity::GetEntityTypeString(pEntity->GetEntityType()) << " at (" << pEntity->GetPosition().x << ", "
-                      << pEntity->GetPosition().y << ")\n";
+            std::cout << Entity::getEntityTypeString(pEntity->getEntityType()) << " at (" << pEntity->getPosition().x << ", "
+                      << pEntity->getPosition().y << ")\n";
         }
 
         std::cout << "Entities successfully saved.\n\n";
@@ -346,16 +347,16 @@ bool Level::SaveEntities(const std::string& filename) const
 }
 
 // Load the list of necessary resources for the Level from a save file
-bool Level::LoadResources(const std::string& filename)
+bool Level::loadResources(const std::string& filename)
 {
     // TODO
     return true;
 }
 
 // Save the list of necessary resources for the Level to a save file
-bool Level::SaveResources(const std::string& filename) const
+bool Level::saveResources(const std::string& filename) const
 {
-    std::ofstream outputFile(FileManager::ResourcePath() + filename);
+    std::ofstream outputFile(FileManager::resourcePath() + filename);
     if (outputFile)
     {
         std::cout << "Saving resources...\n";
@@ -363,16 +364,16 @@ bool Level::SaveResources(const std::string& filename) const
         std::set<std::string> resources;
 
         // Tiles
-        for (unsigned int z = 0; z < m_map.GetLayerCount(); z++)
+        for (unsigned int z = 0; z < m_map.getLayerCount(); z++)
         {
-            for (unsigned int y = 0; y < m_map.GetIndexDimensions().y; y++)
+            for (unsigned int y = 0; y < m_map.getIndexDimensions().y; y++)
             {
-                for (unsigned int x = 0; x < m_map.GetIndexDimensions().x; x++)
+                for (unsigned int x = 0; x < m_map.getIndexDimensions().x; x++)
                 {
-                    const Tile* pTile = m_map.GetKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
+                    const Tile* pTile = m_map.getKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
                     if (pTile != nullptr)
                     {
-                        resources.insert(Tile::GetTextureName(pTile->GetTileType()));
+                        resources.insert(Tile::getTextureName(pTile->getTileType()));
                     }
                 }
             }
@@ -381,7 +382,7 @@ bool Level::SaveResources(const std::string& filename) const
         // Background
         for (const auto& parallaxSprite : m_parallaxSprites)
         {
-            resources.insert(parallaxSprite.GetResourceName());
+            resources.insert(parallaxSprite.getResourceName());
         }
 
         // Entities
@@ -389,7 +390,7 @@ bool Level::SaveResources(const std::string& filename) const
         {
             if (pEntity != nullptr)
             {
-                std::vector<std::string> entityTextureNames = Entity::GetTextureNames(pEntity->GetEntityType());
+                std::vector<std::string> entityTextureNames = Entity::getTextureNames(pEntity->getEntityType());
                 for (const auto& textureName : entityTextureNames)
                 {
                     resources.insert(textureName);
@@ -413,7 +414,7 @@ bool Level::SaveResources(const std::string& filename) const
     return false;
 }
 
-void Level::HandleInput()
+void Level::handleInput()
 {
     // Do not handle input if the Level does not have the GUI focus
     if (m_hasFocus == false)
@@ -422,12 +423,12 @@ void Level::HandleInput()
     }
 
     // Show debug boxes
-    if (m_inputManager.IsKeyDescending(sf::Keyboard::BackSlash))
+    if (m_inputManager.isKeyDescending(sf::Keyboard::BackSlash))
     {
         m_isEntityDebugBoxVisible = !m_isEntityDebugBoxVisible;
         for (const auto& pEntity : m_entities)
         {
-            pEntity->SetDebugBoxVisible(m_isEntityDebugBoxVisible);
+            pEntity->setDebugBoxVisible(m_isEntityDebugBoxVisible);
         }
     }
 
@@ -436,86 +437,86 @@ void Level::HandleInput()
     {
         for (const auto& pEntity : m_entities)
         {
-            pEntity->HandleInput();
+            pEntity->handleInput();
         }
     }
 
     // Camera manual control
-    float cameraSpeed = 5 * m_camera.GetZoom();
-    if (m_inputManager.IsKeyHeld(sf::Keyboard::I))
+    float cameraSpeed = 5 * m_camera.getZoom();
+    if (m_inputManager.isKeyHeld(sf::Keyboard::I))
     {
-        m_camera.Move({0, -cameraSpeed});
+        m_camera.move({0, -cameraSpeed});
     }
-    if (m_inputManager.IsKeyHeld(sf::Keyboard::J))
+    if (m_inputManager.isKeyHeld(sf::Keyboard::J))
     {
-        m_camera.Move({-cameraSpeed, 0});
+        m_camera.move({-cameraSpeed, 0});
     }
-    if (m_inputManager.IsKeyHeld(sf::Keyboard::K))
+    if (m_inputManager.isKeyHeld(sf::Keyboard::K))
     {
-        m_camera.Move({0, cameraSpeed});
+        m_camera.move({0, cameraSpeed});
     }
-    if (m_inputManager.IsKeyHeld(sf::Keyboard::L))
+    if (m_inputManager.isKeyHeld(sf::Keyboard::L))
     {
-        m_camera.Move({cameraSpeed, 0});
+        m_camera.move({cameraSpeed, 0});
     }
 
-    if (m_inputManager.IsMouseButtonDescending(sf::Mouse::Middle))
+    if (m_inputManager.isMouseButtonDescending(sf::Mouse::Middle))
     {
-        m_camera.SetTranslate(m_camera.GetPosition(), GetLevelMousePosition(), 60, true);
+        m_camera.setTranslate(m_camera.getPosition(), getLevelMousePosition(), 60, true);
     }
-    if (m_camera.GetMode() == CameraMode::Static && m_inputManager.IsKeyDescending(sf::Keyboard::Q))
+    if (m_camera.getMode() == CameraMode::Static && m_inputManager.isKeyDescending(sf::Keyboard::Q))
     {
         if (!m_entities.empty() && m_entities.front() != nullptr)
         {
-            m_camera.SetFollow(*m_entities.front(), true);
+            m_camera.setFollow(*m_entities.front(), true);
         }
     }
 
     // Camera zoom
-    if (m_inputManager.DetectedMouseWheelScrolledEvent())
+    if (m_inputManager.detectedMouseWheelScrolledEvent())
     {
-        m_camera.Zoom(1 - m_inputManager.GetMouseWheelDelta().y * 0.05);
+        m_camera.zoom(1 - m_inputManager.getMouseWheelDelta().y * 0.05);
     }
-    else if (m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::V) != 0.0)
+    else if (m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) != 0.0)
     {
-        m_camera.Zoom(1 - m_inputManager.GetJoystickAxisPosition(0, sf::Joystick::V) / -100 / 20);
+        m_camera.zoom(1 - m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) / -100 / 20);
     }
 
     // Print the mouse cursor's position when space is held (for testing)
-    if (m_inputManager.IsKeyHeld(sf::Keyboard::Space))
+    if (m_inputManager.isKeyHeld(sf::Keyboard::Space))
     {
-        std::cout << "Mouse position: " << GetLevelMousePosition().x << ", " << GetLevelMousePosition().y << '\n';
+        std::cout << "Mouse position: " << getLevelMousePosition().x << ", " << getLevelMousePosition().y << '\n';
     }
 }
 
-void Level::Update()
+void Level::update()
 {
-    m_map.Update();
+    m_map.update();
 
     if (m_isCreatorModeEnabled == false)
     {
         for (const auto& pEntity : m_entities)
         {
-            pEntity->Update();
+            pEntity->update();
         }
     }
 
-    m_camera.Update();
+    m_camera.update();
 }
 
-void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
+void Level::draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
 {
     // Camera
-    m_camera.Interpolate(lag);
+    m_camera.interpolate(lag);
 
     // Change view to Camera view
     sf::View oldView = rTarget.getView();
-    rTarget.setView(m_camera.GetView());
+    rTarget.setView(m_camera.getView());
 
     // Parallax background
     for (auto& rParallaxSprite : m_parallaxSprites)
     {
-        rParallaxSprite.Update(m_camera);
+        rParallaxSprite.update(m_camera);
         rTarget.draw(rParallaxSprite, states);
     }
 
@@ -523,7 +524,7 @@ void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
     rTarget.draw(m_map, states);
     for (const auto& pEntity : m_entities)
     {
-        pEntity->Interpolate(lag);
+        pEntity->interpolate(lag);
         rTarget.draw(*pEntity, states);
     }
 
@@ -532,19 +533,19 @@ void Level::Draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
 }
 
 // Load all Level components, such as the Map, the Entities and the Parallax background
-bool Level::Load(const std::string& levelDirectory)
+bool Level::load(const std::string& levelDirectory)
 {
     std::cout << "\nLoading Level: " << levelDirectory << "\n\n";
-    if (m_map.Load(levelDirectory + "/tiles.txt") && LoadBackground(levelDirectory + "/background.txt") &&
-        LoadEntities(levelDirectory + "/entities.txt") && LoadResources(levelDirectory + "/resources.txt"))
+    if (m_map.load(levelDirectory + "/tiles.txt") && loadBackground(levelDirectory + "/background.txt") &&
+        loadEntities(levelDirectory + "/entities.txt") && loadResources(levelDirectory + "/resources.txt"))
     {
-        m_camera.SetBounds(static_cast<sf::Vector2f>(m_map.GetBounds()));
+        m_camera.setBounds(static_cast<sf::Vector2f>(m_map.getBounds()));
 
         if (m_isCreatorModeEnabled == false)
         {
             if (!m_entities.empty() && m_entities.front() != nullptr)
             {
-                m_camera.SetFollow(*m_entities.front(), true);
+                m_camera.setFollow(*m_entities.front(), true);
             }
         }
 
@@ -556,7 +557,7 @@ bool Level::Load(const std::string& levelDirectory)
     return false;
 }
 
-bool Level::Save(const std::string& levelDirectory) const
+bool Level::save(const std::string& levelDirectory) const
 {
     std::cout << "\nSaving Level: " << levelDirectory << "\n\n";
     // TODO
@@ -564,8 +565,8 @@ bool Level::Save(const std::string& levelDirectory) const
     // if not, create it
     // make temp copy and replace if everything works
 
-    if (m_map.Save(levelDirectory + "/tiles.txt") && SaveBackground(levelDirectory + "/background.txt") &&
-        SaveEntities(levelDirectory + "/entities.txt") && SaveResources(levelDirectory + "/resources.txt"))
+    if (m_map.save(levelDirectory + "/tiles.txt") && saveBackground(levelDirectory + "/background.txt") &&
+        saveEntities(levelDirectory + "/entities.txt") && saveResources(levelDirectory + "/resources.txt"))
     {
         std::cout << "Level successfully saved.\n\n";
         return true;
@@ -575,25 +576,45 @@ bool Level::Save(const std::string& levelDirectory) const
     return false;
 }
 
-void Level::OnWindowResize()
+void Level::onWindowResize()
 {
     // Resize Camera to window dimensions
-    float oldZoom = m_camera.GetZoom();
-    m_camera.SetDimensions(static_cast<sf::Vector2f>(m_inputManager.GetWindowDimensions()));
-    m_camera.SetZoom(oldZoom);
+    float oldZoom = m_camera.getZoom();
+    m_camera.setDimensions(static_cast<sf::Vector2f>(m_inputManager.getWindowDimensions()));
+    m_camera.setZoom(oldZoom);
 }
 
-void Level::SetCreatorModeEnabled(bool isCreatorModeEnabled)
+void Level::addTile(TileType tileType, const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
+{
+    m_map.addTile(tileType, tileIndex, layer, updateTextures);
+}
+
+void Level::addTileRange(TileType tileType, const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
+{
+    m_map.addTileRange(tileType, tileIndex, range, layer, updateTextures);
+}
+
+void Level::removeTile(const sf::Vector2u& tileIndex, MapLayer layer, bool updateTextures)
+{
+    m_map.removeTile(tileIndex, layer, updateTextures);
+}
+
+void Level::removeTileRange(const sf::Vector2u& tileIndex, const sf::Vector2u& range, MapLayer layer, bool updateTextures)
+{
+    m_map.removeTileRange(tileIndex, range, layer, updateTextures);
+}
+
+void Level::setCreatorModeEnabled(bool isCreatorModeEnabled)
 {
     m_isCreatorModeEnabled = isCreatorModeEnabled;
-    m_map.SetGridVisible(m_isCreatorModeEnabled);
-    m_camera.SetBoundless(m_isCreatorModeEnabled);
+    m_map.setGridVisible(m_isCreatorModeEnabled);
+    m_camera.setBoundless(m_isCreatorModeEnabled);
     if (m_isCreatorModeEnabled == true)
     {
-        m_camera.SetMaxDimensions({7680, 4320});
+        m_camera.setMaxDimensions({7680, 4320});
     }
     else
     {
-        m_camera.SetMaxDimensions({2560, 1440});
+        m_camera.setMaxDimensions({2560, 1440});
     }
 }

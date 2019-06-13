@@ -20,7 +20,7 @@ namespace
 GameEngine::GameEngine()
     : m_window()
     , m_isPowerSaverEnabled(true)
-    , m_loopDebugOverlay(resourceManager.GetFont("altFont"))
+    , m_loopDebugOverlay(resourceManager.getFont("altFont"))
     , inputManager(m_window)
 {
     // Output game info
@@ -32,7 +32,7 @@ GameEngine::GameEngine()
 
     // Graphics settings
     static const std::string graphicsSettingsFilename = "data/settings/graphics_settings.txt";
-    std::ifstream inputFile(FileManager::ResourcePath() + graphicsSettingsFilename);
+    std::ifstream inputFile(FileManager::resourcePath() + graphicsSettingsFilename);
     if (inputFile)
     {
         unsigned int fullscreenModeIndex = 0;
@@ -64,14 +64,14 @@ GameEngine::GameEngine()
 
         m_window.create(sf::VideoMode::getFullscreenModes()[fullscreenModeIndex], windowName, style, contextSettings);
         m_window.setVerticalSyncEnabled(isVSyncEnabled);
-        SetTargetFps(targetFps);
+        setTargetFps(targetFps);
 
         std::cout << "Successfully read graphics settings.\n";
     }
     else
     {
         m_window.create(sf::VideoMode(1280, 720), windowName);
-        SetTargetFps(60);
+        setTargetFps(60);
         std::cerr << "\nGameEngine error: Unable to open \"" << graphicsSettingsFilename << "\".\n"
                   << "Graphics settings loading failed.\n\n";
     }
@@ -80,7 +80,7 @@ GameEngine::GameEngine()
 #if defined(SFML_SYSTEM_IOS) || defined(SFML_SYSTEM_ANDROID)
     m_window.setSize(sf::Vector2u(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height));
 #endif
-    OnWindowResize();
+    onWindowResize();
 #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
     // Center window
     m_window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width / 2, sf::VideoMode::getDesktopMode().height / 2) -
@@ -90,7 +90,7 @@ GameEngine::GameEngine()
 
     // Icon
     static const std::string iconFilename = "res/icon.png";
-    if (m_icon.loadFromFile(FileManager::ResourcePath() + iconFilename))
+    if (m_icon.loadFromFile(FileManager::resourcePath() + iconFilename))
     {
         m_window.setIcon(m_icon.getSize().x, m_icon.getSize().y, m_icon.getPixelsPtr());
     }
@@ -102,9 +102,9 @@ GameEngine::GameEngine()
 
     // Cursor
     m_window.setMouseCursorVisible(false);
-    m_cursor.setTexture(resourceManager.GetTexture("cursor"));
+    m_cursor.setTexture(resourceManager.getTexture("cursor"));
 
-    SetTargetUps(initialUps);
+    setTargetUps(initialUps);
 }
 
 /// Call the destructor of each State by using Pop()
@@ -112,13 +112,13 @@ GameEngine::~GameEngine()
 {
     while (!m_states.empty())
     {
-        Pop();
+        pop();
     }
     std::cout << "TrainEngine quit successfully.\n";
 }
 
 /// Add a new State to the stack from the queue
-void GameEngine::Push()
+void GameEngine::push()
 {
     // Push new State
     m_states.push_back(m_pendingStates.back());
@@ -126,11 +126,11 @@ void GameEngine::Push()
     m_pendingStates.pop_back();
 
     // Call OnWindowResize() on State creation
-    m_states.back()->OnWindowResize();
+    m_states.back()->onWindowResize();
 }
 
 /// Remove one State from the top of the stack
-void GameEngine::Pop()
+void GameEngine::pop()
 {
     // Return if there are no States to remove
     if (m_states.empty())
@@ -144,7 +144,7 @@ void GameEngine::Pop()
 }
 
 /// Process the tick's requested State handling
-void GameEngine::HandleRequests()
+void GameEngine::handleRequests()
 {
     // Sort new States by smallest order last, to later be able to simply call pop_back()
     if (m_pendingStates.size() > 1)
@@ -163,21 +163,21 @@ void GameEngine::HandleRequests()
             // Call Pause() on State about to be hidden before adding a new one on top of it
             if (!m_states.empty())
             {
-                m_states.back()->Pause();
+                m_states.back()->pause();
             }
-            Push();
+            push();
             break;
         case PendingRequest::Pop:
-            Pop();
+            pop();
             // Call Resume() on revealed State if this pop is the last request
             if (std::next(it) == end && !m_states.empty())
             {
-                m_states.back()->Resume();
+                m_states.back()->resume();
             }
             break;
         case PendingRequest::Swap:
-            Pop();
-            Push();
+            pop();
+            push();
             break;
         }
     }
@@ -192,7 +192,7 @@ void GameEngine::HandleRequests()
 }
 
 /// Actions to perform when the window is resized
-void GameEngine::OnWindowResize()
+void GameEngine::onWindowResize()
 {
 #if !defined(SFML_SYSTEM_IOS) && !defined(SFML_SYSTEM_ANDROID)
     // Window minimum dimensions
@@ -207,20 +207,20 @@ void GameEngine::OnWindowResize()
 #endif
 
     // View resizing
-    ResetWindowView();
+    resetWindowView();
 
     // Base State layout
-    State::ResizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
+    State::resizeLayout(static_cast<sf::Vector2f>(m_window.getSize()));
 }
 
 /// Set the window's view equal to a view the size of its dimensions and positioned at (0, 0)
-void GameEngine::ResetWindowView()
+void GameEngine::resetWindowView()
 {
     m_window.setView(sf::View(sf::FloatRect(0, 0, m_window.getSize().x, m_window.getSize().y)));
 }
 
 /// Main game loop
-void GameEngine::GameLoop()
+void GameEngine::startGameLoop()
 {
     sf::Clock clock;
 
@@ -228,7 +228,7 @@ void GameEngine::GameLoop()
     {
         if (!m_pendingRequests.empty())
         {
-            HandleRequests();
+            handleRequests();
         }
 
         if (!m_states.empty())
@@ -270,30 +270,30 @@ void GameEngine::GameLoop()
                 sf::Time startTime = clock.getElapsedTime();
 
                 // InputManager update
-                inputManager.Update();
+                inputManager.update();
 
                 // Window resizing
-                if (inputManager.DetectedResizedEvent())
+                if (inputManager.detectedResizedEvent())
                 {
-                    OnWindowResize();
+                    onWindowResize();
                     for (const auto& pState : m_states)
                     {
-                        pState->OnWindowResize();
+                        pState->onWindowResize();
                     }
-                    m_loopDebugOverlay.OnWindowResize();
+                    m_loopDebugOverlay.onWindowResize();
                 }
 
                 // HandleInput
-                m_states.back()->BaseHandleInput();
-                m_states.back()->HandleInput();
+                m_states.back()->baseHandleInput();
+                m_states.back()->handleInput();
 
                 // Update
                 if (m_pendingRequests.empty())
                 {
-                    m_states.back()->Update();
+                    m_states.back()->update();
                 }
 
-                m_loopDebugOverlay.RecordUpdate(clock.getElapsedTime() - startTime);
+                m_loopDebugOverlay.recordUpdate(clock.getElapsedTime() - startTime);
 
                 m_updateLag -= m_timePerUpdate;
 
@@ -315,12 +315,12 @@ void GameEngine::GameLoop()
                 sf::Time startTime = clock.getElapsedTime();
 
                 m_window.clear();
-                ResetWindowView();
+                resetWindowView();
 
                 // Draw with fraction of cycle elapsed before the next update (for interpolation)
-                m_states.back()->Draw(m_window, static_cast<float>(m_updateLag.asMicroseconds()) / m_timePerUpdate.asMicroseconds());
+                m_states.back()->draw(m_window, static_cast<float>(m_updateLag.asMicroseconds()) / m_timePerUpdate.asMicroseconds());
 
-                ResetWindowView();
+                resetWindowView();
 
                 m_window.draw(m_loopDebugOverlay);
                 m_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_window)));
@@ -336,25 +336,25 @@ void GameEngine::GameLoop()
                     m_drawLag %= m_timePerDraw; // Extra lag is not created if the GPU cannot keep up
                 }
 
-                m_loopDebugOverlay.RecordDraw(clock.getElapsedTime() - startTime);
+                m_loopDebugOverlay.recordDraw(clock.getElapsedTime() - startTime);
             }
         }
         else
         {
-            Quit();
+            quit();
         }
     }
 }
 
 /// Request a State's addition and add it to the queue
-void GameEngine::RequestPush(State* pState)
+void GameEngine::requestPush(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Push);
     m_pendingStates.push_back(pState);
 }
 
 /// Request a State's removal
-void GameEngine::RequestPop(unsigned int statesToPop)
+void GameEngine::requestPop(unsigned int statesToPop)
 {
     while (statesToPop > 0)
     {
@@ -364,7 +364,7 @@ void GameEngine::RequestPop(unsigned int statesToPop)
 }
 
 /// Request a State's swapping and add the new State to the queue
-void GameEngine::RequestSwap(State* pState)
+void GameEngine::requestSwap(State* pState)
 {
     m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Swap);
     m_pendingStates.push_back(pState);
@@ -372,9 +372,9 @@ void GameEngine::RequestSwap(State* pState)
 
 /// Draw the State under the current State (takes the calling State's "this" pointer
 /// to enable drawing multiple states on top of one another)
-void GameEngine::DrawPreviousState(const State* pCurrentState)
+void GameEngine::drawPreviousState(const State* pCurrentState)
 {
-    ResetWindowView(); // Reset the view to guarantee that the previous State has a predictable and normal view
+    resetWindowView(); // Reset the view to guarantee that the previous State has a predictable and normal view
 
     // Search for the current State, and make sure it can be found and that it is not first in the stack
     // (as we need to draw the State before it)
@@ -382,16 +382,16 @@ void GameEngine::DrawPreviousState(const State* pCurrentState)
     if (it != m_states.end() && it != m_states.begin())
     {
         --it;
-        (*it)->Draw(m_window);
+        (*it)->draw(m_window);
 
         // Reset the view to guarantee that the current State continues to use a predictable and normal view
-        ResetWindowView();
+        resetWindowView();
     }
 }
 
 // Loop clock functions
 
-void GameEngine::SetTargetUps(unsigned int updatesPerSecond)
+void GameEngine::setTargetUps(unsigned int updatesPerSecond)
 {
     if (updatesPerSecond == 0)
     {
@@ -402,18 +402,18 @@ void GameEngine::SetTargetUps(unsigned int updatesPerSecond)
     m_updateLag = m_timePerUpdate;
 }
 
-void GameEngine::SetTargetFps(unsigned int drawsPerSecond)
+void GameEngine::setTargetFps(unsigned int drawsPerSecond)
 {
     m_timePerDraw = (drawsPerSecond != 0 ? sf::microseconds(1000000 / static_cast<double>(drawsPerSecond)) : sf::Time::Zero);
     m_drawLag = m_timePerDraw;
 }
 
-double GameEngine::GetTargetUps() const
+double GameEngine::getTargetUps() const
 {
     return 1000000 / static_cast<double>(m_timePerUpdate.asMicroseconds());
 }
 
-double GameEngine::GetTargetFps() const
+double GameEngine::getTargetFps() const
 {
     if (m_timePerDraw == sf::Time::Zero)
     {
@@ -424,7 +424,7 @@ double GameEngine::GetTargetFps() const
 }
 
 /// Quit game
-void GameEngine::Quit()
+void GameEngine::quit()
 {
     m_window.close();
 }

@@ -10,20 +10,20 @@
 
 MainMenuState::MainMenuState(GameEngine& rGame)
     : State(rGame)
-    , m_backgroundSprite(m_rGame.resourceManager.GetTexture("menuBackground"))
-    , m_gameNameText("TrainEngine", m_rGame.resourceManager.GetFont("mainFont"), 64)
+    , m_backgroundSprite(m_rGame.resourceManager.getTexture("menuBackground"))
+    , m_gameNameText("TrainEngine", m_rGame.resourceManager.getFont("mainFont"), 64)
     , m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.",
-                    m_rGame.resourceManager.GetFont("altFont"), 16)
-    , m_muteButton(m_rGame.resourceManager.GetTexture("muteNormal"), m_rGame.resourceManager.GetTexture("muteHovered"),
-                   m_rGame.resourceManager.GetTexture("muteClicked"), sf::Vector2f(GetWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+                    m_rGame.resourceManager.getFont("altFont"), 16)
+    , m_muteButton(m_rGame.resourceManager.getTexture("muteNormal"), m_rGame.resourceManager.getTexture("muteHovered"),
+                   m_rGame.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
     , m_elapsedTicks(0)
 {
     // State settings
     m_stateSettings.canSkipUpdates = true;
 
     // Initialize GUI
-    const sf::Font& font = m_rGame.resourceManager.GetFont("mainFont");
-    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.GetSoundBuffer("click");
+    const sf::Font& font = m_rGame.resourceManager.getFont("mainFont");
+    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.getSoundBuffer("click");
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White);
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White);
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White);
@@ -32,7 +32,7 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Quit", GuiStyle::White);
     for (auto& button : m_buttons)
     {
-        button.SetVolume(0.75);
+        button.setVolume(0.75);
     }
 
     // Content settings
@@ -42,8 +42,8 @@ MainMenuState::MainMenuState(GameEngine& rGame)
     m_gameNameText.setFillColor(sf::Color(5, 25, 100));
 
     // Music settings
-    m_music.openFromFile(FileManager::ResourcePath() + "res/music/stargazer.ogg");
-    ReadMusicSettings();
+    m_music.openFromFile(FileManager::resourcePath() + "res/music/stargazer.ogg");
+    readMusicSettings();
     m_music.setLoop(true);
     m_music.play();
 }
@@ -52,21 +52,21 @@ MainMenuState::~MainMenuState()
 {
 }
 
-void MainMenuState::LoadPlayStart(const std::string& levelName)
+void MainMenuState::loadPlayStart(const std::string& levelName)
 {
     m_music.stop();
-    m_rGame.RequestPush(new LoadPlayState(m_rGame, levelName));
+    m_rGame.requestPush(new LoadPlayState(m_rGame, levelName));
 }
 
-void MainMenuState::CreatorStart()
+void MainMenuState::creatorStart()
 {
     m_music.stop();
-    m_rGame.RequestPush(new CreatorState(m_rGame));
+    m_rGame.requestPush(new CreatorState(m_rGame));
 }
 
-void MainMenuState::ReadMusicSettings()
+void MainMenuState::readMusicSettings()
 {
-    std::ifstream inputFile(FileManager::ResourcePath() + "data/settings/sound_settings.txt");
+    std::ifstream inputFile(FileManager::resourcePath() + "data/settings/sound_settings.txt");
     if (inputFile)
     {
         bool isMuted = false;
@@ -81,72 +81,72 @@ void MainMenuState::ReadMusicSettings()
     std::cout << "Failed to read sound settings.\n";
 }
 
-void MainMenuState::HandleInput()
+void MainMenuState::handleInput()
 {
-    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::Escape))
+    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        m_rGame.RequestPop();
+        m_rGame.requestPop();
         return;
     }
-    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::P))
+    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::P))
     {
         // Start game
-        LoadPlayStart("data/levels/level2");
+        loadPlayStart("data/levels/level2");
         return;
     }
-    if (m_rGame.inputManager.IsKeyDescending(sf::Keyboard::C))
+    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::C))
     {
         // Start Level creator
-        CreatorStart();
+        creatorStart();
         return;
     }
 
-    if (m_rGame.inputManager.DetectedMouseMovedEvent() || m_rGame.inputManager.DetectedTouchMovedEvent())
+    if (m_rGame.inputManager.detectedMouseMovedEvent() || m_rGame.inputManager.detectedTouchMovedEvent())
     {
         for (auto& rButton : m_buttons)
         {
-            rButton.OnMouseHover(GetWindowMousePosition());
+            rButton.onMouseHover(getWindowMousePosition());
         }
-        m_muteButton.OnMouseHover(GetWindowMousePosition());
+        m_muteButton.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonDescending(sf::Mouse::Left) || // Mouse click
-        m_rGame.inputManager.DetectedTouchBeganEvent() || m_rGame.inputManager.DetectedTouchMovedEvent()) // Touch
+    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left) || // Mouse click
+        m_rGame.inputManager.detectedTouchBeganEvent() || m_rGame.inputManager.detectedTouchMovedEvent()) // Touch
     {
         for (auto& rButton : m_buttons)
         {
-            rButton.OnMouseClick(GetWindowMousePosition());
+            rButton.onMouseClick(getWindowMousePosition());
         }
-        m_muteButton.OnMouseClick(GetWindowMousePosition());
+        m_muteButton.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.IsMouseButtonAscending(sf::Mouse::Left) || m_rGame.inputManager.DetectedTouchEndedEvent())
+    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left) || m_rGame.inputManager.detectedTouchEndedEvent())
     {
         for (std::size_t i = 0; i < m_buttons.size(); i++)
         {
-            if (m_buttons[i].OnMouseUnclick(GetWindowMousePosition()) == true)
+            if (m_buttons[i].onMouseUnclick(getWindowMousePosition()) == true)
             {
                 switch (i)
                 {
                 // Play button
                 case 0:
-                    LoadPlayStart("data/levels/level1");
+                    loadPlayStart("data/levels/level1");
                     return;
                 case 1:
-                    LoadPlayStart("data/levels/level2");
+                    loadPlayStart("data/levels/level2");
                     return;
                 case 2:
-                    LoadPlayStart("data/levels/level3");
+                    loadPlayStart("data/levels/level3");
                     return;
                 // Level creator button
                 case 3:
-                    CreatorStart();
+                    creatorStart();
                     return;
                 // Menu options button
                 case 4:
-                    m_rGame.RequestPush(new MenuOptionsState(m_rGame));
+                    m_rGame.requestPush(new MenuOptionsState(m_rGame));
                     return;
                 // Quit button
                 case 5:
-                    m_rGame.RequestPop();
+                    m_rGame.requestPop();
                     break;
                 default:
                     break;
@@ -154,7 +154,7 @@ void MainMenuState::HandleInput()
                 break; // Break because if one button has been clicked, the others cannot have also been clicked (optimization)
             }
         }
-        if (m_muteButton.OnMouseUnclick(GetWindowMousePosition()) == true)
+        if (m_muteButton.onMouseUnclick(getWindowMousePosition()) == true)
         {
             if (m_music.getStatus() == sf::SoundSource::Status::Playing)
             {
@@ -168,12 +168,12 @@ void MainMenuState::HandleInput()
     }
 }
 
-void MainMenuState::Update()
+void MainMenuState::update()
 {
     m_gameNameText.setRotation(360 * std::sin(m_elapsedTicks++ / 125.0));
 }
 
-void MainMenuState::Draw(sf::RenderTarget& rTarget, float lag)
+void MainMenuState::draw(sf::RenderTarget& rTarget, float lag)
 {
     rTarget.draw(m_backgroundSprite);
     rTarget.draw(m_gameNameText);
@@ -186,25 +186,25 @@ void MainMenuState::Draw(sf::RenderTarget& rTarget, float lag)
     rTarget.draw(m_muteButton);
 }
 
-void MainMenuState::Resume()
+void MainMenuState::resume()
 {
-    ReadMusicSettings();
+    readMusicSettings();
     if (m_music.getStatus() != sf::SoundSource::Status::Playing)
     {
         m_music.play();
     }
 }
 
-void MainMenuState::OnWindowResize()
+void MainMenuState::onWindowResize()
 {
-    m_backgroundSprite.setPosition(GetWindowDimensions() / 2.0f);
-    Utility::SetSpriteScaleToFill(m_backgroundSprite, GetWindowDimensions());
-    m_gameNameText.setPosition(GetAbsolutePosition(0.5, 0.2));
-    m_creditsText.setPosition(GetWindowDimensions().x - (m_creditsText.getGlobalBounds().width) - 4,
-                              GetWindowDimensions().y - (m_creditsText.getFont()->getLineSpacing(m_creditsText.getCharacterSize())));
-    m_muteButton.SetPosition(sf::Vector2f(GetWindowDimensions().x - 48, 48));
+    m_backgroundSprite.setPosition(getWindowDimensions() / 2.0f);
+    Utility::setSpriteScaleToFill(m_backgroundSprite, getWindowDimensions());
+    m_gameNameText.setPosition(getAbsolutePosition(0.5, 0.2));
+    m_creditsText.setPosition(getWindowDimensions().x - (m_creditsText.getGlobalBounds().width) - 4,
+                              getWindowDimensions().y - (m_creditsText.getFont()->getLineSpacing(m_creditsText.getCharacterSize())));
+    m_muteButton.setPosition(sf::Vector2f(getWindowDimensions().x - 48, 48));
     for (std::size_t i = 0; i < m_buttons.size(); i++)
     {
-        m_buttons[i].SetPosition(GetAbsolutePosition(0.25, 0.45) + sf::Vector2f(0, -90 + 60 * static_cast<int>(i)));
+        m_buttons[i].setPosition(getAbsolutePosition(0.25, 0.45) + sf::Vector2f(0, -90 + 60 * static_cast<int>(i)));
     }
 }

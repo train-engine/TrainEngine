@@ -65,14 +65,14 @@ private:
     float m_defaultDescentSpeed;
 
     // Collisions and interactions
-    void TileCollision(const Tile* pTile);
-    void EntityCollision(const Entity* pEntity);
-    void TileReaction(Tile* pTile);
-    void EntityReaction(Entity* pEntity);
+    void tileCollision(const Tile* pTile);
+    void entityCollision(const Entity* pEntity);
+    void tileReaction(Tile* pTile);
+    void entityReaction(Entity* pEntity);
 
     // TileCollision functions (overrideable)
-    virtual void StandardCollision(const Tile* pTile);
-    virtual void LadderTopCollision(const Tile* pTile);
+    virtual void standardCollision(const Tile* pTile);
+    virtual void ladderTopCollision(const Tile* pTile);
 
     // EntityCollision functions (overrideable)
     // ---
@@ -81,13 +81,13 @@ private:
     // ---
 
     // EntityReaction functions (overrideable)
-    virtual void PlayerReaction(Entity* pEntity) {}
+    virtual void playerReaction(Entity* pEntity) {}
 
     // Movement
-    void MoveLeft();
-    void MoveRight();
-    void Jump();
-    void Climb(float factor = 1);
+    void moveLeft();
+    void moveRight();
+    void jump();
+    void climb(float factor = 1);
 
 protected:
     Map& m_rMap;
@@ -95,26 +95,26 @@ protected:
 
     // Functions
     virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void ApplyDeceleration();
-    void ApplyGravity();
-    void MaxVelocityCap();
-    void MapEdgeCollision(bool isHorizCollisionEnabled = true, bool isVertCollisionEnabled = true);
-    void PerformCollisions();
+    void applyDeceleration();
+    void applyGravity();
+    void maxVelocityCap();
+    void mapEdgeCollision(bool isHorizCollisionEnabled = true, bool isVertCollisionEnabled = true);
+    void performCollisions();
 
     // Setters
-    void SetHorizontalInputDirection(float horizInputDirection) { m_inputDirection.x = horizInputDirection; }
-    void SetVerticalInputDirection(float vertInputDirection) { m_inputDirection.y = vertInputDirection; }
-    void SetPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
+    void setHorizontalInputDirection(float horizInputDirection) { m_inputDirection.x = horizInputDirection; }
+    void setVerticalInputDirection(float vertInputDirection) { m_inputDirection.y = vertInputDirection; }
+    void setPressingUp(bool isPressingUp) { m_isPressingUp = isPressingUp; }
 
     // Getters
-    bool IsOnGround() const { return m_isOnGround; }
+    bool isOnGround() const { return m_isOnGround; }
 
-    float GetHorizontalInputDirection() const { return m_inputDirection.x; }
-    float GetVerticalInputDirection() const { return m_inputDirection.y; }
+    float getHorizontalInputDirection() const { return m_inputDirection.x; }
+    float getVerticalInputDirection() const { return m_inputDirection.y; }
 
-    float GetJumpForce() const { return m_jumpForce; }
-    float GetDefaultClimbSpeed() const { return m_defaultClimbSpeed; }
-    float GetDefaultDescentSpeed() const { return m_defaultDescentSpeed; }
+    float getJumpForce() const { return m_jumpForce; }
+    float getDefaultClimbSpeed() const { return m_defaultClimbSpeed; }
+    float getDefaultDescentSpeed() const { return m_defaultDescentSpeed; }
 
 public:
     // Constructor and destructor
@@ -124,41 +124,41 @@ public:
     virtual ~Entity() {}
 
     // Functions
-    virtual void HandleInput() {}
-    virtual void Update();
-    virtual void Interpolate(float lag);
+    virtual void handleInput() {}
+    virtual void update();
+    virtual void interpolate(float lag);
 
-    void SetStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
-    void SetStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
+    void setStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
+    void setStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
 
     // Setters
-    void SetDebugBoxVisible(bool isDebugBoxVisible) { m_isDebugBoxVisible = isDebugBoxVisible; }
+    void setDebugBoxVisible(bool isDebugBoxVisible) { m_isDebugBoxVisible = isDebugBoxVisible; }
 
-    void SetPosition(const sf::Vector2f& position) { m_position = position; }
-    void SetHorizPosition(float horizPosition) { m_position.x = horizPosition; }
-    void SetVertPosition(float vertPosition) { m_position.y = vertPosition; }
+    void setPosition(const sf::Vector2f& position) { m_position = position; }
+    void setHorizPosition(float horizPosition) { m_position.x = horizPosition; }
+    void setVertPosition(float vertPosition) { m_position.y = vertPosition; }
 
-    void SetDimensions(const sf::Vector2f& dimensions) { m_dimensions = dimensions; }
+    void setDimensions(const sf::Vector2f& dimensions) { m_dimensions = dimensions; }
 
-    void SetVelocity(const sf::Vector2f& velocity) { m_velocity = velocity; }
-    void SetHorizVelocity(float horizVelocity) { m_velocity.x = horizVelocity; }
-    void SetVertVelocity(float vertVelocity) { m_velocity.y = vertVelocity; }
+    void setVelocity(const sf::Vector2f& velocity) { m_velocity = velocity; }
+    void setHorizVelocity(float horizVelocity) { m_velocity.x = horizVelocity; }
+    void setVertVelocity(float vertVelocity) { m_velocity.y = vertVelocity; }
 
-    void SetDefaultSpriteTexture(const sf::Texture& texture);
+    void setDefaultSpriteTexture(const sf::Texture& texture);
 
     // Getters
-    EntityType GetEntityType() const { return m_entityType; }
-    static std::string GetEntityTypeString(EntityType entityType);
-    static std::vector<std::string> GetTextureNames(EntityType entityType);
+    EntityType getEntityType() const { return m_entityType; }
+    static std::string getEntityTypeString(EntityType entityType);
+    static std::vector<std::string> getTextureNames(EntityType entityType);
 
-    const sf::Vector2f& GetPosition() const { return m_position; }
-    const sf::Vector2f& GetDimensions() const { return m_dimensions; }
-    const sf::Vector2f& GetVelocity() const { return m_velocity; }
+    const sf::Vector2f& getPosition() const { return m_position; }
+    const sf::Vector2f& getDimensions() const { return m_dimensions; }
+    const sf::Vector2f& getVelocity() const { return m_velocity; }
 
-    float GetLeftPixelPosition() const;
-    float GetRightPixelPosition() const;
-    float GetTopPixelPosition() const;
-    float GetBottomPixelPosition() const;
+    float getLeftPixelPosition() const;
+    float getRightPixelPosition() const;
+    float getTopPixelPosition() const;
+    float getBottomPixelPosition() const;
 };
 
 #endif // ENTITY_H

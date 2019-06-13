@@ -35,33 +35,33 @@ public:
     ParallaxSprite(const sf::Texture& texture, float parallax);
 
     // Functions
-    void Update(const Camera& camera);
+    void update(const Camera& camera);
 
     // Setters
-    void SetParallax(float parallax) { m_parallax = parallax; }
-    void SetPosition(const sf::Vector2f& position);
-    void SetScale(const sf::Vector2f& scale);
-    void SetTextureRect(const sf::Vector2f& dimensions);
-    void SetRelativeOrigin(const sf::Vector2f& relativeOrigin);
+    void setParallax(float parallax) { m_parallax = parallax; }
+    void setPosition(const sf::Vector2f& position);
+    void setScale(const sf::Vector2f& scale);
+    void setTextureRect(const sf::Vector2f& dimensions);
+    void setRelativeOrigin(const sf::Vector2f& relativeOrigin);
 
-    void SetResourceName(const std::string& resourceName) { m_resourceName = resourceName; }
-    void SetPositionModeString(const std::string& positionModeString) { m_positionModeString = positionModeString; }
-    void SetRepeatTextureString(const std::string& repeatTextureString) { m_repeatTextureString = repeatTextureString; }
-    void SetScaleString(const std::string& scaleString) { m_scaleString = scaleString; }
-    void SetOffsetString(const std::string& offsetString) { m_offsetString = offsetString; }
+    void setResourceName(const std::string& resourceName) { m_resourceName = resourceName; }
+    void setPositionModeString(const std::string& positionModeString) { m_positionModeString = positionModeString; }
+    void setRepeatTextureString(const std::string& repeatTextureString) { m_repeatTextureString = repeatTextureString; }
+    void setScaleString(const std::string& scaleString) { m_scaleString = scaleString; }
+    void setOffsetString(const std::string& offsetString) { m_offsetString = offsetString; }
 
     // Getters
-    const sf::Texture* GetTexture() const { return m_sprite.getTexture(); }
-    float GetParallax() const { return m_parallax; }
-    const sf::Vector2f& GetPosition() const { return m_initialPosition; }
-    const sf::Vector2f& GetScale() const { return m_initialScale; }
-    const sf::Vector2f& GetRelativeOrigin() const { return m_relativeOrigin; }
+    const sf::Texture* getTexture() const { return m_sprite.getTexture(); }
+    float getParallax() const { return m_parallax; }
+    const sf::Vector2f& getPosition() const { return m_initialPosition; }
+    const sf::Vector2f& getScale() const { return m_initialScale; }
+    const sf::Vector2f& getRelativeOrigin() const { return m_relativeOrigin; }
 
-    const std::string& GetResourceName() const { return m_resourceName; }
-    const std::string& GetPositionModeString() const { return m_positionModeString; }
-    const std::string& GetRepeatTextureString() const { return m_repeatTextureString; }
-    const std::string& GetScaleString() const { return m_scaleString; }
-    const std::string& GetOffsetString() const { return m_offsetString; }
+    const std::string& getResourceName() const { return m_resourceName; }
+    const std::string& getPositionModeString() const { return m_positionModeString; }
+    const std::string& getRepeatTextureString() const { return m_repeatTextureString; }
+    const std::string& getScaleString() const { return m_scaleString; }
+    const std::string& getOffsetString() const { return m_offsetString; }
 };
 
 #endif // PARALLAXSPRITE_H
