@@ -32,13 +32,13 @@ private:
     // State functions
     virtual void handleInput() override;
     virtual void update() override;
-    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void draw(sf::RenderTarget& target, float lag) override;
 
     virtual void onWindowResize() override;
 
 public:
     // Constructor
-    LoadPlayState(GameEngine& rGame, const std::string& levelDirectory);
+    LoadPlayState(GameEngine& game, const std::string& levelDirectory);
 };
 
 #endif // LOADPLAYSTATE_H

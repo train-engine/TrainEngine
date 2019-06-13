@@ -8,7 +8,7 @@
 class InputManager final
 {
 private:
-    sf::RenderWindow& m_rWindow;
+    sf::RenderWindow& m_window;
 
     // Input arrays
     std::array<bool, sf::Keyboard::KeyCount> m_keyStates;
@@ -65,7 +65,7 @@ private:
 
     // Functions
     void updateInputStates();
-    void pollSfmlEvents(sf::Window& rWindow);
+    void pollSfmlEvents(sf::Window& window);
     void resetEvents();
 
 #if defined(SFML_SYSTEM_MACOS)
@@ -75,13 +75,13 @@ private:
 
 public:
     // Constructor
-    explicit InputManager(sf::RenderWindow& rWindow);
+    explicit InputManager(sf::RenderWindow& window);
 
     // Functions
     void update();
 
     // Window getters
-    sf::Vector2u getWindowDimensions() const { return m_rWindow.getSize(); }
+    sf::Vector2u getWindowDimensions() const { return m_window.getSize(); }
     bool isWindowFocused() const { return m_isWindowFocused; }
 
     const sf::Vector2f mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const;

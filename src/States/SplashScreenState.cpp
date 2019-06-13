@@ -2,11 +2,11 @@
 #include "Misc/Utility.h"
 #include "States/MainMenuState.h"
 
-SplashScreenState::SplashScreenState(GameEngine& rGame)
-    : State(rGame)
-    , m_splash(m_rGame.resourceManager.loadTexture("splash", "res/images/backgrounds/engine_splash.png"))
-    , m_mask(m_rGame.resourceManager.loadTexture("mask", "res/images/backgrounds/mask.png"))
-    , m_sound(m_rGame.resourceManager.loadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav"))
+SplashScreenState::SplashScreenState(GameEngine& game)
+    : State(game)
+    , m_splash(m_game.resourceManager.loadTexture("splash", "res/images/backgrounds/engine_splash.png"))
+    , m_mask(m_game.resourceManager.loadTexture("mask", "res/images/backgrounds/mask.png"))
+    , m_sound(m_game.resourceManager.loadSoundBuffer("splashScreenSound", "res/sounds/splash_screen_sound.wav"))
     , m_alpha(255)
 {
     // Content settings
@@ -21,19 +21,19 @@ SplashScreenState::SplashScreenState(GameEngine& rGame)
 SplashScreenState::~SplashScreenState()
 {
     // Unload resources
-    m_rGame.resourceManager.unloadTexture("splash");
-    m_rGame.resourceManager.unloadTexture("mask");
-    m_rGame.resourceManager.unloadSoundBuffer("splashScreenSound");
+    m_game.resourceManager.unloadTexture("splash");
+    m_game.resourceManager.unloadTexture("mask");
+    m_game.resourceManager.unloadSoundBuffer("splashScreenSound");
 }
 
 void SplashScreenState::mainMenuStart()
 {
-    m_rGame.requestSwap(new MainMenuState(m_rGame));
+    m_game.requestSwap(new MainMenuState(m_game));
 }
 
 void SplashScreenState::handleInput()
 {
-    if (m_rGame.inputManager.detectedKeyPressedEvent() || m_rGame.inputManager.detectedMouseButtonReleasedEvent())
+    if (m_game.inputManager.detectedKeyPressedEvent() || m_game.inputManager.detectedMouseButtonReleasedEvent())
     {
         // Go to main menu
         mainMenuStart();
@@ -55,10 +55,10 @@ void SplashScreenState::update()
     }
 }
 
-void SplashScreenState::draw(sf::RenderTarget& rTarget, float lag)
+void SplashScreenState::draw(sf::RenderTarget& target, float lag)
 {
-    rTarget.draw(m_mask);
-    rTarget.draw(m_splash);
+    target.draw(m_mask);
+    target.draw(m_splash);
 }
 
 void SplashScreenState::onWindowResize()

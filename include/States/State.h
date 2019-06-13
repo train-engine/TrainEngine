@@ -26,7 +26,7 @@ private:
     // State functions
     virtual void handleInput() = 0;
     virtual void update() = 0;
-    virtual void draw(sf::RenderTarget& rTarget, float lag = 1) = 0;
+    virtual void draw(sf::RenderTarget& target, float lag = 1) = 0;
 
     virtual void pause() {} ///< Called automatically before a new State is added above (ceases to be the topmost State)
     virtual void resume() {} ///< Called automatically after the State above is removed (becomes the topmost State again)
@@ -34,7 +34,7 @@ private:
     virtual void onWindowResize() {} ///< Called automatically on State creation and on window resizing
 
 protected:
-    GameEngine& m_rGame;
+    GameEngine& m_game;
 
     struct StateSettings
     {
@@ -44,11 +44,11 @@ protected:
     } m_stateSettings;
 
     // Constructor and destructor
-    explicit State(GameEngine& rGame);
+    explicit State(GameEngine& game);
     virtual ~State() {}
 
     // Functions
-    void drawBackgroundColor(sf::RenderTarget& rTarget, sf::RenderStates states = sf::RenderStates::Default);
+    void drawBackgroundColor(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default);
 
     // Getters
     static const sf::Vector2f& getWindowDimensions() { return s_windowDimensions; }

@@ -4,12 +4,12 @@
 #include "Core/FileManager.h"
 #include "Misc/Utility.h"
 
-MenuOptionsState::MenuOptionsState(GameEngine& rGame)
-    : State(rGame)
-    , m_backgroundSprite(m_rGame.resourceManager.getTexture("menuBackground"))
-    , m_titleText("Options", m_rGame.resourceManager.getFont("mainFont"), 48)
-    , m_soundSliderText("Music Volume", m_rGame.resourceManager.getFont("mainFont"), 32)
-    , m_soundSlider(m_rGame.resourceManager.getFont("mainFont"), getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
+MenuOptionsState::MenuOptionsState(GameEngine& game)
+    : State(game)
+    , m_backgroundSprite(m_game.resourceManager.getTexture("menuBackground"))
+    , m_titleText("Options", m_game.resourceManager.getFont("mainFont"), 48)
+    , m_soundSliderText("Music Volume", m_game.resourceManager.getFont("mainFont"), 32)
+    , m_soundSlider(m_game.resourceManager.getFont("mainFont"), getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
                     sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100)
     , m_mustUpdateSoundSettings(false)
 {
@@ -47,20 +47,20 @@ MenuOptionsState::~MenuOptionsState()
 
 void MenuOptionsState::handleInput()
 {
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        m_rGame.requestPop();
+        m_game.requestPop();
         return;
     }
-    if (m_rGame.inputManager.detectedMouseMovedEvent())
+    if (m_game.inputManager.detectedMouseMovedEvent())
     {
         m_soundSlider.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
         m_soundSlider.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_soundSlider.onMouseUnclick(getWindowMousePosition()))
         {
@@ -96,13 +96,13 @@ void MenuOptionsState::update()
     }
 }
 
-void MenuOptionsState::draw(sf::RenderTarget& rTarget, float lag)
+void MenuOptionsState::draw(sf::RenderTarget& target, float lag)
 {
-    rTarget.draw(m_backgroundSprite);
-    rTarget.draw(m_titleText);
+    target.draw(m_backgroundSprite);
+    target.draw(m_titleText);
 
-    rTarget.draw(m_soundSliderText);
-    rTarget.draw(m_soundSlider);
+    target.draw(m_soundSliderText);
+    target.draw(m_soundSlider);
 }
 
 void MenuOptionsState::onWindowResize()

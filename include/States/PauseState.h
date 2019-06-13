@@ -21,13 +21,13 @@ private:
     // State functions
     virtual void handleInput() override;
     virtual void update() override;
-    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void draw(sf::RenderTarget& target, float lag) override;
 
     virtual void onWindowResize() override;
 
 public:
     // Constructor
-    explicit PauseState(GameEngine& rGame);
+    explicit PauseState(GameEngine& game);
 };
 
 #endif // PAUSESTATE_H

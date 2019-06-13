@@ -26,9 +26,9 @@ Level::Level(const ResourceManager& resourceManager, const InputManager& inputMa
 
 Level::~Level()
 {
-    for (const auto& pEntity : m_entities)
+    for (const auto& entity : m_entities)
     {
-        delete pEntity;
+        delete entity;
     }
 }
 
@@ -265,9 +265,9 @@ bool Level::saveBackground(const std::string& filename) const
 bool Level::loadEntities(const std::string& filename)
 {
     // Remove all Entities (necessary when changing level)
-    for (const auto& pEntity : m_entities)
+    for (const auto& entity : m_entities)
     {
-        delete pEntity;
+        delete entity;
     }
 
     std::ifstream inputFile(FileManager::resourcePath() + filename);
@@ -280,7 +280,7 @@ bool Level::loadEntities(const std::string& filename)
 
         m_entities.resize(entityCount);
         std::cout << "Entities:\n";
-        for (auto& rpEntity : m_entities)
+        for (auto& entity : m_entities)
         {
             unsigned int type = 0;
             float xPosition = 0;
@@ -289,24 +289,24 @@ bool Level::loadEntities(const std::string& filename)
             switch (static_cast<EntityType>(type))
             {
             case EntityType::Player:
-                rpEntity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f(xPosition, yPosition));
-                rpEntity->setStateAnimation(EntityState::Still,
+                entity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f(xPosition, yPosition));
+                entity->setStateAnimation(EntityState::Still,
                                             AnimatedSprite(m_resourceManager.getTexture("characterStill"), sf::Vector2u(54, 82), 22), 3);
-                rpEntity->setStateAnimation(EntityState::Running,
+                entity->setStateAnimation(EntityState::Running,
                                             AnimatedSprite(m_resourceManager.getTexture("characterRunning"), sf::Vector2u(82, 82), 27), 1);
-                rpEntity->setStateAnimation(EntityState::Climbing,
+                entity->setStateAnimation(EntityState::Climbing,
                                             AnimatedSprite(m_resourceManager.getTexture("characterClimbing"), sf::Vector2u(70, 82), 8), 2);
-                rpEntity->setStateAnimation(EntityState::Jumping,
+                entity->setStateAnimation(EntityState::Jumping,
                                             AnimatedSprite(m_resourceManager.getTexture("characterJumping"), sf::Vector2u(66, 82), 3), 2);
-                rpEntity->setStateAnimation(EntityState::Falling,
+                entity->setStateAnimation(EntityState::Falling,
                                             AnimatedSprite(m_resourceManager.getTexture("characterFalling"), sf::Vector2u(72, 82), 3), 2);
-                rpEntity->setPosition({xPosition, yPosition});
+                entity->setPosition({xPosition, yPosition});
                 break;
             default:
                 break;
             }
-            std::cout << Entity::getEntityTypeString(rpEntity->getEntityType()) << " at (" << rpEntity->getPosition().x << ", "
-                      << rpEntity->getPosition().y << ")\n";
+            std::cout << Entity::getEntityTypeString(entity->getEntityType()) << " at (" << entity->getPosition().x << ", "
+                      << entity->getPosition().y << ")\n";
         }
 
         std::cout << "Entities successfully loaded.\n\n";
@@ -329,12 +329,12 @@ bool Level::saveEntities(const std::string& filename) const
         std::cout << "Number of Entities: " << m_entities.size() << '\n';
 
         std::cout << "Entities:\n";
-        for (const auto& pEntity : m_entities)
+        for (const auto& entity : m_entities)
         {
-            outputFile << static_cast<int>(pEntity->getEntityType()) << ' ' << pEntity->getPosition().x << ' ' << pEntity->getPosition().y
+            outputFile << static_cast<int>(entity->getEntityType()) << ' ' << entity->getPosition().x << ' ' << entity->getPosition().y
                        << "\n";
-            std::cout << Entity::getEntityTypeString(pEntity->getEntityType()) << " at (" << pEntity->getPosition().x << ", "
-                      << pEntity->getPosition().y << ")\n";
+            std::cout << Entity::getEntityTypeString(entity->getEntityType()) << " at (" << entity->getPosition().x << ", "
+                      << entity->getPosition().y << ")\n";
         }
 
         std::cout << "Entities successfully saved.\n\n";
@@ -370,10 +370,10 @@ bool Level::saveResources(const std::string& filename) const
             {
                 for (unsigned int x = 0; x < m_map.getIndexDimensions().x; x++)
                 {
-                    const Tile* pTile = m_map.getKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
-                    if (pTile != nullptr)
+                    const Tile* tile = m_map.getKTilePtr(sf::Vector2u(x, y), static_cast<MapLayer>(z));
+                    if (tile != nullptr)
                     {
-                        resources.insert(Tile::getTextureName(pTile->getTileType()));
+                        resources.insert(Tile::getTextureName(tile->getTileType()));
                     }
                 }
             }
@@ -386,11 +386,11 @@ bool Level::saveResources(const std::string& filename) const
         }
 
         // Entities
-        for (const auto& pEntity : m_entities)
+        for (const auto& entity : m_entities)
         {
-            if (pEntity != nullptr)
+            if (entity != nullptr)
             {
-                std::vector<std::string> entityTextureNames = Entity::getTextureNames(pEntity->getEntityType());
+                std::vector<std::string> entityTextureNames = Entity::getTextureNames(entity->getEntityType());
                 for (const auto& textureName : entityTextureNames)
                 {
                     resources.insert(textureName);
@@ -426,18 +426,18 @@ void Level::handleInput()
     if (m_inputManager.isKeyDescending(sf::Keyboard::BackSlash))
     {
         m_isEntityDebugBoxVisible = !m_isEntityDebugBoxVisible;
-        for (const auto& pEntity : m_entities)
+        for (const auto& entity : m_entities)
         {
-            pEntity->setDebugBoxVisible(m_isEntityDebugBoxVisible);
+            entity->setDebugBoxVisible(m_isEntityDebugBoxVisible);
         }
     }
 
     // Entities
     if (m_isCreatorModeEnabled == false)
     {
-        for (const auto& pEntity : m_entities)
+        for (const auto& entity : m_entities)
         {
-            pEntity->handleInput();
+            entity->handleInput();
         }
     }
 
@@ -495,41 +495,41 @@ void Level::update()
 
     if (m_isCreatorModeEnabled == false)
     {
-        for (const auto& pEntity : m_entities)
+        for (const auto& entity : m_entities)
         {
-            pEntity->update();
+            entity->update();
         }
     }
 
     m_camera.update();
 }
 
-void Level::draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag)
+void Level::draw(sf::RenderTarget& target, sf::RenderStates states, float lag)
 {
     // Camera
     m_camera.interpolate(lag);
 
     // Change view to Camera view
-    sf::View oldView = rTarget.getView();
-    rTarget.setView(m_camera.getView());
+    sf::View oldView = target.getView();
+    target.setView(m_camera.getView());
 
     // Parallax background
-    for (auto& rParallaxSprite : m_parallaxSprites)
+    for (auto& parallaxSprite : m_parallaxSprites)
     {
-        rParallaxSprite.update(m_camera);
-        rTarget.draw(rParallaxSprite, states);
+        parallaxSprite.update(m_camera);
+        target.draw(parallaxSprite, states);
     }
 
     // Map and Entities
-    rTarget.draw(m_map, states);
-    for (const auto& pEntity : m_entities)
+    target.draw(m_map, states);
+    for (const auto& entity : m_entities)
     {
-        pEntity->interpolate(lag);
-        rTarget.draw(*pEntity, states);
+        entity->interpolate(lag);
+        target.draw(*entity, states);
     }
 
     // Reset the target's view back to its initial view
-    rTarget.setView(oldView);
+    target.setView(oldView);
 }
 
 // Load all Level components, such as the Map, the Entities and the Parallax background

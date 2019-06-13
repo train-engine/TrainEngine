@@ -8,9 +8,9 @@ Tile::Tile(const sf::Texture& texture, TileType tileType)
 {
 }
 
-void Tile::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_sprite, states);
+    target.draw(m_sprite, states);
 }
 
 std::string Tile::getTileTypeString(TileType tileType)

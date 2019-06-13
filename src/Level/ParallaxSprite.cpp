@@ -9,9 +9,9 @@ ParallaxSprite::ParallaxSprite(const sf::Texture& texture, float parallax)
 {
 }
 
-void ParallaxSprite::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void ParallaxSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_sprite, states);
+    target.draw(m_sprite, states);
 }
 
 void ParallaxSprite::setPosition(const sf::Vector2f& position)

@@ -12,7 +12,7 @@ private:
 
 public:
     // Constructor
-    Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& inputManager, const sf::Vector2f& position);
+    Player(Map& map, std::vector<Entity*>& entities, const InputManager& inputManager, const sf::Vector2f& position);
 
     // Functions
     virtual void handleInput() override;

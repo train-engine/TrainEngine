@@ -29,7 +29,7 @@ private:
     bool m_isVisible;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 public:
     // Constructor

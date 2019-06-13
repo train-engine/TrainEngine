@@ -31,10 +31,10 @@ Map::~Map()
     clear();
 }
 
-void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::Vector2f viewPosition = rTarget.getView().getCenter();
-    sf::Vector2f viewDimensions = rTarget.getView().getSize();
+    sf::Vector2f viewPosition = target.getView().getCenter();
+    sf::Vector2f viewDimensions = target.getView().getSize();
 
     float viewLeft = (viewPosition.x - viewDimensions.x / 2) / m_tileSize;
     if (viewLeft < 0)
@@ -68,7 +68,7 @@ void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
             {
                 if (m_tiles[z][y][x] != nullptr)
                 {
-                    rTarget.draw(*m_tiles[z][y][x], states);
+                    target.draw(*m_tiles[z][y][x], states);
                 }
             }
         }
@@ -76,15 +76,15 @@ void Map::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
 
     if (m_isGridVisible == true)
     {
-        drawGrid(rTarget, states);
+        drawGrid(target, states);
     }
 }
 
 // Draw grid lines around Tiles
-void Map::drawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void Map::drawGrid(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::Vector2f viewPosition = rTarget.getView().getCenter();
-    sf::Vector2f viewDimensions = rTarget.getView().getSize();
+    sf::Vector2f viewPosition = target.getView().getCenter();
+    sf::Vector2f viewDimensions = target.getView().getSize();
 
     m_horizGridLine.setSize({viewDimensions.x, 2});
     m_vertGridLine.setSize({2, viewDimensions.y});
@@ -126,12 +126,12 @@ void Map::drawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const
     // Draw and move grid lines incrementally from their starting position
     while (m_horizGridLine.getPosition().y <= viewPosition.y + viewDimensions.y / 2 && m_horizGridLine.getPosition().y <= getBounds().y)
     {
-        rTarget.draw(m_horizGridLine, states);
+        target.draw(m_horizGridLine, states);
         m_horizGridLine.setPosition(m_horizGridLine.getPosition() + sf::Vector2f(0, m_tileSize));
     }
     while (m_vertGridLine.getPosition().x <= viewPosition.x + viewDimensions.x / 2 && m_vertGridLine.getPosition().x <= getBounds().x)
     {
-        rTarget.draw(m_vertGridLine, states);
+        target.draw(m_vertGridLine, states);
         m_vertGridLine.setPosition(m_vertGridLine.getPosition() + sf::Vector2f(m_tileSize, 0));
     }
 }

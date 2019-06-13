@@ -38,7 +38,7 @@ private:
     float m_zoomLerp;
 
     // For CameraMode::Follow
-    const Entity* m_pFollowedEntity;
+    const Entity* m_followedEntity;
     float m_followLerp;
 
     // For CameraMode::Translate
@@ -48,9 +48,9 @@ private:
     unsigned int m_ticksTotal;
 
     // Functions
-    void resizeToFitMinDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& minDimensions);
-    void resizeToFitMaxDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& maxDimensions);
-    void boundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimensions);
+    void resizeToFitMinDimensions(sf::Vector2f& dimensions, const sf::Vector2f& minDimensions);
+    void resizeToFitMaxDimensions(sf::Vector2f& dimensions, const sf::Vector2f& maxDimensions);
+    void boundsCollision(sf::Vector2f& position, const sf::Vector2f& dimensions);
 
 public:
     // Constructor

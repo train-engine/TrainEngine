@@ -8,7 +8,7 @@
 class EntityTracker final : public sf::Drawable
 {
 private:
-    const Entity* m_pTrackedEntity;
+    const Entity* m_trackedEntity;
 
     mutable sf::CircleShape m_dot;
 
@@ -26,7 +26,7 @@ private:
     bool m_isInfoBoxVisible;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void updateInfoBox();
 
 public:
@@ -44,7 +44,7 @@ public:
     // Setters
     void setDotRadius(float radius) { m_dot.setRadius(radius); }
     void setDotColor(sf::Color color) { m_dot.setFillColor(color); }
-    void track(const Entity& trackedEntity) { m_pTrackedEntity = &trackedEntity; }
+    void track(const Entity& trackedEntity) { m_trackedEntity = &trackedEntity; }
     void toggleDotPathVisible() { m_isDotPathVisible = !m_isDotPathVisible; }
     void toggleInfoBoxVisible() { m_isInfoBoxVisible = !m_isInfoBoxVisible; }
 
@@ -52,7 +52,7 @@ public:
     const sf::Vector2f& getLastPosition() const { return m_positions.back(); }
     float getDistanceTraveled() const { return m_totalDistanceTraveled; }
     float getDisplacement() const;
-    bool isTracking() const { return m_pTrackedEntity != nullptr; }
+    bool isTracking() const { return m_trackedEntity != nullptr; }
 };
 
 #endif // ENTITYTRACKER_H

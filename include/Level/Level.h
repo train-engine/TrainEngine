@@ -41,7 +41,7 @@ public:
     // Functions
     void handleInput();
     void update();
-    void draw(sf::RenderTarget& rTarget, sf::RenderStates states, float lag);
+    void draw(sf::RenderTarget& target, sf::RenderStates states, float lag);
 
     bool load(const std::string& levelDirectory);
     bool save(const std::string& levelDirectory) const;

@@ -48,14 +48,14 @@ private:
     // State functions
     virtual void handleInput() override;
     virtual void update() override;
-    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void draw(sf::RenderTarget& target, float lag) override;
 
     virtual void onWindowResize() override;
 
 public:
     // Constructors
-    explicit CreatorState(GameEngine& rGame);
-    CreatorState(GameEngine& rGame, const std::string& levelDirectory);
+    explicit CreatorState(GameEngine& game);
+    CreatorState(GameEngine& game, const std::string& levelDirectory);
 };
 
 #endif // CREATORSTATE_H

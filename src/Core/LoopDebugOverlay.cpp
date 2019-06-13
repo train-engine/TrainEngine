@@ -37,14 +37,14 @@ LoopDebugOverlay::LoopDebugOverlay(const sf::Font& font)
     onWindowResize();
 }
 
-void LoopDebugOverlay::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void LoopDebugOverlay::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     if (m_isVisible == true)
     {
-        rTarget.draw(m_upsText, states);
-        rTarget.draw(m_fpsText, states);
-        rTarget.draw(m_updateStrainText, states);
-        rTarget.draw(m_drawStrainText, states);
+        target.draw(m_upsText, states);
+        target.draw(m_fpsText, states);
+        target.draw(m_updateStrainText, states);
+        target.draw(m_drawStrainText, states);
     }
 }
 

@@ -9,15 +9,15 @@
 #include "Misc/MacClipboard.h"
 #endif
 
-InputManager::InputManager(sf::RenderWindow& rWindow)
-    : m_rWindow(rWindow)
+InputManager::InputManager(sf::RenderWindow& window)
+    : m_window(window)
     , m_keyStates{}
     , m_previousKeyStates{}
     , m_mouseButtonStates{}
     , m_previousMouseButtonStates{}
     , m_joystickButtonStates{}
     , m_previousJoystickButtonStates{}
-    , m_isWindowFocused(m_rWindow.hasFocus())
+    , m_isWindowFocused(m_window.hasFocus())
     , m_closedEvent(false)
     , m_resizedEvent(false)
     , m_lostFocusEvent(false)
@@ -56,10 +56,10 @@ void InputManager::updateInputStates()
     m_previousJoystickButtonStates = m_joystickButtonStates;
 }
 
-void InputManager::pollSfmlEvents(sf::Window& rWindow)
+void InputManager::pollSfmlEvents(sf::Window& window)
 {
     sf::Event event;
-    while (rWindow.pollEvent(event))
+    while (window.pollEvent(event))
     {
         switch (event.type)
         {
@@ -279,29 +279,29 @@ void InputManager::update()
 {
     updateInputStates();
     resetEvents();
-    pollSfmlEvents(m_rWindow);
+    pollSfmlEvents(m_window);
 }
 
 // Window getters
 
 const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const
 {
-    return m_rWindow.mapPixelToCoords(point, view);
+    return m_window.mapPixelToCoords(point, view);
 }
 
 const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point) const
 {
-    return m_rWindow.mapPixelToCoords(point);
+    return m_window.mapPixelToCoords(point);
 }
 
 const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const
 {
-    return m_rWindow.mapCoordsToPixel(position, view);
+    return m_window.mapCoordsToPixel(position, view);
 }
 
 const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position) const
 {
-    return m_rWindow.mapCoordsToPixel(position);
+    return m_window.mapCoordsToPixel(position);
 }
 
 // Keyboard getters
@@ -459,7 +459,7 @@ bool InputManager::isMouseButtonAscending(sf::Mouse::Button button) const
 // Return the mouse position relative to a given view
 sf::Vector2f InputManager::getMousePosition(const sf::View& view) const
 {
-    return m_rWindow.mapPixelToCoords(m_mousePosition, view);
+    return m_window.mapPixelToCoords(m_mousePosition, view);
 }
 
 // Joystick getters
@@ -538,7 +538,7 @@ float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick:
 void InputManager::setClipboardText(const sf::String& text)
 {
 #if defined(SFML_SYSTEM_WINDOWS)
-    HWND handle = m_rWindow.getSystemHandle();
+    HWND handle = m_window.getSystemHandle();
     if (OpenClipboard(handle))
     {
         EmptyClipboard();
@@ -564,17 +564,17 @@ void InputManager::setClipboardText(const sf::String& text)
 sf::String InputManager::getClipboardText() const
 {
 #if defined(SFML_SYSTEM_WINDOWS)
-    HWND handle = m_rWindow.getSystemHandle();
+    HWND handle = m_window.getSystemHandle();
     if (OpenClipboard(handle))
     {
         HANDLE hData = GetClipboardData(CF_UNICODETEXT);
         if (hData != nullptr)
         {
-            wchar_t* pText = static_cast<wchar_t*>(GlobalLock(hData));
-            if (pText != nullptr)
+            wchar_t* text = static_cast<wchar_t*>(GlobalLock(hData));
+            if (text != nullptr)
             {
                 CloseClipboard();
-                return sf::String(pText);
+                return sf::String(text);
             }
         }
         CloseClipboard();

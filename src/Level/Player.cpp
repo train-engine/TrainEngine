@@ -1,7 +1,7 @@
 #include "Level/Player.h"
 
-Player::Player(Map& rMap, std::vector<Entity*>& rEntities, const InputManager& inputManager, const sf::Vector2f& position)
-    : Entity(rMap, rEntities, EntityType::Player, position, sf::Vector2f(40, 80), sf::Vector2f(10, 64), 1, 3, 18, true, true, true)
+Player::Player(Map& map, std::vector<Entity*>& entities, const InputManager& inputManager, const sf::Vector2f& position)
+    : Entity(map, entities, EntityType::Player, position, sf::Vector2f(40, 80), sf::Vector2f(10, 64), 1, 3, 18, true, true, true)
     , m_inputManager(inputManager)
     , m_inputContext(inputManager)
 {

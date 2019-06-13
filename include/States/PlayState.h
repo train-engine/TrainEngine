@@ -28,7 +28,7 @@ private:
     // State functions
     virtual void handleInput() override;
     virtual void update() override;
-    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void draw(sf::RenderTarget& target, float lag) override;
 
     virtual void pause() override;
     virtual void resume() override;
@@ -37,7 +37,7 @@ private:
 
 public:
     // Constructor
-    PlayState(GameEngine& rGame, const std::string& levelDirectory);
+    PlayState(GameEngine& game, const std::string& levelDirectory);
 };
 
 #endif // PLAYSTATE_H

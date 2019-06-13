@@ -16,9 +16,9 @@ AnimatedSprite::AnimatedSprite(const sf::Texture& texture, const sf::Vector2u& f
     m_sprite.setOrigin(static_cast<sf::Vector2f>(m_frameDimensions) / 2.0f);
 }
 
-void AnimatedSprite::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void AnimatedSprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_sprite, states);
+    target.draw(m_sprite, states);
 }
 
 void AnimatedSprite::setTextureRect()

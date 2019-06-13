@@ -6,7 +6,7 @@ namespace
     const float gravity = 1.3;
 } // namespace
 
-Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType, const sf::Vector2f& position,
+Entity::Entity(Map& map, std::vector<Entity*>& entities, EntityType entityType, const sf::Vector2f& position,
                const sf::Vector2f& dimensions, const sf::Vector2f& maxVelocity, float acceleration, float deceleration, float jumpForce,
                bool isGravityApplied, bool isTileCollideable, bool isEntityCollideable)
     : m_entityType(entityType)
@@ -30,8 +30,8 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
     , m_jumpForce(jumpForce)
     , m_defaultClimbSpeed(8)
     , m_defaultDescentSpeed(6)
-    , m_rMap(rMap)
-    , m_rEntities(rEntities)
+    , m_map(map)
+    , m_entities(entities)
 {
     m_collisionBox.setOrigin(m_dimensions / 2.0f);
     m_collisionBox.setPosition(m_position);
@@ -43,43 +43,43 @@ Entity::Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType
 }
 
 // Apply collision with a pointer to a const Tile
-void Entity::tileCollision(const Tile* pTile)
+void Entity::tileCollision(const Tile* tile)
 {
-    if (pTile == nullptr)
+    if (tile == nullptr)
     {
         return;
     }
 
-    if (pTile->isSolid())
+    if (tile->isSolid())
     {
-        switch (pTile->getTileType())
+        switch (tile->getTileType())
         {
         default:
-            standardCollision(pTile);
+            standardCollision(tile);
             break;
         case TileType::LadderTop:
-            ladderTopCollision(pTile);
+            ladderTopCollision(tile);
             break;
         }
     }
 }
 
 // Apply collision with a pointer to a const Entity
-void Entity::entityCollision(const Entity* pEntity)
+void Entity::entityCollision(const Entity* entity)
 {
     // TODO
 }
 
 // Perform reactions with a pointer to a Tile
-void Entity::tileReaction(Tile* pTile)
+void Entity::tileReaction(Tile* tile)
 {
-    if (pTile == nullptr)
+    if (tile == nullptr)
     {
         m_state = EntityState::Still;
         return;
     }
 
-    switch (pTile->getTileType())
+    switch (tile->getTileType())
     {
     case TileType::Ladder:
     case TileType::LadderTop:
@@ -95,12 +95,12 @@ void Entity::tileReaction(Tile* pTile)
 }
 
 // Perform reactions with a pointer to an Entity
-void Entity::entityReaction(Entity* pEntity)
+void Entity::entityReaction(Entity* entity)
 {
-    switch (pEntity->getEntityType())
+    switch (entity->getEntityType())
     {
     case EntityType::Player:
-        playerReaction(pEntity);
+        playerReaction(entity);
         break;
     default:
         break;
@@ -108,10 +108,10 @@ void Entity::entityReaction(Entity* pEntity)
 }
 
 // Collision used for Tiles that have collision for all four sides
-void Entity::standardCollision(const Tile* pTile)
+void Entity::standardCollision(const Tile* tile)
 {
-    sf::Vector2f tilePosition = pTile->getPosition();
-    sf::Vector2f tileDimensions = pTile->getDimensions();
+    sf::Vector2f tilePosition = tile->getPosition();
+    sf::Vector2f tileDimensions = tile->getDimensions();
     // Check for Y-axis overlap
     if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= tilePosition.y &&
         m_position.y - m_dimensions.y / 2 + m_velocity.y < tilePosition.y + tileDimensions.y)
@@ -236,10 +236,10 @@ void Entity::standardCollision(const Tile* pTile)
 }
 
 // Collision used for LadderTop Tiles that have collision for all four sides
-void Entity::ladderTopCollision(const Tile* pTile)
+void Entity::ladderTopCollision(const Tile* tile)
 {
-    sf::Vector2f tilePosition = pTile->getPosition();
-    sf::Vector2f tileDimensions = pTile->getDimensions();
+    sf::Vector2f tilePosition = tile->getPosition();
+    sf::Vector2f tileDimensions = tile->getDimensions();
     // If Entity is going downwards
     if (m_velocity.y >= 0)
     {
@@ -332,22 +332,22 @@ void Entity::climb(float factor)
     }
 }
 
-void Entity::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     auto it = m_animatedSprites.find(m_state);
     if (it != m_animatedSprites.cend())
     {
-        rTarget.draw(it->second, states);
+        target.draw(it->second, states);
     }
     else
     {
-        rTarget.draw(m_defaultSprite, states);
+        target.draw(m_defaultSprite, states);
     }
 
     if (m_isDebugBoxVisible == true)
     {
-        rTarget.draw(m_collisionBox, states);
-        rTarget.draw(m_tileReactionDot, states);
+        target.draw(m_collisionBox, states);
+        target.draw(m_tileReactionDot, states);
     }
 }
 
@@ -404,7 +404,7 @@ void Entity::maxVelocityCap()
 // Apply collision with the edges of the Map
 void Entity::mapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollisionEnabled)
 {
-    if (m_rMap.isNull())
+    if (m_map.isNull())
     {
         return;
     }
@@ -416,9 +416,9 @@ void Entity::mapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
             m_position.x = 0 + m_dimensions.x / 2;
             m_velocity.x = 0;
         }
-        else if (m_position.x + m_dimensions.x / 2 + m_velocity.x >= m_rMap.getBounds().x)
+        else if (m_position.x + m_dimensions.x / 2 + m_velocity.x >= m_map.getBounds().x)
         {
-            m_position.x = m_rMap.getBounds().x - m_dimensions.x / 2;
+            m_position.x = m_map.getBounds().x - m_dimensions.x / 2;
             m_velocity.x = 0;
         }
     }
@@ -430,9 +430,9 @@ void Entity::mapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
             m_velocity.y = 0;
             m_isOnGround = false;
         }
-        else if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= m_rMap.getBounds().y)
+        else if (m_position.y + m_dimensions.y / 2 + m_velocity.y >= m_map.getBounds().y)
         {
-            m_position.y = m_rMap.getBounds().y - m_dimensions.y / 2;
+            m_position.y = m_map.getBounds().y - m_dimensions.y / 2;
             m_velocity.y = 0;
             m_isOnGround = true;
         }
@@ -445,13 +445,13 @@ void Entity::performCollisions()
     // Determine the range of positions where the Entity could be in the next tick
     float biggestAxis = std::fmax(m_dimensions.x, m_dimensions.y);
     float highestVelocity = std::fmax(m_velocity.x, m_velocity.y);
-    float range = (biggestAxis + highestVelocity) / m_rMap.getTileSize();
+    float range = (biggestAxis + highestVelocity) / m_map.getTileSize();
 
     // Collision with Tiles
     if (m_isTileCollideable == true)
     {
         // Loop through Tiles in the same direction as the Entity's velocity to fix collision problems
-        sf::Vector2u positionIndex = m_rMap.coordsToTileIndex(m_position);
+        sf::Vector2u positionIndex = m_map.coordsToTileIndex(m_position);
         if (m_velocity.x >= 0)
         {
             for (int i = -range - 1; i <= range + 1; i++)
@@ -460,14 +460,14 @@ void Entity::performCollisions()
                 {
                     for (int j = -range - 1; j <= range + 1; j++)
                     {
-                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_map.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
                 else
                 {
                     for (int j = range + 1; j >= -range - 1; j--)
                     {
-                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_map.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
             }
@@ -480,14 +480,14 @@ void Entity::performCollisions()
                 {
                     for (int j = -range - 1; j <= range + 1; j++)
                     {
-                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_map.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
                 else
                 {
                     for (int j = range + 1; j >= -range - 1; j--)
                     {
-                        tileCollision(m_rMap.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
+                        tileCollision(m_map.getKTilePtr(sf::Vector2u(positionIndex.x + i, positionIndex.y + j), MapLayer::Solid));
                     }
                 }
             }
@@ -499,11 +499,11 @@ void Entity::performCollisions()
     // Collision with Entities
     if (m_isEntityCollideable == true)
     {
-        for (auto& rEntity : m_rEntities)
+        for (auto& entity : m_entities)
         {
-            if (rEntity != this)
+            if (entity != this)
             {
-                entityCollision(rEntity);
+                entityCollision(entity);
             }
         }
     }
@@ -557,10 +557,10 @@ void Entity::update()
     // Cycle through the possible points to do a TileReaction on a Tile on one of those points, if found
     for (std::size_t i = 0; i < tileReactionPoints.size(); i++)
     {
-        Tile* pTile = m_rMap.getTilePtr(m_rMap.coordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
-        if (pTile != nullptr)
+        Tile* tile = m_map.getTilePtr(m_map.coordsToTileIndex(tileReactionPoints[i]), MapLayer::Solid);
+        if (tile != nullptr)
         {
-            tileReaction(pTile);
+            tileReaction(tile);
             m_tileReactionDot.setPosition(tileReactionPoints[i]);
             break;
         }

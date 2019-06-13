@@ -29,10 +29,10 @@ GuiRectButton::GuiRectButton(const sf::Font& font, const sf::Vector2f& position,
     m_text.setFillColor(m_textColor);
 }
 
-void GuiRectButton::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void GuiRectButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_shape, states);
-    rTarget.draw(m_text, states);
+    target.draw(m_shape, states);
+    target.draw(m_text, states);
 }
 
 bool GuiRectButton::checkMousePosition(const sf::Vector2f& mousePosition) const
@@ -224,9 +224,9 @@ GuiSpriteButton::GuiSpriteButton(const sf::Texture& texture, const sf::Texture& 
     m_shape.setTexture(&m_texture);
 }
 
-void GuiSpriteButton::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void GuiSpriteButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_shape, states);
+    target.draw(m_shape, states);
 }
 
 bool GuiSpriteButton::checkMousePosition(const sf::Vector2f& mousePosition) const // REPETITIVE
@@ -324,10 +324,10 @@ GuiScrollbar::GuiScrollbar(const sf::Vector2f& position, const sf::Vector2f& dim
     m_slider.setFillColor(m_sliderColor);
 }
 
-void GuiScrollbar::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void GuiScrollbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_shape, states);
-    rTarget.draw(m_slider, states);
+    target.draw(m_shape, states);
+    target.draw(m_slider, states);
 }
 
 bool GuiScrollbar::checkMousePosition(const sf::Vector2f& mousePosition) const
@@ -724,10 +724,10 @@ GuiTextSlider::GuiTextSlider(const sf::Font& font, const sf::Vector2f& position,
     m_text.setFillColor(m_textColor);
 }
 
-void GuiTextSlider::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void GuiTextSlider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    GuiScrollbar::draw(rTarget, states);
-    rTarget.draw(m_text, states);
+    GuiScrollbar::draw(target, states);
+    target.draw(m_text, states);
 }
 
 void GuiTextSlider::moveSlider(const sf::Vector2f& position)
@@ -813,10 +813,10 @@ ProgressBar::ProgressBar(const sf::Vector2f& position, const sf::Vector2f& boxDi
     setPosition(position);
 }
 
-void ProgressBar::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void ProgressBar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    rTarget.draw(m_box, states);
-    rTarget.draw(m_progressBar, states);
+    target.draw(m_box, states);
+    target.draw(m_progressBar, states);
 }
 
 void ProgressBar::calculateFraction()

@@ -14,7 +14,7 @@ Camera::Camera()
     , m_maxDimensions(2560, 1440)
     , m_zoom(1)
     , m_zoomLerp(0.25)
-    , m_pFollowedEntity(nullptr)
+    , m_followedEntity(nullptr)
     , m_followLerp(0.3)
     , m_ticksRemaining(0)
     , m_ticksTotal(0)
@@ -23,31 +23,31 @@ Camera::Camera()
 }
 
 // Resize the given dimensions to be at least as big as the given minimum dimensions while preserving their aspect ratio
-void Camera::resizeToFitMinDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& minDimensions)
+void Camera::resizeToFitMinDimensions(sf::Vector2f& dimensions, const sf::Vector2f& minDimensions)
 {
     // If there is no need to resize
-    if (rDimensions.x > minDimensions.x && rDimensions.y > minDimensions.y)
+    if (dimensions.x > minDimensions.x && dimensions.y > minDimensions.y)
     {
         return;
     }
 
-    rDimensions *= Utility::getScaleToFill(rDimensions, minDimensions);
+    dimensions *= Utility::getScaleToFill(dimensions, minDimensions);
 }
 
 // Resize the given dimensions to fit the given maximum dimensions while preserving their aspect ratio
-void Camera::resizeToFitMaxDimensions(sf::Vector2f& rDimensions, const sf::Vector2f& maxDimensions)
+void Camera::resizeToFitMaxDimensions(sf::Vector2f& dimensions, const sf::Vector2f& maxDimensions)
 {
     // If there is no need to resize
-    if (rDimensions.x < maxDimensions.x && rDimensions.y < maxDimensions.y)
+    if (dimensions.x < maxDimensions.x && dimensions.y < maxDimensions.y)
     {
         return;
     }
 
-    rDimensions *= Utility::getScaleToFit(rDimensions, maxDimensions);
+    dimensions *= Utility::getScaleToFit(dimensions, maxDimensions);
 }
 
 // Modify the given position to fix any possible out-of-bounds error
-void Camera::boundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimensions)
+void Camera::boundsCollision(sf::Vector2f& position, const sf::Vector2f& dimensions)
 {
     if (m_isBoundless == true || m_bounds == sf::Vector2f(0, 0))
     {
@@ -55,22 +55,22 @@ void Camera::boundsCollision(sf::Vector2f& rPosition, const sf::Vector2f& dimens
     }
 
     // Horizontal Map edge stopping
-    if (rPosition.x - dimensions.x / 2 < 0)
+    if (position.x - dimensions.x / 2 < 0)
     {
-        rPosition.x = dimensions.x / 2;
+        position.x = dimensions.x / 2;
     }
-    else if (rPosition.x + dimensions.x / 2 > m_bounds.x)
+    else if (position.x + dimensions.x / 2 > m_bounds.x)
     {
-        rPosition.x = m_bounds.x - dimensions.x / 2;
+        position.x = m_bounds.x - dimensions.x / 2;
     }
     // Vertical Map edge stopping
-    if (rPosition.y - dimensions.y / 2 < 0)
+    if (position.y - dimensions.y / 2 < 0)
     {
-        rPosition.y = dimensions.y / 2;
+        position.y = dimensions.y / 2;
     }
-    else if (rPosition.y + dimensions.y / 2 > m_bounds.y)
+    else if (position.y + dimensions.y / 2 > m_bounds.y)
     {
-        rPosition.y = m_bounds.y - dimensions.y / 2;
+        position.y = m_bounds.y - dimensions.y / 2;
     }
 }
 
@@ -124,16 +124,16 @@ void Camera::update()
             // Disable horizontal lerp to snap to left or right of bounds when zooming
             mustSnapHorizontally =
                 ((m_previousPosition.x - m_previousDimensions.x / 2 <= 0 && // If Camera is colliding with the left bounds
-                  m_previousPosition.x >= m_pFollowedEntity->getPosition().x) || // And if Camera is to the right of followed Entity
+                  m_previousPosition.x >= m_followedEntity->getPosition().x) || // And if Camera is to the right of followed Entity
                  (m_previousPosition.x + m_previousDimensions.x / 2 >= m_bounds.x && // Or, if Camera is colliding with the right bounds
-                  m_previousPosition.x <= m_pFollowedEntity->getPosition().x)); // And if Camera is to the left of followed Entity
+                  m_previousPosition.x <= m_followedEntity->getPosition().x)); // And if Camera is to the left of followed Entity
 
             // Disable vertical lerp to snap to bottom or top of bounds when zooming
             mustSnapVertically =
                 ((m_previousPosition.y - m_previousDimensions.y / 2 <= 0 && // If Camera is colliding with the top bounds
-                  m_previousPosition.y >= m_pFollowedEntity->getPosition().y) || // And if Camera is below followed Entity
+                  m_previousPosition.y >= m_followedEntity->getPosition().y) || // And if Camera is below followed Entity
                  (m_previousPosition.y + m_previousDimensions.y / 2 >= m_bounds.y && // Or, if Camera is colliding with the bottom bounds
-                  m_previousPosition.y <= m_pFollowedEntity->getPosition().y)); // And if Camera above of followed Entity
+                  m_previousPosition.y <= m_followedEntity->getPosition().y)); // And if Camera above of followed Entity
         }
         else
         {
@@ -143,22 +143,22 @@ void Camera::update()
 
         if (mustSnapHorizontally == true) // Zooming with horizontal lerp and interpolation disabled
         {
-            m_position.x = m_pFollowedEntity->getPosition().x;
+            m_position.x = m_followedEntity->getPosition().x;
             m_previousPosition.x = m_position.x;
         }
         else
         {
-            m_position.x += (m_pFollowedEntity->getPosition().x - m_position.x) * m_followLerp;
+            m_position.x += (m_followedEntity->getPosition().x - m_position.x) * m_followLerp;
         }
 
         if (mustSnapVertically == true) // Zooming with vertical lerp and interpolation disabled
         {
-            m_position.y = m_pFollowedEntity->getPosition().y;
+            m_position.y = m_followedEntity->getPosition().y;
             m_previousPosition.y = m_position.y;
         }
         else
         {
-            m_position.y += (m_pFollowedEntity->getPosition().y - m_position.y) * m_followLerp;
+            m_position.y += (m_followedEntity->getPosition().y - m_position.y) * m_followLerp;
         }
     }
     else if (m_mode == CameraMode::Translate)
@@ -208,7 +208,7 @@ void Camera::setPosition(const sf::Vector2f& position)
     if (m_mode != CameraMode::Static && m_mode != CameraMode::Moving)
     {
         // Reset unused variables
-        m_pFollowedEntity = nullptr;
+        m_followedEntity = nullptr;
         m_startTranslationPosition = sf::Vector2f(0, 0);
         m_finalTranslationPosition = sf::Vector2f(0, 0);
         m_ticksRemaining = 0;
@@ -227,7 +227,7 @@ void Camera::move(const sf::Vector2f& offset)
     if (m_mode != CameraMode::Static && m_mode != CameraMode::Moving)
     {
         // Reset unused variables
-        m_pFollowedEntity = nullptr;
+        m_followedEntity = nullptr;
         m_startTranslationPosition = sf::Vector2f(0, 0);
         m_finalTranslationPosition = sf::Vector2f(0, 0);
         m_ticksRemaining = 0;
@@ -250,13 +250,13 @@ void Camera::setFollow(const Entity& followedEntity, bool snapOnSet)
         m_ticksTotal = 0;
     }
 
-    if (m_mode != CameraMode::Follow || m_pFollowedEntity != &followedEntity)
+    if (m_mode != CameraMode::Follow || m_followedEntity != &followedEntity)
     {
         m_mode = CameraMode::Follow;
-        m_pFollowedEntity = &followedEntity;
+        m_followedEntity = &followedEntity;
         if (snapOnSet == true)
         {
-            m_position = m_pFollowedEntity->getPosition();
+            m_position = m_followedEntity->getPosition();
             boundsCollision(m_position, m_dimensions);
             m_previousPosition = m_position;
         }
@@ -270,7 +270,7 @@ void Camera::setTranslate(const sf::Vector2f& startPosition, const sf::Vector2f&
     if (m_mode != CameraMode::Translate && m_mode != CameraMode::SmoothTranslate)
     {
         // Reset unused variables
-        m_pFollowedEntity = nullptr;
+        m_followedEntity = nullptr;
     }
 
     if (isSlowDownSmooth == false)
@@ -357,7 +357,7 @@ void Camera::zoom(float zoom)
 
 void Camera::setZoom(float absoluteZoom)
 {
-    // Progressively (lerp) resize Camera dimensions towards target dimensions in Update()
+    // Progressively (lerp) resize Camera dimensions towards target dimensions in update()
     m_targetDimensions = m_dimensions * absoluteZoom / m_zoom;
 
     resizeToFitMinDimensions(m_targetDimensions, m_minDimensions);

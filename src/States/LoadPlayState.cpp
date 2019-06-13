@@ -5,12 +5,12 @@
 #include "Misc/Utility.h"
 #include "States/PlayState.h"
 
-LoadPlayState::LoadPlayState(GameEngine& rGame, const std::string& levelDirectory)
-    : State(rGame)
+LoadPlayState::LoadPlayState(GameEngine& game, const std::string& levelDirectory)
+    : State(game)
     , m_thread(&LoadPlayState::loadResources, this)
-    , m_backgroundSprite(m_rGame.resourceManager.loadTexture("loadScreen", "res/images/backgrounds/load_screen.png"))
-    , m_loadingText("Loading...", m_rGame.resourceManager.getFont("mainFont"), 128)
-    , m_startSound(m_rGame.resourceManager.loadSoundBuffer("loadSound", "res/sounds/load_sound.wav"))
+    , m_backgroundSprite(m_game.resourceManager.loadTexture("loadScreen", "res/images/backgrounds/load_screen.png"))
+    , m_loadingText("Loading...", m_game.resourceManager.getFont("mainFont"), 128)
+    , m_startSound(m_game.resourceManager.loadSoundBuffer("loadSound", "res/sounds/load_sound.wav"))
     , m_loadingBar(sf::Vector2f(0, 0), sf::Vector2f(750, 50), sf::Color::White, sf::Color::Black, sf::Color::Black, -2, 0)
     , m_progress(0)
     , m_total(1)
@@ -39,14 +39,14 @@ LoadPlayState::LoadPlayState(GameEngine& rGame, const std::string& levelDirector
 LoadPlayState::~LoadPlayState()
 {
     // Unload resources
-    m_rGame.resourceManager.unloadTexture("loadScreen");
-    m_rGame.resourceManager.unloadSoundBuffer("loadSound");
+    m_game.resourceManager.unloadTexture("loadScreen");
+    m_game.resourceManager.unloadSoundBuffer("loadSound");
 }
 
 void LoadPlayState::playStart()
 {
     m_thread.wait();
-    m_rGame.requestSwap(new PlayState(m_rGame, m_levelDirectory));
+    m_game.requestSwap(new PlayState(m_game, m_levelDirectory));
 }
 
 // Load resources
@@ -71,141 +71,141 @@ void LoadPlayState::loadResources()
         while (std::getline(inputFile, line))
         {
             if (line == "grassTopLeftSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 0, 64, 64));
             else if (line == "grassTopSide")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 0, 64, 64));
             else if (line == "grassTopRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 0, 64, 64));
             else if (line == "grassLeftSide")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 64, 64, 64));
             else if (line == "grassNoSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 64, 64, 64));
             else if (line == "grassRightSide")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 64, 64, 64));
             else if (line == "grassBotLeftSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 128, 64, 64));
             else if (line == "grassBotSide")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 128, 64, 64));
             else if (line == "grassBotRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 128, 64, 64));
             else if (line == "grassTopLeftRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 0, 64, 64));
             else if (line == "grassLeftRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 64, 64, 64));
             else if (line == "grassBotLeftRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 128, 64, 64));
             else if (line == "grassTopBotLeftSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(0, 192, 64, 64));
             else if (line == "grassTopBotSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(64, 192, 64, 64));
             else if (line == "grassTopBotRightSides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(128, 192, 64, 64));
             else if (line == "grass4Sides")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 192, 64, 64));
             else if (line == "grassTopLeftSidesCorner3")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 0, 64, 64));
             else if (line == "grassTopSideCorner3")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 0, 64, 64));
             else if (line == "grassTopSideCorner4")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 0, 64, 64));
             else if (line == "grassTopRightSidesCorner4")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 0, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 0, 64, 64));
             else if (line == "grassLeftSideCorner3")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 64, 64, 64));
             else if (line == "grassNoSidesCorner3")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 64, 64, 64));
             else if (line == "grassNoSidesCorner4")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 64, 64, 64));
             else if (line == "grassRightSideCorner4")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 64, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 64, 64, 64));
             else if (line == "grassLeftSideCorner2")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 128, 64, 64));
             else if (line == "grassNoSidesCorner2")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 128, 64, 64));
             else if (line == "grassNoSidesCorner1")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 128, 64, 64));
             else if (line == "grassRightSideCorner1")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 128, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 128, 64, 64));
             else if (line == "grassBotLeftSidesCorner2")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 192, 64, 64));
             else if (line == "grassBotSideCorner2")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 192, 64, 64));
             else if (line == "grassBotSideCorner1")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 192, 64, 64));
             else if (line == "grassBotRightSidesCorner1")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 192, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 192, 64, 64));
             else if (line == "grassNoSides4Corners")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 256, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(192, 256, 64, 64));
             else if (line == "grassNoSidesCorners12")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 256, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(256, 256, 64, 64));
             else if (line == "grassNoSidesCorners34")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 256, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(320, 256, 64, 64));
             else if (line == "grassNoSidesCorners14")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 256, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(384, 256, 64, 64));
             else if (line == "grassNoSidesCorners23")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 256, 64, 64));
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/grass.png", sf::IntRect(448, 256, 64, 64));
 
             else if (line == "wood")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/wood.png");
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/wood.png");
 
             else if (line == "ladder")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/metal_ladder.png");
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/metal_ladder.png");
             else if (line == "vine")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/vine.png");
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/vine.png");
             else if (line == "post")
-                m_rGame.resourceManager.loadTexture(line, "res/images/tiles/post.png");
+                m_game.resourceManager.loadTexture(line, "res/images/tiles/post.png");
 
             else if (line == "parallaxMountains1")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains1.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains1.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxMountains2")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains2.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains2.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxMountains3")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains3.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains3.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxMountains4")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains4.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains4.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxMountains5")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains5.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_mountains/parallax_mountains5.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxUnderwater1")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater1.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater1.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxUnderwater2")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater2.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater2.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
             else if (line == "parallaxUnderwater3")
             {
-                m_rGame.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater3.png");
-                m_rGame.resourceManager.setTextureRepeated(line, true);
+                m_game.resourceManager.loadTexture(line, "res/images/backgrounds/parallax_underwater/parallax_underwater3.png");
+                m_game.resourceManager.setTextureRepeated(line, true);
             }
 
             else if (line == "characterStill")
-                m_rGame.resourceManager.loadTexture(line, "res/images/entities/player/player_standing.png");
+                m_game.resourceManager.loadTexture(line, "res/images/entities/player/player_standing.png");
             else if (line == "characterRunning")
-                m_rGame.resourceManager.loadTexture(line, "res/images/entities/player/player_running.png");
+                m_game.resourceManager.loadTexture(line, "res/images/entities/player/player_running.png");
             else if (line == "characterClimbing")
-                m_rGame.resourceManager.loadTexture(line, "res/images/entities/player/player_climbing.png");
+                m_game.resourceManager.loadTexture(line, "res/images/entities/player/player_climbing.png");
             else if (line == "characterJumping")
-                m_rGame.resourceManager.loadTexture(line, "res/images/entities/player/player_jumping.png");
+                m_game.resourceManager.loadTexture(line, "res/images/entities/player/player_jumping.png");
             else if (line == "characterFalling")
-                m_rGame.resourceManager.loadTexture(line, "res/images/entities/player/player_falling.png");
+                m_game.resourceManager.loadTexture(line, "res/images/entities/player/player_falling.png");
 
             else
             {
@@ -240,11 +240,11 @@ void LoadPlayState::update()
     }
 }
 
-void LoadPlayState::draw(sf::RenderTarget& rTarget, float lag)
+void LoadPlayState::draw(sf::RenderTarget& target, float lag)
 {
-    rTarget.draw(m_backgroundSprite);
-    rTarget.draw(m_loadingText);
-    rTarget.draw(m_loadingBar);
+    target.draw(m_backgroundSprite);
+    target.draw(m_loadingText);
+    target.draw(m_loadingBar);
 }
 
 void LoadPlayState::onWindowResize()

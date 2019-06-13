@@ -36,7 +36,7 @@ protected:
     InteractiveGui();
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override = 0;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override = 0;
     virtual bool checkMousePosition(const sf::Vector2f& mousePosition) const = 0;
 
 public:
@@ -81,7 +81,7 @@ protected:
     sf::Color m_textColorClicked;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
 
 public:
@@ -148,7 +148,7 @@ private:
     sf::Texture m_textureClicked;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
 
 public:
@@ -197,7 +197,7 @@ protected:
     double m_value;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     bool checkMousePosition(const sf::Vector2f& mousePosition) const override;
     bool checkMousePositionOnSlider(const sf::Vector2f& mousePosition) const;
     virtual void moveSlider(const sf::Vector2f& position);
@@ -268,7 +268,7 @@ protected:
     sf::Color m_textColor;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     virtual void moveSlider(const sf::Vector2f& position) override;
 
 public:
@@ -300,7 +300,7 @@ protected:
     double m_fraction;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void calculateFraction();
     void calculateProgress();
     void updateProgressBarPosition();

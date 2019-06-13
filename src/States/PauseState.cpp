@@ -1,13 +1,13 @@
 #include "States/PauseState.h"
 
-PauseState::PauseState(GameEngine& rGame)
-    : State(rGame)
-    , m_pausedText("Game Paused", m_rGame.resourceManager.getFont("mainFont"), 96)
+PauseState::PauseState(GameEngine& game)
+    : State(game)
+    , m_pausedText("Game Paused", m_game.resourceManager.getFont("mainFont"), 96)
     , m_alpha(0)
 {
     // Initialize GUI
-    const sf::Font& font = m_rGame.resourceManager.getFont("mainFont");
-    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.getSoundBuffer("click");
+    const sf::Font& font = m_game.resourceManager.getFont("mainFont");
+    const sf::SoundBuffer& soundBuffer = m_game.resourceManager.getSoundBuffer("click");
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(400, 50), -2, 6, "Back to game", GuiStyle::White);
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(400, 50), -2, 6, "Exit to main menu", GuiStyle::White);
     for (auto& button : m_buttons)
@@ -26,26 +26,26 @@ PauseState::~PauseState()
 
 void PauseState::handleInput()
 {
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        m_rGame.requestPop();
+        m_game.requestPop();
         return;
     }
-    if (m_rGame.inputManager.detectedMouseMovedEvent())
+    if (m_game.inputManager.detectedMouseMovedEvent())
     {
-        for (auto& rButton : m_buttons)
+        for (auto& button : m_buttons)
         {
-            rButton.onMouseHover(getWindowMousePosition());
+            button.onMouseHover(getWindowMousePosition());
         }
     }
-    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
-        for (auto& rButton : m_buttons)
+        for (auto& button : m_buttons)
         {
-            rButton.onMouseClick(getWindowMousePosition());
+            button.onMouseClick(getWindowMousePosition());
         }
     }
-    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
         for (std::size_t i = 0; i < m_buttons.size(); i++)
         {
@@ -55,11 +55,11 @@ void PauseState::handleInput()
                 {
                 // Back to game button
                 case 0:
-                    m_rGame.requestPop();
+                    m_game.requestPop();
                     return;
                 // Exit to main menu button
                 case 1:
-                    m_rGame.requestPop(2);
+                    m_game.requestPop(2);
                     return;
                 default:
                     break;
@@ -79,16 +79,16 @@ void PauseState::update()
     }
 }
 
-void PauseState::draw(sf::RenderTarget& rTarget, float lag)
+void PauseState::draw(sf::RenderTarget& target, float lag)
 {
-    m_rGame.drawPreviousState(this);
+    m_game.drawPreviousState(this);
 
-    drawBackgroundColor(rTarget);
-    rTarget.draw(m_pausedText);
+    drawBackgroundColor(target);
+    target.draw(m_pausedText);
 
     for (const auto& button : m_buttons)
     {
-        rTarget.draw(button);
+        target.draw(button);
     }
 }
 

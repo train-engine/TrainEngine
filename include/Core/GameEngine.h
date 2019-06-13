@@ -64,12 +64,12 @@ public:
     void startGameLoop();
 
     // Functions to request handling of States
-    void requestPush(State* pState);
+    void requestPush(State* state);
     void requestPop(unsigned int statesToPop = 1);
-    void requestSwap(State* pState);
+    void requestSwap(State* state);
 
     // Draw the State under the current State
-    void drawPreviousState(const State* pCurrentState);
+    void drawPreviousState(const State* currentState);
 
     // Loop clock functions
     void setTargetUps(unsigned int updatesPerSecond);

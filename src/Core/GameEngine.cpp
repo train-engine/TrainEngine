@@ -276,9 +276,9 @@ void GameEngine::startGameLoop()
                 if (inputManager.detectedResizedEvent())
                 {
                     onWindowResize();
-                    for (const auto& pState : m_states)
+                    for (const auto& state : m_states)
                     {
-                        pState->onWindowResize();
+                        state->onWindowResize();
                     }
                     m_loopDebugOverlay.onWindowResize();
                 }
@@ -347,10 +347,10 @@ void GameEngine::startGameLoop()
 }
 
 /// Request a State's addition and add it to the queue
-void GameEngine::requestPush(State* pState)
+void GameEngine::requestPush(State* state)
 {
-    m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Push);
-    m_pendingStates.push_back(pState);
+    m_pendingRequests.emplace(state->m_orderCreated, PendingRequest::Push);
+    m_pendingStates.push_back(state);
 }
 
 /// Request a State's removal
@@ -364,21 +364,21 @@ void GameEngine::requestPop(unsigned int statesToPop)
 }
 
 /// Request a State's swapping and add the new State to the queue
-void GameEngine::requestSwap(State* pState)
+void GameEngine::requestSwap(State* state)
 {
-    m_pendingRequests.emplace(pState->m_orderCreated, PendingRequest::Swap);
-    m_pendingStates.push_back(pState);
+    m_pendingRequests.emplace(state->m_orderCreated, PendingRequest::Swap);
+    m_pendingStates.push_back(state);
 }
 
 /// Draw the State under the current State (takes the calling State's "this" pointer
 /// to enable drawing multiple states on top of one another)
-void GameEngine::drawPreviousState(const State* pCurrentState)
+void GameEngine::drawPreviousState(const State* currentState)
 {
     resetWindowView(); // Reset the view to guarantee that the previous State has a predictable and normal view
 
     // Search for the current State, and make sure it can be found and that it is not first in the stack
     // (as we need to draw the State before it)
-    auto it = std::find(m_states.begin(), m_states.end(), pCurrentState);
+    auto it = std::find(m_states.begin(), m_states.end(), currentState);
     if (it != m_states.end() && it != m_states.begin())
     {
         --it;

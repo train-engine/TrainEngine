@@ -11,7 +11,7 @@
 int main()
 {
 #if defined(SFML_SYSTEM_ANDROID)
-    pAndroidBuffer = new AndroidBuffer;
+    androidBuffer = new AndroidBuffer;
     std::cout.rdbuf(pAndroidBuffer);
     std::cerr.rdbuf(pAndroidBuffer);
 #endif
@@ -24,6 +24,6 @@ int main()
 #if defined(SFML_SYSTEM_ANDROID)
     std::cout.rdbuf(nullptr);
     std::cerr.rdbuf(nullptr);
-    delete pAndroidBuffer;
+    delete androidBuffer;
 #endif
 }

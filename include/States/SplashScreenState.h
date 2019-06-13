@@ -23,13 +23,13 @@ private:
     // State functions
     virtual void handleInput() override;
     virtual void update() override;
-    virtual void draw(sf::RenderTarget& rTarget, float lag) override;
+    virtual void draw(sf::RenderTarget& target, float lag) override;
 
     virtual void onWindowResize() override;
 
 public:
     // Constructor
-    explicit SplashScreenState(GameEngine& rGame);
+    explicit SplashScreenState(GameEngine& game);
 };
 
 #endif // SPLASHSCREENSTATE_H

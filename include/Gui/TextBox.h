@@ -10,7 +10,7 @@ private:
     sf::RenderTexture m_renderTexture;
     sf::Sprite m_renderSprite;
 
-    InputManager& m_rInputManager;
+    InputManager& inputManager;
 
     sf::Vector2f m_position;
     sf::Vector2i m_padding;
@@ -51,7 +51,7 @@ private:
 
     // Functions
 
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void drawTexture();
     bool checkMousePosition() const;
     void centerText();
@@ -80,8 +80,8 @@ private:
 
 public:
     // Constructor and destructor
-    TextBox(InputManager& rInputManager, const sf::Font& font);
-    TextBox(InputManager& rInputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions);
+    TextBox(InputManager& inputManager, const sf::Font& font);
+    TextBox(InputManager& inputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions);
     ~TextBox();
 
     // Functions

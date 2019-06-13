@@ -65,14 +65,14 @@ private:
     float m_defaultDescentSpeed;
 
     // Collisions and interactions
-    void tileCollision(const Tile* pTile);
-    void entityCollision(const Entity* pEntity);
-    void tileReaction(Tile* pTile);
-    void entityReaction(Entity* pEntity);
+    void tileCollision(const Tile* tile);
+    void entityCollision(const Entity* entity);
+    void tileReaction(Tile* tile);
+    void entityReaction(Entity* entity);
 
     // TileCollision functions (overrideable)
-    virtual void standardCollision(const Tile* pTile);
-    virtual void ladderTopCollision(const Tile* pTile);
+    virtual void standardCollision(const Tile* tile);
+    virtual void ladderTopCollision(const Tile* tile);
 
     // EntityCollision functions (overrideable)
     // ---
@@ -81,7 +81,7 @@ private:
     // ---
 
     // EntityReaction functions (overrideable)
-    virtual void playerReaction(Entity* pEntity) {}
+    virtual void playerReaction(Entity* entity) {}
 
     // Movement
     void moveLeft();
@@ -90,11 +90,11 @@ private:
     void climb(float factor = 1);
 
 protected:
-    Map& m_rMap;
-    std::vector<Entity*>& m_rEntities;
+    Map& m_map;
+    std::vector<Entity*>& m_entities;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void applyDeceleration();
     void applyGravity();
     void maxVelocityCap();
@@ -118,7 +118,7 @@ protected:
 
 public:
     // Constructor and destructor
-    Entity(Map& rMap, std::vector<Entity*>& rEntities, EntityType entityType, const sf::Vector2f& position, const sf::Vector2f& dimensions,
+    Entity(Map& map, std::vector<Entity*>& entities, EntityType entityType, const sf::Vector2f& position, const sf::Vector2f& dimensions,
            const sf::Vector2f& maxVelocity = {10, 64}, float acceleration = 1, float deceleration = 3, float jumpForce = 18,
            bool isGravityApplied = true, bool isTileCollideable = false, bool isEntityCollideable = false);
     virtual ~Entity() {}

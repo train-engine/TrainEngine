@@ -7,7 +7,7 @@
 #include "Core/FileManager.h"
 
 EntityTracker::EntityTracker(const sf::Font& font)
-    : m_pTrackedEntity(nullptr)
+    : m_trackedEntity(nullptr)
     , m_dot(3)
     , m_lastPositionText("", font, 16)
     , m_lastVelocityText("", font, 16)
@@ -102,13 +102,13 @@ void EntityTracker::updateInfoBox()
 
 void EntityTracker::update()
 {
-    if (m_pTrackedEntity != nullptr)
+    if (m_trackedEntity != nullptr)
     {
         // Verify if the position is not the same as the previous one,
         // to avoid useless duplicate positions in the vector
-        if (m_positions.empty() || m_positions.back() != m_pTrackedEntity->getPosition())
+        if (m_positions.empty() || m_positions.back() != m_trackedEntity->getPosition())
         {
-            m_positions.push_back(m_pTrackedEntity->getPosition());
+            m_positions.push_back(m_trackedEntity->getPosition());
             if (m_positions.size() > 1)
             {
                 m_totalDistanceTraveled +=
@@ -123,30 +123,30 @@ void EntityTracker::update()
     }
 }
 
-void EntityTracker::draw(sf::RenderTarget& rTarget, sf::RenderStates states) const
+void EntityTracker::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     if (m_isDotPathVisible == true)
     {
         for (const auto& position : m_positions)
         {
-            if (position.x >= rTarget.getView().getCenter().x - rTarget.getView().getSize().x / 2 - m_dot.getRadius() &&
-                position.x <= rTarget.getView().getCenter().x + rTarget.getView().getSize().x / 2 + m_dot.getRadius() &&
-                position.y >= rTarget.getView().getCenter().y - rTarget.getView().getSize().y / 2 - m_dot.getRadius() &&
-                position.y <= rTarget.getView().getCenter().y + rTarget.getView().getSize().y / 2 + m_dot.getRadius())
+            if (position.x >= target.getView().getCenter().x - target.getView().getSize().x / 2 - m_dot.getRadius() &&
+                position.x <= target.getView().getCenter().x + target.getView().getSize().x / 2 + m_dot.getRadius() &&
+                position.y >= target.getView().getCenter().y - target.getView().getSize().y / 2 - m_dot.getRadius() &&
+                position.y <= target.getView().getCenter().y + target.getView().getSize().y / 2 + m_dot.getRadius())
             {
                 m_dot.setPosition(position);
-                rTarget.draw(m_dot, states);
+                target.draw(m_dot, states);
             }
         }
     }
     if (m_isInfoBoxVisible == true)
     {
-        rTarget.draw(m_textContainer, states);
-        rTarget.draw(m_lastPositionText, states);
-        rTarget.draw(m_lastVelocityText, states);
-        rTarget.draw(m_distanceTraveledText, states);
-        rTarget.draw(m_displacementText, states);
-        rTarget.draw(m_positionsCountText, states);
+        target.draw(m_textContainer, states);
+        target.draw(m_lastPositionText, states);
+        target.draw(m_lastVelocityText, states);
+        target.draw(m_distanceTraveledText, states);
+        target.draw(m_displacementText, states);
+        target.draw(m_positionsCountText, states);
     }
 }
 
@@ -159,16 +159,16 @@ void EntityTracker::resetTracking()
 
 void EntityTracker::stopTracking()
 {
-    m_pTrackedEntity = nullptr;
+    m_trackedEntity = nullptr;
 }
 
 void EntityTracker::outputToExcel() const
 {
     std::time_t t = std::time(nullptr);
-    std::tm* pTime = std::localtime(&t);
+    std::tm* time = std::localtime(&t);
     std::ostringstream filenameStream;
-    filenameStream << 1900 + pTime->tm_year << 1 + pTime->tm_mon << pTime->tm_mday << 1 + pTime->tm_hour - pTime->tm_isdst
-                   << 1 + pTime->tm_min << 1 + pTime->tm_sec;
+    filenameStream << 1900 + time->tm_year << 1 + time->tm_mon << time->tm_mday << 1 + time->tm_hour - time->tm_isdst
+                   << 1 + time->tm_min << 1 + time->tm_sec;
 
     std::ofstream outputFile(FileManager::resourcePath() + "logs/tracker_" + filenameStream.str() + ".csv");
     if (outputFile)

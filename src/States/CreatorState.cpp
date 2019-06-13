@@ -3,20 +3,20 @@
 #include "Core/FileManager.h"
 #include "States/PauseState.h"
 
-CreatorState::CreatorState(GameEngine& rGame)
-    : State(rGame)
-    , m_loadLevelLabel("Load Level", m_rGame.resourceManager.getFont("altFont"), 20)
-    , m_saveLevelLabel("Save Level as: ", m_rGame.resourceManager.getFont("altFont"), 20)
-    , m_tileNameLabel("Selected tile", m_rGame.resourceManager.getFont("altFont"), 20)
-    , m_loadLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.getFont("altFont"))
-    , m_saveLevelTextBox(m_rGame.inputManager, m_rGame.resourceManager.getFont("altFont"))
-    , m_widthTextBox(m_rGame.inputManager, m_rGame.resourceManager.getFont("altFont"))
-    , m_heightTextBox(m_rGame.inputManager, m_rGame.resourceManager.getFont("altFont"))
-    , m_tileNameTextBox(m_rGame.inputManager, m_rGame.resourceManager.getFont("altFont"))
-    , m_createLevelButton(m_rGame.resourceManager.getFont("altFont"),
-                          m_rGame.resourceManager.getSoundBuffer("click"), sf::Vector2f(0, 0),
+CreatorState::CreatorState(GameEngine& game)
+    : State(game)
+    , m_loadLevelLabel("Load Level", m_game.resourceManager.getFont("altFont"), 20)
+    , m_saveLevelLabel("Save Level as: ", m_game.resourceManager.getFont("altFont"), 20)
+    , m_tileNameLabel("Selected tile", m_game.resourceManager.getFont("altFont"), 20)
+    , m_loadLevelTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
+    , m_saveLevelTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
+    , m_widthTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
+    , m_heightTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
+    , m_tileNameTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
+    , m_createLevelButton(m_game.resourceManager.getFont("altFont"),
+                          m_game.resourceManager.getSoundBuffer("click"), sf::Vector2f(0, 0),
                           sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green)
-    , m_level(m_rGame.resourceManager, m_rGame.inputManager)
+    , m_level(m_game.resourceManager, m_game.inputManager)
     , m_selectableTileTypes{TileType::Grass4Sides, TileType::Wood, TileType::Ladder, TileType::LadderTop, TileType::Vine}
     , m_selectedTileTypeIndex(0)
     , m_musicNumber(0)
@@ -70,8 +70,8 @@ CreatorState::CreatorState(GameEngine& rGame)
     m_level.setCreatorModeEnabled(true);
 }
 
-CreatorState::CreatorState(GameEngine& rGame, const std::string& levelDirectory)
-    : CreatorState(rGame)
+CreatorState::CreatorState(GameEngine& game, const std::string& levelDirectory)
+    : CreatorState(game)
 {
     m_level.load(levelDirectory);
 }
@@ -93,7 +93,7 @@ void CreatorState::setMusic()
 
 void CreatorState::pauseStart()
 {
-    m_rGame.requestPush(new PauseState(m_rGame));
+    m_game.requestPush(new PauseState(m_game));
 }
 
 sf::Vector2u CreatorState::getBrushTopLeftIndex(const sf::Vector2f& mousePosition)
@@ -122,7 +122,7 @@ bool CreatorState::checkMouseChangedTile()
 
 void CreatorState::handleInput()
 {
-    if (m_rGame.inputManager.detectedLostFocusEvent() || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
+    if (m_game.inputManager.detectedLostFocusEvent() || m_game.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
         pauseStart();
         return;
@@ -132,11 +132,11 @@ void CreatorState::handleInput()
     m_currentMousePosition = m_level.getLevelMousePosition();
 
     // Tile selection
-    if ((m_rGame.inputManager.isKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::E) ||
-         m_rGame.inputManager.isKeyDescending(sf::Keyboard::Up) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Down)) &&
+    if ((m_game.inputManager.isKeyDescending(sf::Keyboard::Q) || m_game.inputManager.isKeyDescending(sf::Keyboard::E) ||
+         m_game.inputManager.isKeyDescending(sf::Keyboard::Up) || m_game.inputManager.isKeyDescending(sf::Keyboard::Down)) &&
         !m_loadLevelTextBox.hasFocus() && !m_saveLevelTextBox.hasFocus() && !m_widthTextBox.hasFocus() && !m_heightTextBox.hasFocus())
     {
-        if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::E) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Up))
+        if (m_game.inputManager.isKeyDescending(sf::Keyboard::E) || m_game.inputManager.isKeyDescending(sf::Keyboard::Up))
         {
             if (m_selectedTileTypeIndex >= m_selectableTileTypes.size() - 1)
             {
@@ -147,7 +147,7 @@ void CreatorState::handleInput()
                 m_selectedTileTypeIndex++;
             }
         }
-        else if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Down))
+        else if (m_game.inputManager.isKeyDescending(sf::Keyboard::Q) || m_game.inputManager.isKeyDescending(sf::Keyboard::Down))
         {
             if (m_selectedTileTypeIndex == 0)
             {
@@ -162,12 +162,12 @@ void CreatorState::handleInput()
     }
 
     // Brush size
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Add))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Add))
     {
         clearPreviewMap();
         m_brushSize++;
     }
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Subtract) && m_brushSize > 1)
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Subtract) && m_brushSize > 1)
     {
         clearPreviewMap();
         m_brushSize--;
@@ -175,8 +175,8 @@ void CreatorState::handleInput()
 
     // Preview Map
     if (checkMouseChangedTile() || // Mouse changed Tile
-        m_rGame.inputManager.isKeyDescending(sf::Keyboard::Add) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Subtract) || // Brush
-        m_rGame.inputManager.isKeyDescending(sf::Keyboard::Q) || m_rGame.inputManager.isKeyDescending(sf::Keyboard::E)) // Change Tile
+        m_game.inputManager.isKeyDescending(sf::Keyboard::Add) || m_game.inputManager.isKeyDescending(sf::Keyboard::Subtract) || // Brush
+        m_game.inputManager.isKeyDescending(sf::Keyboard::Q) || m_game.inputManager.isKeyDescending(sf::Keyboard::E)) // Change Tile
     {
         clearPreviewMap();
         m_level.addTileRange(m_selectableTileTypes[m_selectedTileTypeIndex],
@@ -188,11 +188,11 @@ void CreatorState::handleInput()
 
     // Tile placement or removal
     if (getWindowMousePosition().x <= m_panel.getPosition().x &&
-        (checkMouseChangedTile() || m_rGame.inputManager.detectedMouseButtonPressedEvent()) &&
-        (m_rGame.inputManager.isMouseButtonHeld(sf::Mouse::Left) || m_rGame.inputManager.isMouseButtonHeld(sf::Mouse::Right)))
+        (checkMouseChangedTile() || m_game.inputManager.detectedMouseButtonPressedEvent()) &&
+        (m_game.inputManager.isMouseButtonHeld(sf::Mouse::Left) || m_game.inputManager.isMouseButtonHeld(sf::Mouse::Right)))
     {
         // Add Tile
-        if (m_rGame.inputManager.isMouseButtonHeld(sf::Mouse::Left))
+        if (m_game.inputManager.isMouseButtonHeld(sf::Mouse::Left))
         {
             m_level.addTileRange(m_selectableTileTypes[m_selectedTileTypeIndex],
                                  getBrushTopLeftIndex(m_currentMousePosition),
@@ -216,7 +216,7 @@ void CreatorState::handleInput()
     m_widthTextBox.handleInput();
     m_heightTextBox.handleInput();
 
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Return))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Return))
     {
         // Loading
         if (m_loadLevelTextBox.hasFocus())
@@ -250,15 +250,15 @@ void CreatorState::handleInput()
         }
     }
 
-    if (m_rGame.inputManager.detectedMouseMovedEvent())
+    if (m_game.inputManager.detectedMouseMovedEvent())
     {
         m_createLevelButton.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
         m_createLevelButton.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_createLevelButton.onMouseUnclick(getWindowMousePosition()) == true)
         {
@@ -301,27 +301,27 @@ void CreatorState::update()
     }
 }
 
-void CreatorState::draw(sf::RenderTarget& rTarget, float lag)
+void CreatorState::draw(sf::RenderTarget& target, float lag)
 {
-    drawBackgroundColor(rTarget);
+    drawBackgroundColor(target);
 
-    m_level.draw(rTarget, sf::RenderStates::Default, lag);
+    m_level.draw(target, sf::RenderStates::Default, lag);
 
-    rTarget.draw(m_panel);
+    target.draw(m_panel);
 
-    rTarget.draw(m_loadLevelLabel);
-    rTarget.draw(m_loadLevelTextBox);
+    target.draw(m_loadLevelLabel);
+    target.draw(m_loadLevelTextBox);
 
-    rTarget.draw(m_saveLevelLabel);
-    rTarget.draw(m_saveLevelTextBox);
+    target.draw(m_saveLevelLabel);
+    target.draw(m_saveLevelTextBox);
 
-    rTarget.draw(m_widthTextBox);
-    rTarget.draw(m_heightTextBox);
+    target.draw(m_widthTextBox);
+    target.draw(m_heightTextBox);
 
-    rTarget.draw(m_createLevelButton);
+    target.draw(m_createLevelButton);
 
-    rTarget.draw(m_tileNameLabel);
-    rTarget.draw(m_tileNameTextBox);
+    target.draw(m_tileNameLabel);
+    target.draw(m_tileNameTextBox);
 }
 
 void CreatorState::onWindowResize()

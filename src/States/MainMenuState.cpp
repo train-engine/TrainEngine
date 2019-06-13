@@ -8,22 +8,22 @@
 #include "States/LoadPlayState.h"
 #include "States/MenuOptionsState.h"
 
-MainMenuState::MainMenuState(GameEngine& rGame)
-    : State(rGame)
-    , m_backgroundSprite(m_rGame.resourceManager.getTexture("menuBackground"))
-    , m_gameNameText("TrainEngine", m_rGame.resourceManager.getFont("mainFont"), 64)
+MainMenuState::MainMenuState(GameEngine& game)
+    : State(game)
+    , m_backgroundSprite(m_game.resourceManager.getTexture("menuBackground"))
+    , m_gameNameText("TrainEngine", m_game.resourceManager.getFont("mainFont"), 64)
     , m_creditsText("Made by Misha Krieger-Raynauld, Simon Gauvin, Guillaume Jones, and Ba Minh Nguyen.",
-                    m_rGame.resourceManager.getFont("altFont"), 16)
-    , m_muteButton(m_rGame.resourceManager.getTexture("muteNormal"), m_rGame.resourceManager.getTexture("muteHovered"),
-                   m_rGame.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+                    m_game.resourceManager.getFont("altFont"), 16)
+    , m_muteButton(m_game.resourceManager.getTexture("muteNormal"), m_game.resourceManager.getTexture("muteHovered"),
+                   m_game.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
     , m_elapsedTicks(0)
 {
     // State settings
     m_stateSettings.canSkipUpdates = true;
 
     // Initialize GUI
-    const sf::Font& font = m_rGame.resourceManager.getFont("mainFont");
-    const sf::SoundBuffer& soundBuffer = m_rGame.resourceManager.getSoundBuffer("click");
+    const sf::Font& font = m_game.resourceManager.getFont("mainFont");
+    const sf::SoundBuffer& soundBuffer = m_game.resourceManager.getSoundBuffer("click");
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 1", GuiStyle::White);
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 2", GuiStyle::White);
     m_buttons.emplace_back(font, soundBuffer, sf::Vector2f(0, 0), sf::Vector2f(300, 50), -2, 6, "Play Level 3", GuiStyle::White);
@@ -55,13 +55,13 @@ MainMenuState::~MainMenuState()
 void MainMenuState::loadPlayStart(const std::string& levelName)
 {
     m_music.stop();
-    m_rGame.requestPush(new LoadPlayState(m_rGame, levelName));
+    m_game.requestPush(new LoadPlayState(m_game, levelName));
 }
 
 void MainMenuState::creatorStart()
 {
     m_music.stop();
-    m_rGame.requestPush(new CreatorState(m_rGame));
+    m_game.requestPush(new CreatorState(m_game));
 }
 
 void MainMenuState::readMusicSettings()
@@ -83,42 +83,42 @@ void MainMenuState::readMusicSettings()
 
 void MainMenuState::handleInput()
 {
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
-        m_rGame.requestPop();
+        m_game.requestPop();
         return;
     }
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::P))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::P))
     {
         // Start game
         loadPlayStart("data/levels/level2");
         return;
     }
-    if (m_rGame.inputManager.isKeyDescending(sf::Keyboard::C))
+    if (m_game.inputManager.isKeyDescending(sf::Keyboard::C))
     {
         // Start Level creator
         creatorStart();
         return;
     }
 
-    if (m_rGame.inputManager.detectedMouseMovedEvent() || m_rGame.inputManager.detectedTouchMovedEvent())
+    if (m_game.inputManager.detectedMouseMovedEvent() || m_game.inputManager.detectedTouchMovedEvent())
     {
-        for (auto& rButton : m_buttons)
+        for (auto& button : m_buttons)
         {
-            rButton.onMouseHover(getWindowMousePosition());
+            button.onMouseHover(getWindowMousePosition());
         }
         m_muteButton.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left) || // Mouse click
-        m_rGame.inputManager.detectedTouchBeganEvent() || m_rGame.inputManager.detectedTouchMovedEvent()) // Touch
+    if (m_game.inputManager.isMouseButtonDescending(sf::Mouse::Left) || // Mouse click
+        m_game.inputManager.detectedTouchBeganEvent() || m_game.inputManager.detectedTouchMovedEvent()) // Touch
     {
-        for (auto& rButton : m_buttons)
+        for (auto& button : m_buttons)
         {
-            rButton.onMouseClick(getWindowMousePosition());
+            button.onMouseClick(getWindowMousePosition());
         }
         m_muteButton.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left) || m_rGame.inputManager.detectedTouchEndedEvent())
+    if (m_game.inputManager.isMouseButtonAscending(sf::Mouse::Left) || m_game.inputManager.detectedTouchEndedEvent())
     {
         for (std::size_t i = 0; i < m_buttons.size(); i++)
         {
@@ -142,11 +142,11 @@ void MainMenuState::handleInput()
                     return;
                 // Menu options button
                 case 4:
-                    m_rGame.requestPush(new MenuOptionsState(m_rGame));
+                    m_game.requestPush(new MenuOptionsState(m_game));
                     return;
                 // Quit button
                 case 5:
-                    m_rGame.requestPop();
+                    m_game.requestPop();
                     break;
                 default:
                     break;
@@ -173,17 +173,17 @@ void MainMenuState::update()
     m_gameNameText.setRotation(360 * std::sin(m_elapsedTicks++ / 125.0));
 }
 
-void MainMenuState::draw(sf::RenderTarget& rTarget, float lag)
+void MainMenuState::draw(sf::RenderTarget& target, float lag)
 {
-    rTarget.draw(m_backgroundSprite);
-    rTarget.draw(m_gameNameText);
-    rTarget.draw(m_creditsText);
+    target.draw(m_backgroundSprite);
+    target.draw(m_gameNameText);
+    target.draw(m_creditsText);
 
     for (const auto& button : m_buttons)
     {
-        rTarget.draw(button);
+        target.draw(button);
     }
-    rTarget.draw(m_muteButton);
+    target.draw(m_muteButton);
 }
 
 void MainMenuState::resume()

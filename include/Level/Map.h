@@ -34,8 +34,8 @@ private:
     bool m_isGridVisible;
 
     // Functions
-    virtual void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const override;
-    void drawGrid(sf::RenderTarget& rTarget, sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void drawGrid(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
     // Constructor and destructor

@@ -4,12 +4,12 @@
 #include "Core/FileManager.h"
 #include "States/PauseState.h"
 
-PlayState::PlayState(GameEngine& rGame, const std::string& levelDirectory)
-    : State(rGame)
+PlayState::PlayState(GameEngine& game, const std::string& levelDirectory)
+    : State(game)
     , m_darkness(getWindowDimensions())
-    , m_muteButton(m_rGame.resourceManager.getTexture("muteNormal"), m_rGame.resourceManager.getTexture("muteHovered"),
-                   m_rGame.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
-    , m_level(m_rGame.resourceManager, m_rGame.inputManager)
+    , m_muteButton(m_game.resourceManager.getTexture("muteNormal"), m_game.resourceManager.getTexture("muteHovered"),
+                   m_game.resourceManager.getTexture("muteClicked"), sf::Vector2f(getWindowDimensions().x - 48, 48), sf::Vector2f(64, 64))
+    , m_level(m_game.resourceManager, m_game.inputManager)
 {
     // Content settings
     m_stateSettings.backgroundColor = sf::Color(238, 241, 244);
@@ -47,28 +47,28 @@ void PlayState::readMusicSettings()
 
 void PlayState::pauseStart()
 {
-    m_rGame.requestPush(new PauseState(m_rGame));
+    m_game.requestPush(new PauseState(m_game));
 }
 
 void PlayState::handleInput()
 {
     m_level.setFocus(true); // Reset focus back to true to give back control to the level after actions with GUI
 
-    if (m_rGame.inputManager.detectedLostFocusEvent() || m_rGame.inputManager.isKeyDescending(sf::Keyboard::Escape))
+    if (m_game.inputManager.detectedLostFocusEvent() || m_game.inputManager.isKeyDescending(sf::Keyboard::Escape))
     {
         pauseStart();
         return;
     }
 
-    if (m_rGame.inputManager.detectedMouseMovedEvent())
+    if (m_game.inputManager.detectedMouseMovedEvent())
     {
         m_muteButton.onMouseHover(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonDescending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
         m_muteButton.onMouseClick(getWindowMousePosition());
     }
-    if (m_rGame.inputManager.isMouseButtonAscending(sf::Mouse::Left))
+    if (m_game.inputManager.isMouseButtonAscending(sf::Mouse::Left))
     {
         if (m_muteButton.onMouseUnclick(getWindowMousePosition()) == true)
         {
@@ -92,14 +92,14 @@ void PlayState::update()
     m_level.update();
 }
 
-void PlayState::draw(sf::RenderTarget& rTarget, float lag)
+void PlayState::draw(sf::RenderTarget& target, float lag)
 {
-    drawBackgroundColor(rTarget);
+    drawBackgroundColor(target);
 
-    m_level.draw(rTarget, sf::RenderStates::Default, lag);
+    m_level.draw(target, sf::RenderStates::Default, lag);
 
-    rTarget.draw(m_darkness);
-    rTarget.draw(m_muteButton);
+    target.draw(m_darkness);
+    target.draw(m_muteButton);
 }
 
 void PlayState::pause()
