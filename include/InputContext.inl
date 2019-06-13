@@ -292,7 +292,7 @@ inline void InputContext::BindStateToMouseButton(O* object, F callback, sf::Mous
 /// \param joystick         The joystick id.
 /// \param joystickButton   The joystick button bound to the callback.
 template<typename F>
-inline void InputContext::BindStateToJoyStickButton(F callback, unsigned int joystick, unsigned int button)
+inline void InputContext::BindStateToJoystickButton(F callback, unsigned int joystick, unsigned int button)
 {
     m_stateInputs.push_back(
         new JoystickButtonEventStateInput(

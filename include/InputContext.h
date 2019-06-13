@@ -79,7 +79,7 @@ public:
     void BindStateToMouseButton(O* object, F callback, sf::Mouse::Button button);
     template<typename F>
 
-    void BindStateToJoyStickButton(F callback, unsigned int joystick, unsigned int button);
+    void BindStateToJoystickButton(F callback, unsigned int joystick, unsigned int button);
     template<typename O, typename F>
     void BindStateToJoystickButton(O* object, F callback, unsigned int joystick, unsigned int button);
 
