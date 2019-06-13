@@ -524,8 +524,8 @@ inline void InputContext::BindRangeToMouseButton(O* object, F callback, sf::Mous
 /// The function will receive the horizontal mouse movement as an argument.
 /// \param callback         A function with a float as a parameter.
 /// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement.
 template<typename F>
 inline void InputContext::BindRangeToHorizontalMouseMovement(F callback, RangeRestriction rangeRestriction)
 {
@@ -556,8 +556,8 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(F callback, RangeRe
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param rangeRestriction The restriction of the callback range of the horizontal mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement.
 template<typename O, typename F>
 inline void InputContext::BindRangeToHorizontalMouseMovement(O* object, F callback, RangeRestriction rangeRestriction)
 {
@@ -587,8 +587,8 @@ inline void InputContext::BindRangeToHorizontalMouseMovement(O* object, F callba
 /// The function will receive the vertical mouse movement as an argument.
 /// \param callback         A function with a float as a parameter.
 /// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement.
 template<typename F>
 inline void InputContext::BindRangeToVerticalMouseMovement(F callback, RangeRestriction rangeRestriction)
 {
@@ -619,8 +619,8 @@ inline void InputContext::BindRangeToVerticalMouseMovement(F callback, RangeRest
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param rangeRestriction The restriction of the callback range of the vertical mouse movement.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the mouse movement.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of the mouse movement.
 template<typename O, typename F>
 inline void InputContext::BindRangeToVerticalMouseMovement(O* object, F callback, RangeRestriction rangeRestriction)
 {
@@ -651,8 +651,8 @@ inline void InputContext::BindRangeToVerticalMouseMovement(O* object, F callback
 /// \param callback         A function with a float as a parameter.
 /// \param wheelAxis        The mouse wheel axis bound to the callback.
 /// \param rangeRestriction The restriction of the callback range of the mouse scoll.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll.
 template<typename F>
 inline void InputContext::BindRangeToMouseWheelScroll(F callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
@@ -680,8 +680,8 @@ inline void InputContext::BindRangeToMouseWheelScroll(F callback, sf::Mouse::Whe
 /// \param callback         A member function with a float as a parameter.
 /// \param wheelAxis        The mouse wheel axis bound to the member function.
 /// \param rangeRestriction The restriction of the callback range of the mouse scoll.
-///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll
-///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll
+///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of scroll.
+///                         If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values of scroll.
 template<typename O, typename F>
 inline void InputContext::BindRangeToMouseWheelScroll(O* object, F callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction)
 {
