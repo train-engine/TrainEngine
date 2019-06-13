@@ -32,11 +32,12 @@ enum class RangeRestriction
 class InputContext
 {
 public:
+    // Constructor and destructor
     InputContext(const InputManager& inputManager);
     ~InputContext();
 
+    // Functions
     void Update();
-
     void Clear();
 
     // ActionInput

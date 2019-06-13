@@ -126,7 +126,7 @@ bool VerticalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     float currentVertScroll = m_inputManager.GetMouseWheelDelta().y;
 
     // The logic for detected event depends on the direction
-    // This prevents useless callbacks to be made if both current and previous mouse whell position
+    // This prevents useless callbacks to be made if both current and previous mouse wheel position
     // are in the direction
     bool detectedEvent;
     if (m_isRestrictedToPositives)
@@ -197,7 +197,7 @@ bool HorizontalMouseWheelUnidirectionalRangeInput::DetectedEvent() const
     float currentHorizScroll = m_inputManager.GetMouseWheelDelta().x;
 
     // The logic for detected event depends on the direction
-    // This prevents useless callbacks to be made if both current and previous mouse whell position
+    // This prevents useless callbacks to be made if both current and previous mouse wheel position
     // are in the direction
     bool detectedEvent;
     if (m_isRestrictedToPositives)
@@ -268,7 +268,7 @@ bool VerticalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     float currentVertMouseMovement = m_inputManager.GetMousePositionDelta().y;
 
     // The logic for detected event depends on the direction
-    // This prevents useless callbacks to be made if both current and previous mouse whell position
+    // This prevents useless callbacks to be made if both current and previous mouse wheel position
     // are in the direction
     bool detectedEvent;
     if (m_isRestrictedToPositives)
@@ -339,7 +339,7 @@ bool HorizontalMouseMovementUnidirectionalRangeInput::DetectedEvent() const
     float currentHorizMouseMovement = m_inputManager.GetMousePositionDelta().x;
 
     // The logic for detected event depends on the direction
-    // This prevents useless callbacks to be made if both current and previous mouse whell position
+    // This prevents useless callbacks to be made if both current and previous mouse wheel position
     // are in the direction
     bool detectedEvent;
     if (m_isRestrictedToPositives)
@@ -379,8 +379,8 @@ void HorizontalMouseMovementUnidirectionalRangeInput::CallFunction()
 /// Constructor
 /// \param inputManager     A const reference to the InputManager
 /// \param callback         The object containing the callback to call when input is triggered.
-/// \param negativeKey      The key wich will send -100 to the callback when pressed.
-/// \param positiveKey      The key wich will send +100 to the callback when pressed.
+/// \param negativeKey      The key which will send -100 to the callback when pressed.
+/// \param positiveKey      The key which will send +100 to the callback when pressed.
 KeyboardBidirectionalRangeInput::KeyboardBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                  sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
     : RangeInput(inputManager, callback)
@@ -422,8 +422,8 @@ void KeyboardBidirectionalRangeInput::CallFunction()
 /// Constructor
 /// \param inputManager     A const reference to the InputManager
 /// \param callback         The object containing the callback to call when input is triggered.
-/// \param negativeKey      The key wich will send -100 to the callback when pressed.
-/// \param positiveKey      The key wich will send +100 to the callback when pressed.
+/// \param negativeKey      The key which will send -100 to the callback when pressed.
+/// \param positiveKey      The key which will send +100 to the callback when pressed.
 KeyboardUnidirectionalRangeInput::KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                    sf::Keyboard::Key key)
     : RangeInput(inputManager, callback)

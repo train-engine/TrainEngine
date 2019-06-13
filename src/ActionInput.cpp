@@ -4,7 +4,7 @@
 
 ActionInput::ActionInput(const InputManager& inputManager, Callable<>* callback)
     : m_inputManager(inputManager)
-      , m_callback(callback)
+    , m_callback(callback)
 {
 }
 
