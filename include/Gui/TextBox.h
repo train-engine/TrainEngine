@@ -70,7 +70,7 @@ private:
     void updateText();
     static bool isCharacterAccepted(sf::Uint32 enteredChar);
     void setTextPosition();
-    void addText(const sf::String &enteredText);
+    void addText(const sf::String& enteredText);
     void deleteSelection();
     // Selection
     void resetSelection();

@@ -167,8 +167,8 @@ void EntityTracker::outputToExcel() const
     std::time_t t = std::time(nullptr);
     std::tm* time = std::localtime(&t);
     std::ostringstream filenameStream;
-    filenameStream << 1900 + time->tm_year << 1 + time->tm_mon << time->tm_mday << 1 + time->tm_hour - time->tm_isdst
-                   << 1 + time->tm_min << 1 + time->tm_sec;
+    filenameStream << 1900 + time->tm_year << 1 + time->tm_mon << time->tm_mday << 1 + time->tm_hour - time->tm_isdst << 1 + time->tm_min
+                   << 1 + time->tm_sec;
 
     std::ofstream outputFile(FileManager::resourcePath() + "logs/tracker_" + filenameStream.str() + ".csv");
     if (outputFile)

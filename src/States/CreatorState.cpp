@@ -13,9 +13,8 @@ CreatorState::CreatorState(GameEngine& game)
     , m_widthTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
     , m_heightTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
     , m_tileNameTextBox(m_game.inputManager, m_game.resourceManager.getFont("altFont"))
-    , m_createLevelButton(m_game.resourceManager.getFont("altFont"),
-                          m_game.resourceManager.getSoundBuffer("click"), sf::Vector2f(0, 0),
-                          sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green)
+    , m_createLevelButton(m_game.resourceManager.getFont("altFont"), m_game.resourceManager.getSoundBuffer("click"),
+                          sf::Vector2f(0.0f, 0.0f), sf::Vector2f(230, 30), -2, 6, "Create Level", GuiStyle::Green)
     , m_level(m_game.resourceManager, m_game.inputManager)
     , m_selectableTileTypes{TileType::Grass4Sides, TileType::Wood, TileType::Ladder, TileType::LadderTop, TileType::Vine}
     , m_selectedTileTypeIndex(0)

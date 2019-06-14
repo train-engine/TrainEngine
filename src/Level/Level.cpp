@@ -291,15 +291,20 @@ bool Level::loadEntities(const std::string& filename)
             case EntityType::Player:
                 entity = new Player(m_map, m_entities, m_inputManager, sf::Vector2f(xPosition, yPosition));
                 entity->setStateAnimation(EntityState::Still,
-                                            AnimatedSprite(m_resourceManager.getTexture("characterStill"), sf::Vector2u(54, 82), 22), 3);
+                                          AnimatedSprite(m_resourceManager.getTexture("characterStill"), sf::Vector2u(54, 82), 22),
+                                          3);
                 entity->setStateAnimation(EntityState::Running,
-                                            AnimatedSprite(m_resourceManager.getTexture("characterRunning"), sf::Vector2u(82, 82), 27), 1);
+                                          AnimatedSprite(m_resourceManager.getTexture("characterRunning"), sf::Vector2u(82, 82), 27),
+                                          1);
                 entity->setStateAnimation(EntityState::Climbing,
-                                            AnimatedSprite(m_resourceManager.getTexture("characterClimbing"), sf::Vector2u(70, 82), 8), 2);
+                                          AnimatedSprite(m_resourceManager.getTexture("characterClimbing"), sf::Vector2u(70, 82), 8),
+                                          2);
                 entity->setStateAnimation(EntityState::Jumping,
-                                            AnimatedSprite(m_resourceManager.getTexture("characterJumping"), sf::Vector2u(66, 82), 3), 2);
+                                          AnimatedSprite(m_resourceManager.getTexture("characterJumping"), sf::Vector2u(66, 82), 3),
+                                          2);
                 entity->setStateAnimation(EntityState::Falling,
-                                            AnimatedSprite(m_resourceManager.getTexture("characterFalling"), sf::Vector2u(72, 82), 3), 2);
+                                          AnimatedSprite(m_resourceManager.getTexture("characterFalling"), sf::Vector2u(72, 82), 3),
+                                          2);
                 entity->setPosition({xPosition, yPosition});
                 break;
             default:

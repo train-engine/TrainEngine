@@ -128,7 +128,8 @@ public:
     virtual void update();
     virtual void interpolate(float lag);
 
-    void setStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
+    void setStateAnimation(EntityState targetState, const AnimatedSprite& animatedSprite, float frameDuration,
+                           bool isLoopingEnabled = true);
     void setStateAnimation(EntityState targetState, AnimatedSprite&& animatedSprite, float frameDuration, bool isLoopingEnabled = true);
 
     // Setters

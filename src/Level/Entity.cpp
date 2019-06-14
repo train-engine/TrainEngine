@@ -225,8 +225,7 @@ void Entity::standardCollision(const Tile* tile)
 
     // Set is on ground even if vertical velocity is zero
     // Check for strict X-axis overlap
-    if (m_position.x + m_dimensions.x / 2 > tilePosition.x &&
-        m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
+    if (m_position.x + m_dimensions.x / 2 > tilePosition.x && m_position.x - m_dimensions.x / 2 < tilePosition.x + tileDimensions.x)
     {
         if (m_position.y == tilePosition.y - m_dimensions.y / 2)
         {
