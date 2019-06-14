@@ -993,7 +993,7 @@ sf::Vector2u Map::getBounds() const
 // Return true if the Map is 0x0
 bool Map::isNull() const
 {
-    return (m_indexDimensions == sf::Vector2u(0, 0));
+    return m_indexDimensions == sf::Vector2u(0, 0);
 }
 
 // Return a pointer to a const Tile at given coords

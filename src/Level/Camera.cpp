@@ -81,8 +81,8 @@ void Camera::update()
 
     // Zoom lerp
     static const float epsilon = 1e-6;
-    if (std::fabs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon ||
-        std::fabs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
+    if (std::abs((m_dimensions.x - m_targetDimensions.x) / m_targetDimensions.x) > epsilon ||
+        std::abs((m_dimensions.y - m_targetDimensions.y) / m_targetDimensions.y) > epsilon)
     {
         sf::Vector2f newDimensions = m_dimensions + (m_targetDimensions - m_dimensions) * m_zoomLerp;
         m_zoom *= newDimensions.x / m_dimensions.x;

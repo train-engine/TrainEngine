@@ -9,8 +9,8 @@ MenuOptionsState::MenuOptionsState(GameEngine& game)
     , m_backgroundSprite(m_game.resourceManager.getTexture("menuBackground"))
     , m_titleText("Options", m_game.resourceManager.getFont("mainFont"), 48)
     , m_soundSliderText("Music Volume", m_game.resourceManager.getFont("mainFont"), 32)
-    , m_soundSlider(m_game.resourceManager.getFont("mainFont"), getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0),
-                    sf::Vector2f(300, 50), GuiStyle::White, "Sound", 20, -8, 6, 100)
+    , m_soundSlider(m_game.resourceManager.getFont("mainFont"), getAbsolutePosition(0.5f, 0.33f) + sf::Vector2f(50, 0),
+                    sf::Vector2f(300.0f, 50.0f), GuiStyle::White, "Sound", 20.0f, -8.0f, 6, 100.0)
     , m_mustUpdateSoundSettings(false)
 {
     // State settings
@@ -109,7 +109,7 @@ void MenuOptionsState::onWindowResize()
 {
     m_backgroundSprite.setPosition(getWindowDimensions() / 2.0f);
     Utility::setSpriteScaleToFill(m_backgroundSprite, getWindowDimensions());
-    m_titleText.setPosition(getAbsolutePosition(0.5, 0.2));
-    m_soundSlider.setPosition(getAbsolutePosition(0.5, 0.33) + sf::Vector2f(50, 0));
+    m_titleText.setPosition(getAbsolutePosition(0.5f, 0.2f));
+    m_soundSlider.setPosition(getAbsolutePosition(0.5f, 0.33f) + sf::Vector2f(50.0f, 0.0f));
     m_soundSliderText.setPosition(m_soundSlider.getPosition() + sf::Vector2f(-m_soundSlider.getDimensions().x / 2 - 50, 0));
 }

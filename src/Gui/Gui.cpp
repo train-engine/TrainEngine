@@ -37,8 +37,8 @@ void GuiRectButton::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 
 bool GuiRectButton::checkMousePosition(const sf::Vector2f& mousePosition) const
 {
-    return (mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
-            mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2);
+    return mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
+           mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2;
 }
 
 bool GuiRectButton::onMouseHover(const sf::Vector2f& mousePosition)
@@ -231,8 +231,8 @@ void GuiSpriteButton::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
 bool GuiSpriteButton::checkMousePosition(const sf::Vector2f& mousePosition) const // REPETITIVE
 {
-    return (mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
-            mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2);
+    return mousePosition.x > m_position.x - m_dimensions.x / 2 && mousePosition.x < m_position.x + m_dimensions.x / 2 &&
+           mousePosition.y > m_position.y - m_dimensions.y / 2 && mousePosition.y < m_position.y + m_dimensions.y / 2;
 }
 
 bool GuiSpriteButton::onMouseHover(const sf::Vector2f& mousePosition) // REPETITIVE
@@ -332,18 +332,18 @@ void GuiScrollbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 bool GuiScrollbar::checkMousePosition(const sf::Vector2f& mousePosition) const
 {
-    return (mousePosition.x >= m_position.x - m_dimensions.x / 2 - m_borderThickness &&
-            mousePosition.x <= m_position.x + m_dimensions.x / 2 + m_borderThickness &&
-            mousePosition.y >= m_position.y - m_dimensions.y / 2 - m_borderThickness &&
-            mousePosition.y <= m_position.y + m_dimensions.y / 2 + m_borderThickness);
+    return mousePosition.x >= m_position.x - m_dimensions.x / 2 - m_borderThickness &&
+           mousePosition.x <= m_position.x + m_dimensions.x / 2 + m_borderThickness &&
+           mousePosition.y >= m_position.y - m_dimensions.y / 2 - m_borderThickness &&
+           mousePosition.y <= m_position.y + m_dimensions.y / 2 + m_borderThickness;
 }
 
 bool GuiScrollbar::checkMousePositionOnSlider(const sf::Vector2f& mousePosition) const
 {
-    return (mousePosition.x >= m_sliderPosition.x - m_sliderDimensions.x / 2 &&
-            mousePosition.x <= m_sliderPosition.x + m_sliderDimensions.x / 2 &&
-            mousePosition.y >= m_sliderPosition.y - m_sliderDimensions.y / 2 &&
-            mousePosition.y <= m_sliderPosition.y + m_sliderDimensions.y / 2);
+    return mousePosition.x >= m_sliderPosition.x - m_sliderDimensions.x / 2 &&
+           mousePosition.x <= m_sliderPosition.x + m_sliderDimensions.x / 2 &&
+           mousePosition.y >= m_sliderPosition.y - m_sliderDimensions.y / 2 &&
+           mousePosition.y <= m_sliderPosition.y + m_sliderDimensions.y / 2;
 }
 
 void GuiScrollbar::moveSlider(const sf::Vector2f& position)
@@ -821,7 +821,7 @@ void ProgressBar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void ProgressBar::calculateFraction()
 {
-    m_fraction = static_cast<double>(m_progress / m_total);
+    m_fraction = static_cast<double>(m_progress) / m_total;
 }
 
 void ProgressBar::calculateProgress()

@@ -121,7 +121,7 @@ JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)
-    , m_threshold(std::fabs(threshold))
+    , m_threshold(std::abs(threshold))
     , m_lastAxisValue(0)
 {
 }

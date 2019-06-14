@@ -10,7 +10,7 @@ private:
     sf::RenderTexture m_renderTexture;
     sf::Sprite m_renderSprite;
 
-    InputManager& inputManager;
+    InputManager& m_inputManager;
 
     sf::Vector2f m_position;
     sf::Vector2i m_padding;

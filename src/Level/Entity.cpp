@@ -613,11 +613,11 @@ void Entity::update()
         // Set animation speed proportionally to the input magnitude
         if (m_state == EntityState::Running)
         {
-            it->second.setFrameDuration(100.0 / std::fabs(m_inputDirection.x));
+            it->second.setFrameDuration(100.0 / std::abs(m_inputDirection.x));
         }
         if (m_state == EntityState::Climbing && m_inputDirection.y != 0)
         {
-            it->second.setFrameDuration(100.0 / std::fabs(m_inputDirection.y) * 2.0);
+            it->second.setFrameDuration(100.0 / std::abs(m_inputDirection.y) * 2.0);
         }
 
         if (m_state != EntityState::Climbing)

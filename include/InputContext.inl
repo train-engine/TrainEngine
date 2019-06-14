@@ -731,16 +731,16 @@ inline void InputContext::bindRangeToJoystickButtons(F callback, unsigned int jo
 /// \param negativeButton   The joystick button which sends a negative float to the member function.
 /// \param positiveButton   The joystick button which sends a positive float to the member function.
 template<typename O, typename F>
-inline void InputContext::bindRangeToJoystickButtons(O* object, F callback, unsigned int joystick, unsigned int positiveButton,
-                                                    unsigned int negativeButton)
+inline void InputContext::bindRangeToJoystickButtons(O* object, F callback, unsigned int joystick, unsigned int negativeButton,
+                                                    unsigned int positiveButton)
 {
     m_rangeInputs.push_back(
         new JoystickButtonBidirectionalRangeInput(
             m_inputManager,
             new Method<O, F, float>(object, callback),
             joystick,
-            positiveButton,
-            negativeButton
+            negativeButton,
+            positiveButton
         )
     );
 }

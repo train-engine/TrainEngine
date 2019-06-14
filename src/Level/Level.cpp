@@ -103,47 +103,47 @@ bool Level::loadBackground(const std::string& filename)
             {
                 if (positionModeString == "TL")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({0, 0});
-                    m_parallaxSprites.back().setPosition({0, 0});
+                    m_parallaxSprites.back().setRelativeOrigin({0.0f, 0.0f});
+                    m_parallaxSprites.back().setPosition({0.0f, 0.0f});
                 }
                 else if (positionModeString == "TM")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({0.5, 0});
-                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, 0));
+                    m_parallaxSprites.back().setRelativeOrigin({0.5f, 0.0f});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, 0.0f));
                 }
                 else if (positionModeString == "TR")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({1, 0});
-                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, 0));
+                    m_parallaxSprites.back().setRelativeOrigin({1.0f, 0.0f});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, 0.0f));
                 }
                 else if (positionModeString == "ML")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({0, 0.5});
-                    m_parallaxSprites.back().setPosition(sf::Vector2f(0, m_map.getBounds().y / 2.0f));
+                    m_parallaxSprites.back().setRelativeOrigin({0.0f, 0.5f});
+                    m_parallaxSprites.back().setPosition(sf::Vector2f(0.0f, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MM")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({0.5, 0.5});
+                    m_parallaxSprites.back().setRelativeOrigin({0.5f, 0.5f});
                     m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "MR")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({1, 0.5});
+                    m_parallaxSprites.back().setRelativeOrigin({1.0f, 0.5f});
                     m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, m_map.getBounds().y / 2.0f));
                 }
                 else if (positionModeString == "BL")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({1, 1});
+                    m_parallaxSprites.back().setRelativeOrigin({1.0f, 1.0f});
                     m_parallaxSprites.back().setPosition(sf::Vector2f(0, m_map.getBounds().y));
                 }
                 else if (positionModeString == "BM")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({0.5, 1});
+                    m_parallaxSprites.back().setRelativeOrigin({0.5f, 1.0f});
                     m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x / 2.0f, m_map.getBounds().y));
                 }
                 else if (positionModeString == "BR")
                 {
-                    m_parallaxSprites.back().setRelativeOrigin({1, 1});
+                    m_parallaxSprites.back().setRelativeOrigin({1.0f, 1.0f});
                     m_parallaxSprites.back().setPosition(sf::Vector2f(m_map.getBounds().x, m_map.getBounds().y));
                 }
             }
@@ -475,11 +475,11 @@ void Level::handleInput()
     // Camera zoom
     if (m_inputManager.detectedMouseWheelScrolledEvent())
     {
-        m_camera.zoom(1 - m_inputManager.getMouseWheelDelta().y * 0.05);
+        m_camera.zoom(1 - m_inputManager.getMouseWheelDelta().y * 0.05f);
     }
-    else if (m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) != 0.0)
+    else if (m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) != 0.0f)
     {
-        m_camera.zoom(1 - m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) / -100 / 20);
+        m_camera.zoom(1 - m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) / -100.0f / 20.0f);
     }
 
     // Print the mouse cursor's position when space is held (for testing)

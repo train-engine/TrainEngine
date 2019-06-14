@@ -117,7 +117,7 @@ void CreatorState::clearPreviewMap()
 
 bool CreatorState::checkMouseChangedTile()
 {
-    return (getBrushTopLeftIndex(m_previousMousePosition) != getBrushTopLeftIndex(m_currentMousePosition));
+    return getBrushTopLeftIndex(m_previousMousePosition) != getBrushTopLeftIndex(m_currentMousePosition);
 }
 
 void CreatorState::handleInput()

@@ -12,7 +12,7 @@ TextBox::TextBox(InputManager& inputManager, const sf::Font& font)
 }
 
 TextBox::TextBox(InputManager& inputManager, const sf::Font& font, const sf::Vector2f& position, const sf::Vector2f& dimensions)
-    : inputManager(inputManager)
+    : m_inputManager(inputManager)
     , m_position(position)
     , m_padding(6, 4)
     , m_opaquePaddingProportion(0.25)
@@ -105,9 +105,9 @@ void TextBox::drawTexture()
 // Check if the mouse is inside the box
 bool TextBox::checkMousePosition() const
 {
-    sf::Vector2f mousePos = static_cast<sf::Vector2f>(inputManager.getWindowMousePosition());
-    return (mousePos.x > m_box.getPosition().x && mousePos.x < m_box.getPosition().x + m_box.getSize().x &&
-            mousePos.y > m_box.getPosition().y && mousePos.y < m_box.getPosition().y + m_box.getSize().y);
+    sf::Vector2f mousePos = static_cast<sf::Vector2f>(m_inputManager.getWindowMousePosition());
+    return mousePos.x > m_box.getPosition().x && mousePos.x < m_box.getPosition().x + m_box.getSize().x &&
+           mousePos.y > m_box.getPosition().y && mousePos.y < m_box.getPosition().y + m_box.getSize().y;
 }
 
 void TextBox::centerText()
@@ -140,7 +140,7 @@ void TextBox::setDisplayText(const sf::String& text)
 void TextBox::updateCursor()
 {
     // If the left or right arrows are pressed
-    if (inputManager.isKeyDescending(sf::Keyboard::Left, true) || inputManager.isKeyDescending(sf::Keyboard::Right, true))
+    if (m_inputManager.isKeyDescending(sf::Keyboard::Left, true) || m_inputManager.isKeyDescending(sf::Keyboard::Right, true))
     {
         controlCursorArrow();
         setTextPosition();
@@ -151,13 +151,13 @@ void TextBox::updateCursor()
             setSelectionBounds();
         }
     }
-    if (inputManager.isMouseButtonHeld(sf::Mouse::Left) || inputManager.isMouseButtonDescending(sf::Mouse::Left))
+    if (m_inputManager.isMouseButtonHeld(sf::Mouse::Left) || m_inputManager.isMouseButtonDescending(sf::Mouse::Left))
     {
-        if (inputManager.getWindowMousePosition().x > m_box.getPosition().x &&
-            inputManager.getWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
+        if (m_inputManager.getWindowMousePosition().x > m_box.getPosition().x &&
+            m_inputManager.getWindowMousePosition().x < m_box.getPosition().x + m_box.getSize().x)
         {
-            if ((inputManager.isMouseButtonHeld(sf::Mouse::Left) && inputManager.detectedMouseMovedEvent()) ||
-                inputManager.isMouseButtonDescending(sf::Mouse::Left))
+            if ((m_inputManager.isMouseButtonHeld(sf::Mouse::Left) && m_inputManager.detectedMouseMovedEvent()) ||
+                m_inputManager.isMouseButtonDescending(sf::Mouse::Left))
             {
                 controlCursorMouse();
             }
@@ -170,7 +170,7 @@ void TextBox::updateCursor()
         drawTexture();
         setCursorPosition();
         // Reset selection on mouse click
-        if (inputManager.isMouseButtonDescending(sf::Mouse::Left))
+        if (m_inputManager.isMouseButtonDescending(sf::Mouse::Left))
         {
             resetSelection();
         }
@@ -213,10 +213,10 @@ void TextBox::moveCursorLeft()
 void TextBox::controlCursorArrow()
 {
     // If left arrow key is pressed
-    if (inputManager.isKeyDescending(sf::Keyboard::Left, true))
+    if (m_inputManager.isKeyDescending(sf::Keyboard::Left, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !inputManager.isShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_inputManager.isShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -233,7 +233,7 @@ void TextBox::controlCursorArrow()
         else if (m_cursorIndex > 0)
         {
             // Modifier key
-            if (inputManager.isModifierKeyHeld())
+            if (m_inputManager.isModifierKeyHeld())
             {
                 // Loop through text
                 moveCursorToPreviousSpace();
@@ -242,17 +242,17 @@ void TextBox::controlCursorArrow()
             {
                 moveCursorLeft();
             }
-            if (!inputManager.isShiftKeyHeld())
+            if (!m_inputManager.isShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
         }
     }
     // If the right arrow key is pressed
-    else if (inputManager.isKeyDescending(sf::Keyboard::Right, true))
+    else if (m_inputManager.isKeyDescending(sf::Keyboard::Right, true))
     {
         // If there is a selection and shift and control are not held
-        if (m_selectionStartIndex != m_cursorIndex && !inputManager.isShiftKeyHeld())
+        if (m_selectionStartIndex != m_cursorIndex && !m_inputManager.isShiftKeyHeld())
         {
             if (m_selectionStartIndex < m_cursorIndex)
             {
@@ -269,7 +269,7 @@ void TextBox::controlCursorArrow()
         else if (m_cursorIndex < m_displayText.getString().getSize())
         {
             // Modifier key
-            if (inputManager.isModifierKeyHeld())
+            if (m_inputManager.isModifierKeyHeld())
             {
                 moveCursorToNextSpace();
             }
@@ -277,7 +277,7 @@ void TextBox::controlCursorArrow()
             {
                 moveCursorRight();
             }
-            if (!inputManager.isShiftKeyHeld())
+            if (!m_inputManager.isShiftKeyHeld())
             {
                 m_selectionStartIndex = m_cursorIndex;
             }
@@ -291,7 +291,7 @@ void TextBox::controlCursorMouse()
     m_cursorTickCount = 0;
     m_isCursorVisible = true;
 
-    sf::Vector2f mousePosition = static_cast<sf::Vector2f>(inputManager.getWindowMousePosition());
+    sf::Vector2f mousePosition = static_cast<sf::Vector2f>(m_inputManager.getWindowMousePosition());
     sf::Vector2f cursorPosition = m_cursor.getPosition();
     if (mousePosition.x >= m_displayText.getPosition().x + m_displayText.getLocalBounds().width)
     {
@@ -333,16 +333,16 @@ void TextBox::controlCursorMouse()
 void TextBox::dragCursor()
 {
     float mouseDistance = 0;
-    if (inputManager.getWindowMousePosition().x <= m_box.getPosition().x)
+    if (m_inputManager.getWindowMousePosition().x <= m_box.getPosition().x)
     {
         if (m_cursorIndex > 0)
         {
-            mouseDistance = inputManager.getWindowMousePosition().x - m_box.getPosition().x;
+            mouseDistance = m_inputManager.getWindowMousePosition().x - m_box.getPosition().x;
         }
     }
     else if (m_cursorIndex < m_displayText.getString().getSize())
     {
-        mouseDistance = inputManager.getWindowMousePosition().x - (m_box.getSize().x + m_box.getPosition().x);
+        mouseDistance = m_inputManager.getWindowMousePosition().x - (m_box.getSize().x + m_box.getPosition().x);
     }
 
     m_dragCursorProgress += mouseDistance / m_dragCursorSpeedDivider;
@@ -372,11 +372,11 @@ void TextBox::dragCursor()
 
 void TextBox::updateText()
 {
-    if (inputManager.detectedTextEnteredEvent() || inputManager.isKeyDescending(sf::Keyboard::Delete, true))
+    if (m_inputManager.detectedTextEnteredEvent() || m_inputManager.isKeyDescending(sf::Keyboard::Delete, true))
     {
         m_isCursorVisible = true;
         m_cursorTickCount = 0;
-        for (const auto& enteredChar : inputManager.getEnteredText())
+        for (const auto& enteredChar : m_inputManager.getEnteredText())
         {
             // If the text entered is not an undesirable character
             if ((m_isDigitsOnly == false && (isCharacterAccepted(enteredChar) || // Valid char
@@ -400,7 +400,7 @@ void TextBox::updateText()
                         {
                             selectedText = m_text.substring(m_cursorIndex, m_selectionStartIndex - m_cursorIndex);
                         }
-                        inputManager.setClipboardText(selectedText);
+                        m_inputManager.setClipboardText(selectedText);
                         if (enteredChar == 24)
                         {
                             deleteSelection();
@@ -420,7 +420,7 @@ void TextBox::updateText()
                 else if (enteredChar == 22) // CTRL + V
                 {
                     // Add all clipboard characters
-                    for (const auto& clipboardChar : inputManager.getClipboardText())
+                    for (const auto& clipboardChar : m_inputManager.getClipboardText())
                     {
                         sf::String pastedText;
                         if (isCharacterAccepted(clipboardChar) || clipboardChar == '\n')
@@ -480,7 +480,7 @@ void TextBox::updateText()
             {
                 if (m_displayText.getString().getSize() > 0)
                 {
-                    if (inputManager.isModifierKeyHeld())
+                    if (m_inputManager.isModifierKeyHeld())
                     {
                         // If CTRL + backspace, delete whole section
                         if (enteredChar == '\b')
@@ -515,7 +515,7 @@ void TextBox::updateText()
                         {
                             if (m_cursorIndex > 0)
                             {
-                                if (inputManager.isShiftKeyHeld())
+                                if (m_inputManager.isShiftKeyHeld())
                                 {
                                     m_cursorIndex = 0;
                                     deleteSelection();
@@ -550,12 +550,12 @@ void TextBox::updateText()
                 setCursorPosition();
             }
         }
-        if (inputManager.isKeyDescending(sf::Keyboard::Delete, true))
+        if (m_inputManager.isKeyDescending(sf::Keyboard::Delete, true))
         {
             if (m_cursorIndex < m_displayText.getString().getSize())
             {
                 sf::String text = m_displayText.getString();
-                if (inputManager.isModifierKeyHeld())
+                if (m_inputManager.isModifierKeyHeld())
                 {
                     moveCursorToNextSpace();
                     deleteSelection();
@@ -577,7 +577,7 @@ void TextBox::updateText()
 
 bool TextBox::isCharacterAccepted(sf::Uint32 enteredChar)
 {
-    return ((enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160);
+    return (enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160;
 }
 
 // Set the position of the text
@@ -745,7 +745,7 @@ void TextBox::handleInput()
         }
 
         // Check if there is a mouse press
-        if (inputManager.isMouseButtonDescending(sf::Mouse::Left))
+        if (m_inputManager.isMouseButtonDescending(sf::Mouse::Left))
         {
             bool isMouseInsideBox = checkMousePosition();
             if (isMouseInsideBox == true && m_hasFocus == false)
@@ -765,7 +765,7 @@ void TextBox::handleInput()
         }
 
         // Check if the window lost focus
-        if (inputManager.detectedLostFocusEvent())
+        if (m_inputManager.detectedLostFocusEvent())
         {
             m_hasFocus = false;
             m_box.setOutlineColor(m_outlineColor);

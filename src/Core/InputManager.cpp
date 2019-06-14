@@ -284,22 +284,22 @@ void InputManager::update()
 
 // Window getters
 
-const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const
+sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const
 {
     return m_window.mapPixelToCoords(point, view);
 }
 
-const sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point) const
+sf::Vector2f InputManager::mapPixelToCoords(const sf::Vector2i& point) const
 {
     return m_window.mapPixelToCoords(point);
 }
 
-const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const
+sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const
 {
     return m_window.mapCoordsToPixel(position, view);
 }
 
-const sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position) const
+sf::Vector2i InputManager::mapCoordsToPixel(const sf::Vector2f& position) const
 {
     return m_window.mapCoordsToPixel(position);
 }
@@ -328,72 +328,72 @@ bool InputManager::isKeyDescending(sf::Keyboard::Key key, bool isRepeatEnabled) 
         return false;
     }
 
-    return (std::find(m_eventPressedKeys.cbegin(), m_eventPressedKeys.cend(), key) != m_eventPressedKeys.cend());
+    return std::find(m_eventPressedKeys.cbegin(), m_eventPressedKeys.cend(), key) != m_eventPressedKeys.cend();
 }
 
 bool InputManager::isKeyAscending(sf::Keyboard::Key key) const
 {
-    return (std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key) != m_eventReleasedKeys.cend());
+    return std::find(m_eventReleasedKeys.cbegin(), m_eventReleasedKeys.cend(), key) != m_eventReleasedKeys.cend();
 }
 
 bool InputManager::isShiftKeyHeld() const
 {
-    return (isKeyHeld(sf::Keyboard::LShift) || isKeyHeld(sf::Keyboard::RShift));
+    return isKeyHeld(sf::Keyboard::LShift) || isKeyHeld(sf::Keyboard::RShift);
 }
 
 bool InputManager::isShiftKeyDescending(bool isRepeatEnabled) const
 {
-    return (isKeyDescending(sf::Keyboard::LShift, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RShift, isRepeatEnabled));
+    return isKeyDescending(sf::Keyboard::LShift, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RShift, isRepeatEnabled);
 }
 
 bool InputManager::isShiftKeyAscending() const
 {
-    return (isKeyAscending(sf::Keyboard::LShift) || isKeyAscending(sf::Keyboard::RShift));
+    return isKeyAscending(sf::Keyboard::LShift) || isKeyAscending(sf::Keyboard::RShift);
 }
 
 bool InputManager::isControlKeyHeld() const
 {
-    return (isKeyHeld(sf::Keyboard::LControl) || isKeyHeld(sf::Keyboard::RControl));
+    return isKeyHeld(sf::Keyboard::LControl) || isKeyHeld(sf::Keyboard::RControl);
 }
 
 bool InputManager::isControlKeyDescending(bool isRepeatEnabled) const
 {
-    return (isKeyDescending(sf::Keyboard::LControl, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RControl, isRepeatEnabled));
+    return isKeyDescending(sf::Keyboard::LControl, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RControl, isRepeatEnabled);
 }
 
 bool InputManager::isControlKeyAscending() const
 {
-    return (isKeyAscending(sf::Keyboard::LControl) || isKeyAscending(sf::Keyboard::RControl));
+    return isKeyAscending(sf::Keyboard::LControl) || isKeyAscending(sf::Keyboard::RControl);
 }
 
 bool InputManager::isAltKeyHeld() const
 {
-    return (isKeyHeld(sf::Keyboard::LAlt) || isKeyHeld(sf::Keyboard::RAlt));
+    return isKeyHeld(sf::Keyboard::LAlt) || isKeyHeld(sf::Keyboard::RAlt);
 }
 
 bool InputManager::isAltKeyDescending(bool isRepeatEnabled) const
 {
-    return (isKeyDescending(sf::Keyboard::LAlt, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RAlt, isRepeatEnabled));
+    return isKeyDescending(sf::Keyboard::LAlt, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RAlt, isRepeatEnabled);
 }
 
 bool InputManager::isAltKeyAscending() const
 {
-    return (isKeyAscending(sf::Keyboard::LAlt) || isKeyAscending(sf::Keyboard::RAlt));
+    return isKeyAscending(sf::Keyboard::LAlt) || isKeyAscending(sf::Keyboard::RAlt);
 }
 
 bool InputManager::isSystemKeyHeld() const
 {
-    return (isKeyHeld(sf::Keyboard::LSystem) || isKeyHeld(sf::Keyboard::RSystem));
+    return isKeyHeld(sf::Keyboard::LSystem) || isKeyHeld(sf::Keyboard::RSystem);
 }
 
 bool InputManager::isSystemKeyDescending(bool isRepeatEnabled) const
 {
-    return (isKeyDescending(sf::Keyboard::LSystem, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RSystem, isRepeatEnabled));
+    return isKeyDescending(sf::Keyboard::LSystem, isRepeatEnabled) || isKeyDescending(sf::Keyboard::RSystem, isRepeatEnabled);
 }
 
 bool InputManager::isSystemKeyAscending() const
 {
-    return (isKeyAscending(sf::Keyboard::LSystem) || isKeyAscending(sf::Keyboard::RSystem));
+    return isKeyAscending(sf::Keyboard::LSystem) || isKeyAscending(sf::Keyboard::RSystem);
 }
 
 bool InputManager::isModifierKeyHeld() const
@@ -432,7 +432,7 @@ bool InputManager::isMouseButtonHeld(sf::Mouse::Button button) const
         return false;
     }
 
-    return (m_mouseButtonStates[static_cast<int>(button)] || isMouseButtonDescending(button));
+    return m_mouseButtonStates[static_cast<int>(button)] || isMouseButtonDescending(button);
 }
 
 bool InputManager::isMouseButtonDescending(sf::Mouse::Button button, bool isRepeatEnabled) const
@@ -447,13 +447,13 @@ bool InputManager::isMouseButtonDescending(sf::Mouse::Button button, bool isRepe
         return false;
     }
 
-    return (std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button) != m_eventPressedMouseButtons.cend());
+    return std::find(m_eventPressedMouseButtons.cbegin(), m_eventPressedMouseButtons.cend(), button) != m_eventPressedMouseButtons.cend();
 }
 
 bool InputManager::isMouseButtonAscending(sf::Mouse::Button button) const
 {
-    return (std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button) !=
-            m_eventReleasedMouseButtons.cend());
+    return std::find(m_eventReleasedMouseButtons.cbegin(), m_eventReleasedMouseButtons.cend(), button) !=
+           m_eventReleasedMouseButtons.cend();
 }
 
 // Return the mouse position relative to a given view
@@ -471,7 +471,7 @@ bool InputManager::isJoystickButtonHeld(unsigned int joystick, unsigned int butt
         return false;
     }
 
-    return (m_joystickButtonStates[joystick][button] || isJoystickButtonDescending(joystick, button));
+    return m_joystickButtonStates[joystick][button] || isJoystickButtonDescending(joystick, button);
 }
 
 bool InputManager::isJoystickButtonDescending(unsigned int joystick, unsigned int button, bool isRepeatEnabled) const
@@ -486,14 +486,14 @@ bool InputManager::isJoystickButtonDescending(unsigned int joystick, unsigned in
         return false;
     }
 
-    return (std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button) !=
-            m_eventPressedJoystickButtons[joystick].cend());
+    return std::find(m_eventPressedJoystickButtons[joystick].cbegin(), m_eventPressedJoystickButtons[joystick].cend(), button) !=
+           m_eventPressedJoystickButtons[joystick].cend();
 }
 
 bool InputManager::isJoystickButtonAscending(unsigned int joystick, unsigned int button) const
 {
-    return (std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button) !=
-            m_eventReleasedJoystickButtons[joystick].cend());
+    return std::find(m_eventReleasedJoystickButtons[joystick].cbegin(), m_eventReleasedJoystickButtons[joystick].cend(), button) !=
+           m_eventReleasedJoystickButtons[joystick].cend();
 }
 
 bool InputManager::isJoystickConnected(unsigned joystick) const
@@ -509,7 +509,7 @@ sf::Joystick::Identification InputManager::getJoystickIdentification(unsigned jo
 float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
     // If joystick value is inside the deadzone, return 0
-    if (std::fabs(m_joystickAxesPosition[joystick][axis]) <= m_joystickDeadZone)
+    if (std::abs(m_joystickAxesPosition[joystick][axis]) <= m_joystickDeadZone)
     {
         return 0;
     }

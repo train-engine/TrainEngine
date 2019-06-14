@@ -84,11 +84,11 @@ public:
     sf::Vector2u getWindowDimensions() const { return m_window.getSize(); }
     bool isWindowFocused() const { return m_isWindowFocused; }
 
-    const sf::Vector2f mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const;
-    const sf::Vector2f mapPixelToCoords(const sf::Vector2i& point) const;
+    sf::Vector2f mapPixelToCoords(const sf::Vector2i& point, const sf::View& view) const;
+    sf::Vector2f mapPixelToCoords(const sf::Vector2i& point) const;
 
-    const sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const;
-    const sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position) const;
+    sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position, const sf::View& view) const;
+    sf::Vector2i mapCoordsToPixel(const sf::Vector2f& position) const;
 
     bool detectedClosedEvent() const { return m_closedEvent; }
     bool detectedResizedEvent() const { return m_resizedEvent; }

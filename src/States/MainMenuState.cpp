@@ -200,8 +200,8 @@ void MainMenuState::onWindowResize()
     m_backgroundSprite.setPosition(getWindowDimensions() / 2.0f);
     Utility::setSpriteScaleToFill(m_backgroundSprite, getWindowDimensions());
     m_gameNameText.setPosition(getAbsolutePosition(0.5, 0.2));
-    m_creditsText.setPosition(getWindowDimensions().x - (m_creditsText.getGlobalBounds().width) - 4,
-                              getWindowDimensions().y - (m_creditsText.getFont()->getLineSpacing(m_creditsText.getCharacterSize())));
+    m_creditsText.setPosition(getWindowDimensions().x - m_creditsText.getGlobalBounds().width - 4,
+                              getWindowDimensions().y - m_creditsText.getFont()->getLineSpacing(m_creditsText.getCharacterSize()));
     m_muteButton.setPosition(sf::Vector2f(getWindowDimensions().x - 48, 48));
     for (std::size_t i = 0; i < m_buttons.size(); i++)
     {
