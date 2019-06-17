@@ -53,7 +53,8 @@ void MouseButtonEventStateInput::callAction()
 
 // JoystickButtonEventStateInput
 
-JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager& inputManager, Callable<bool>* callback,
+                                                             unsigned int joystick, unsigned int button)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)
@@ -62,7 +63,8 @@ JoystickButtonEventStateInput::JoystickButtonEventStateInput(const InputManager&
 
 bool JoystickButtonEventStateInput::detectedEvent() const
 {
-    return m_inputManager.isJoystickButtonAscending(m_joystick, m_button) || m_inputManager.isJoystickButtonDescending(m_joystick, m_button);
+    return m_inputManager.isJoystickButtonAscending(m_joystick, m_button) ||
+           m_inputManager.isJoystickButtonDescending(m_joystick, m_button);
 }
 
 void JoystickButtonEventStateInput::callAction()
@@ -117,7 +119,7 @@ void JoystickAxisAboveThresholdStateInput::callAction()
 ///                         If the threshold is negative, the axis value must be lower for the input to be triggered.
 ///                         If the threshold is positive, the axis value must be higher for the input to be triggered.
 JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback,
-                                                                         unsigned int joystick, sf::Joystick::Axis axis, float threshold)
+                                                                           unsigned int joystick, sf::Joystick::Axis axis, float threshold)
     : StateInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)

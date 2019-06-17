@@ -62,7 +62,7 @@ public:
     template<typename O, typename F>
     void bindActionToMouseWheelScrolled(O* object, F callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
 
-     template<typename F>
+    template<typename F>
     void bindActionToJoystickButton(F callback, unsigned int joystick, unsigned int button, EventType eventType);
     template<typename O, typename F>
     void bindActionToJoystickButton(O* object, F callback, unsigned int joystick, unsigned int button, EventType eventType);
@@ -88,7 +88,7 @@ public:
     void bindStateToJoystickAxis(F callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                  JoystickAxisPosition axisPosition);
     template<typename O, typename F>
-    void bindStateToJoystickAxis(O* object, F callback,  unsigned int joystick, sf::Joystick::Axis axis, float threshold,
+    void bindStateToJoystickAxis(O* object, F callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
                                  JoystickAxisPosition axisPosition);
 
     // RangeInput
@@ -121,18 +121,15 @@ public:
     void bindRangeToVerticalMouseMovement(O* object, F callback, RangeRestriction rangeRestriction = RangeRestriction::None);
 
     template<typename F>
-    void bindRangeToMouseWheelScroll(F callback, sf::Mouse::Wheel wheelAxis,
-                                RangeRestriction rangeRestriction = RangeRestriction::None);
+    void bindRangeToMouseWheelScroll(F callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction = RangeRestriction::None);
     template<typename O, typename F>
     void bindRangeToMouseWheelScroll(O* object, F callback, sf::Mouse::Wheel wheelAxis,
-                                RangeRestriction rangeRestriction = RangeRestriction::None);
+                                     RangeRestriction rangeRestriction = RangeRestriction::None);
 
     template<typename F>
-    void bindRangeToJoystickButtons(F callback, unsigned int joystick, unsigned int negativeButton,
-                                    unsigned int positiveButton);
+    void bindRangeToJoystickButtons(F callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton);
     template<typename O, typename F>
-    void bindRangeToJoystickButtons(O* object, F callback, unsigned int joystick, unsigned int negativeButton,
-                                    unsigned int positiveButton);
+    void bindRangeToJoystickButtons(O* object, F callback, unsigned int joystick, unsigned int negativeButton, unsigned int positiveButton);
     template<typename F>
     void bindRangeToJoystickButton(F callback, unsigned int joystick, unsigned int button);
     template<typename O, typename F>
@@ -152,7 +149,8 @@ private:
     void bindActionToJoystickButtonHelper(Callable<>* callback, unsigned int joystick, unsigned int button, EventType eventType);
     void bindActionToMouseMovedHelper(Callable<>* callback);
     void bindActionToMouseWheelScrolledHelper(Callable<>* callback, sf::Mouse::Wheel mouseWheelAxis, EventType mouseWheelDirection);
-    void bindStateToJoystickAxisHelper(Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold, JoystickAxisPosition axisPosition);
+    void bindStateToJoystickAxisHelper(Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold,
+                                       JoystickAxisPosition axisPosition);
     void bindRangeToMouseWheelScrollHelper(Callable<float>* callback, sf::Mouse::Wheel wheelAxis);
     void bindRangeToMouseWheelScrollHelper(Callable<float>* callback, sf::Mouse::Wheel wheelAxis, RangeRestriction rangeRestriction);
 

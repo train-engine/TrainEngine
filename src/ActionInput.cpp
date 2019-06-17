@@ -44,7 +44,8 @@ bool KeyAscendingActionInput::detectedEvent() const
 }
 
 // MouseButtonDescendingActionInput
-MouseButtonDescendingActionInput::MouseButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button)
+MouseButtonDescendingActionInput::MouseButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback,
+                                                                   sf::Mouse::Button button)
     : ActionInput(inputManager, callback)
     , m_button(button)
 {
@@ -57,7 +58,8 @@ bool MouseButtonDescendingActionInput::detectedEvent() const
 
 // MouseButtonAscendingActionInput
 
-MouseButtonAscendingActionInput::MouseButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button)
+MouseButtonAscendingActionInput::MouseButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback,
+                                                                 sf::Mouse::Button button)
     : ActionInput(inputManager, callback)
     , m_button(button)
 {
@@ -70,7 +72,8 @@ bool MouseButtonAscendingActionInput::detectedEvent() const
 
 // JoystickButtonDescendingActionInput
 
-JoystickButtonDescendingActionInput::JoystickButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonDescendingActionInput::JoystickButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback,
+                                                                         unsigned int joystick, unsigned int button)
     : ActionInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)
@@ -84,7 +87,8 @@ bool JoystickButtonDescendingActionInput::detectedEvent() const
 
 // JoystickButtonAscendingActionInput
 
-JoystickButtonAscendingActionInput::JoystickButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button)
+JoystickButtonAscendingActionInput::JoystickButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback,
+                                                                       unsigned int joystick, unsigned int button)
     : ActionInput(inputManager, callback)
     , m_joystick(joystick)
     , m_button(button)

@@ -2,8 +2,8 @@
 #define STATEINPUT_H
 
 #include <SFML/Window.hpp>
+#include "Core/Input/InputManager.h"
 #include "Misc/Callables.h"
-#include "InputManager.h"
 
 /// Class representing an input able to make a callback to a function with a bool as a parameter when triggered.
 class StateInput
@@ -72,11 +72,13 @@ private:
     unsigned int m_button;
 };
 
-/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the threshold.
+/// Class representing a joystick axis input able to make a callback to a function with a bool as
+/// a parameter when the axis value exceeds the threshold.
 class JoystickAxisAboveThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisAboveThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick,
+                                         sf::Joystick::Axis axis, float threshold);
     JoystickAxisAboveThresholdStateInput(const JoystickAxisAboveThresholdStateInput&) = delete;
     JoystickAxisAboveThresholdStateInput(JoystickAxisAboveThresholdStateInput&&) = delete;
     JoystickAxisAboveThresholdStateInput& operator=(const JoystickAxisAboveThresholdStateInput&) = delete;
@@ -91,11 +93,13 @@ private:
     mutable float m_lastAxisValue; // Remember last axis value to remove useless calls to the callback
 };
 
-/// Class representing a joystick axis input able to make a callback to a function with a bool as a parameter when the axis value exceeds the threshold.
+/// Class representing a joystick axis input able to make a callback to a function with a bool as
+/// a parameter when the axis value exceeds the threshold.
 class JoystickAxisBelowThresholdStateInput final : public StateInput
 {
 public:
-    JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick, sf::Joystick::Axis axis, float threshold);
+    JoystickAxisBelowThresholdStateInput(const InputManager& inputManager, Callable<bool>* callback, unsigned int joystick,
+                                         sf::Joystick::Axis axis, float threshold);
     JoystickAxisBelowThresholdStateInput(const JoystickAxisBelowThresholdStateInput&) = delete;
     JoystickAxisBelowThresholdStateInput(JoystickAxisBelowThresholdStateInput&&) = delete;
     JoystickAxisBelowThresholdStateInput& operator=(const JoystickAxisBelowThresholdStateInput&) = delete;

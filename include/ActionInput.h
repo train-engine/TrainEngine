@@ -2,8 +2,8 @@
 #define ACTIONINPUT_H
 
 #include <SFML/Window.hpp>
+#include "Core/Input/InputManager.h"
 #include "Misc/Callables.h"
-#include "InputManager.h"
 
 /// Class representing an input able to make a callback to a function with no parameters when triggered.
 class ActionInput
@@ -176,6 +176,5 @@ public:
     MouseWheelRightActionInput& operator=(MouseWheelRightActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
-
 
 #endif // ACTIONINPUT_H

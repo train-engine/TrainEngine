@@ -19,7 +19,7 @@ SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 # Includes
 INCLUDE_DIR = include
 SFML_DIR = libs/SFML-2.4.2
-INCLUDES := -I$(INCLUDE_DIR) -isystem $(SFML_DIR)/include
+INCLUDES := -I$(INCLUDE_DIR) -idirafter $(SFML_DIR)/include
 
 # C preprocessor settings
 CPPFLAGS := -MMD -MP $(INCLUDES)
@@ -261,7 +261,7 @@ cleanassets:
 .PHONY: format
 format:
 	@echo "Running clang-format"
-	@clang-format -i src/**/*.cpp include/**/*.h
+	@clang-format -i $$(find $(SRC_DIR) $(INCLUDE_DIR) -name '*.cpp' -o -name '*.h' -o -name '*.inl')
 
 # Generate documentation with Doxygen
 .PHONY: doc
