@@ -226,21 +226,21 @@ void InputManager::resetEvents()
 // Support Mac commands as Unicode characters included in the entered text
 void InputManager::MacOsCommandsToUnicode()
 {
-    if (IsModifierKeyHeld())
+    if (isModifierKeyHeld())
     {
-        if (IsKeyDescending(sf::Keyboard::A))
+        if (isKeyDescending(sf::Keyboard::A))
         {
             m_enteredText += static_cast<char>(1);
         }
-        else if (IsKeyDescending(sf::Keyboard::C))
+        else if (isKeyDescending(sf::Keyboard::C))
         {
             m_enteredText += static_cast<char>(3);
         }
-        else if (IsKeyDescending(sf::Keyboard::V))
+        else if (isKeyDescending(sf::Keyboard::V))
         {
             m_enteredText += static_cast<char>(22);
         }
-        else if (IsKeyDescending(sf::Keyboard::X))
+        else if (isKeyDescending(sf::Keyboard::X))
         {
             m_enteredText += static_cast<char>(24);
         }
@@ -401,7 +401,7 @@ bool InputManager::isModifierKeyHeld() const
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
     return isControlKeyHeld();
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-    return IsSystemKeyHeld();
+    return isSystemKeyHeld();
 #endif
 }
 
@@ -410,7 +410,7 @@ bool InputManager::isModifierKeyDescending(bool isRepeatEnabled) const
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
     return isControlKeyDescending(isRepeatEnabled);
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-    return IsSystemKeyDescending(isRepeatEnabled);
+    return isSystemKeyDescending(isRepeatEnabled);
 #endif
 }
 
@@ -419,7 +419,7 @@ bool InputManager::isModifierKeyAscending() const
 #if defined(SFML_SYSTEM_WINDOWS) || defined(SFML_SYSTEM_LINUX)
     return isControlKeyAscending();
 #elif defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
-    return IsSystemKeyAscending();
+    return isSystemKeyAscending();
 #endif
 }
 
@@ -557,7 +557,7 @@ void InputManager::setClipboardText(const sf::String& text)
         CloseClipboard();
     }
 #elif defined(SFML_SYSTEM_MACOS)
-    SetMacClipboardText(text);
+    setMacClipboardText(text);
 #endif
 }
 
@@ -581,7 +581,7 @@ sf::String InputManager::getClipboardText() const
     }
     return "";
 #elif defined(SFML_SYSTEM_MACOS)
-    return GetMacClipboardText();
+    return getMacClipboardText();
 #else
     return "";
 #endif
