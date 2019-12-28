@@ -30,10 +30,6 @@ class KeyDescendingActionInput final : public ActionInput
 {
 public:
     KeyDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key);
-    KeyDescendingActionInput(const KeyDescendingActionInput&) = delete;
-    KeyDescendingActionInput(KeyDescendingActionInput&&) = delete;
-    KeyDescendingActionInput& operator=(const KeyDescendingActionInput&) = delete;
-    KeyDescendingActionInput& operator=(KeyDescendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -45,10 +41,6 @@ class KeyAscendingActionInput final : public ActionInput
 {
 public:
     KeyAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Keyboard::Key key);
-    KeyAscendingActionInput(const KeyAscendingActionInput&) = delete;
-    KeyAscendingActionInput(KeyAscendingActionInput&&) = delete;
-    KeyAscendingActionInput& operator=(const KeyAscendingActionInput&) = delete;
-    KeyAscendingActionInput& operator=(KeyAscendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -60,10 +52,6 @@ class MouseButtonDescendingActionInput final : public ActionInput
 {
 public:
     MouseButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button);
-    MouseButtonDescendingActionInput(const MouseButtonDescendingActionInput&) = delete;
-    MouseButtonDescendingActionInput(MouseButtonDescendingActionInput&&) = delete;
-    MouseButtonDescendingActionInput& operator=(const MouseButtonDescendingActionInput&) = delete;
-    MouseButtonDescendingActionInput& operator=(MouseButtonDescendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -75,10 +63,6 @@ class MouseButtonAscendingActionInput final : public ActionInput
 {
 public:
     MouseButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, sf::Mouse::Button button);
-    MouseButtonAscendingActionInput(const MouseButtonAscendingActionInput&) = delete;
-    MouseButtonAscendingActionInput(MouseButtonAscendingActionInput&&) = delete;
-    MouseButtonAscendingActionInput& operator=(const MouseButtonAscendingActionInput&) = delete;
-    MouseButtonAscendingActionInput& operator=(MouseButtonAscendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -90,10 +74,6 @@ class JoystickButtonDescendingActionInput final : public ActionInput
 {
 public:
     JoystickButtonDescendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button);
-    JoystickButtonDescendingActionInput(const JoystickButtonDescendingActionInput&) = delete;
-    JoystickButtonDescendingActionInput(JoystickButtonDescendingActionInput&&) = delete;
-    JoystickButtonDescendingActionInput& operator=(const JoystickButtonDescendingActionInput&) = delete;
-    JoystickButtonDescendingActionInput& operator=(JoystickButtonDescendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -106,10 +86,6 @@ class JoystickButtonAscendingActionInput final : public ActionInput
 {
 public:
     JoystickButtonAscendingActionInput(const InputManager& inputManager, Callable<>* callback, unsigned int joystick, unsigned int button);
-    JoystickButtonAscendingActionInput(const JoystickButtonAscendingActionInput&) = delete;
-    JoystickButtonAscendingActionInput(JoystickButtonAscendingActionInput&&) = delete;
-    JoystickButtonAscendingActionInput& operator=(const JoystickButtonAscendingActionInput&) = delete;
-    JoystickButtonAscendingActionInput& operator=(JoystickButtonAscendingActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 
 private:
@@ -122,10 +98,6 @@ class MouseMovedActionInput final : public ActionInput
 {
 public:
     MouseMovedActionInput(const InputManager& inputManager, Callable<>* callback);
-    MouseMovedActionInput(const MouseMovedActionInput&) = delete;
-    MouseMovedActionInput(MouseMovedActionInput&&) = delete;
-    MouseMovedActionInput& operator=(const MouseMovedActionInput&) = delete;
-    MouseMovedActionInput& operator=(MouseMovedActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
 
@@ -134,10 +106,6 @@ class MouseWheelUpActionInput final : public ActionInput
 {
 public:
     MouseWheelUpActionInput(const InputManager& inputManager, Callable<>* callback);
-    MouseWheelUpActionInput(const MouseWheelUpActionInput&) = delete;
-    MouseWheelUpActionInput(MouseWheelUpActionInput&&) = delete;
-    MouseWheelUpActionInput& operator=(const MouseWheelUpActionInput&) = delete;
-    MouseWheelUpActionInput& operator=(MouseWheelUpActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
 
@@ -146,10 +114,6 @@ class MouseWheelDownActionInput final : public ActionInput
 {
 public:
     MouseWheelDownActionInput(const InputManager& inputManager, Callable<>* callback);
-    MouseWheelDownActionInput(const MouseWheelDownActionInput&) = delete;
-    MouseWheelDownActionInput(MouseWheelDownActionInput&&) = delete;
-    MouseWheelDownActionInput& operator=(const MouseWheelDownActionInput&) = delete;
-    MouseWheelDownActionInput& operator=(MouseWheelDownActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
 
@@ -158,10 +122,6 @@ class MouseWheelLeftActionInput final : public ActionInput
 {
 public:
     MouseWheelLeftActionInput(const InputManager& inputManager, Callable<>* callback);
-    MouseWheelLeftActionInput(const MouseWheelLeftActionInput&) = delete;
-    MouseWheelLeftActionInput(MouseWheelLeftActionInput&&) = delete;
-    MouseWheelLeftActionInput& operator=(const MouseWheelLeftActionInput&) = delete;
-    MouseWheelLeftActionInput& operator=(MouseWheelLeftActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
 
@@ -170,10 +130,6 @@ class MouseWheelRightActionInput final : public ActionInput
 {
 public:
     MouseWheelRightActionInput(const InputManager& inputManager, Callable<>* callback);
-    MouseWheelRightActionInput(const MouseWheelRightActionInput&) = delete;
-    MouseWheelRightActionInput(MouseWheelRightActionInput&&) = delete;
-    MouseWheelRightActionInput& operator=(const MouseWheelRightActionInput&) = delete;
-    MouseWheelRightActionInput& operator=(MouseWheelRightActionInput&&) = delete;
     virtual bool detectedEvent() const override;
 };
 
