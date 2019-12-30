@@ -14,7 +14,7 @@ template<typename F, typename... Args>
 class Functor : public Callable<Args...>
 {
 public:
-    Functor(F function)
+    explicit Functor(F function)
         : m_function(function)
     {
     }

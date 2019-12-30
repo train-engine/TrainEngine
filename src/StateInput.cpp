@@ -88,7 +88,7 @@ JoystickAxisAboveThresholdStateInput::JoystickAxisAboveThresholdStateInput(const
     , m_joystick(joystick)
     , m_axis(axis)
     , m_threshold(threshold)
-    , m_lastAxisValue(0)
+    , m_previousAxisValue(0)
 {
 }
 
@@ -96,10 +96,10 @@ bool JoystickAxisAboveThresholdStateInput::detectedEvent() const
 {
     float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
-    bool detectedEvent = (m_lastAxisValue <= m_threshold && currentAxisValue > m_threshold) ||
-                         (m_lastAxisValue > m_threshold && currentAxisValue <= m_threshold);
+    bool detectedEvent = (m_previousAxisValue <= m_threshold && currentAxisValue > m_threshold) ||
+                         (m_previousAxisValue > m_threshold && currentAxisValue <= m_threshold);
 
-    m_lastAxisValue = currentAxisValue;
+    m_previousAxisValue = currentAxisValue;
     return detectedEvent;
 }
 
@@ -124,7 +124,7 @@ JoystickAxisBelowThresholdStateInput::JoystickAxisBelowThresholdStateInput(const
     , m_joystick(joystick)
     , m_axis(axis)
     , m_threshold(std::abs(threshold))
-    , m_lastAxisValue(0)
+    , m_previousAxisValue(0)
 {
 }
 
@@ -132,10 +132,10 @@ bool JoystickAxisBelowThresholdStateInput::detectedEvent() const
 {
     float currentAxisValue = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
     // Return if the current axis position just passed the threshold
-    bool detectedEvent = (m_lastAxisValue < m_threshold && currentAxisValue >= m_threshold) ||
-                         (m_lastAxisValue >= m_threshold && currentAxisValue < m_threshold);
+    bool detectedEvent = (m_previousAxisValue < m_threshold && currentAxisValue >= m_threshold) ||
+                         (m_previousAxisValue >= m_threshold && currentAxisValue < m_threshold);
 
-    m_lastAxisValue = currentAxisValue;
+    m_previousAxisValue = currentAxisValue;
     return detectedEvent;
 }
 

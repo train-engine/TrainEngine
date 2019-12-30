@@ -36,7 +36,7 @@ public:
 private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
-    mutable float m_lastAxisPosition;
+    mutable float m_previousAxisPosition;
 };
 
 /// Class representing a joystick axis able to make a callback to a function with a float as a parameter when moved.
@@ -52,7 +52,7 @@ private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
     bool m_isRestrictedToPositives;
-    mutable float m_lastAxisPosition;
+    mutable float m_previousAxisPosition;
 };
 
 /// Class representing a vertical mouse wheel able to make a callback to a function with a float as a parameter when scrolled.
@@ -64,7 +64,7 @@ public:
     virtual void callFunction() override;
 
 private:
-    mutable float m_lastVertScroll;
+    mutable float m_previousVertScroll;
 };
 
 /// Class representing a vertical mouse wheel able to make a callback to a function with a float as a parameter when scrolled.
@@ -77,7 +77,7 @@ public:
 
 private:
     bool m_isRestrictedToPositives;
-    mutable float m_lastVertScroll;
+    mutable float m_previousVertScroll;
 };
 
 /// Class representing a horizontal mouse wheel able to make a callback to a function with a float as a parameter when scrolled.
@@ -89,7 +89,7 @@ public:
     virtual void callFunction() override;
 
 private:
-    mutable float m_lastHorizScroll;
+    mutable float m_previousHorizScroll;
 };
 
 /// Class representing a horizontal mouse wheel able to make a callback to a function with a float as a parameter when scrolled.
@@ -102,7 +102,7 @@ public:
 
 private:
     bool m_isRestrictedToPositives;
-    mutable float m_lastHorizScroll;
+    mutable float m_previousHorizScroll;
 };
 
 /// Class representing horizontal mouse movements able to make a callback to a function with a float as a parameter when the mouse is moved.
@@ -114,7 +114,7 @@ public:
     virtual void callFunction() override;
 
 private:
-    mutable float m_lastVertMouseMovement;
+    mutable float m_previousVertMouseMovement;
 };
 
 /// Class representing horizontal mouse movements able to make a callback to a function with a float as a parameter when the mouse is moved.
@@ -128,7 +128,7 @@ public:
 
 private:
     bool m_isRestrictedToPositives;
-    mutable float m_lastVertMouseMovement;
+    mutable float m_previousVertMouseMovement;
 };
 
 /// Class representing vertical mouse movements able to make a callback to a function with a float as a parameter when the mouse is moved.
@@ -140,7 +140,7 @@ public:
     virtual void callFunction() override;
 
 private:
-    mutable float m_lastHorizMouseMovement;
+    mutable float m_previousHorizMouseMovement;
 };
 
 /// Class representing vertical mouse movements able to make a callback to a function with a float as a parameter when the mouse is moved.
@@ -154,7 +154,7 @@ public:
 
 private:
     bool m_isRestrictedToPositives;
-    mutable float m_lastHorizMouseMovement;
+    mutable float m_previousHorizMouseMovement;
 };
 
 /// Class representing keyboard keys able to make a callback to a function with a float as a parameter when triggered.

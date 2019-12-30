@@ -33,7 +33,7 @@ class InputContext
 {
 public:
     // Constructor and destructor
-    InputContext(const InputManager& inputManager);
+    explicit InputContext(const InputManager& inputManager);
     ~InputContext();
 
     // Functions

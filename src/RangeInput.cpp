@@ -21,15 +21,15 @@ JoystickAxisBidirectionalRangeInput::JoystickAxisBidirectionalRangeInput(const I
     : RangeInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)
-    , m_lastAxisPosition(0.0)
+    , m_previousAxisPosition(0.0)
 {
 }
 
 bool JoystickAxisBidirectionalRangeInput::detectedEvent() const
 {
     float currentAxisPosition = m_inputManager.getJoystickAxisPosition(m_joystick, m_axis);
-    bool detectedEvent = currentAxisPosition != m_lastAxisPosition;
-    m_lastAxisPosition = currentAxisPosition;
+    bool detectedEvent = currentAxisPosition != m_previousAxisPosition;
+    m_previousAxisPosition = currentAxisPosition;
     return detectedEvent;
 }
 
@@ -46,7 +46,7 @@ JoystickAxisUnidirectionalRangeInput::JoystickAxisUnidirectionalRangeInput(const
     , m_joystick(joystick)
     , m_axis(axis)
     , m_isRestrictedToPositives(isRestrictedToPositives)
-    , m_lastAxisPosition(0.0)
+    , m_previousAxisPosition(0.0)
 {
 }
 
@@ -60,13 +60,13 @@ bool JoystickAxisUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentAxisPosition != m_lastAxisPosition && (currentAxisPosition > 0 || m_lastAxisPosition > 0);
+        detectedEvent = currentAxisPosition != m_previousAxisPosition && (currentAxisPosition > 0 || m_previousAxisPosition > 0);
     }
     else
     {
-        detectedEvent = currentAxisPosition != m_lastAxisPosition && (currentAxisPosition < 0 || m_lastAxisPosition < 0);
+        detectedEvent = currentAxisPosition != m_previousAxisPosition && (currentAxisPosition < 0 || m_previousAxisPosition < 0);
     }
-    m_lastAxisPosition = currentAxisPosition;
+    m_previousAxisPosition = currentAxisPosition;
     return detectedEvent;
 }
 
@@ -94,15 +94,15 @@ void JoystickAxisUnidirectionalRangeInput::callFunction()
 
 VerticalMouseWheelBidirectionalRangeInput::VerticalMouseWheelBidirectionalRangeInput(const InputManager & inputManager, Callable<float>* callback)
     : RangeInput(inputManager, callback)
-    , m_lastVertScroll(0.0)
+    , m_previousVertScroll(0.0)
 {
 }
 
 bool VerticalMouseWheelBidirectionalRangeInput::detectedEvent() const
 {
     float currentVertScroll = m_inputManager.getMouseWheelDelta().y;
-    bool detectedEvent = currentVertScroll != m_lastVertScroll;
-    m_lastVertScroll = currentVertScroll;
+    bool detectedEvent = currentVertScroll != m_previousVertScroll;
+    m_previousVertScroll = currentVertScroll;
     return detectedEvent;
 }
 
@@ -117,7 +117,7 @@ VerticalMouseWheelUnidirectionalRangeInput::VerticalMouseWheelUnidirectionalRang
                                                                                        bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
-    , m_lastVertScroll(0.0)
+    , m_previousVertScroll(0.0)
 {
 }
 
@@ -131,13 +131,13 @@ bool VerticalMouseWheelUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentVertScroll != m_lastVertScroll && (currentVertScroll > 0 || m_lastVertScroll > 0);
+        detectedEvent = currentVertScroll != m_previousVertScroll && (currentVertScroll > 0 || m_previousVertScroll > 0);
     }
     else
     {
-        detectedEvent = currentVertScroll != m_lastVertScroll && (currentVertScroll < 0 || m_lastVertScroll < 0);
+        detectedEvent = currentVertScroll != m_previousVertScroll && (currentVertScroll < 0 || m_previousVertScroll < 0);
     }
-    m_lastVertScroll = currentVertScroll;
+    m_previousVertScroll = currentVertScroll;
     return detectedEvent;
 }
 
@@ -165,15 +165,15 @@ void VerticalMouseWheelUnidirectionalRangeInput::callFunction()
 
 HorizontalMouseWheelBidirectionalRangeInput::HorizontalMouseWheelBidirectionalRangeInput(const InputManager & inputManager, Callable<float>* callback)
     : RangeInput(inputManager, callback)
-    , m_lastHorizScroll(0.0)
+    , m_previousHorizScroll(0.0)
 {
 }
 
 bool HorizontalMouseWheelBidirectionalRangeInput::detectedEvent() const
 {
     float currentHorizScroll = m_inputManager.getMouseWheelDelta().x;
-    bool detectedEvent = currentHorizScroll != m_lastHorizScroll;
-    m_lastHorizScroll = currentHorizScroll;
+    bool detectedEvent = currentHorizScroll != m_previousHorizScroll;
+    m_previousHorizScroll = currentHorizScroll;
     return detectedEvent;
 }
 
@@ -188,7 +188,7 @@ HorizontalMouseWheelUnidirectionalRangeInput::HorizontalMouseWheelUnidirectional
                                                                                            bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
-    , m_lastHorizScroll(0.0)
+    , m_previousHorizScroll(0.0)
 {
 }
 
@@ -202,13 +202,13 @@ bool HorizontalMouseWheelUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentHorizScroll != m_lastHorizScroll && (currentHorizScroll > 0 || m_lastHorizScroll > 0);
+        detectedEvent = currentHorizScroll != m_previousHorizScroll && (currentHorizScroll > 0 || m_previousHorizScroll > 0);
     }
     else
     {
-        detectedEvent = currentHorizScroll != m_lastHorizScroll && (currentHorizScroll < 0 || m_lastHorizScroll < 0);
+        detectedEvent = currentHorizScroll != m_previousHorizScroll && (currentHorizScroll < 0 || m_previousHorizScroll < 0);
     }
-    m_lastHorizScroll = currentHorizScroll;
+    m_previousHorizScroll = currentHorizScroll;
     return detectedEvent;
 }
 
@@ -236,15 +236,15 @@ void HorizontalMouseWheelUnidirectionalRangeInput::callFunction()
 
 VerticalMouseMovementBidirectionalRangeInput::VerticalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback)
     : RangeInput(inputManager, callback)
-    , m_lastVertMouseMovement(0.0)
+    , m_previousVertMouseMovement(0.0)
 {
 }
 
 bool VerticalMouseMovementBidirectionalRangeInput::detectedEvent() const
 {
     float currentVertMouseMovement = m_inputManager.getMousePositionDelta().y;
-    bool detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement;
-    m_lastVertMouseMovement = currentVertMouseMovement;
+    bool detectedEvent = currentVertMouseMovement != m_previousVertMouseMovement;
+    m_previousVertMouseMovement = currentVertMouseMovement;
     return detectedEvent;
 }
 
@@ -259,7 +259,7 @@ VerticalMouseMovementUnidirectionalRangeInput::VerticalMouseMovementUnidirection
                                                                                              bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
-    , m_lastVertMouseMovement(0.0)
+    , m_previousVertMouseMovement(0.0)
 {
 }
 
@@ -273,13 +273,13 @@ bool VerticalMouseMovementUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement && (currentVertMouseMovement > 0 || m_lastVertMouseMovement > 0);
+        detectedEvent = currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement > 0 || m_previousVertMouseMovement > 0);
     }
     else
     {
-        detectedEvent = currentVertMouseMovement != m_lastVertMouseMovement && (currentVertMouseMovement < 0 || m_lastVertMouseMovement < 0);
+        detectedEvent = currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement < 0 || m_previousVertMouseMovement < 0);
     }
-    m_lastVertMouseMovement = currentVertMouseMovement;
+    m_previousVertMouseMovement = currentVertMouseMovement;
     return detectedEvent;
 }
 
@@ -307,15 +307,15 @@ void VerticalMouseMovementUnidirectionalRangeInput::callFunction()
 
 HorizontalMouseMovementBidirectionalRangeInput::HorizontalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback)
     : RangeInput(inputManager, callback)
-    , m_lastHorizMouseMovement(0.0)
+    , m_previousHorizMouseMovement(0.0)
 {
 }
 
 bool HorizontalMouseMovementBidirectionalRangeInput::detectedEvent() const
 {
     float currentHorizMouseMovement = m_inputManager.getMousePositionDelta().y;
-    bool detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement;
-    m_lastHorizMouseMovement = currentHorizMouseMovement;
+    bool detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement;
+    m_previousHorizMouseMovement = currentHorizMouseMovement;
     return detectedEvent;
 }
 
@@ -330,7 +330,7 @@ HorizontalMouseMovementUnidirectionalRangeInput::HorizontalMouseMovementUnidirec
                                                                                                  bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
-    , m_lastHorizMouseMovement(0.0)
+    , m_previousHorizMouseMovement(0.0)
 {
 }
 
@@ -344,13 +344,13 @@ bool HorizontalMouseMovementUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement && (currentHorizMouseMovement > 0 || m_lastHorizMouseMovement > 0);
+        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement && (currentHorizMouseMovement > 0 || m_previousHorizMouseMovement > 0);
     }
     else
     {
-        detectedEvent = currentHorizMouseMovement != m_lastHorizMouseMovement && (currentHorizMouseMovement < 0 || m_lastHorizMouseMovement < 0);
+        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement && (currentHorizMouseMovement < 0 || m_previousHorizMouseMovement < 0);
     }
-    m_lastHorizMouseMovement = currentHorizMouseMovement;
+    m_previousHorizMouseMovement = currentHorizMouseMovement;
     return detectedEvent;
 }
 
@@ -422,8 +422,7 @@ void KeyboardBidirectionalRangeInput::callFunction()
 /// Constructor
 /// \param inputManager     A const reference to the InputManager
 /// \param callback         The object containing the callback to call when input is triggered.
-/// \param negativeKey      The key which will send -100 to the callback when pressed.
-/// \param positiveKey      The key which will send +100 to the callback when pressed.
+/// \param key              The key which will triger the callback when pressed.
 KeyboardUnidirectionalRangeInput::KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                    sf::Keyboard::Key key)
     : RangeInput(inputManager, callback)
