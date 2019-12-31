@@ -175,7 +175,8 @@ void InputManager::pollSfmlEvents(sf::Window& window)
     {
         for (std::size_t j = 0; j < m_joystickAxesPosition[i].size(); j++)
         {
-            m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(static_cast<unsigned int>(i), static_cast<sf::Joystick::Axis>(j)) / maximumJoystickAxisValue;
+            m_joystickAxesPosition[i][j] =
+                sf::Joystick::getAxisPosition(static_cast<unsigned int>(i), static_cast<sf::Joystick::Axis>(j)) / maximumJoystickAxisValue;
         }
     }
 
@@ -525,15 +526,13 @@ float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick:
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
         // Subtract m_joystickDeadZone from the real axis value
-        return (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
-               (1.0 - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
     }
     // If the axis value is negative
     else
     {
         // Add m_joystickDeadZone to the real axis value
-        return (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
-               (1.0 - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
     }
 }
 
