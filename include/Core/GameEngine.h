@@ -29,7 +29,7 @@ private:
         Pop,
         Swap
     };
-    std::unordered_map<unsigned int, PendingRequest> m_pendingRequests;
+    std::map<unsigned int, PendingRequest> m_pendingRequests; // Use ordered map to keep requests sorted
     std::vector<State*> m_pendingStates;
 
     // Icon
@@ -47,7 +47,7 @@ private:
     LoopDebugOverlay m_loopDebugOverlay;
 
     // Functions
-    void push();
+    void push(std::vector<State*>& pendingStates);
     void pop();
     void handleRequests();
     void onWindowResize();

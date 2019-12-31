@@ -118,14 +118,14 @@ GameEngine::~GameEngine()
 }
 
 /// Add a new State to the stack from the queue
-void GameEngine::push()
+void GameEngine::push(std::vector<State*>& pendingStates)
 {
     // Push new State
-    m_states.push_back(m_pendingStates.back());
+    m_states.push_back(pendingStates.back());
     m_states.back()->m_orderCreated = 0;
-    m_pendingStates.pop_back();
+    pendingStates.pop_back();
 
-    // Call OnWindowResize() on State creation
+    // Call onWindowResize() on State creation
     m_states.back()->onWindowResize();
 }
 
@@ -146,7 +146,7 @@ void GameEngine::pop()
 /// Process the tick's requested State handling
 void GameEngine::handleRequests()
 {
-    // Sort new States by smallest order last, to later be able to simply call pop_back()
+    // Sort new States by smallest order last, to later be able to simply call pop_back() when pushing
     if (m_pendingStates.size() > 1)
     {
         std::sort(m_pendingStates.begin(), m_pendingStates.end(), [](const State* a, const State* b) {
@@ -154,22 +154,32 @@ void GameEngine::handleRequests()
         });
     }
 
-    // Handle pending requests
-    for (auto it = m_pendingRequests.cbegin(), end = m_pendingRequests.cend(); it != end; ++it)
+    // Reset order counter for next cycle and before handling the pending requests
+    // and copy request stacks to work even if the handling of a request makes a request of its own
+    State::s_orderCounter = 0;
+    std::map<unsigned int, PendingRequest> pendingRequestsCopy = m_pendingRequests;
+    std::vector<State*> pendingStatesCopy = m_pendingStates;
+
+    // Clear request stacks
+    m_pendingRequests.clear();
+    m_pendingStates.clear();
+
+    // Handle pending requests by doing an in-order traversal of the pending requests map
+    for (auto it = pendingRequestsCopy.cbegin(), end = pendingRequestsCopy.cend(); it != end; ++it)
     {
         switch (it->second)
         {
         case PendingRequest::Push:
-            // Call Pause() on State about to be hidden before adding a new one on top of it
+            // Call pause() on State about to be hidden before adding a new one on top of it
             if (!m_states.empty())
             {
                 m_states.back()->pause();
             }
-            push();
+            push(pendingStatesCopy);
             break;
         case PendingRequest::Pop:
             pop();
-            // Call Resume() on revealed State if this pop is the last request
+            // Call resume() on revealed State if this pop is the last request
             if (std::next(it) == end && !m_states.empty())
             {
                 m_states.back()->resume();
@@ -177,15 +187,10 @@ void GameEngine::handleRequests()
             break;
         case PendingRequest::Swap:
             pop();
-            push();
+            push(pendingStatesCopy);
             break;
         }
     }
-
-    // Clear request stacks and reset order counter for next cycle
-    m_pendingRequests.clear();
-    m_pendingStates.clear();
-    State::s_orderCounter = 0;
 
     // Force update on next cycle
     m_updateLag = m_timePerUpdate;
@@ -358,6 +363,8 @@ void GameEngine::requestPop(unsigned int statesToPop)
 {
     while (statesToPop > 0)
     {
+        // Increment s_orderCounter to keep the m_orderCreated
+        // of States and their Push request in sync
         m_pendingRequests.emplace(State::s_orderCounter++, PendingRequest::Pop);
         statesToPop--;
     }
