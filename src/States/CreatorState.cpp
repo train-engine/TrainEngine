@@ -95,7 +95,7 @@ void CreatorState::pauseStart()
     m_game.requestPush(new PauseState(m_game));
 }
 
-sf::Vector2u CreatorState::getBrushTopLeftIndex(const sf::Vector2f& mousePosition)
+sf::Vector2u CreatorState::getBrushTopLeftIndex(const sf::Vector2f& mousePosition) const
 {
     sf::Vector2f coords = mousePosition - sf::Vector2f((m_brushSize - 1.0f) / 2.0f * m_level.getTileSize(),
                                                        (m_brushSize - 1.0f) / 2.0f * m_level.getTileSize());

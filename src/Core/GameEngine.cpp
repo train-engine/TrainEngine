@@ -18,8 +18,7 @@ namespace
 
 /// Initialize the window and main systems
 GameEngine::GameEngine()
-    : m_window()
-    , m_isPowerSaverEnabled(true)
+    : m_isPowerSaverEnabled(true)
     , m_loopDebugOverlay(resourceManager.getFont("altFont"))
     , inputManager(m_window)
 {

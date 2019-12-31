@@ -275,10 +275,10 @@ help:
 	@echo "Usage: make target... [options]..."
 	@echo
 	@echo "Targets:"
-	@echo "  all             Build executable (debug mode by default)"
+	@echo "  all             Build executable (debug mode by default) (default target if unspecified)"
 	@echo "  install         Install packaged program to desktop (debug mode by default)"
 	@echo "  run             Build and run executable (debug mode by default)"
-	@echo "  copyassets      Copy assets to executable directory for selected platform"
+	@echo "  copyassets      Copy assets to executable directory for selected platform and configuration"
 	@echo "  clean           Clean build and bin directories (all platforms)"
 	@echo "  cleanassets     Clean assets from executable directories (all platforms)"
 	@echo "  format          Run clang-format on source code"

@@ -70,7 +70,7 @@ void State::drawBackgroundColor(sf::RenderTarget& target, sf::RenderStates state
 }
 
 // Calculate position from ratios relative to the window's dimensions
-sf::Vector2f State::getAbsolutePosition(float xRatio, float yRatio) const
+sf::Vector2f State::getAbsolutePosition(float xRatio, float yRatio)
 {
     return sf::Vector2f(getWindowDimensions().x * xRatio, getWindowDimensions().y * yRatio);
 }

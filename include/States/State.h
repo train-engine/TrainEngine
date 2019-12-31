@@ -55,7 +55,7 @@ protected:
     static const sf::Vector2f& getWindowMousePosition() { return s_windowMousePosition; }
 
     // Utility functions
-    sf::Vector2f getAbsolutePosition(float xRatio, float yRatio) const;
+    static sf::Vector2f getAbsolutePosition(float xRatio, float yRatio);
 };
 
 #endif // STATE_H

@@ -41,7 +41,7 @@ private:
     // Functions
     void setMusic();
     void pauseStart();
-    sf::Vector2u getBrushTopLeftIndex(const sf::Vector2f& mousePosition);
+    sf::Vector2u getBrushTopLeftIndex(const sf::Vector2f& mousePosition) const;
     void clearPreviewMap();
     bool checkMouseChangedTile();
 
