@@ -30,7 +30,7 @@ InputManager::InputManager(sf::RenderWindow& window)
     , m_eventPressedJoystickButtons{}
     , m_eventReleasedJoystickButtons{}
     , m_joystickAxesPosition{}
-    , m_joystickDeadZone(15.0)
+    , m_joystickDeadZone(0.15)
     , m_joystickMovedEvent(false)
     , m_joystickConnectedEvent(false)
     , m_joystickDisconnectedEvent(false)
@@ -168,11 +168,14 @@ void InputManager::pollSfmlEvents(sf::Window& window)
         }
     }
 
+    // Defined by SFML
+    static const float maximumJoystickAxisValue = 100.0;
+
     for (std::size_t i = 0; i < m_joystickAxesPosition.size(); i++)
     {
         for (std::size_t j = 0; j < m_joystickAxesPosition[i].size(); j++)
         {
-            m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(static_cast<unsigned int>(i), static_cast<sf::Joystick::Axis>(j));
+            m_joystickAxesPosition[i][j] = sf::Joystick::getAxisPosition(static_cast<unsigned int>(i), static_cast<sf::Joystick::Axis>(j)) / maximumJoystickAxisValue;
         }
     }
 
@@ -506,6 +509,10 @@ sf::Joystick::Identification InputManager::getJoystickIdentification(unsigned jo
     return sf::Joystick::getIdentification(joystick);
 }
 
+/// Get the axis position of a joystick.
+/// \param joystick     The joystick id
+/// \param axis         The joystick axis
+/// \return             The normalized axis position (between 0.0 and 1.0)
 float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick::Axis axis) const
 {
     // If joystick value is inside the deadzone, return 0
@@ -514,22 +521,19 @@ float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick:
         return 0;
     }
 
-    // Defined by SFML
-    static const float maximumJoystickAxisValue = 100.0;
-
     // If the axis value is positive
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
         // Subtract m_joystickDeadZone from the real axis value
-        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
-               (maximumJoystickAxisValue - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
+               (1.0 - m_joystickDeadZone);
     }
     // If the axis value is negative
     else
     {
         // Add m_joystickDeadZone to the real axis value
-        return maximumJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
-               (maximumJoystickAxisValue - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
+               (1.0 - m_joystickDeadZone);
     }
 }
 

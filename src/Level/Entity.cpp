@@ -304,7 +304,7 @@ void Entity::climb(float factor)
     // If pressing up or down
     if (m_inputDirection.y != 0.0)
     {
-        setVertVelocity(m_defaultClimbSpeed * factor * m_inputDirection.y / 100.0);
+        setVertVelocity(m_defaultClimbSpeed * factor * m_inputDirection.y);
     }
     else
     {
@@ -380,7 +380,7 @@ void Entity::applyGravity()
 void Entity::maxVelocityCap()
 {
     // Set max velocity proportional to input activation percentage
-    float maxVelocity = m_maxVelocity.x * m_inputDirection.x / 100.0;
+    float maxVelocity = m_maxVelocity.x * m_inputDirection.x;
     if (m_velocity.x >= maxVelocity)
     {
         m_velocity.x = maxVelocity;
@@ -612,11 +612,11 @@ void Entity::update()
         // Set animation speed proportionally to the input magnitude
         if (m_state == EntityState::Running)
         {
-            it->second.setFrameDuration(100.0 / std::abs(m_inputDirection.x));
+            it->second.setFrameDuration(1.0 / std::abs(m_inputDirection.x));
         }
         if (m_state == EntityState::Climbing && m_inputDirection.y != 0)
         {
-            it->second.setFrameDuration(100.0 / std::abs(m_inputDirection.y) * 2.0);
+            it->second.setFrameDuration(1.0 / std::abs(m_inputDirection.y) * 2.0);
         }
 
         if (m_state != EntityState::Climbing)

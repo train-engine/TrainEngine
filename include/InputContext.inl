@@ -283,7 +283,7 @@ void InputContext::bindStateToJoystickAxis(O* object, F callback, unsigned int j
 
 /// Assign two keys to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [-100, 100]
+/// Note: The function will receive an argument in range [-1.0, 1.0]
 /// \param callback     A function with a float as a parameter.
 /// \param negativeKey  The key which sends a negative float to the function.
 /// \param positiveKey  The key which sends a positive float to the function.
@@ -295,7 +295,7 @@ void InputContext::bindRangeToKeyboard(F callback, sf::Keyboard::Key negativeKey
 
 /// Assign two keys to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [-100, 100]
+/// Note: The member function will receive an argument in range [-1.0, 1.0]
 /// \param object       The object on which the member function must be called.
 /// \param callback     A member function with a float as a parameter.
 /// \param negativeKey  The key which sends a negative float to the member function.
@@ -309,7 +309,7 @@ void InputContext::bindRangeToKeyboard(O* object, F callback, sf::Keyboard::Key 
 
 /// Assign a key to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [0, 100]
+/// Note: The function will receive an argument in range [0.0, 1.0]
 /// \param callback         A function with a float as a parameter.
 /// \param key              The key which triggers the function.
 template<typename F>
@@ -320,7 +320,7 @@ void InputContext::bindRangeToKeyboard(F callback, sf::Keyboard::Key key)
 
 /// Assign key to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [0, 100]
+/// Note: The member function will receive an argument in range [0.0, 1.0]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param key              The key which triggers the member function.
@@ -332,7 +332,7 @@ void InputContext::bindRangeToKeyboard(O* object, F callback, sf::Keyboard::Key 
 
 /// Assign two mouse buttons to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [-100, 100]
+/// Note: The function will receive an argument in range [-1.0, 1.0]
 /// \param callback         A function with a float as a parameter.
 /// \param negativeButton   The mouse button which sends a negative float to the function.
 /// \param positiveButton   The mouse button which sends a positive float to the function.
@@ -345,7 +345,7 @@ void InputContext::bindRangeToMouseButtons(F callback, sf::Mouse::Button negativ
 
 /// Assign two mouse buttons to a member function with a float as a parameter.
 /// The member function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [-100, 100]
+/// Note: The member function will receive an argument in range [-1.0, 1.0]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param negativeButton   The mouse button which sends a negative float to the member function.
@@ -359,7 +359,7 @@ void InputContext::bindRangeToMouseButtons(O* object, F callback, sf::Mouse::But
 
 /// Assign a mouse button to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [0, 100]
+/// Note: The function will receive an argument in range [0.0, 1.0]
 /// \param callback         A function with a float as a parameter.
 /// \param button           The mouse button which triggers the function.
 template<typename F>
@@ -370,7 +370,7 @@ void InputContext::bindRangeToMouseButton(F callback, sf::Mouse::Button button)
 
 /// Assign a mouse button to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [0, 100]
+/// Note: The member function will receive an argument in range [0.0, 1.0]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param button           The mouse button which triggers the member function.
@@ -523,7 +523,7 @@ void InputContext::bindRangeToMouseWheelScroll(O* object, F callback, sf::Mouse:
 
 /// Assign two joystick buttons to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [-100, 100]
+/// Note: The function will receive an argument in range [-1.0, 1.0]
 /// \param callback         A function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param negativeButton   The joystick button which sends a negative float to the function.
@@ -540,7 +540,7 @@ void InputContext::bindRangeToJoystickButtons(F callback, unsigned int joystick,
 
 /// Assign two joystick buttons to a member function with a float as a parameter.
 /// The member function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [-100, 100]
+/// Note: The member function will receive an argument in range [-1.0, 1.0]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param joystick         The joystick id.
@@ -559,7 +559,7 @@ void InputContext::bindRangeToJoystickButtons(O* object, F callback, unsigned in
 
 /// Assign a joystick button to a function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The function will receive an argument in range [0, 100]
+/// Note: The function will receive an argument in range [0.0, 1.0]
 /// \param callback         A function with a float as a parameter.
 /// \param joystick         The joystick id.
 /// \param button           The joystick button which triggers the function.
@@ -571,7 +571,7 @@ void InputContext::bindRangeToJoystickButton(F callback, unsigned int joystick, 
 
 /// Assign a joystick button to a member function with a float as a parameter.
 /// The function will receive the simulated analog input as an argument.
-/// Note: The member function will receive an argument in range [0, 100]
+/// Note: The member function will receive an argument in range [0.0, 1.0]
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param joystick         The joystick id.
@@ -585,14 +585,15 @@ void InputContext::bindRangeToJoystickButton(O* object, F callback, unsigned int
 
 /// Assign a joystick axis to a function with a float as a parameter.
 /// The function will receive the joystick axis' position as an argument.
-/// Note: The function will receive an argument in range [0, 100] or [-100, 0] depending on the rangeRestriction.
+/// Note: The function will receive an argument in range [0.0, 1.0] or [-1.0, 0.0] or [-1.0, 1.0] depending on the rangeRestriction.
 /// \param callback         A function with a float as a parameter.
 /// \param joystick         The joystick id.
-/// \param axis     The joystick axis bound to the callback.
+/// \param axis             The joystick axis bound to the callback.
 /// \param rangeRestriction The restriction of the callback range of the joystick axis.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the
 ///                         axis. If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values
-///                         of the axis.
+///                         of the axis. If range Restriction is RangeRestriction::None, the callback will receive both positive dans negatives
+///                         values of the axis.
 template<typename F>
 void InputContext::bindRangeToJoystickAxis(F callback, unsigned int joystick, sf::Joystick::Axis axis, RangeRestriction rangeRestriction)
 {
@@ -613,7 +614,7 @@ void InputContext::bindRangeToJoystickAxis(F callback, unsigned int joystick, sf
 
 /// Assign a joystick axis to a member function with a float as a parameter.
 /// The member function will receive the joystick axis' position as an argument.
-/// Note: The member function will receive an argument in range [0, 100] or [-100, 0] depending on the rangeRestriction.
+/// Note: The member function will receive an argument in range [0.0, 1.0] or [-1.0, 0.0] or [-1.0, 1.0] depending on the rangeRestriction.
 /// \param object           The object on which the member function must be called.
 /// \param callback         A member function with a float as a parameter.
 /// \param joystick         The joystick id.
@@ -621,7 +622,8 @@ void InputContext::bindRangeToJoystickAxis(F callback, unsigned int joystick, sf
 /// \param rangeRestriction The restriction of the callback range of the joystick axis.
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the
 ///                         axis. If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values
-///                         of the axis.
+///                         of the axis. If range Restriction is RangeRestriction::None, the callback will receive both positive dans negatives
+///                         values of the axis.
 template<typename O, typename F>
 void InputContext::bindRangeToJoystickAxis(O* object, F callback, unsigned int joystick, sf::Joystick::Axis axis,
                                            RangeRestriction rangeRestriction)

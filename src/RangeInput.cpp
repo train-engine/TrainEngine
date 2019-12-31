@@ -391,9 +391,9 @@ void HorizontalMouseMovementUnidirectionalRangeInput::callFunction()
 
 /// Constructor
 /// \param inputManager     A const reference to the InputManager
-/// \param callback         The object containing the callback to call when input is triggered.
-/// \param negativeKey      The key which will send -100 to the callback when pressed.
-/// \param positiveKey      The key which will send +100 to the callback when pressed.
+/// \param callback         The object containing the callback to call when input is triggered
+/// \param negativeKey      The key which will send -1.0 to the callback when pressed
+/// \param positiveKey      The key which will send +1.0 to the callback when pressed
 KeyboardBidirectionalRangeInput::KeyboardBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                  sf::Keyboard::Key negativeKey, sf::Keyboard::Key positiveKey)
     : RangeInput(inputManager, callback)
@@ -417,7 +417,7 @@ void KeyboardBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isNegativeKeyHeld == true && isPositiveKeyHeld == false)
     {
-        (*m_callback)(-100.0f);
+        (*m_callback)(-1.0f);
         return;
     }
 
@@ -425,7 +425,7 @@ void KeyboardBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isPositiveKeyHeld == true && isNegativeKeyHeld == false)
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
         return;
     }
 
@@ -434,8 +434,8 @@ void KeyboardBidirectionalRangeInput::callFunction()
 
 /// Constructor
 /// \param inputManager     A const reference to the InputManager
-/// \param callback         The object containing the callback to call when input is triggered.
-/// \param key              The key which will triger the callback when pressed.
+/// \param callback         The object containing the callback to call when input is triggered
+/// \param key              The key which will send +1.0 to the callback when pressed
 KeyboardUnidirectionalRangeInput::KeyboardUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                    sf::Keyboard::Key key)
     : RangeInput(inputManager, callback)
@@ -452,7 +452,7 @@ void KeyboardUnidirectionalRangeInput::callFunction()
 {
     if (m_inputManager.isKeyHeld(m_key))
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
     }
     else
     {
@@ -460,6 +460,12 @@ void KeyboardUnidirectionalRangeInput::callFunction()
     }
 }
 
+/// Constructor
+/// \param inputManager             A const reference to the InputManager
+/// \param callback                 The object containing the callback to call when input is triggered
+/// \param joystick                 The joystick id
+/// \param negativeJoystickButton   The button which will send -1.0 to the callback when pressed
+/// \param positiveJoystickButton   The button which will send +1.0 to the callback when pressed
 JoystickButtonBidirectionalRangeInput::JoystickButtonBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                              unsigned int joystick, unsigned int negativeJoystickButton,
                                                                              unsigned int positiveJoystickButton)
@@ -487,7 +493,7 @@ void JoystickButtonBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isNegativeButtonHeld == true && isPositiveButtonHeld == false)
     {
-        (*m_callback)(-100.0f);
+        (*m_callback)(-1.0f);
         return;
     }
 
@@ -495,13 +501,18 @@ void JoystickButtonBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isPositiveButtonHeld == true && isNegativeButtonHeld == false)
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
         return;
     }
 
     (*m_callback)(0.0f);
 }
 
+/// Constructor
+/// \param inputManager A const reference to the InputManager
+/// \param callback     The object containing the callback to call when input is triggered
+/// \param joystick     The joystick id
+/// \param button       The button which will send +1.0 to the callback when pressed
 JoystickButtonUnidirectionalRangeInput::JoystickButtonUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                                unsigned int joystick, unsigned int button)
     : RangeInput(inputManager, callback)
@@ -520,7 +531,7 @@ void JoystickButtonUnidirectionalRangeInput::callFunction()
 {
     if (m_inputManager.isJoystickButtonHeld(m_joystick, m_button))
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
     }
     else
     {
@@ -530,6 +541,11 @@ void JoystickButtonUnidirectionalRangeInput::callFunction()
 
 // MouseButtonBidirectionalRangeInput
 
+/// Constructor
+/// \param inputManager         A const reference to the InputManager
+/// \param callback             The object containing the callback to call when input is triggered
+/// \param negativeMouseButton  The button which will send -1.0 to the callback when pressed
+/// \param positiveMouseButton  The button which will send +1.0 to the callback when pressed
 MouseButtonBidirectionalRangeInput::MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                        sf::Mouse::Button negativeMouseButton,
                                                                        sf::Mouse::Button positiveMouseButton)
@@ -554,7 +570,7 @@ void MouseButtonBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isNegativeButtonHeld == true && isPositiveButtonHeld == false)
     {
-        (*m_callback)(-100.0f);
+        (*m_callback)(-1.0f);
         return;
     }
 
@@ -562,7 +578,7 @@ void MouseButtonBidirectionalRangeInput::callFunction()
     // The check for the ascending key is to account for the possibility of a key ascending and descending in the same tick
     if (isPositiveButtonHeld == true && isNegativeButtonHeld == false)
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
         return;
     }
 
@@ -571,6 +587,10 @@ void MouseButtonBidirectionalRangeInput::callFunction()
 
 // MouseButtonUnidirectionalRangeInput
 
+/// Constructor
+/// \param inputManager A const reference to the InputManager
+/// \param callback     The object containing the callback to call when input is triggered
+/// \param mouseButton  The button which will send +1.0 to the callback when pressed
 MouseButtonUnidirectionalRangeInput::MouseButtonUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
                                                                          sf::Mouse::Button mouseButton)
     : RangeInput(inputManager, callback)
@@ -587,7 +607,7 @@ void MouseButtonUnidirectionalRangeInput::callFunction()
 {
     if (m_inputManager.isMouseButtonHeld(m_mouseButton))
     {
-        (*m_callback)(100.0f);
+        (*m_callback)(1.0f);
     }
     else
     {
