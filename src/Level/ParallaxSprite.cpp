@@ -58,10 +58,10 @@ void ParallaxSprite::update(const Camera& camera)
 
     sf::Vector2f position;
     position.x = (camera.getPosition().x + (m_relativeOrigin.x - 0.5f) * camera.getDimensions().x - m_initialPosition.x) *
-                     (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) +
+                     (1.0 - newDimensionsScale + newDimensionsScale * m_parallax) +
                  m_initialPosition.x;
     position.y = (camera.getPosition().y + (m_relativeOrigin.y - 0.5f) * camera.getDimensions().y - m_initialPosition.y) *
-                     (1.0f - newDimensionsScale + newDimensionsScale * m_parallax) +
+                     (1.0 - newDimensionsScale + newDimensionsScale * m_parallax) +
                  m_initialPosition.y;
 
     m_sprite.setPosition(position);

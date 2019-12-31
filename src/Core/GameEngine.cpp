@@ -10,7 +10,8 @@ namespace
 {
     const std::string windowName = "TrainEngine";
     const sf::Vector2u minWindowDimensions(800, 600);
-    const int initialUps = 60;
+    const int defaultUps = 60;
+    const int defaultFps = 60;
     const sf::Time sleepImprecision = sf::microseconds(1500); // Uncertainty given to the sleep time
     const float maxUpdatesBehind = 10; // Max number of updates lagging behind before discarding
                                        // update cycles if the State's canSkipUpdates is true
@@ -34,21 +35,21 @@ GameEngine::GameEngine()
     std::ifstream inputFile(FileManager::resourcePath() + graphicsSettingsFilename);
     if (inputFile)
     {
-        unsigned int fullscreenModeIndex = 0;
+        unsigned int fullscreenModeIndex;
         inputFile >> fullscreenModeIndex;
 
-        bool isFullscreen = false;
+        bool isFullscreen;
         inputFile >> isFullscreen;
 
-        bool isVSyncEnabled = false;
+        bool isVSyncEnabled;
         inputFile >> isVSyncEnabled;
 
         inputFile >> m_isPowerSaverEnabled;
 
-        unsigned int targetFps = 60;
+        unsigned int targetFps;
         inputFile >> targetFps;
 
-        unsigned int antiAliasingLevel = 0;
+        unsigned int antiAliasingLevel;
         inputFile >> antiAliasingLevel;
 
         // Set to first fullscreen mode index (best mode) if saved fullscreen mode index is unavailable
@@ -70,7 +71,7 @@ GameEngine::GameEngine()
     else
     {
         m_window.create(sf::VideoMode(1280, 720), windowName);
-        setTargetFps(60);
+        setTargetFps(defaultFps);
         std::cerr << "\nGameEngine error: Unable to open \"" << graphicsSettingsFilename << "\".\n"
                   << "Graphics settings loading failed.\n\n";
     }
@@ -103,7 +104,7 @@ GameEngine::GameEngine()
     m_window.setMouseCursorVisible(false);
     m_cursor.setTexture(resourceManager.getTexture("cursor"));
 
-    setTargetUps(initialUps);
+    setTargetUps(defaultUps);
 }
 
 /// Call the destructor of each State by using Pop()

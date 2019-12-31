@@ -181,7 +181,7 @@ void Camera::update()
         {
             // Sinerp function
             m_position += ((m_finalTranslationPosition - m_startTranslationPosition) / static_cast<float>(m_ticksTotal)) *
-                          static_cast<float>(pi / 2.0f * std::cos(pi / 2.0f * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
+                          static_cast<float>(pi / 2.0 * std::cos(pi / 2.0 * (m_ticksTotal - m_ticksRemaining) / m_ticksTotal));
             m_ticksRemaining--;
         }
         else
