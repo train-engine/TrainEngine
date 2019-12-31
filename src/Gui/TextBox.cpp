@@ -379,12 +379,12 @@ void TextBox::updateText()
         for (const auto& enteredChar : m_inputManager.getEnteredText())
         {
             // If the text entered is not an undesirable character
-            if ((m_isDigitsOnly == false && (isCharacterAccepted(enteredChar) || // Valid char
-                                             enteredChar == 3 || // CTRL + C
-                                             enteredChar == 22 || // CTRL + V
-                                             enteredChar == 24)) || // CTRL + X
-                (m_isDigitsOnly == true && enteredChar >= 48 && enteredChar <= 57))
-
+            bool isValidAlphaNum = isCharacterAccepted(enteredChar) || // Valid char
+                                   enteredChar == 3 || // CTRL + C
+                                   enteredChar == 22 || // CTRL + V
+                                   enteredChar == 24; // CTRL + X
+            bool isValidNum = enteredChar >= 48 && enteredChar <= 57;
+            if ((m_isDigitsOnly == false && isValidAlphaNum) || (m_isDigitsOnly == true && isValidNum))
             {
                 if (enteredChar == 3 || enteredChar == 24) // CTRL + C or CTRL + X
                 {

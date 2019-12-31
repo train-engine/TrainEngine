@@ -41,7 +41,8 @@ void JoystickAxisBidirectionalRangeInput::callFunction()
 // JoystickAxisUnidirectionalRangeInput
 
 JoystickAxisUnidirectionalRangeInput::JoystickAxisUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
-                                                                           unsigned int joystick, sf::Joystick::Axis axis, bool isRestrictedToPositives)
+                                                                           unsigned int joystick, sf::Joystick::Axis axis,
+                                                                           bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_joystick(joystick)
     , m_axis(axis)
@@ -92,7 +93,8 @@ void JoystickAxisUnidirectionalRangeInput::callFunction()
 
 // VerticalMouseWheelBidirectionalRangeInput
 
-VerticalMouseWheelBidirectionalRangeInput::VerticalMouseWheelBidirectionalRangeInput(const InputManager & inputManager, Callable<float>* callback)
+VerticalMouseWheelBidirectionalRangeInput::VerticalMouseWheelBidirectionalRangeInput(const InputManager& inputManager,
+                                                                                     Callable<float>* callback)
     : RangeInput(inputManager, callback)
     , m_previousVertScroll(0.0)
 {
@@ -113,7 +115,8 @@ void VerticalMouseWheelBidirectionalRangeInput::callFunction()
 
 // VerticalMouseWheelUnidirectionalRangeInput
 
-VerticalMouseWheelUnidirectionalRangeInput::VerticalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
+VerticalMouseWheelUnidirectionalRangeInput::VerticalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager,
+                                                                                       Callable<float>* callback,
                                                                                        bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
@@ -163,7 +166,8 @@ void VerticalMouseWheelUnidirectionalRangeInput::callFunction()
 
 // HorizontalMouseWheelBidirectionalRangeInput
 
-HorizontalMouseWheelBidirectionalRangeInput::HorizontalMouseWheelBidirectionalRangeInput(const InputManager & inputManager, Callable<float>* callback)
+HorizontalMouseWheelBidirectionalRangeInput::HorizontalMouseWheelBidirectionalRangeInput(const InputManager& inputManager,
+                                                                                         Callable<float>* callback)
     : RangeInput(inputManager, callback)
     , m_previousHorizScroll(0.0)
 {
@@ -184,7 +188,8 @@ void HorizontalMouseWheelBidirectionalRangeInput::callFunction()
 
 // HorizontalMouseWheelUnidirectionalRangeInput
 
-HorizontalMouseWheelUnidirectionalRangeInput::HorizontalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
+HorizontalMouseWheelUnidirectionalRangeInput::HorizontalMouseWheelUnidirectionalRangeInput(const InputManager& inputManager,
+                                                                                           Callable<float>* callback,
                                                                                            bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
@@ -234,7 +239,8 @@ void HorizontalMouseWheelUnidirectionalRangeInput::callFunction()
 
 // VerticalMouseMovementBidirectionalRangeInput
 
-VerticalMouseMovementBidirectionalRangeInput::VerticalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback)
+VerticalMouseMovementBidirectionalRangeInput::VerticalMouseMovementBidirectionalRangeInput(const InputManager& inputManager,
+                                                                                           Callable<float>* callback)
     : RangeInput(inputManager, callback)
     , m_previousVertMouseMovement(0.0)
 {
@@ -255,7 +261,8 @@ void VerticalMouseMovementBidirectionalRangeInput::callFunction()
 
 // VerticalMouseMovementUnidirectionalRangeInput
 
-VerticalMouseMovementUnidirectionalRangeInput::VerticalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
+VerticalMouseMovementUnidirectionalRangeInput::VerticalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager,
+                                                                                             Callable<float>* callback,
                                                                                              bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
@@ -273,11 +280,13 @@ bool VerticalMouseMovementUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement > 0 || m_previousVertMouseMovement > 0);
+        detectedEvent =
+            currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement > 0 || m_previousVertMouseMovement > 0);
     }
     else
     {
-        detectedEvent = currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement < 0 || m_previousVertMouseMovement < 0);
+        detectedEvent =
+            currentVertMouseMovement != m_previousVertMouseMovement && (currentVertMouseMovement < 0 || m_previousVertMouseMovement < 0);
     }
     m_previousVertMouseMovement = currentVertMouseMovement;
     return detectedEvent;
@@ -305,7 +314,8 @@ void VerticalMouseMovementUnidirectionalRangeInput::callFunction()
 
 // HorizontalMouseMovementBidirectionalRangeInput
 
-HorizontalMouseMovementBidirectionalRangeInput::HorizontalMouseMovementBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback)
+HorizontalMouseMovementBidirectionalRangeInput::HorizontalMouseMovementBidirectionalRangeInput(const InputManager& inputManager,
+                                                                                               Callable<float>* callback)
     : RangeInput(inputManager, callback)
     , m_previousHorizMouseMovement(0.0)
 {
@@ -326,7 +336,8 @@ void HorizontalMouseMovementBidirectionalRangeInput::callFunction()
 
 // HorizontalMouseMovementUnidirectionalRangeInput
 
-HorizontalMouseMovementUnidirectionalRangeInput::HorizontalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
+HorizontalMouseMovementUnidirectionalRangeInput::HorizontalMouseMovementUnidirectionalRangeInput(const InputManager& inputManager,
+                                                                                                 Callable<float>* callback,
                                                                                                  bool isRestrictedToPositives)
     : RangeInput(inputManager, callback)
     , m_isRestrictedToPositives(isRestrictedToPositives)
@@ -344,11 +355,13 @@ bool HorizontalMouseMovementUnidirectionalRangeInput::detectedEvent() const
     bool detectedEvent;
     if (m_isRestrictedToPositives)
     {
-        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement && (currentHorizMouseMovement > 0 || m_previousHorizMouseMovement > 0);
+        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement &&
+                        (currentHorizMouseMovement > 0 || m_previousHorizMouseMovement > 0);
     }
     else
     {
-        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement && (currentHorizMouseMovement < 0 || m_previousHorizMouseMovement < 0);
+        detectedEvent = currentHorizMouseMovement != m_previousHorizMouseMovement &&
+                        (currentHorizMouseMovement < 0 || m_previousHorizMouseMovement < 0);
     }
     m_previousHorizMouseMovement = currentHorizMouseMovement;
     return detectedEvent;
@@ -518,7 +531,8 @@ void JoystickButtonUnidirectionalRangeInput::callFunction()
 // MouseButtonBidirectionalRangeInput
 
 MouseButtonBidirectionalRangeInput::MouseButtonBidirectionalRangeInput(const InputManager& inputManager, Callable<float>* callback,
-                                                                       sf::Mouse::Button negativeMouseButton, sf::Mouse::Button positiveMouseButton)
+                                                                       sf::Mouse::Button negativeMouseButton,
+                                                                       sf::Mouse::Button positiveMouseButton)
     : RangeInput(inputManager, callback)
     , m_negativeMouseButton(negativeMouseButton)
     , m_positiveMouseButton(positiveMouseButton)
