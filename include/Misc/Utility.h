@@ -1,7 +1,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
-#include <cmath>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
 
 namespace Utility
