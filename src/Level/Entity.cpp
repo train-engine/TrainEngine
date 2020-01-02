@@ -442,8 +442,8 @@ void Entity::mapEdgeCollision(bool isHorizCollisionEnabled, bool isVertCollision
 void Entity::performCollisions()
 {
     // Determine the range of positions where the Entity could be in the next tick
-    float biggestAxis = std::fmax(m_dimensions.x, m_dimensions.y);
-    float highestVelocity = std::fmax(m_velocity.x, m_velocity.y);
+    float biggestAxis = std::max(m_dimensions.x, m_dimensions.y);
+    float highestVelocity = std::max(m_velocity.x, m_velocity.y);
     float range = (biggestAxis + highestVelocity) / m_map.getTileSize();
 
     // Collision with Tiles

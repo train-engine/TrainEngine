@@ -10,14 +10,14 @@ namespace Utility
     template<typename T>
     float getScaleToFill(const sf::Vector2<T>& initialDimensions, const sf::Vector2<T>& fillDimensions)
     {
-        return std::fmax(fillDimensions.x / initialDimensions.x, fillDimensions.y / initialDimensions.y);
+        return std::max(fillDimensions.x / initialDimensions.x, fillDimensions.y / initialDimensions.y);
     }
 
     /// Get scale to fit given dimensions (without overlapping) while preserving aspect ratio
     template<typename T>
     float getScaleToFit(const sf::Vector2<T>& initialDimensions, const sf::Vector2<T>& fitDimensions)
     {
-        return std::fmin(fitDimensions.x / initialDimensions.x, fitDimensions.y / initialDimensions.y);
+        return std::min(fitDimensions.x / initialDimensions.x, fitDimensions.y / initialDimensions.y);
     }
 
     void setSpriteScaleToFill(sf::Sprite& sprite, const sf::Vector2f& fillDimensions);
