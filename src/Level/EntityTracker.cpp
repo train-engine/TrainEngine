@@ -89,9 +89,8 @@ void EntityTracker::updateInfoBox()
                                      m_displacementText.getGlobalBounds().top +
                                          m_displacementText.getFont()->getLineSpacing(m_displacementText.getCharacterSize()));
 
-    float biggestTextWidth =
-        std::max(std::max(m_lastPositionText.getGlobalBounds().width, m_distanceTraveledText.getGlobalBounds().width),
-                 std::max(m_displacementText.getGlobalBounds().width, m_positionsCountText.getGlobalBounds().width));
+    float biggestTextWidth = std::max(std::max(m_lastPositionText.getGlobalBounds().width, m_distanceTraveledText.getGlobalBounds().width),
+                                      std::max(m_displacementText.getGlobalBounds().width, m_positionsCountText.getGlobalBounds().width));
     float padding = 2;
 
     m_textContainer.setSize(sf::Vector2f(biggestTextWidth + padding * 2,

@@ -29,7 +29,7 @@ bool ResourceManager::loadInitialResources()
 {
     static const std::string initialResourcesFilename = "data/initial_resources.txt";
 #if defined(SFML_SYSTEM_ANDROID)
-    std::istringstream inputFile(FileManager::ReadTxtFromAssets(initialResourcesFilename));
+    std::istringstream inputFile(FileManager::readTxtFromAssets(initialResourcesFilename));
 #else
     std::ifstream inputFile(FileManager::resourcePath() + initialResourcesFilename);
 #endif
@@ -47,10 +47,9 @@ bool ResourceManager::loadInitialResources()
 
             // Read resource name
             std::string name = line.substr(0, line.find(' '));
-            line.erase(0, line.find(' ') + 1);
 
             // Read quoted filename
-            std::size_t firstDelimPos = line.find('"');
+            std::size_t firstDelimPos = line.find('"', name.size() + 1);
             std::size_t lastDelimPos = line.find('"', firstDelimPos + 1);
             std::string filename = line.substr(firstDelimPos + 1, lastDelimPos - (firstDelimPos + 1));
 
@@ -66,6 +65,28 @@ bool ResourceManager::loadInitialResources()
             else if (filename.find("sounds") != std::string::npos)
             {
                 loadSoundBuffer(name, filename);
+            }
+            else if (filename.find("shaders") != std::string::npos)
+            {
+                // Deduce shader type from extension
+                std::string extension = filename.substr(filename.rfind('.') + 1);
+                if (extension == "vert")
+                {
+                    loadShader(name, filename, sf::Shader::Vertex);
+                }
+                else if (extension == "geom")
+                {
+                    loadShader(name, filename, sf::Shader::Vertex);
+                }
+                else if (extension == "frag")
+                {
+                    loadShader(name, filename, sf::Shader::Fragment);
+                }
+                else
+                {
+                    std::cerr << "ResourceManager error: Unable to deduce shader type for filename \"" << filename
+                              << "\" from unknown extension \"" << extension << "\" (extension should be .vert, .geom or .frag)\n";
+                }
             }
             else
             {

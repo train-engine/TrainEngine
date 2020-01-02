@@ -181,7 +181,7 @@ void InputManager::pollSfmlEvents(sf::Window& window)
     }
 
 #if defined(SFML_SYSTEM_MACOS)
-    MacOsCommandsToUnicode();
+    macOsCommandsToUnicode();
 #endif
 }
 

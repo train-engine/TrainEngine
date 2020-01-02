@@ -880,8 +880,8 @@ void Map::resize(const sf::Vector2u& indexDimensions)
     }
 
     // Max dimensions
-    sf::Vector2u newIndexDimensions =
-        sf::Vector2u(std::min(static_cast<float>(indexDimensions.x), maxDimensions.x), std::min(static_cast<float>(indexDimensions.y), maxDimensions.y));
+    sf::Vector2u newIndexDimensions = sf::Vector2u(std::min(static_cast<float>(indexDimensions.x), maxDimensions.x),
+                                                   std::min(static_cast<float>(indexDimensions.y), maxDimensions.y));
 
     for (unsigned int z = 0; z < m_layerCount; z++)
     {
