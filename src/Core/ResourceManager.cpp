@@ -76,7 +76,7 @@ bool ResourceManager::loadInitialResources()
                 }
                 else if (extension == "geom")
                 {
-                    loadShader(name, filename, sf::Shader::Vertex);
+                    loadShader(name, filename, sf::Shader::Geometry);
                 }
                 else if (extension == "frag")
                 {
