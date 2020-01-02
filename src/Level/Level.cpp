@@ -174,8 +174,7 @@ bool Level::loadBackground(const std::string& filename)
             {
                 if (scaleString == "map")
                 {
-                    float scale = Utility::getScaleToFill(static_cast<sf::Vector2f>(m_parallaxSprites.back().getTexture()->getSize()),
-                                                          static_cast<sf::Vector2f>(m_map.getBounds()));
+                    float scale = Utility::getScaleToFill(m_parallaxSprites.back().getTexture()->getSize(), m_map.getBounds());
                     m_parallaxSprites.back().setScale({scale, scale});
                 }
                 else
