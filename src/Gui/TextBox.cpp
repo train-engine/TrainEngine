@@ -4,6 +4,11 @@
 namespace
 {
     const sf::Uint32 passwordChar = 8226;
+
+    bool isCharacterAccepted(sf::Uint32 enteredChar)
+    {
+        return (enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160;
+    }
 } // namespace
 
 TextBox::TextBox(InputManager& inputManager, const sf::Font& font)
@@ -573,11 +578,6 @@ void TextBox::updateText()
             }
         }
     }
-}
-
-bool TextBox::isCharacterAccepted(sf::Uint32 enteredChar)
-{
-    return (enteredChar >= 32 && enteredChar <= 126) || enteredChar > 160;
 }
 
 // Set the position of the text

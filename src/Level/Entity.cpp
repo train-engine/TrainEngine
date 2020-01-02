@@ -705,7 +705,8 @@ std::string Entity::getEntityTypeString(EntityType entityType)
 std::vector<std::string> Entity::getTextureNames(EntityType entityType)
 {
     static const std::unordered_map<EntityType, std::vector<std::string>> entityTextures = {
-        {EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}};
+        {EntityType::Player, {"characterStill", "characterRunning", "characterClimbing", "characterJumping", "characterFalling"}}
+    };
 
     auto it = entityTextures.find(entityType);
     if (it != entityTextures.cend())

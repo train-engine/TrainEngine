@@ -13,9 +13,7 @@ private:
 
     static sf::Vector2f s_windowDimensions;
     static sf::Vector2f s_windowMousePosition;
-    static sf::RectangleShape s_backgroundColorShape;
-
-    sf::Color m_backgroundColor;
+    static sf::RectangleShape s_backgroundColorShape; // Static to have its size shared between states; recolored before every draw
 
     // Static functions
     static void resizeLayout(const sf::Vector2f& windowDimensions); // Private because State is friends with GameEngine
@@ -26,7 +24,7 @@ private:
     // State functions
     virtual void handleInput() = 0;
     virtual void update() = 0;
-    virtual void draw(sf::RenderTarget& target, float lag = 1) = 0;
+    virtual void draw(sf::RenderTarget& target, float lag = 1.0) = 0;
 
     virtual void pause() {} ///< Called automatically before a new State is added above (ceases to be the topmost State)
     virtual void resume() {} ///< Called automatically after the State above is removed (becomes the topmost State again)

@@ -74,7 +74,7 @@ private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
     float m_threshold;
-    mutable float m_previousAxisValue; // Remember last axis value to remove useless calls to the callback
+    mutable float m_previousAxisValue; // Remember previous axis value to remove useless calls to the callback
 };
 
 /// Class representing a joystick axis input able to make a callback to a function with a bool as
@@ -91,7 +91,7 @@ private:
     unsigned int m_joystick;
     sf::Joystick::Axis m_axis;
     float m_threshold;
-    mutable float m_previousAxisValue; // Remember last axis value to remove useless calls to the callback
+    mutable float m_previousAxisValue; // Remember previous axis value to remove useless calls to the callback
 };
 
 #endif // STATEINPUT_H

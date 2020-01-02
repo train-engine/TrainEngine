@@ -228,7 +228,7 @@ void InputManager::resetEvents()
 
 #if defined(SFML_SYSTEM_MACOS)
 // Support Mac commands as Unicode characters included in the entered text
-void InputManager::MacOsCommandsToUnicode()
+void InputManager::macOsCommandsToUnicode()
 {
     if (isModifierKeyHeld())
     {
@@ -252,7 +252,7 @@ void InputManager::MacOsCommandsToUnicode()
 }
 
 // Output commands to the Mac command line
-std::string InputManager::MacExec(const char* cmd)
+std::string InputManager::macExec(const char* cmd)
 {
     FILE* pipe = popen(cmd, "r");
     if (!pipe)
@@ -522,17 +522,22 @@ float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick:
         return 0;
     }
 
+    // Defined by SFML
+    static const float maxJoystickAxisValue = 100.0;
+
     // If the axis value is positive
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
         // Subtract m_joystickDeadZone from the real axis value
-        return (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
+        return maxJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
+               (maxJoystickAxisValue - m_joystickDeadZone);
     }
     // If the axis value is negative
     else
     {
         // Add m_joystickDeadZone to the real axis value
-        return (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
+        return maxJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
+               (maxJoystickAxisValue - m_joystickDeadZone);
     }
 }
 

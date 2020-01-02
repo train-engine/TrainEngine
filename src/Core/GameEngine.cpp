@@ -363,8 +363,7 @@ void GameEngine::requestPop(unsigned int statesToPop)
 {
     while (statesToPop > 0)
     {
-        // Increment s_orderCounter to keep the m_orderCreated
-        // of States and their Push request in sync
+        // Increment s_orderCounter to prevent adding requests with the same priority in the request stack
         m_pendingRequests.emplace(State::s_orderCounter++, PendingRequest::Pop);
         statesToPop--;
     }

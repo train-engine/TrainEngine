@@ -69,8 +69,8 @@ private:
     void resetEvents();
 
 #if defined(SFML_SYSTEM_MACOS)
-    void MacOsCommandsToUnicode();
-    std::string MacExec(const char* cmd);
+    void macOsCommandsToUnicode();
+    std::string macExec(const char* cmd);
 #endif
 
 public:
