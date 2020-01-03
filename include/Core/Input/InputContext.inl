@@ -1,4 +1,4 @@
-#include "InputContext.h" // Not necessary: only for VS Code to not put errors everywhere
+#include "Core/Input/InputContext.h" // Not necessary: only for VS Code to not put errors everywhere
 
 /// Constructor
 inline InputContext::InputContext(const InputManager& inputManager)
