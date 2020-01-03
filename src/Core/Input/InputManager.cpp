@@ -1,4 +1,4 @@
-#include "Core/InputManager.h"
+#include "Core/Input/InputManager.h"
 #include <algorithm>
 #include <cmath>
 #include <string>
@@ -522,22 +522,17 @@ float InputManager::getJoystickAxisPosition(unsigned int joystick, sf::Joystick:
         return 0;
     }
 
-    // Defined by SFML
-    static const float maxJoystickAxisValue = 100.0;
-
     // If the axis value is positive
     if (m_joystickAxesPosition[joystick][axis] > m_joystickDeadZone)
     {
         // Subtract m_joystickDeadZone from the real axis value
-        return maxJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) /
-               (maxJoystickAxisValue - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] - m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
     }
     // If the axis value is negative
     else
     {
         // Add m_joystickDeadZone to the real axis value
-        return maxJoystickAxisValue * (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) /
-               (maxJoystickAxisValue - m_joystickDeadZone);
+        return (m_joystickAxesPosition[joystick][axis] + m_joystickDeadZone) / (1.0 - m_joystickDeadZone);
     }
 }
 

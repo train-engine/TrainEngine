@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "Core/InputManager.h"
+#include "Core/Input/InputManager.h"
 #include "Core/LoopDebugOverlay.h"
 #include "Core/ResourceManager.h"
 

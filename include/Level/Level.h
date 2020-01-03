@@ -2,7 +2,7 @@
 #define LEVEL_H
 
 #include <vector>
-#include "Core/InputManager.h"
+#include "Core/Input/InputManager.h"
 #include "Core/ResourceManager.h"
 #include "Level/Camera.h"
 #include "Level/EntityTracker.h"
