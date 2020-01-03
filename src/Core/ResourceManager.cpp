@@ -68,8 +68,15 @@ bool ResourceManager::loadInitialResources()
             }
             else if (filename.find("shaders") != std::string::npos)
             {
+                // Parse extension from filename
+                std::size_t lastPeriodPos = filename.rfind('.');
+                std::string extension;
+                if (lastPeriodPos != std::string::npos)
+                {
+                    extension = filename.substr(lastPeriodPos + 1);
+                }
+
                 // Deduce shader type from extension
-                std::string extension = filename.substr(filename.rfind('.') + 1);
                 if (extension == "vert")
                 {
                     loadShader(name, filename, sf::Shader::Vertex);
