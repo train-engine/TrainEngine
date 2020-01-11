@@ -16,6 +16,7 @@ ResourceManager::ResourceManager()
     loadTexture("missingTexture", "res/images/missing_texture.png");
     loadFont("fallbackFont", "res/fonts/roboto_mono/RobotoMono-Regular.ttf");
     loadSoundBuffer("error", "res/sounds/error.ogg");
+    m_shaders["defaultShader"];
 
     loadInitialResources();
 }
@@ -130,8 +131,8 @@ const sf::Texture& ResourceManager::loadTexture(const std::string& name, const s
         std::cerr << "ResourceManager error: Failed to load texture \"" << name << "\" from file \"" << filename << "\".\n";
         return m_textures.at("missingTexture");
     }
-    m_textures.emplace(name, std::move(texture));
-    return m_textures.at(name);
+    it = m_textures.emplace(name, std::move(texture)).first;
+    return it->second;
 }
 
 // Remove a texture from the texture map
@@ -209,8 +210,8 @@ const sf::Font& ResourceManager::loadFont(const std::string& name, const std::st
         std::cerr << "ResourceManager error: Failed to load font \"" << name << "\" from file \"" << filename << "\".\n";
         return m_fonts.at("fallbackFont");
     }
-    m_fonts.emplace(name, std::move(font));
-    return m_fonts.at(name);
+    it = m_fonts.emplace(name, std::move(font)).first;
+    return it->second;
 }
 
 // Remove a font from the font map
@@ -260,8 +261,8 @@ const sf::SoundBuffer& ResourceManager::loadSoundBuffer(const std::string& name,
         std::cerr << "ResourceManager error: Failed to load sound buffer \"" << name << "\" from file \"" << filename << "\".\n";
         return m_soundBuffers.at("error");
     }
-    m_soundBuffers.emplace(name, std::move(soundBuffer));
-    return m_soundBuffers.at(name);
+    it = m_soundBuffers.emplace(name, std::move(soundBuffer)).first;
+    return it->second;
 }
 
 // Remove a sound buffer from the sound buffer map
@@ -305,14 +306,14 @@ const sf::Shader& ResourceManager::loadShader(const std::string& name, const std
     }
 
     // Otherwise, load the shader
-    m_shaders[name];
-    if (!m_shaders.at(name).loadFromFile(FileManager::resourcePath() + filename, type))
+    sf::Shader& shader = m_shaders[name];
+    if (!shader.loadFromFile(FileManager::resourcePath() + filename, type))
     {
         std::cerr << "ResourceManager error: Failed to load shader \"" << name << "\" from file \"" << filename << "\".\n";
         m_shaders.erase(name);
-        return m_shaders.at("ADDDEFAULTSHADER");
+        return m_shaders.at("defaultShader");
     }
-    return m_shaders.at(name);
+    return shader;
 }
 
 // Remove a Shader from the shader map
@@ -340,5 +341,5 @@ const sf::Shader& ResourceManager::getShader(const std::string& name) const
 
     // If the shader is not found, return the default shader
     std::cerr << "ResourceManager error: Tried accessing unloaded or nonexistent shader \"" << name << "\".\n";
-    return m_shaders.at("ADDDEFAULTSHADER");
+    return m_shaders.at("defaultShader");
 }
