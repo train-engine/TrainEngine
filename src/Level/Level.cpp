@@ -481,9 +481,9 @@ void Level::handleInput()
     {
         m_camera.zoom(1 - m_inputManager.getMouseWheelDelta().y * 0.05f);
     }
-    else if (m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) != 0.0f)
+    else if (m_inputManager.getJoystickAxisPosition(0, sf::Joystick::R) != 0.0f)
     {
-        m_camera.zoom(1 - m_inputManager.getJoystickAxisPosition(0, sf::Joystick::V) / -100.0 / 20.0);
+        m_camera.zoom(1 - m_inputManager.getJoystickAxisPosition(0, sf::Joystick::R) / -20.0);
     }
 
     // Print the mouse cursor's position when space is held (for testing)
