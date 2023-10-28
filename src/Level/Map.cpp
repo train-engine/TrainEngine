@@ -3,6 +3,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include "Core/FileManager.h"
 #include "Level/Tile.h"
 
