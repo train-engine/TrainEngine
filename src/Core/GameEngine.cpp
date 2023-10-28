@@ -149,9 +149,9 @@ void GameEngine::handleRequests()
     // Sort new States by smallest order last, to later be able to simply call pop_back() when pushing
     if (m_pendingStates.size() > 1)
     {
-        std::sort(m_pendingStates.begin(), m_pendingStates.end(), [](const State* a, const State* b) {
-            return a->m_orderCreated > b->m_orderCreated;
-        });
+        std::sort(m_pendingStates.begin(),
+                  m_pendingStates.end(),
+                  [](const State* a, const State* b) { return a->m_orderCreated > b->m_orderCreated; });
     }
 
     // Reset order counter for next cycle and before handling the pending requests

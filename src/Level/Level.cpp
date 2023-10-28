@@ -197,9 +197,9 @@ bool Level::loadBackground(const std::string& filename)
             }
         }
 
-        std::sort(m_parallaxSprites.begin(), m_parallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
-            return a.getParallax() > b.getParallax();
-        });
+        std::sort(m_parallaxSprites.begin(),
+                  m_parallaxSprites.end(),
+                  [](const ParallaxSprite& a, const ParallaxSprite& b) { return a.getParallax() > b.getParallax(); });
 
         std::cout << "Background successfully loaded.\n\n";
         return true;
@@ -222,9 +222,9 @@ bool Level::saveBackground(const std::string& filename) const
                       "scale[-o]:[x,y|map] offset[-o]:x,y\n\n";
 
         std::vector<ParallaxSprite> sortedParallaxSprites(m_parallaxSprites);
-        std::sort(sortedParallaxSprites.begin(), sortedParallaxSprites.end(), [](const ParallaxSprite& a, const ParallaxSprite& b) {
-            return a.getParallax() > b.getParallax();
-        });
+        std::sort(sortedParallaxSprites.begin(),
+                  sortedParallaxSprites.end(),
+                  [](const ParallaxSprite& a, const ParallaxSprite& b) { return a.getParallax() > b.getParallax(); });
 
         std::cout << "Number of parallax sprites: " << m_parallaxSprites.size() << '\n';
 

@@ -10,7 +10,10 @@ namespace FileManager
 #if defined(SFML_SYSTEM_MACOS) || defined(SFML_SYSTEM_IOS)
     std::string resourcePath();
 #else
-    inline std::string resourcePath() { return ""; }
+    inline std::string resourcePath()
+    {
+        return "";
+    }
 #endif
 
     int getFileCount(const std::string& directory);
