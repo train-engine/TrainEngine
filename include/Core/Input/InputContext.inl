@@ -593,7 +593,7 @@ void InputContext::bindRangeToJoystickButton(O* object, F callback, unsigned int
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the
 ///                         axis. If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values
 ///                         of the axis. If range Restriction is RangeRestriction::None, the callback will receive both positive and
-///                         negatives values of the axis.
+///                         negative values of the axis.
 template<typename F>
 void InputContext::bindRangeToJoystickAxis(F callback, unsigned int joystick, sf::Joystick::Axis axis, RangeRestriction rangeRestriction)
 {
@@ -623,7 +623,7 @@ void InputContext::bindRangeToJoystickAxis(F callback, unsigned int joystick, sf
 ///                         If rangeRestriction is RangeRestriction::PositiveOnly, the callback will only receive the positive values of the
 ///                         axis. If rangeRestriction is RangeRestriction::NegativeOnly, the callback will only receive the negative values
 ///                         of the axis. If range Restriction is RangeRestriction::None, the callback will receive both positive and
-///                         negatives values of the axis.
+///                         negative values of the axis.
 template<typename O, typename F>
 void InputContext::bindRangeToJoystickAxis(O* object, F callback, unsigned int joystick, sf::Joystick::Axis axis,
                                            RangeRestriction rangeRestriction)
