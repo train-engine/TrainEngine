@@ -1,15 +1,15 @@
 ################################################################################
-##### Variables and settings
+#### Variables and settings
 ################################################################################
 
-# Project name
+# Executable name
 EXEC = TrainEngine
 
-# Build, bin and install directories (conserve root directories for clean)
+# Build, bin, assets, and install directories (bin and build root directories are kept for clean)
 BUILD_DIR_ROOT = build
-BUILD_DIR := $(BUILD_DIR_ROOT)
 BIN_DIR_ROOT = bin
-BIN_DIR := $(BIN_DIR_ROOT)
+ASSETS_DIR = assets
+ASSETS_OS_DIR := $(ASSETS_DIR)_os
 INSTALL_DIR := ~/Desktop/$(EXEC)
 
 # Sources (searches recursively inside the source directory)
@@ -22,7 +22,7 @@ SFML_DIR = libs/SFML-2.4.2
 INCLUDES := -I$(INCLUDE_DIR) -idirafter $(SFML_DIR)/include
 
 # C preprocessor settings
-CPPFLAGS := -MMD -MP $(INCLUDES)
+CPPFLAGS = $(INCLUDES) -MMD -MP
 
 # C++ compiler settings
 CXX = g++
@@ -31,11 +31,13 @@ WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlog
 		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wredundant-decls\
 		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
 
-# Linker settings
+# Linker flags
 LDFLAGS =
+
+# Libraries to link
 LDLIBS =
 
-# XCode project path
+# Xcode project path
 XCODE_PROJ := proj/xcode/$(EXEC).xcodeproj
 
 # SFML libraries
@@ -63,28 +65,10 @@ else
 	endif
 endif
 
-# OS-specific build and bin directories
-BUILD_DIR := $(BUILD_DIR)/make_$(OS)
-BIN_DIR := $(BIN_DIR)/$(OS)
+# OS-specific settings
 ifeq ($(OS),windows)
-	# Windows 32-bit
-	ifeq ($(win32),1)
-		BUILD_DIR := $(BUILD_DIR)32
-		BIN_DIR := $(BIN_DIR)32
-	# Windows 64-bit
-	else
-		BUILD_DIR := $(BUILD_DIR)64
-		BIN_DIR := $(BIN_DIR)64
-	endif
-endif
-
-# OS-specific compilation and linking settings
-ifeq ($(OS),windows)
-	# Add .exe extension to executable
-	EXEC := $(EXEC).exe
-
-	# Link everything statically on Windows (including libgcc and libstdc++)
-	LDFLAGS += -static
+	# Link libgcc and libstdc++ statically on Windows
+	LDFLAGS += -static-libgcc -static-libstdc++
 
 	# Disable console output on release builds
 	ifeq ($(release),1)
@@ -113,45 +97,85 @@ ifeq ($(OS),windows)
 	SFML_NETWORK_LIBS += ws2_32
 	SFML_SYSTEM_LIBS += winmm
 
-	# 32-bit flags
+	# Windows 32- and 64-bit common settings
+	INCLUDES +=
+	LDFLAGS +=
+	LDLIBS +=
+
 	ifeq ($(win32),1)
-		CXXFLAGS += -m32
+		# Windows 32-bit settings
+		INCLUDES +=
 		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-32-bit
-	# 64-bit flags
+		LDLIBS +=
 	else
-		CXXFLAGS += -m64
+		# Windows 64-bit settings
+		INCLUDES +=
 		LDFLAGS += -L$(SFML_DIR)/lib/windows-gcc-6.1.0-mingw-64-bit
+		LDLIBS +=
 	endif
 else ifeq ($(OS),macos)
+	# macOS-specific settings
 	EXEC := $(EXEC).app
 	XCODE_SCHEME = macOS
+	INCLUDES +=
 	LDFLAGS += -L/Library/Frameworks
+	LDLIBS +=
 else ifeq ($(OS),ios)
+	# iOS-specific settings
 	EXEC := $(EXEC).app
 	XCODE_SCHEME = iOS
+	INCLUDES +=
 	LDFLAGS += -L$(SFML_DIR)/lib/ios
+	LDLIBS +=
+else ifeq ($(OS),linux)
+	# Linux-specific settings
+	INCLUDES +=
+	LDFLAGS +=
+	LDLIBS +=
 endif
 
-# OS-specific assets-copying script selection
+# Add SFML to linked libraries
+SFML_GRAPHICS_LIBS := $(addprefix -l,$(SFML_GRAPHICS_LIBS))
+SFML_WINDOW_LIBS := $(addprefix -l,$(SFML_WINDOW_LIBS))
+SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
+SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
+SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
+
+LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
+
+################################################################################
+#### Final setup
+################################################################################
+
+# Windows-specific default settings
 ifeq ($(OS),windows)
+	# Add .exe extension to executable
+	EXEC := $(EXEC).exe
+
 	ifeq ($(win32),1)
-		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = u_copy_assets_windows32_r.sh
-		else
-			COPY_ASSETS_SCRIPT = u_copy_assets_windows32_d.sh
-		endif
+		# Compile for 32-bit
+		CXXFLAGS += -m32
 	else
-		ifeq ($(release),1)
-			COPY_ASSETS_SCRIPT = u_copy_assets_windows64_r.sh
-		else
-			COPY_ASSETS_SCRIPT = u_copy_assets_windows64_d.sh
-		endif
+		# Compile for 64-bit
+		CXXFLAGS += -m64
 	endif
-else ifeq ($(OS),linux)
-	ifeq ($(release),1)
-		COPY_ASSETS_SCRIPT = u_copy_assets_linux_r.sh
+endif
+
+# OS-specific build, bin, and assets directories
+BUILD_DIR := $(BUILD_DIR_ROOT)/make_$(OS)
+BIN_DIR := $(BIN_DIR_ROOT)/$(OS)
+ASSETS_OS_DIR := $(ASSETS_OS_DIR)/$(OS)
+ifeq ($(OS),windows)
+	# Windows 32-bit
+	ifeq ($(win32),1)
+		BUILD_DIR := $(BUILD_DIR)32
+		BIN_DIR := $(BIN_DIR)32
+		ASSETS_OS_DIR := $(ASSETS_OS_DIR)32
+	# Windows 64-bit
 	else
-		COPY_ASSETS_SCRIPT = u_copy_assets_linux_d.sh
+		BUILD_DIR := $(BUILD_DIR)64
+		BIN_DIR := $(BIN_DIR)64
+		ASSETS_OS_DIR := $(ASSETS_OS_DIR)64
 	endif
 endif
 
@@ -170,29 +194,24 @@ endif
 # Objects and dependencies
 OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
+COMPDBS := $(OBJS:.o=.json)
 
 # Include program info and icon on Windows
-ifeq ($(OS),Windows_NT)
+ifeq ($(OS),windows)
 	OBJS += $(BUILD_DIR)/resource.res
 endif
 
-# Add SFML to linked libraries
-SFML_GRAPHICS_LIBS := $(addprefix -l,$(SFML_GRAPHICS_LIBS))
-SFML_WINDOW_LIBS := $(addprefix -l,$(SFML_WINDOW_LIBS))
-SFML_AUDIO_LIBS := $(addprefix -l,$(SFML_AUDIO_LIBS))
-SFML_NETWORK_LIBS := $(addprefix -l,$(SFML_NETWORK_LIBS))
-SFML_SYSTEM_LIBS := $(addprefix -l,$(SFML_SYSTEM_LIBS))
-
-LDLIBS += $(SFML_GRAPHICS_LIBS) $(SFML_WINDOW_LIBS) $(SFML_AUDIO_LIBS) $(SFML_NETWORK_LIBS) $(SFML_SYSTEM_LIBS)
+# All files (sources and headers)
+FILES := $(shell find $(SRC_DIR) $(INCLUDE_DIR) -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.inl')
 
 ################################################################################
-##### Targets
+#### Targets
 ################################################################################
 
 .PHONY: all
-ifneq (,$(filter $(OS),macos ios)) # Build using xcodebuild if target is macOS or iOS
+ifneq (,$(filter $(OS),macos ios)) # Build using xcodebuild if platform is macOS or iOS
 all: xcodebuild
-else # Build normally if target is neither macOS nor iOS
+else # Build normally if platform is neither macOS nor iOS
 all: $(BIN_DIR)/$(EXEC)
 endif
 
@@ -209,7 +228,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
 # Add resource file to Windows executable
-$(BUILD_DIR)/%.res: assets/%.rc
+$(BUILD_DIR)/%.res: assets/metadata/%.rc
 	@echo "Compiling Windows resource file"
 	@windres $< -O coff -o $@
 
@@ -219,14 +238,14 @@ xcodebuild:
 	@echo "Building project: $(XCODE_PROJ)"
 	@xcodebuild -quiet -project $(XCODE_PROJ) -scheme $(XCODE_SCHEME) build
 
-# Include automatically-generated dependencies
+# Include automatically generated dependencies
 -include $(DEPS)
 
 # Install packaged program
 .PHONY: install
 install: all copyassets
 	@echo "Packaging program to $(INSTALL_DIR)"
-	@mkdir -p $(INSTALL_DIR); cp -r $(BIN_DIR)/. $(INSTALL_DIR)
+	@mkdir -p $(INSTALL_DIR) && cp -r $(BIN_DIR)/. $(INSTALL_DIR)
 
 # Build and run
 .PHONY: run
@@ -235,14 +254,22 @@ run: all
     ifeq ($(OS),macos) # Open app bundle if on macOS
 		@open $(BIN_DIR)/$(EXEC).app
     else
-		@cd ./$(BIN_DIR); ./$(EXEC)
+		@cd ./$(BIN_DIR) && ./$(EXEC)
     endif
 
 # Copy assets to bin directory for selected platform
 .PHONY: copyassets
 copyassets:
-	@echo "Copying assets with script: $(COPY_ASSETS_SCRIPT)"
-	@./scripts/$(COPY_ASSETS_SCRIPT) 2> /dev/null
+	@echo "Copying assets from $(ASSETS_DIR) and $(ASSETS_OS_DIR) to $(BIN_DIR)"
+	@mkdir -p $(BIN_DIR)
+	@cp -r $$(find $(ASSETS_DIR) -mindepth 1 -maxdepth 1 ! -path '*/metadata') $(BIN_DIR)/
+	@cp -r -L $(ASSETS_OS_DIR)/. $(BIN_DIR)/ 2> /dev/null || :
+
+# Clean all assets from bin directories for all platforms
+.PHONY: cleanassets
+cleanassets:
+	@echo "Cleaning assets for all platforms"
+	@find $(BIN_DIR_ROOT) -mindepth 3 ! -name $(EXEC) -delete
 
 # Clean build and bin directories for all platforms
 .PHONY: clean
@@ -251,21 +278,48 @@ clean:
 	@$(RM) -r $(BUILD_DIR_ROOT)
 	@$(RM) -r $(BIN_DIR_ROOT)
 
-# Clean all assets from bin directories for all platforms
-.PHONY: cleanassets
-cleanassets:
-	@echo "Cleaning assets for all platforms"
-	@./scripts/u_clean_assets.sh
+.PHONY: compdb
+compdb: $(BUILD_DIR_ROOT)/compile_commands.json
+
+# Generate JSON compilation database (compile_commands.json) by merging fragments
+$(BUILD_DIR_ROOT)/compile_commands.json: $(COMPDBS)
+	@echo "Generating: $@"
+	@mkdir -p $(@D)
+	@printf "[\n" > $@
+	@sed -e '$$s/$$/,/' -s $(COMPDBS) | sed -e '$$s/,$$//' -e 's/^/    /' >> $@
+	@printf "]\n" >> $@
+
+# Generate JSON compilation database fragments from source files
+$(BUILD_DIR)/%.json: $(SRC_DIR)/%.cpp
+	@mkdir -p $(@D)
+	@printf "\
+	{\n\
+	    \"directory\": \"$(CURDIR)\",\n\
+	    \"command\": \"$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $(basename $@).o\",\n\
+	    \"file\": \"$<\"\n\
+	}\n" > $@
 
 # Run clang-format on source code
 .PHONY: format
 format:
 	@echo "Running clang-format"
-	@clang-format -i $$(find $(SRC_DIR) $(INCLUDE_DIR) -name '*.cpp' -o -name '*.h' -o -name '*.inl')
+	@clang-format -i $(FILES)
+
+# Run clang-tidy on source code
+.PHONY: lint
+lint: compdb
+	@echo "Running clang-tidy"
+	@clang-tidy -p $(BUILD_DIR_ROOT) $(FILES)
+
+# Run clang-tidy on source code and fix found errors
+.PHONY: lintfix
+lintfix: compdb
+	@echo "Running clang-tidy -fix"
+	@clang-tidy -p $(BUILD_DIR_ROOT) -fix $(FILES)
 
 # Generate documentation with Doxygen
-.PHONY: doc
-doc:
+.PHONY: docs
+docs:
 	@echo "Generating documentation"
 	@doxygen docs/Doxyfile
 
@@ -280,10 +334,13 @@ help:
 	  install         Install packaged program to desktop (debug mode by default)\n\
 	  run             Build and run executable (debug mode by default)\n\
 	  copyassets      Copy assets to executable directory for selected platform and configuration\n\
-	  clean           Clean build and bin directories (all platforms)\n\
 	  cleanassets     Clean assets from executable directories (all platforms)\n\
-	  format          Run clang-format on source code\n\
-	  doc             Generate documentation with Doxygen\n\
+	  clean           Clean build and bin directories (all platforms)\n\
+	  compdb          Generate JSON compilation database (compile_commands.json)\n\
+	  format          Format source code using clang-format\n\
+	  lint            Lint source code using clang-tidy\n\
+	  lintfix         Lint and fix source code using clang-tidy\n\
+	  docs            Generate documentation with Doxygen\n\
 	  help            Print this information\n\
 	  printvars       Print Makefile variables for debugging\n\
 	\n\
@@ -292,25 +349,28 @@ help:
 	  win32=1         Build for 32-bit Windows (valid when built on Windows only)\n\
 	  ios=1           Build for iOS (valid when built on macOS only)\n\
 	\n\
-	Note: the above options affect all, install, run, copyassets, and printvars targets\n"
+	Note: the above options affect the all, install, run, copyassets, compdb, and printvars targets\n"
 
 # Print Makefile variables
 .PHONY: printvars
 printvars:
 	@printf "\
-	OS: $(OS)\n\
-	EXEC: $(EXEC)\n\
-	BUILD_DIR: $(BUILD_DIR)\n\
-	BIN_DIR: $(BIN_DIR)\n\
-	INSTALL_DIR: $(INSTALL_DIR)\n\
-	SRC_DIR: $(SRC_DIR)\n\
-	SRCS: $(SRCS)\n\
-	INCLUDE_DIR: $(INCLUDE_DIR)\n\
-	INCLUDES: $(INCLUDES)\n\
-	CXX: $(CXX)\n\
-	CPPFLAGS: $(CPPFLAGS)\n\
-	CXXFLAGS: $(CXXFLAGS)\n\
-	WARNINGS: $(WARNINGS)\n\
-	LDFLAGS: $(LDFLAGS)\n\
-	LDLIBS: $(LDLIBS)\n\
-	COPY_ASSETS_SCRIPT: $(COPY_ASSETS_SCRIPT)\n"
+	OS: \"$(OS)\"\n\
+	EXEC: \"$(EXEC)\"\n\
+	BUILD_DIR: \"$(BUILD_DIR)\"\n\
+	BIN_DIR: \"$(BIN_DIR)\"\n\
+	ASSETS_DIR: \"$(ASSETS_DIR)\"\n\
+	ASSETS_OS_DIR: \"$(ASSETS_OS_DIR)\"\n\
+	INSTALL_DIR: \"$(INSTALL_DIR)\"\n\
+	SRC_DIR: \"$(SRC_DIR)\"\n\
+	SRCS: \"$(SRCS)\"\n\
+	INCLUDE_DIR: \"$(INCLUDE_DIR)\"\n\
+	INCLUDES: \"$(INCLUDES)\"\n\
+	CXX: \"$(CXX)\"\n\
+	CPPFLAGS: \"$(CPPFLAGS)\"\n\
+	CXXFLAGS: \"$(CXXFLAGS)\"\n\
+	WARNINGS: \"$(WARNINGS)\"\n\
+	LDFLAGS: \"$(LDFLAGS)\"\n\
+	LDLIBS: \"$(LDLIBS)\"\n"
+
+# Made by Misha Krieger-Raynauld (https://github.com/KRMisha/Makefile)

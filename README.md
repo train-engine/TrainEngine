@@ -52,7 +52,7 @@ make clean
 
 ### More information
 
-```sh
+```
 $ make help
 Usage: make target... [options]...
 
@@ -61,10 +61,13 @@ Targets:
   install         Install packaged program to desktop (debug mode by default)
   run             Build and run executable (debug mode by default)
   copyassets      Copy assets to executable directory for selected platform and configuration
-  clean           Clean build and bin directories (all platforms)
   cleanassets     Clean assets from executable directories (all platforms)
-  format          Run clang-format on source code
-  doc             Generate documentation with Doxygen
+  clean           Clean build and bin directories (all platforms)
+  compdb          Generate JSON compilation database (compile_commands.json)
+  format          Format source code using clang-format
+  lint            Lint source code using clang-tidy
+  lintfix         Lint and fix source code using clang-tidy
+  docs            Generate documentation with Doxygen
   help            Print this information
   printvars       Print Makefile variables for debugging
 
@@ -73,7 +76,7 @@ Options:
   win32=1         Build for 32-bit Windows (valid when built on Windows only)
   ios=1           Build for iOS (valid when built on macOS only)
 
-Note: the above options affect all, install, run, copyassets, and printvars targets
+Note: the above options affect the all, install, run, copyassets, compdb, and printvars targets
 ```
 
 ## License
