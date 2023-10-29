@@ -16,6 +16,8 @@ Cross-platform 2D game engine made with C++ and SFML.
 - Physics
 - Profiling information
 
+![Screenshot](docs/screenshot.png)
+
 ## Prerequisites
 
 - GCC or Clang
