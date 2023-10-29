@@ -1,17 +1,12 @@
-# Topmost editorconfig file
 root = true
 
-# Match following files
-[*{.cpp, .h, .txt}]
-# Tabs as spaces
+[*]
 indent_style = space
-# Indent with 4 spaces
 indent_size = 4
-# Unix-style line endings (\n)
 end_of_line = lf
-# UTF-8 charset
-charset = "utf-8"
-# Remove whitespace characters at the end of the line
+charset = utf-8
 trim_trailing_whitespace = true
-# End file with newline when saving
 insert_final_newline = true
+
+[Makefile]
+indent_style = tab
