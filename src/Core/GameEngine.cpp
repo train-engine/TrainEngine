@@ -58,7 +58,7 @@ GameEngine::GameEngine()
             fullscreenModeIndex = 0;
         }
 
-        unsigned int style = (isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+        unsigned int style = isFullscreen ? sf::Style::Fullscreen : sf::Style::Default;
 
         sf::ContextSettings contextSettings = sf::ContextSettings(0, 0, antiAliasingLevel);
 
@@ -410,7 +410,7 @@ void GameEngine::setTargetUps(unsigned int updatesPerSecond)
 
 void GameEngine::setTargetFps(unsigned int drawsPerSecond)
 {
-    m_timePerDraw = (drawsPerSecond != 0 ? sf::microseconds(1000000 / static_cast<double>(drawsPerSecond)) : sf::Time::Zero);
+    m_timePerDraw = drawsPerSecond != 0 ? sf::microseconds(1000000 / static_cast<double>(drawsPerSecond)) : sf::Time::Zero;
     m_drawLag = m_timePerDraw;
 }
 
