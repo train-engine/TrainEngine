@@ -79,6 +79,16 @@ Options:
 Note: the above options affect the all, install, run, copyassets, compdb, and printvars targets
 ```
 
+## Documentation
+
+Documentation can be generated using Doxygen:
+
+```sh
+make docs
+```
+
+The docs can then be read in HTML format by opening `docs/html/index.html` with a web browser.
+
 ## License
 
 [MIT](https://opensource.org/license/mit/)
