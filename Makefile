@@ -305,6 +305,12 @@ format:
 	@echo "Running clang-format"
 	@clang-format -i $(FILES)
 
+# Dry-run clang-format on source code to check for formatting errors
+.PHONY: format-check
+format-check:
+	@echo "Checking clang-format"
+	@clang-format --dry-run --Werror $(FILES)
+
 # Run clang-tidy on source code
 .PHONY: lint
 lint: compdb
@@ -312,10 +318,10 @@ lint: compdb
 	@clang-tidy -p $(BUILD_DIR_ROOT) $(FILES)
 
 # Run clang-tidy on source code and fix found errors
-.PHONY: lintfix
-lintfix: compdb
-	@echo "Running clang-tidy -fix"
-	@clang-tidy -p $(BUILD_DIR_ROOT) -fix $(FILES)
+.PHONY: lint-fix
+lint-fix: compdb
+	@echo "Running clang-tidy --fix"
+	@clang-tidy -p $(BUILD_DIR_ROOT) --fix $(FILES)
 
 # Generate documentation with Doxygen
 .PHONY: docs
@@ -338,8 +344,9 @@ help:
 	  clean           Clean build and bin directories (all platforms)\n\
 	  compdb          Generate JSON compilation database (compile_commands.json)\n\
 	  format          Format source code using clang-format\n\
+	  format-check    Check that source code is formatted using clang-format\n\
 	  lint            Lint source code using clang-tidy\n\
-	  lintfix         Lint and fix source code using clang-tidy\n\
+	  lint-fix        Lint and fix source code using clang-tidy\n\
 	  docs            Generate documentation with Doxygen\n\
 	  help            Print this information\n\
 	  printvars       Print Makefile variables for debugging\n\
