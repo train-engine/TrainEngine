@@ -537,6 +537,9 @@ void Entity::update()
     // Max velocity
     maxVelocityCap();
 
+    // Preliminary collisions
+    performCollisions();
+
     // Reactions with Tiles
     // clang-format off
     std::array<sf::Vector2f, 5> tileReactionPoints = {
