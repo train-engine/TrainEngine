@@ -252,7 +252,7 @@ install: all copyassets
 run: all
 	@echo "Starting program: $(BIN_DIR)/$(EXEC)"
     ifeq ($(OS),macos) # Open app bundle if on macOS
-		@open $(BIN_DIR)/$(EXEC).app
+		@open $(BIN_DIR)/$(EXEC)
     else
 		@cd ./$(BIN_DIR) && ./$(EXEC)
     endif
