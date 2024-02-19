@@ -254,7 +254,7 @@ run: all
     ifeq ($(OS),macos) # Open app bundle if on macOS
 		@open $(BIN_DIR)/$(EXEC)
     else
-		@cd ./$(BIN_DIR) && ./$(EXEC)
+		@cd $(BIN_DIR) && ./$(EXEC)
     endif
 
 # Copy assets to bin directory for selected platform
@@ -315,7 +315,7 @@ format-check:
 .PHONY: lint
 lint: compdb
 	@echo "Running clang-tidy"
-	@clang-tidy -p $(BUILD_DIR_ROOT) $(FILES)
+	@clang-tidy -p $(BUILD_DIR_ROOT) --warnings-as-errors='*' $(FILES)
 
 # Run clang-tidy on source code and fix found errors
 .PHONY: lint-fix
