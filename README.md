@@ -44,6 +44,12 @@ make copyassets run
 make format
 ```
 
+### Linting
+
+```sh
+make lint
+```
+
 ### Cleaning
 
 ```sh
@@ -65,8 +71,9 @@ Targets:
   clean           Clean build and bin directories (all platforms)
   compdb          Generate JSON compilation database (compile_commands.json)
   format          Format source code using clang-format
+  format-check    Check that source code is formatted using clang-format
   lint            Lint source code using clang-tidy
-  lintfix         Lint and fix source code using clang-tidy
+  lint-fix        Lint and fix source code using clang-tidy
   docs            Generate documentation with Doxygen
   help            Print this information
   printvars       Print Makefile variables for debugging
