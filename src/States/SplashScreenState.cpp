@@ -42,9 +42,9 @@ void SplashScreenState::handleInput()
 
 void SplashScreenState::update()
 {
+    m_alpha -= 2;
     if (m_alpha > 0)
     {
-        m_alpha -= 2;
         m_splash.setColor(sf::Color(255, 255, 255, m_alpha));
         m_mask.setColor(sf::Color(255, 255, 255, m_alpha));
     }
