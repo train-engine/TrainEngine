@@ -27,9 +27,10 @@ CPPFLAGS = $(INCLUDES) -MMD -MP
 # C++ compiler settings
 CXX = g++
 CXXFLAGS = -std=c++14
-WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wextra -Wlogical-op -Wmissing-declarations\
-		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wno-unused-parameter -Wnon-virtual-dtor -Wredundant-decls\
-		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant
+WARNINGS = -Wall -Wpedantic -Wextra -Wcast-align -Wduplicated-cond -Wlogical-op -Wmissing-declarations\
+		-Wmissing-include-dirs -Wno-aggressive-loop-optimizations -Wnon-virtual-dtor -Wredundant-decls\
+		-Wshadow -Wsuggest-override -Wundef -Wunreachable-code -Wuseless-cast -Wzero-as-null-pointer-constant\
+		-Wno-unused-parameter
 
 # Linker flags
 LDFLAGS =
