@@ -28,7 +28,7 @@ Cross-platform 2D game engine made with C++ and SFML.
     > Note: For Windows, you should use Git Bash (shipped with Git for Windows). Use `mingw32-make` instead of `make`.
 - clang-format
 - clang-tidy
-- Doxygen and GraphViz
+- Doxygen and Graphviz
 
 ### Dependencies
 
