@@ -35,7 +35,7 @@ LoadPlayState::LoadPlayState(GameEngine& game, const std::string& levelDirectory
     m_startSound.setVolume(25);
     m_startSound.play();
 }
-#include "States/MenuOptionsState.h"
+
 LoadPlayState::~LoadPlayState()
 {
     // Unload resources

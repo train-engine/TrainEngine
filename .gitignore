@@ -1,8 +1,8 @@
-# OS-specific files
+# System files
 .DS_Store
 Thumbs.db
 
-# Build and bin directories
+# Build output
 /build/
 /bin/
 

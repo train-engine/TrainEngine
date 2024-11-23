@@ -23,19 +23,19 @@ Cross-platform 2D game engine made with C++ and SFML.
 ### Toolchain
 
 - GCC or Clang
-    > Note: For Windows, make sure you have MinGW-w64 SEH 6.1.0 64-bit installed and in your PATH. This version is important since SFML's binaries are shipped with the engine. If you want to use a different compiler, you must recompile SFML 2.4.2 and replace it in the engine under [`libs/SFML-2.4.2`](libs/SFML-2.4.2).
+    > Note: for Windows, make sure you have MinGW-w64 SEH 6.1.0 64-bit installed and in your PATH. This version is important since SFML's binaries are shipped with the engine. If you want to use a different compiler, you must recompile SFML 2.4.2 and replace it in the engine under [`libs/SFML-2.4.2`](libs/SFML-2.4.2).
 - Make
-    > Note: For Windows, you should use Git Bash (shipped with Git for Windows). Use `mingw32-make` instead of `make`.
+    > Note: for Windows, you should use Git Bash (shipped with Git for Windows). Use `mingw32-make` instead of `make`.
 - clang-format
 - clang-tidy
 - Doxygen and Graphviz
 
 ### Dependencies
 
-- SFML 2.4.2 or 2.5.1
-    - Linux: Install SFML using your system's package manager. For example: `sudo apt install libsfml-dev`
-    - macOS: Install SFML using the [instructions here](https://www.sfml-dev.org/tutorials/2.6/start-osx.php#installing-sfml).
-    - Windows: Windows will use the vendored SFML library under [`libs/SFML-2.4.2`](libs/SFML-2.4.2).
+- SFML 2.4.2 or 2.5.1:
+    - Linux: install SFML using your system's package manager. For example: `sudo apt install libsfml-dev`.
+    - macOS: install SFML using the [instructions here](https://www.sfml-dev.org/tutorials/2.6/start-osx.php#installing-sfml).
+    - Windows: building for Windows will use the vendored SFML library under [`libs/SFML-2.4.2`](libs/SFML-2.4.2).
 
 ## Usage
 
@@ -71,7 +71,7 @@ make clean
 
 ### More information
 
-```
+```console
 $ make help
 Usage: make target... [options]...
 
